@@ -1,0 +1,14 @@
+*
+
+!.gitignore
+
+!*.dll
+!*.dpr
+!*.dfm
+!*.pas
+!*.res
+!*.ini
+
+!README.md
+
+Thumbs.db
