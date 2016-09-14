@@ -556,9 +556,10 @@ begin
  {**************** FormMailSender *****************}
  IniMain.WriteInteger('mailsender','fromIndex',-1);
  {**************** FormReport *****************}
- IniMain.WriteInteger('report','cbLocGeneral',0);
- IniMain.WriteInteger('report','cbLocWord',1);
- IniMain.WriteInteger('report','cbLocExcel',0);
+ IniMain.WriteInteger('report','cbLocGeneral',1);
+ IniMain.WriteInteger('report','cbLocWord',0);
+ IniMain.WriteInteger('report','cbLocExcel_List',0);
+ IniMain.WriteInteger('report','cbLocExcel_Report',0);
  IniMain.WriteInteger('report','formatDoc0',1);
  IniMain.WriteInteger('report','formatDoc1',0);
  IniMain.WriteInteger('report','formatDoc2',0);
@@ -570,8 +571,8 @@ begin
  IniMain.WriteInteger('report','formatDoc8',0);
  IniMain.WriteInteger('report','formatDoc9',0); 
  {**************** FormReportSimple *****************}
- IniMain.WriteInteger('reportsimple','cbLocGeneral',0);
- IniMain.WriteInteger('reportsimple','cbLocWord',1);
+ IniMain.WriteInteger('reportsimple','cbLocGeneral',1);
+ IniMain.WriteInteger('reportsimple','cbLocWord',0);
  IniMain.Free;
 end;
 
@@ -700,7 +701,8 @@ begin
  {**************** FormReport *****************}
  IniMain.WriteBool('report','cbLocGeneral',FormReport.cbLocGeneral.Checked);
  IniMain.WriteBool('report','cbLocWord',FormReport.cbLocWord.Checked);
- IniMain.WriteBool('report','cbLocExcel',FormReport.cbLocExcel.Checked);
+ IniMain.WriteBool('report','cbLocExcel_List',FormReport.cbLocExcel_List.Checked);
+ IniMain.WriteBool('report','cbLocExcel_Report',FormReport.cbLocExcel_Report.Checked); 
  IniMain.WriteBool('report','formatDoc0',FormReport.editFormatDoc.Checked[0]);
  IniMain.WriteBool('report','formatDoc1',FormReport.editFormatDoc.Checked[1]);
  IniMain.WriteBool('report','formatDoc2',FormReport.editFormatDoc.Checked[2]);

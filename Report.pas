@@ -8,7 +8,7 @@ uses
   sGroupBox, sListBox, DB, IBCustomDataSet, IBQuery, sRichEdit, sGauge, ComObj,
   sLabel, DateUtils, StrUtils, Mask, sMaskEdit, sCustomComboEdit, sTooledit,
   sCheckBox, NxScrollControl, NxCustomGridControl, NxCustomGrid, NxGrid,
-  IniFiles, sMemo, Registry, ComCtrls;
+  IniFiles, sMemo, Registry, ComCtrls, ShellAPI, XLSFile, XLSWorkbook, XLSFormat;
 
 type
   TFormReport = class(TForm)
@@ -39,11 +39,12 @@ type
     groupLocation: TsGroupBox;
     cbLocGeneral: TsCheckBox;
     cbLocWord: TsCheckBox;
-    cbLocExcel: TsCheckBox;
+    cbLocExcel_List: TsCheckBox;
+    cbLocExcel_Report: TsCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure IniLoadReport;
-    function IsWordInstalled: Boolean;    
+    function IsWordInstalled: Boolean;
     procedure IsWordAviable(cbLocGeneral,cbLocWord : TsCheckBox);
     procedure ClearEdits;
     procedure GenerateReport;
@@ -54,7 +55,8 @@ type
     procedure editSelect1Change(Sender: TObject);
     procedure cbLocGeneralClick(Sender: TObject);
     procedure cbLocWordClick(Sender: TObject);
-    procedure cbLocExcelClick(Sender: TObject);
+    procedure cbLocExcel_ListClick(Sender: TObject);
+    procedure cbLocExcel_ReportClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -93,8 +95,10 @@ begin
  IniMain := TIniFile.Create(AppPath+'office.ini');
  cbLocGeneral.Checked := IniMain.ReadBool('report','cbLocGeneral',false);
  cbLocWord.Checked := IniMain.ReadBool('report','cbLocWord',false);
- cbLocExcel.Checked := IniMain.ReadBool('report','cbLocExcel',false);
- if (NOT cbLocGeneral.Checked) and (NOT cbLocWord.Checked) then
+ cbLocExcel_List.Checked := IniMain.ReadBool('report','cbLocExcel_List',false);
+ cbLocExcel_Report.Checked := IniMain.ReadBool('report','cbLocExcel_Report',false);
+ if (NOT cbLocGeneral.Checked) and (NOT cbLocWord.Checked) and
+ (NOT cbLocExcel_List.Checked) and (NOT cbLocExcel_Report.Checked) then
   cbLocWord.Checked := True;
  editFormatDoc.Checked[0] := IniMain.ReadBool('report','formatDoc0',false);
  editFormatDoc.Checked[1] := IniMain.ReadBool('report','formatDoc1',false);
@@ -146,24 +150,36 @@ end;
 
 procedure TFormReport.cbLocGeneralClick(Sender: TObject);
 begin
- if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked and NOT cbLocExcel.Checked then cbLocWord.Checked := True;
+ if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked and NOT cbLocExcel_List.Checked and NOT cbLocExcel_Report.Checked then cbLocGeneral.Checked := True;
 end;
 
 procedure TFormReport.cbLocWordClick(Sender: TObject);
 begin
- if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked and NOT cbLocExcel.Checked then begin
+ if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked and NOT cbLocExcel_List.Checked and NOT cbLocExcel_Report.Checked then begin
   cbLocGeneral.Checked := True
- end else if cbLocWord.Checked and cbLocExcel.Checked then begin
-  cbLocExcel.Checked := False
+ end else if cbLocWord.Checked and (cbLocExcel_List.Checked or cbLocExcel_Report.Checked) then begin
+  cbLocExcel_List.Checked := False;
+  cbLocExcel_Report.Checked := False;
  end
 end;
 
-procedure TFormReport.cbLocExcelClick(Sender: TObject);
+procedure TFormReport.cbLocExcel_ListClick(Sender: TObject);
 begin
- if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked and NOT cbLocExcel.Checked then begin
+ if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked and NOT cbLocExcel_List.Checked and NOT cbLocExcel_Report.Checked then begin
   cbLocGeneral.Checked := True
- end else if cbLocWord.Checked and cbLocExcel.Checked then begin
-  cbLocWord.Checked := False
+ end else if cbLocExcel_List.Checked and (cbLocWord.Checked or cbLocExcel_Report.Checked) then begin
+  cbLocWord.Checked := False;
+  cbLocExcel_Report.Checked := False;
+ end
+end;
+
+procedure TFormReport.cbLocExcel_ReportClick(Sender: TObject);
+begin
+ if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked and NOT cbLocExcel_List.Checked and NOT cbLocExcel_Report.Checked then begin
+  cbLocGeneral.Checked := True
+ end else if cbLocExcel_Report.Checked and (cbLocWord.Checked or cbLocExcel_List.Checked) then begin
+  cbLocWord.Checked := False;
+  cbLocExcel_List.Checked := False;
  end
 end;
 
@@ -247,17 +263,40 @@ procedure TFormReport.GenerateReport;
 var
  i, n, row, RE_TextLength : integer;
  Q_GEN : TIBQuery;
- REQ : string;
+ REQ,strError,strReportFileName : string;
  d1,d2,d3,d4 : string;
  req1,req2,req3,req4,req5 : string;
  param1,param2,param3,param4,param5 : string;
  RE : TsRichEdit;
  WordApp : OleVariant;
  ExcelApp : OleVariant;
- WorkSheet : Variant;
- listEmail : TStrings; 
+ XLSDoc : TXLSFile;
+ bShowReport : boolean;
+ listEmail : TStrings;
  t1, t2 : TDateTime;
  TmpFilesCount : integer;
+
+ procedure XLS_SetStyle(nRow, nCol : integer; bHeader : boolean = false);
+ begin
+  if (nCol < 0) or (nRow < 0) then Exit;
+
+  with XLSDoc.Workbook.Sheets[0] do begin
+    if bHeader then begin
+      Cells[nRow, nCol].HAlign:= xlHAlignCenter;
+      Cells[nRow, nCol].VAlign:= xlVAlignCenter;
+//      Cells[nRow, nCol].FontBold:= True;
+      Rows[nRow].HeightPx := 30;
+    end else begin
+      Cells[nRow, nCol].VAlign:= xlVAlignTop;
+      Cells[nRow, nCol].Wrap := true;
+      Rows[nRow].AutoFit;
+    end;
+    Cells[nRow, nCol].FontName:= 'Tahoma';
+    Cells[nRow, nCol].FontHeight:= 10;
+    Cells[nRow, nCol].BorderStyle[xlBorderAll]:= bsThin;
+    Cells[nRow, nCol].BorderColorRGB[xlBorderAll]:= RGB(0,0,0);
+  end;
+ end;
 
  procedure AddLine(AText: string; AColor: TColor; AFontSize: integer;
   AFontName: TFontName; AFontStyle: TFontStyles);
@@ -319,32 +358,103 @@ var
   list.Free; list2.Free;
  end;
 
- function FormatRubrNapr(Field,Value : string) : string;
+ function GetPhones(APhones : string) : string;
+ var
+  phones,tmp : string;
+ begin
+  phones := APhones;
+  tmp := copy(phones ,0 , pos('$',phones));
+  delete(phones , 1 , length(tmp));
+  tmp := copy(phones ,0 , pos('$',phones));
+  delete(phones , 1 , length(tmp));
+  delete(tmp,1,1); delete(tmp,length(tmp),1);
+  // в TMP сейчас хранятся все телефоны для адреса list[x]
+  Result := tmp;
+ end;
+
+ function GetAdres(AAdres : string) : string;
+ var
+  list,list2,ResultList : TStrings;
+  Rubr,tmp,adres,city_str,country_str,ofType : string;
+  x : integer;
+ begin
+  list := TStringList.Create;
+  list2 := TStringList.Create;
+  ResultList := TStringList.Create;
+  ResultList.Clear;
+  list.Text := AAdres;
+  for x := 0 to list.Count - 1 do
+  begin
+   Rubr := list[x];
+   { Rubr = #CBAdres$#NUM$#OfficeType$#ZIP$#Street$#Country$#City$ }
+   list2.Clear;
+   while pos('$',Rubr) > 0 do
+   begin
+    tmp := copy(Rubr ,0 , pos('$',Rubr));
+    delete(Rubr, 1 , length(tmp));
+    delete(tmp,1,1); delete(tmp,length(tmp),1);
+    list2.Add(tmp);
+ // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
+ // list2[4] = Street; list2[5] = Country; list2[6] = City;
+   end;
+
+   if list2[0] = '1' then begin
+    // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и ReportSimple.GenerateReport
+    city_str := list2[6]; if city_str[1] = '^' then delete(city_str,1,1);
+    country_str := list2[5]; if country_str[1] = '&' then delete(country_str,1,1);
+    ofType := list2[2]; if ofType[1] = '@' then delete(ofType,1,1); // НЕ ИСПОЛЬЗУЕТСЯ ТУТ
+    if Length(list2[3]) > 0 then list2[3] := ' - ' + list2[3];
+    if Length(list2[4]) > 0 then list2[4] := ', ' + list2[4];    
+    adres := Format('%s%s, %s%s',
+     [FormEditor.GetNameByID('COUNTRY',country_str),list2[3],FormEditor.GetNameByID('GOROD',city_str),list2[4]]);
+    adres := Trim(adres);
+    if adres[length(adres)] = ',' then delete(adres,length(adres),1);
+    ResultList.Add(adres);
+   end;
+  end; // for x := 0 to list.Count - 1 do
+  Result := Trim(ResultList.Text);
+  list.Free; list2.Free; ResultList.Free;
+ end;
+
+ function FormatRubrNapr(Field,Value : string; bList : boolean = false) : string;
  var
   str,tmp : string;
+  list : TStringList;
  begin
   Result := '';
   if Length(Value) = 0 then exit;
   str := Value;
+  list := TStringList.Create;
+  list.Clear;
   while pos('$',str) > 0 do
   begin
    tmp := copy(str ,0 , pos('$',str));
    delete(str, 1 , length(tmp));
    delete(tmp,1,1); delete(tmp,length(tmp),1);
    if AnsiLowerCase(Field) = 'curator' then
-    if Main.sgCurator_tmp.FindText(1,tmp,[soCaseInsensitive,soExactMatch]) then
+    if Main.sgCurator_tmp.FindText(1,tmp,[soCaseInsensitive,soExactMatch]) then begin
      Result := Result + ', ' + Main.sgCurator_tmp.Cells[0,Main.sgCurator_tmp.SelectedRow];
+     list.Add(Main.sgCurator_tmp.Cells[0,Main.sgCurator_tmp.SelectedRow]);
+    end;
    if AnsiLowerCase(Field) = 'rubr' then
-    if Main.sgRubr_tmp.FindText(1,tmp,[soCaseInsensitive,soExactMatch]) then
+    if Main.sgRubr_tmp.FindText(1,tmp,[soCaseInsensitive,soExactMatch]) then begin
      Result := Result + ', ' + Main.sgRubr_tmp.Cells[0,Main.sgRubr_tmp.SelectedRow];
+     list.Add(Main.sgRubr_tmp.Cells[0,Main.sgRubr_tmp.SelectedRow]);
+    end;
    if AnsiLowerCase(Field) = 'type' then
-    if Main.sgType_tmp.FindText(1,tmp,[soCaseInsensitive,soExactMatch]) then
+    if Main.sgType_tmp.FindText(1,tmp,[soCaseInsensitive,soExactMatch]) then begin
      Result := Result + ', ' + Main.sgType_tmp.Cells[0,Main.sgType_tmp.SelectedRow];
+     list.Add(Main.sgType_tmp.Cells[0,Main.sgType_tmp.SelectedRow]);
+    end;
    if AnsiLowerCase(Field) = 'napr' then
-    if Main.sgNapr_tmp.FindText(1,tmp,[soCaseInsensitive,soExactMatch]) then
+    if Main.sgNapr_tmp.FindText(1,tmp,[soCaseInsensitive,soExactMatch]) then begin
      Result := Result + ', ' + Main.sgNapr_tmp.Cells[0,Main.sgNapr_tmp.SelectedRow];
+     list.Add(Main.sgNapr_tmp.Cells[0,Main.sgNapr_tmp.SelectedRow]);
+    end;
    if Length(Result) > 0 then if Result[1] = ',' then delete(Result,1,2);
   end;
+  if bList then Result := Trim(list.Text);
+  list.Free;
  end;
 
  function GetEMailList(fieldEMail : string) : TStrings;
@@ -362,7 +472,7 @@ var
      delete(fieldEMail, 1 , length(tmp));
      delete(tmp,length(tmp),1);
      list.Add(tmp);
-    end;  
+    end;
    end
   else if Length(fieldEMail) > 0 then begin
     list.Add(fieldEMail);
@@ -490,18 +600,68 @@ begin
    AddLine(cbDateEdited.Caption+' = '+editDateEdited1.Text+' - '+editDateEdited2.Text,clWindowText,10,'Times New Roman',[]);
   AddLine('',clWindowText,10,'Times New Roman',[]);
  end;
- if cbLocExcel.Checked then begin // create Excel doc
-  ExcelApp := CreateOleObject('Excel.Application');
-  ExcelApp.Workbooks.Add();
-  WorkSheet := ExcelApp.Workbooks[1].WorkSheets[1];
-  row := 1;
+
+ // Init Excel Doc
+ XLSDoc := TXLSFile.Create;
+ XLSDoc.Workbook.Sheets[0].Name := 'Отчет ' + DateToStr(Now());
+ row := 0;
+
+ // Format Excel Doc
+ if cbLocExcel_Report.Checked then begin
+   with XLSDoc.Workbook.Sheets[0] do begin
+     row := 1;
+     // Header
+     Cells[0,0].Value := 'Актив-сть'; XLS_SetStyle(0,0,true);
+     Cells[0,1].Value := 'Актуал-сть'; XLS_SetStyle(0,1,true);
+     Cells[0,2].Value := 'Куратор'; XLS_SetStyle(0,2,true);
+     Cells[0,3].Value := 'Предприятие'; XLS_SetStyle(0,3,true);
+     Cells[0,4].Value := 'Деятельность'; XLS_SetStyle(0,4,true);
+     Cells[0,5].Value := 'Тип'; XLS_SetStyle(0,5,true);
+     Cells[0,6].Value := 'Рубрика'; XLS_SetStyle(0,6,true);
+     Cells[0,7].Value := 'Телефон'; XLS_SetStyle(0,7,true);
+     Cells[0,8].Value := 'Конт. лицо'; XLS_SetStyle(0,8,true);
+     Cells[0,9].Value := 'Адрес'; XLS_SetStyle(0,9,true);
+     Cells[0,10].Value := 'E-mail'; XLS_SetStyle(0,10,true);
+     Cells[0,11].Value := 'Примечание'; XLS_SetStyle(0,11,true);
+
+     // Cols width
+      Columns[0].WidthPx := 70;
+      Columns[1].WidthPx := 70;
+      Columns[2].WidthPx := 70;
+      Columns[3].WidthPx := 150;
+      Columns[4].WidthPx := 250;
+      Columns[5].WidthPx := 100;
+      Columns[6].WidthPx := 175;
+      Columns[7].WidthPx := 160;
+      Columns[8].WidthPx := 100;
+      Columns[9].WidthPx := 250;
+      Columns[10].WidthPx := 170;
+      Columns[11].WidthPx := 100;
+
+      // Print settings
+      PageSetup.CenterHorizontally := False;
+      PageSetup.CenterVertically := False;
+      PageSetup.HeaderMargin := 0;
+      PageSetup.FooterMargin := 0;
+      PageSetup.TopMargin := 0.4;
+      PageSetup.BottomMargin := 0.4;
+      PageSetup.LeftMargin := 0.5;
+      PageSetup.RightMargin := 0.4;
+      PageSetup.PrintRowsOnEachPageFrom := 0;
+      PageSetup.PrintRowsOnEachPageTo := 0;
+      PageSetup.Orientation:= xlLandscape;
+      PageSetup.FitPagesWidth:= 1;
+      PageSetup.FitPagesHeight:= 0;
+      PageSetup.Zoom:= False;
+    end;
  end;
+
  TmpFilesCount := 0;
  for i := 1 to Q_GEN.RecordCount do
  begin
   if Q_GEN_BREAK then Break;
   ProgressBar.Progress := i;
-  
+
   if RE.Lines.Count >= 10000 then begin
    Inc(TmpFilesCount,1);
    RE.Lines.SaveToFile(AppPath+'\report_'+IntToStr(TmpFilesCount)+'.tmp');
@@ -546,17 +706,42 @@ begin
    AddLine('',clWindowText,10,'Times New Roman',[]);
   end;
 
-  if cbLocExcel.Checked then begin
-//    listEmail := TStringList.Create;
+  // build Excel List
+  if cbLocExcel_List.Checked then begin
     listEmail := GetEMailList(Q_GEN.FieldValues['EMAIL']);
     if Length(listEmail.GetText) > 0 then begin
      for n := 0 to listEmail.Count - 1 do
      begin
-      WorkSheet.Cells[row,1] := Q_GEN.FieldValues['NAME'];
-      WorkSheet.Cells[row,2] := listEmail[n];
+      XlsDoc.Workbook.Sheets[0].Cells[row,0].Value := Q_GEN.FieldValues['NAME'];
+      XlsDoc.Workbook.Sheets[0].Cells[row,1].Value := listEmail[n];
       Inc(row);
      end;
     end;
+  end else if cbLocExcel_Report.Checked then begin
+  // build Excel Report  
+    with XlsDoc.Workbook.Sheets[0] do begin
+
+      if Q_GEN.FieldByName('ACTIVITY').AsInteger = -1 then Cells[row,0].Value := 'да'
+       else Cells[row,0].Value := 'нет'; XLS_SetStyle(row,0);
+      XLS_SetStyle(row,0);
+
+      if Q_GEN.FieldByName('RELEVANCE').AsInteger = -1 then Cells[row,1].Value := 'да'
+       else Cells[row,1].Value := 'нет';
+      XLS_SetStyle(row,1);
+
+      Cells[row,2].Value := FormatRubrNapr('CURATOR',Q_GEN.FieldValues['CURATOR'],true); XLS_SetStyle(row,2);
+      Cells[row,3].Value := Q_GEN.FieldValues['NAME']; XLS_SetStyle(row,3);
+      Cells[row,4].Value := FormatRubrNapr('NAPR',Q_GEN.FieldValues['NAPRAVLENIE'],true); XLS_SetStyle(row,4);
+      Cells[row,5].Value := FormatRubrNapr('TYPE',Q_GEN.FieldValues['TYPE'],true); XLS_SetStyle(row,5);
+      Cells[row,6].Value := FormatRubrNapr('RUBR',Q_GEN.FieldValues['RUBR'],true); XLS_SetStyle(row,6);
+      Cells[row,7].Value := GetPhones(Q_GEN.FieldValues['PHONES']); XLS_SetStyle(row,7);
+      Cells[row,8].Value := Q_GEN.FieldValues['FIO']; XLS_SetStyle(row,8);
+      Cells[row,9].Value := GetAdres(Q_GEN.FieldValues['ADRES']); XLS_SetStyle(row,9);
+      Cells[row,10].Value := Trim(GetEMailList(Q_GEN.FieldValues['EMAIL']).Text); XLS_SetStyle(row,10);
+      Cells[row,11].Value := ''; XLS_SetStyle(row,11);
+    end;
+
+    Inc(row);
   end;
 
   Q_GEN.Next;
@@ -585,10 +770,51 @@ begin
   WordApp.Visible := True;
   {ShellExecute(handle,'open',PChar(AppPath + '\tmp.rtf'),nil,nil,SW_SHOWNORMAL);}
  end;
- if cbLocExcel.Checked then begin // show Excel doc
-  ExcelApp.Visible := True;
-  VarClear(ExcelApp);
- end; 
+
+ // close Excel, save report file and show it
+ bShowReport := True;
+ strReportFileName := AppPath + 'report.xls';
+ strError := 'ExcelApp: no errors';
+ if cbLocExcel_List.Checked or cbLocExcel_Report.Checked then begin
+
+  if cbLocExcel_List.Checked then XLSDoc.Workbook.Sheets[0].Columns.AutoFit(0,1); // AutoFit for List
+  if cbLocExcel_Report.Checked then XlsDoc.Workbook.Sheets[0].Freeze(1,0); // Freeze header row for Report
+
+  try // Closing
+   ExcelApp := GetActiveOleObject('Excel.Application');
+   ExcelApp.Visible := True;
+   for i := ExcelApp.Workbooks.Count downto 1 do ExcelApp.Workbooks[i].Save;
+   ExcelApp.Workbooks.Close;
+   ExcelApp.Quit;
+   VarClear(ExcelApp);
+  except on E:Exception do strError := 'ExcelApp: ' + E.Message;
+  end;
+
+  try // Saving
+   XlsDoc.SaveAs(strReportFileName);
+  except on E:Exception do begin
+    FormMain.WriteLog('TFormReport.GenerateReport'+#13+ strError +#13+'Ошибка при сохранении файла отчета:'+#13+E.Message);
+    MessageBox(Handle,PChar('Ошибка при сохранении файла отчета:'+#13+ strError +#13+ E.Message),
+    'Ошибка',MB_OK or MB_ICONERROR);
+    bShowReport := False; end;
+  end;
+
+  if bShowReport then begin
+   try // Showing
+    ExcelApp := CreateOLEObject('Excel.Application');
+    ExcelApp.Visible := True;
+    ExcelApp.Workbooks.Open(strReportFileName);
+//    ShellExecute(0, 'open', PChar(strReportFileName'), nil, nil, SW_SHOW);
+   except on E:Exception do begin
+    FormMain.WriteLog('TFormReport.GenerateReport'+#13+'Ошибка при отображении файла отчета:'+#13+E.Message);
+    MessageBox(Handle,PChar('Ошибка при отображении файла отчета:'+#13+E.Message),
+    'Ошибка',MB_OK or MB_ICONERROR); end;
+   end;
+  end;
+
+  XlsDoc.Destroy;
+ end;
+
  if cbLocGeneral.Checked then FormMain.sPageControl1.ActivePageIndex := 0;
  except on E:Exception do begin
   FormMain.WriteLog('TFormReport.GenerateReport'+#13+'Произошел сбой при генерации отчета'+#13+E.Message);
@@ -600,7 +826,7 @@ begin
  ProgressBar.Visible := False;
  btnOK.Enabled := True; editFormatDoc.Enabled := True;
  cbLocGeneral.Enabled := True; cbLocWord.Enabled := True;
- FormMain.EnableAllForms(''); 
+ FormMain.EnableAllForms('');
  RE.Free; Q_GEN.Close; Q_GEN.Free;
  FormMain.IBDatabase1.Close;
  FormReport.Close;

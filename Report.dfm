@@ -579,18 +579,22 @@ object FormReport: TFormReport
     end
     object groupFormatData: TsGroupBox
       Left = 466
-      Top = 116
+      Top = 142
       Width = 225
-      Height = 241
+      Height = 215
       Caption = #1060#1086#1088#1084#1072#1090#1080#1088#1086#1074#1072#1085#1080#1077' '#1076#1086#1082#1091#1084#1077#1085#1090#1072
       TabOrder = 2
       SkinData.SkinSection = 'GROUPBOX'
+      DesignSize = (
+        225
+        215)
       object editFormatDoc: TsCheckListBox
         Left = 12
-        Top = 24
+        Top = 21
         Width = 200
-        Height = 201
+        Height = 184
         AutoComplete = False
+        Anchors = [akLeft, akTop, akRight, akBottom]
         BorderStyle = bsSingle
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
@@ -648,7 +652,7 @@ object FormReport: TFormReport
       Left = 466
       Top = 12
       Width = 225
-      Height = 105
+      Height = 123
       Caption = #1042#1099#1074#1077#1089#1090#1080' '#1076#1072#1085#1085#1099#1077' '#1085#1072
       TabOrder = 1
       SkinData.SkinSection = 'GROUPBOX'
@@ -678,14 +682,27 @@ object FormReport: TFormReport
         ImgUnchecked = 0
         ShowFocus = False
       end
-      object cbLocExcel: TsCheckBox
+      object cbLocExcel_List: TsCheckBox
         Left = 12
         Top = 72
         Width = 159
         Height = 19
         Caption = 'Microsoft Excel ('#1088#1072#1089#1089#1099#1083#1082#1072')'
         TabOrder = 2
-        OnClick = cbLocExcelClick
+        OnClick = cbLocExcel_ListClick
+        SkinData.SkinSection = 'CHECKBOX'
+        ImgChecked = 0
+        ImgUnchecked = 0
+        ShowFocus = False
+      end
+      object cbLocExcel_Report: TsCheckBox
+        Left = 12
+        Top = 96
+        Width = 136
+        Height = 19
+        Caption = 'Microsoft Excel ('#1086#1090#1095#1077#1090')'
+        TabOrder = 3
+        OnClick = cbLocExcel_ReportClick
         SkinData.SkinSection = 'CHECKBOX'
         ImgChecked = 0
         ImgUnchecked = 0

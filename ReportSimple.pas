@@ -101,7 +101,7 @@ end;
 
 procedure TFormReportSimple.cbLocGeneralClick(Sender: TObject);
 begin
- if NOT cbLocGeneral.Checked then cbLocWord.Checked := True;
+ if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked then cbLocGeneral.Checked := True;
 end;
 
 procedure TFormReportSimple.editFilterSelect(Sender: TObject);
