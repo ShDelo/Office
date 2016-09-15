@@ -624,18 +624,39 @@ begin
      Cells[0,10].Value := 'E-mail'; XLS_SetStyle(0,10,true);
      Cells[0,11].Value := 'Примечание'; XLS_SetStyle(0,11,true);
 
-     // Cols width
+     // Cols width and visibility
       Columns[0].WidthPx := 70;
+      Columns[0].Hidden := not editFormatDoc.Checked[1];
+
       Columns[1].WidthPx := 70;
+      Columns[1].Hidden := not editFormatDoc.Checked[2];
+
       Columns[2].WidthPx := 70;
+      Columns[2].Hidden := not editFormatDoc.Checked[3];
+
       Columns[3].WidthPx := 150;
+
       Columns[4].WidthPx := 250;
+      Columns[4].Hidden := not editFormatDoc.Checked[6];
+
       Columns[5].WidthPx := 100;
+      Columns[5].Hidden := not editFormatDoc.Checked[5];
+
       Columns[6].WidthPx := 175;
+      Columns[6].Hidden := not editFormatDoc.Checked[4];
+
       Columns[7].WidthPx := 160;
+      Columns[7].Hidden := not editFormatDoc.Checked[0];
+
       Columns[8].WidthPx := 100;
+      Columns[8].Hidden := not editFormatDoc.Checked[9];
+
       Columns[9].WidthPx := 250;
+      Columns[9].Hidden := not editFormatDoc.Checked[0];
+
       Columns[10].WidthPx := 170;
+      Columns[10].Hidden := not editFormatDoc.Checked[8];
+
       Columns[11].WidthPx := 100;
 
       // Print settings
