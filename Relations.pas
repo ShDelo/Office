@@ -72,15 +72,21 @@ var
  i : integer;
  s : string;
 begin
- if listRubrRelations.Count > 0 then begin
-  for i := 0 to listRubrRelations.Count - 1 do s := s + listRubrRelations[i];
-  FormMain.IBQuery1.Close;
-  FormMain.IBQuery1.SQL.Text := 'update BASE set RELATIONS = :RELATIONS where ID = :ID';
-  FormMain.IBQuery1.ParamByName('RELATIONS').AsString := s;
-  FormMain.IBQuery1.ParamByName('ID').AsString := lblID.Caption;
-  FormMain.IBQuery1.ExecSQL;
-  FormMain.IBTransaction1.CommitRetaining;
-  FormMain.IBQuery1.Close;
+ try
+  if listRubrRelations.Count > 0 then begin
+   for i := 0 to listRubrRelations.Count - 1 do s := s + listRubrRelations[i];
+   FormMain.IBQuery1.Close;
+   FormMain.IBQuery1.SQL.Text := 'update BASE set RELATIONS = :RELATIONS where ID = :ID';
+   FormMain.IBQuery1.ParamByName('RELATIONS').AsString := s;
+   FormMain.IBQuery1.ParamByName('ID').AsString := lblID.Caption;
+   FormMain.IBQuery1.ExecSQL;
+   FormMain.IBTransaction1.CommitRetaining;
+   FormMain.IBQuery1.Close;
+   FormMain.WriteLog('TFormRelations.BtnOKClick: RELATIONS успешно обновленны '+lblID.Caption);
+  end;
+ except on E:Exception do begin
+  FormMain.WriteLog('TFormRelations.BtnOKClick: RELATIONS ошибка обновления'+#13+'Ошибка: '+E.Message+#13+'listRubrRelations.Text ='+#13+listRubrRelations.Text);
+  MessageBox(Handle,PChar('Ошибка при сохранении данных фирмы (RELATIONS).'+#13+E.Message),'Ошибка',MB_OK or MB_ICONERROR); end;
  end;
  FormRelations.Close;
 end;

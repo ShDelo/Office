@@ -306,6 +306,7 @@ end;
 
 procedure TFormEditor.BtnCancelClick(Sender: TObject);
 begin
+ FormMain.WriteLog('TFormEditor.BtnCancelClick: отмена');
  FormEditor.Close;
 end;
 
@@ -897,18 +898,19 @@ begin
  FormMain.IBQuery1.ParamByName('DATE_EDITED').AsString := DateToStr(Now);
  FormMain.IBQuery1.ParamByName('RELATIONS').AsString := BuildRelations;
  try FormMain.IBQuery1.ExecSQL;
- except on E:Exception do begin
+  except on E:Exception do begin
   FormMain.WriteLog('TFormEditor.AddRecord'+#13+'Ошибка: '+E.Message);
   MessageBox(Handle,PChar('Ошибка при создании фирмы.'+#13+E.Message),'Ошибка',MB_OK or MB_ICONERROR);
   exit; end;
  end;
  FormMain.IBTransaction1.CommitRetaining;
- FormMain.sStatusBar1.Panels[1].Text := 'Фирм в базе: ' + GetFirmCount; 
+ FormMain.sStatusBar1.Panels[1].Text := 'Фирм в базе: ' + GetFirmCount;
 
  FormMain.IBQuery1.Close;
  FormMain.IBQuery1.SQL.Text := 'select MAX(ID) from BASE';
  FormMain.IBQuery1.Open;
  ID := FormMain.IBQuery1.Fields[0].Value;
+ FormMain.WriteLog('TFormEditor.AddRecord: запись добавлена '+ID); 
  NewRubr := GetIDString(SGRubr);
  tmp2 := NewRubr;
  while pos('$',NewRubr) > 0 do // создали новые
@@ -1249,6 +1251,7 @@ begin
  str.Free; phones.Free;
 
  try FormMain.IBQuery1.ExecSQL;
+     FormMain.WriteLog('TFormEditor.EditRecord: запись отредактирована '+lblID.Caption);
  except on E:Exception do begin
   FormMain.WriteLog('TFormEditor.EditRecord'+#13+'Ошибка: '+E.Message);
   MessageBox(Handle,PChar('Ошибка при редактировании фирмы.'+#13+E.Message),'Ошибка',MB_OK or MB_ICONERROR);
@@ -1322,9 +1325,10 @@ begin
  Q.Close; Q.SQL.Text := 'delete from BASE where ID = :ID';
  Q.ParamByName('ID').AsString := ID;
  try Q.ExecSQL;
+     FormMain.WriteLog('TFormEditor.DeleteRecord: запись удалена '+ID); 
  except on E:Exception do begin
   FormMain.WriteLog('TFormEditor.DeleteRecord'+#13+'Ошибка: '+E.Message);
-  MessageBox(Handle,PChar('Ошибка при удалении фирмы.'+#13+E.Message),'Ошибка',MB_OK or MB_ICONERROR);
+  MessageBox(Handle,PChar('Ошибка при удалении фирмы '+ID+'.'+#13+E.Message),'Ошибка',MB_OK or MB_ICONERROR);
   exit; end;
  end;
  FormMain.IBTransaction1.CommitRetaining;

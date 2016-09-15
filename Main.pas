@@ -187,7 +187,7 @@ begin
  d := DateToStr(now); delete(d,1,3);
  LogFile := AppPath + 'log_'+d+'.txt'; AssignFile(f, LogFile);
  try if NOT FileExists(LogFile) then Rewrite(f) else Append(f);
-  Writeln(f, Text);
+  Writeln(f, DateTimeToStr(Now) + ': ' + Text);
  finally CloseFile(f);
  end;
 end;
@@ -483,7 +483,7 @@ procedure TFormMain.FormCreate(Sender: TObject);
 begin
  AppPath := ExtractFilePath(Application.ExeName);
  IBDatabase1.DatabaseName := AppPath+'usrdt.msq';
- WriteLog('*** Запуск программы: ' + DateTimeToStr(Now) + ' ***');
+ WriteLog('* Запуск программы *');
  try
   LoadTempTables;
   BuildRubrikatorTree(Sender);
@@ -507,7 +507,7 @@ begin
  // с формы FormMain
  sgCurator_tmp.Free; sgNapr_tmp.Free; sgRubr_tmp.Free; sgType_tmp.Free;
  IniSaveMain;
- WriteLog('*** Завершение программы: ' + DateTimeToStr(Now) + ' ***');
+ WriteLog('* Завершение программы *');
 end;
 
 procedure TFormMain.IniCreateMain;
@@ -900,6 +900,7 @@ begin
   MessageBox(FormDublicate.Handle,'Необходимо завершить работу с текущей фирмой','Информация',MB_OK or MB_ICONINFORMATION);
   exit;
  end;
+ WriteLog('TFormMain.BtnRecAddClick: добавление записи');
  FormEditor.Caption := 'Добавить фирму';
  FormEditor.BtnOK.Caption := 'Добавить';
  FormEditor.BtnOK.OnClick := FormEditor.AddRecord;
@@ -915,6 +916,7 @@ begin
   MessageBox(FormDublicate.Handle,'Необходимо завершить работу с текущей фирмой','Информация',MB_OK or MB_ICONINFORMATION);
   exit;
  end;
+ WriteLog('TFormMain.nAddRecClick: добавление записи');
  if (TVRubrikator.Focused) AND (TVRubrikator.Selected.Level = 0) then
  begin
   FormEditor.Caption := 'Добавить фирму';
@@ -960,6 +962,7 @@ begin
   ID := IntToStr(Integer(TVRubrikator.Selected.Data));
  end;
  if Trim(ID) = '' then exit;
+ WriteLog('TFormMain.nEditRecClick: редактирование записи ' + ID);
  FormEditor.Caption := 'Редактировать фирму';
  FormEditor.BtnOK.Caption := 'Изменить';
  FormEditor.BtnOK.OnClick := FormEditor.EditRecord;
@@ -1002,6 +1005,7 @@ begin
   if TVRubrikator.Selected.Level = 0 then exit;
   ID := IntToStr(Integer(TVRubrikator.Selected.Data));
  end;
+ WriteLog('TFormMain.nDeleteRecClick: удаление записи '+ID);
  FormEditor.DeleteRecord(ID);
 end;
 
