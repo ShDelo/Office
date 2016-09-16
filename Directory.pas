@@ -127,6 +127,7 @@ end;
 procedure TFormDirectory.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
+ FormMain.WriteLog(Format('TFormDirectory.FormClose: редактирование директорий (isDataEdited = %s)', [BoolToStr(isDataEdited, true)]));
  try
   if isDataEdited then FormMain.ReloadDataGlobal(FormDirectory);
  finally

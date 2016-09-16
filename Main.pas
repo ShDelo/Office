@@ -1590,6 +1590,7 @@ end;
 
 procedure TFormMain.BtnDirectoryClick(Sender: TObject);
 begin
+ WriteLog('TFormMain.BtnDirectoryClick: редактирование директорий');
  DisableAllForms('FormDirectory');
  FormDirectory.Show;
 end;

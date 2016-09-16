@@ -411,6 +411,7 @@ begin
   MessageBox(handle,'По Вашему запросу не было найдено ни одной записи','Информация',MB_OK or MB_ICONINFORMATION);
   RE.Free; Q_GEN.Close; Q_GEN.Free; exit;
  end;
+ FormMain.WriteLog('TFormReportSimple.GenerateReport: создание простого отчета');
  Q_GEN.SQL.Text := REQ; Q_GEN.Open; Q_GEN.FetchAll;
  if Q_GEN.RecordCount = 0 then
  begin
@@ -535,6 +536,7 @@ begin
  RE.Free; Q_GEN.Close; Q_GEN.Free;
  FormMain.IBDatabase1.Close;
  FormReportSimple.Close;
+ FormMain.WriteLog('TFormReportSimple.GenerateReport: отчет создан успешно'); 
 end;
 
 end.

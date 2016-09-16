@@ -563,6 +563,7 @@ begin
  end;
  delete(REQ,length(REQ)-3,length(REQ));
  REQ := REQ + ' ) order by lower(NAME)';
+ FormMain.WriteLog('TFormReport.GenerateReport: создание расширенного отчета');
  Q_GEN.SQL.Text := REQ; Q_GEN.Open; Q_GEN.FetchAll;
  if Q_GEN.RecordCount = 0 then
  begin
@@ -851,6 +852,7 @@ begin
  RE.Free; Q_GEN.Close; Q_GEN.Free;
  FormMain.IBDatabase1.Close;
  FormReport.Close;
+ FormMain.WriteLog('TFormReport.GenerateReport: отчет создан успешно'); 
 end;
 
 procedure TFormReport.FormatReport(FilesCount: integer; RE: TsRichEdit;
