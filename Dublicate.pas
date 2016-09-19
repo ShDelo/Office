@@ -35,29 +35,32 @@ uses Main;
 
 procedure TFormDublicate.CreateParams(var Params: TCreateParams);
 begin
- inherited CreateParams(Params);
- Params.ExStyle := Params.ExStyle or WS_Ex_AppWindow;
+  inherited CreateParams(Params);
+  Params.ExStyle := Params.ExStyle or WS_Ex_AppWindow;
 end;
 
 procedure TFormDublicate.BtnCancelClick(Sender: TObject);
 begin
- FormDublicate.Close;
+  FormDublicate.Close;
 end;
 
 procedure TFormDublicate.SGDublicateDblClick(Sender: TObject);
 var
- ID : String;
- i : integer;
+  ID: String;
+  i: integer;
 begin
- if SGDublicate.SelectedCount = 0 then exit;
- ID := SGDublicate.Cells[2,SGDublicate.SelectedRow];
- for i := 0 to FormMain.sPageControl1.PageCount - 1 do
- begin
-  if FormMain.sPageControl1.Pages[i].Name = 'Tab'+ID
-   then begin FormMain.sPageControl1.Pages[i].Show; exit; end;
- end;
- FormMain.OpenTabByID(ID);
+  if SGDublicate.SelectedCount = 0 then
+    exit;
+  ID := SGDublicate.Cells[2, SGDublicate.SelectedRow];
+  for i := 0 to FormMain.sPageControl1.PageCount - 1 do
+  begin
+    if FormMain.sPageControl1.Pages[i].Name = 'Tab' + ID then
+    begin
+      FormMain.sPageControl1.Pages[i].Show;
+      exit;
+    end;
+  end;
+  FormMain.OpenTabByID(ID);
 end;
 
 end.
-
