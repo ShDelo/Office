@@ -122,7 +122,8 @@ type
     procedure editSearchFastEnter(Sender: TObject);
     procedure editSearchFastExit(Sender: TObject);
     procedure editSearchFastKeyPress(Sender: TObject; var Key: Char);
-    procedure SGAddRow(Grid: TNextGrid; Activity, Relevance: integer; Name, Curator, DateAdded, DateEdited, Web, Email, fType, id, FIO, Rubr: string);
+    procedure SGAddRow(Grid: TNextGrid; Activity, Relevance: integer; Name, Curator, DateAdded, DateEdited, Web, Email, fType, id, FIO,
+      Rubr: string);
     procedure SearchFast(Sender: TObject);
     procedure nBtnAccountsClick(Sender: TObject);
     procedure BtnSendEmailClick(Sender: TObject);
@@ -795,7 +796,8 @@ begin
   IniMain.Free;
 end;
 
-procedure TFormMain.SGAddRow(Grid: TNextGrid; Activity, Relevance: integer; Name, Curator, DateAdded, DateEdited, Web, Email, fType, id, FIO, Rubr: string);
+procedure TFormMain.SGAddRow(Grid: TNextGrid; Activity, Relevance: integer; Name, Curator, DateAdded, DateEdited, Web, Email, fType, id,
+  FIO, Rubr: string);
 var
   s, Cur, Typ, Rub: string;
 begin
@@ -886,8 +888,10 @@ begin
     SGGeneral.ClearRows;
     for i := 1 to IBQuery1.RecordCount do
     begin
-      SGAddRow(SGGeneral, IBQuery1.FieldByName('ACTIVITY').AsInteger, IBQuery1.FieldByName('RELEVANCE').AsInteger, IBQuery1.FieldValues['NAME'], IBQuery1.FieldValues['CURATOR'], IBQuery1.FieldValues['DATE_ADDED'], IBQuery1.FieldValues['DATE_EDITED'],
-        IBQuery1.FieldValues['WEB'], IBQuery1.FieldValues['EMAIL'], IBQuery1.FieldValues['TYPE'], IBQuery1.FieldValues['ID'], IBQuery1.FieldValues['FIO'], IBQuery1.FieldValues['RUBR']);
+      SGAddRow(SGGeneral, IBQuery1.FieldByName('ACTIVITY').AsInteger, IBQuery1.FieldByName('RELEVANCE').AsInteger,
+        IBQuery1.FieldValues['NAME'], IBQuery1.FieldValues['CURATOR'], IBQuery1.FieldValues['DATE_ADDED'],
+        IBQuery1.FieldValues['DATE_EDITED'], IBQuery1.FieldValues['WEB'], IBQuery1.FieldValues['EMAIL'], IBQuery1.FieldValues['TYPE'],
+        IBQuery1.FieldValues['ID'], IBQuery1.FieldValues['FIO'], IBQuery1.FieldValues['RUBR']);
       IBQuery1.Next;
     end;
     SGGeneral.Resort;
@@ -1390,7 +1394,8 @@ var
 begin
   if NOT FormReport.IsWordInstalled then
   begin
-    MessageBox(Handle, 'В операционной системе не установлена программа для просмотра файлов Microsoft Office.' + #13 + 'Установите программу и повторите попытку.', 'Предупреждение', MB_OK or MB_ICONWARNING);
+    MessageBox(Handle, 'В операционной системе не установлена программа для просмотра файлов Microsoft Office.' + #13 +
+      'Установите программу и повторите попытку.', 'Предупреждение', MB_OK or MB_ICONWARNING);
     exit;
   end;
   try
@@ -1769,8 +1774,10 @@ begin
     SGGeneral.ClearRows;
     for i := 1 to QuerySearch.RecordCount do
     begin
-      SGAddRow(SGGeneral, QuerySearch.FieldByName('ACTIVITY').AsInteger, QuerySearch.FieldByName('RELEVANCE').AsInteger, QuerySearch.FieldValues['NAME'], QuerySearch.FieldValues['CURATOR'], QuerySearch.FieldValues['DATE_ADDED'],
-        QuerySearch.FieldValues['DATE_EDITED'], QuerySearch.FieldValues['WEB'], QuerySearch.FieldValues['EMAIL'], QuerySearch.FieldValues['TYPE'], QuerySearch.FieldValues['ID'], QuerySearch.FieldValues['FIO'], QuerySearch.FieldValues['RUBR']);
+      SGAddRow(SGGeneral, QuerySearch.FieldByName('ACTIVITY').AsInteger, QuerySearch.FieldByName('RELEVANCE').AsInteger,
+        QuerySearch.FieldValues['NAME'], QuerySearch.FieldValues['CURATOR'], QuerySearch.FieldValues['DATE_ADDED'],
+        QuerySearch.FieldValues['DATE_EDITED'], QuerySearch.FieldValues['WEB'], QuerySearch.FieldValues['EMAIL'],
+        QuerySearch.FieldValues['TYPE'], QuerySearch.FieldValues['ID'], QuerySearch.FieldValues['FIO'], QuerySearch.FieldValues['RUBR']);
       QuerySearch.Next;
     end;
     SGGeneral.Resort;

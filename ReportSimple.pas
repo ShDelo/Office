@@ -603,8 +603,10 @@ begin
 
       if cbLocGeneral.Checked then
       begin
-        FormMain.SGAddRow(FormMain.SGGeneral, Q_GEN.FieldByName('ACTIVITY').AsInteger, Q_GEN.FieldByName('RELEVANCE').AsInteger, Q_GEN.FieldValues['NAME'], Q_GEN.FieldValues['CURATOR'], Q_GEN.FieldValues['DATE_ADDED'],
-          Q_GEN.FieldValues['DATE_EDITED'], Q_GEN.FieldValues['WEB'], Q_GEN.FieldValues['EMAIL'], Q_GEN.FieldValues['TYPE'], Q_GEN.FieldValues['ID'], Q_GEN.FieldValues['FIO'], Q_GEN.FieldValues['RUBR']);
+        FormMain.SGAddRow(FormMain.SGGeneral, Q_GEN.FieldByName('ACTIVITY').AsInteger, Q_GEN.FieldByName('RELEVANCE').AsInteger,
+          Q_GEN.FieldValues['NAME'], Q_GEN.FieldValues['CURATOR'], Q_GEN.FieldValues['DATE_ADDED'], Q_GEN.FieldValues['DATE_EDITED'],
+          Q_GEN.FieldValues['WEB'], Q_GEN.FieldValues['EMAIL'], Q_GEN.FieldValues['TYPE'], Q_GEN.FieldValues['ID'],
+          Q_GEN.FieldValues['FIO'], Q_GEN.FieldValues['RUBR']);
       end;
 
       if cbLocWord.Checked then

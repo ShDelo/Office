@@ -645,7 +645,8 @@ begin
     grid := SGCurator;
     if CheckInUse('CURATOR', '%#' + id + '$%', c) then
     begin
-      MessageBox(handle, PChar('Удаление выбранного куратора невозможно т.к он курирует ' + IntToStr(c) + ' фирм.'), 'Уведомление', MB_OK or MB_ICONWARNING);
+      MessageBox(handle, PChar('Удаление выбранного куратора невозможно т.к он курирует ' + IntToStr(c) + ' фирм.'), 'Уведомление',
+        MB_OK or MB_ICONWARNING);
       exit;
     end;
   end
@@ -657,7 +658,8 @@ begin
     grid := SGRubr;
     if CheckInUse('RUBR', '%#' + id + '$%', c) then
     begin
-      MessageBox(handle, PChar('Удаление выбранной рубрики невозможно т.к за ней закрепленно ' + IntToStr(c) + ' фирм.'), 'Уведомление', MB_OK or MB_ICONWARNING);
+      MessageBox(handle, PChar('Удаление выбранной рубрики невозможно т.к за ней закрепленно ' + IntToStr(c) + ' фирм.'), 'Уведомление',
+        MB_OK or MB_ICONWARNING);
       exit;
     end;
   end
@@ -669,7 +671,8 @@ begin
     grid := SGFirmType;
     if CheckInUse('TYPE', '%#' + id + '$%', c) then
     begin
-      MessageBox(handle, PChar('Удаление выбранного типа фирмы невозможно т.к он используется ' + IntToStr(c) + ' фирмами.'), 'Уведомление', MB_OK or MB_ICONWARNING);
+      MessageBox(handle, PChar('Удаление выбранного типа фирмы невозможно т.к он используется ' + IntToStr(c) + ' фирмами.'), 'Уведомление',
+        MB_OK or MB_ICONWARNING);
       exit;
     end;
   end
@@ -681,7 +684,8 @@ begin
     grid := SGNapr;
     if CheckInUse('NAPRAVLENIE', '%#' + id + '$%', c) then
     begin
-      MessageBox(handle, PChar('Удаление выбранного вида деятельности невозможно т.к он используется ' + IntToStr(c) + ' фирмами.'), 'Уведомление', MB_OK or MB_ICONWARNING);
+      MessageBox(handle, PChar('Удаление выбранного вида деятельности невозможно т.к он используется ' + IntToStr(c) + ' фирмами.'),
+        'Уведомление', MB_OK or MB_ICONWARNING);
       exit;
     end;
   end
@@ -693,7 +697,8 @@ begin
     grid := SGOfficeType;
     if CheckInUse('ADRES', '%#@' + id + '$%', c) then
     begin
-      MessageBox(handle, PChar('Удаление выбранного типа адреса невозможно т.к он используется ' + IntToStr(c) + ' фирмами.'), 'Уведомление', MB_OK or MB_ICONWARNING);
+      MessageBox(handle, PChar('Удаление выбранного типа адреса невозможно т.к он используется ' + IntToStr(c) + ' фирмами.'),
+        'Уведомление', MB_OK or MB_ICONWARNING);
       exit;
     end;
   end
@@ -705,7 +710,8 @@ begin
     grid := SGCountry;
     if CheckInUse('ADRES', '%#&' + id + '$%', c) then
     begin
-      MessageBox(handle, PChar('Удаление выбранной страны невозможно т.к она используется ' + IntToStr(c) + ' фирмами.'), 'Уведомление', MB_OK or MB_ICONWARNING);
+      MessageBox(handle, PChar('Удаление выбранной страны невозможно т.к она используется ' + IntToStr(c) + ' фирмами.'), 'Уведомление',
+        MB_OK or MB_ICONWARNING);
       exit;
     end;
   end
@@ -717,7 +723,8 @@ begin
     grid := SGCity;
     if CheckInUse('ADRES', '%#^' + id + '$%', c) then
     begin
-      MessageBox(handle, PChar('Удаление выбранного города невозможно т.к он используется ' + IntToStr(c) + ' фирмами.'), 'Уведомление', MB_OK or MB_ICONWARNING);
+      MessageBox(handle, PChar('Удаление выбранного города невозможно т.к он используется ' + IntToStr(c) + ' фирмами.'), 'Уведомление',
+        MB_OK or MB_ICONWARNING);
       exit;
     end;
   end

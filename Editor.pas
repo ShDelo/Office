@@ -903,7 +903,8 @@ procedure TFormEditor.AddRecord(Sender: TObject);
 var
   str, phones: TStrings;
 
-  procedure AdresProcs(CBAdres: TsCheckBox; No: TsEdit; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox; City: TsComboBox; MemoPhone: TsMemo; SGPhone: TNextGrid);
+  procedure AdresProcs(CBAdres: TsCheckBox; No: TsEdit; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox;
+    City: TsComboBox; MemoPhone: TsMemo; SGPhone: TNextGrid);
   var
     i: Integer;
     offtype_id, country_id, city_id: string;
@@ -913,7 +914,8 @@ var
       offtype_id := GetIDByName(OfficeType);
       country_id := GetIDByName(Country);
       city_id := GetIDByName(City);
-      str.Add('#1$#' + No.Text + '$#@' + offtype_id + '$#' + Trim(ZIP.Text) + '$#' + Trim(Street.Text) + '$#&' + country_id + '$#^' + city_id + '$');
+      str.Add('#1$#' + No.Text + '$#@' + offtype_id + '$#' + Trim(ZIP.Text) + '$#' + Trim(Street.Text) + '$#&' + country_id + '$#^' +
+        city_id + '$');
       if SGPhone.RowCount > 0 then
         for i := 0 to SGPhone.RowCount - 1 do
           MemoPhone.Lines.Add(SGPhone.Cells[0, i]);
@@ -926,7 +928,8 @@ var
     end;
   end;
 
-  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox; City: TsComboBox; SGPhone: TNextGrid);
+  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox; City: TsComboBox;
+    SGPhone: TNextGrid);
   begin
     CBAdres.Checked := False;
     if Trim(OfficeType.Text) <> '' then
@@ -1012,8 +1015,9 @@ begin
   EditName.Text := UpperFirst(EditName.Text);
   EditFIO.Text := UpperFirst(EditFIO.Text);
   FormMain.IBQuery1.Close;
-  FormMain.IBQuery1.SQL.Text := 'insert into BASE (ACTIVITY,RELEVANCE,NAME,FIO,CURATOR,RUBR,TYPE,NAPRAVLENIE,WEB,EMAIL,ADRES,PHONES,DATE_ADDED,DATE_EDITED,RELATIONS) values ' +
-    '(:ACTIVITY,:RELEVANCE,:NAME,:FIO,:CURATOR,:RUBR,:TYPE,:NAPRAVLENIE,:WEB,:EMAIL,:ADRES,:PHONES,:DATE_ADDED,:DATE_EDITED,:RELATIONS)';
+  FormMain.IBQuery1.SQL.Text :=
+    'insert into BASE (ACTIVITY,RELEVANCE,NAME,FIO,CURATOR,RUBR,TYPE,NAPRAVLENIE,WEB,EMAIL,ADRES,PHONES,DATE_ADDED,DATE_EDITED,RELATIONS) values '
+    + '(:ACTIVITY,:RELEVANCE,:NAME,:FIO,:CURATOR,:RUBR,:TYPE,:NAPRAVLENIE,:WEB,:EMAIL,:ADRES,:PHONES,:DATE_ADDED,:DATE_EDITED,:RELATIONS)';
   FormMain.IBQuery1.ParamByName('ACTIVITY').AsBoolean := CBActivity.Checked;
   FormMain.IBQuery1.ParamByName('RELEVANCE').AsBoolean := cbDataRelevance.Checked;
   FormMain.IBQuery1.ParamByName('NAME').AsString := EditName.Text;
@@ -1114,7 +1118,8 @@ end;
 
 procedure TFormEditor.PrepareEditRecord(id: string);
 
-  procedure AdresProcs(AdresList: TStrings; Num: Integer; CBAdres: TsCheckBox; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox; City: TsComboBox);
+  procedure AdresProcs(AdresList: TStrings; Num: Integer; CBAdres: TsCheckBox; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit;
+    Country: TsComboBox; City: TsComboBox);
   var
     tmp, city_str, country_str, ofType, s: string;
     list: TStrings;
@@ -1350,7 +1355,8 @@ var
   nd, nd2: TTreeNode;
   i: Integer;
 
-  procedure AdresProcs(CBAdres: TsCheckBox; No: TsEdit; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox; City: TsComboBox; MemoPhone: TsMemo; SGPhone: TNextGrid);
+  procedure AdresProcs(CBAdres: TsCheckBox; No: TsEdit; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox;
+    City: TsComboBox; MemoPhone: TsMemo; SGPhone: TNextGrid);
   var
     i: Integer;
     offtype_id, country_id, city_id: string;
@@ -1360,7 +1366,8 @@ var
       offtype_id := GetIDByName(OfficeType);
       country_id := GetIDByName(Country);
       city_id := GetIDByName(City);
-      str.Add('#1$#' + No.Text + '$#@' + offtype_id + '$#' + Trim(ZIP.Text) + '$#' + Trim(Street.Text) + '$#&' + country_id + '$#^' + city_id + '$');
+      str.Add('#1$#' + No.Text + '$#@' + offtype_id + '$#' + Trim(ZIP.Text) + '$#' + Trim(Street.Text) + '$#&' + country_id + '$#^' +
+        city_id + '$');
       if SGPhone.RowCount > 0 then
         for i := 0 to SGPhone.RowCount - 1 do
           MemoPhone.Lines.Add(SGPhone.Cells[0, i]);
@@ -1373,7 +1380,8 @@ var
     end;
   end;
 
-  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox; City: TsComboBox; SGPhone: TNextGrid);
+  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox; City: TsComboBox;
+    SGPhone: TNextGrid);
   begin
     CBAdres.Checked := False;
     if Trim(OfficeType.Text) <> '' then
@@ -1511,7 +1519,8 @@ begin
   // удалили все старые ( до редактирования ) TVRubrikator
   FormMain.TVRubrikator.Items.BeginUpdate;
   for i := FormMain.TVRubrikator.Items.Count - 1 downto 0 do
-    if (IntToStr(Integer(Pointer(FormMain.TVRubrikator.Items[i].Data))) = lblID.Caption) AND (FormMain.TVRubrikator.Items[i].Level <> 0) then
+    if (IntToStr(Integer(Pointer(FormMain.TVRubrikator.Items[i].Data))) = lblID.Caption) AND (FormMain.TVRubrikator.Items[i].Level <> 0)
+    then
       FormMain.TVRubrikator.Items[i].delete;
   rubrID := NewRubr;
   while pos('$', rubrID) > 0 do // создали новые ( после редактирования )

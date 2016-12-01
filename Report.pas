@@ -149,7 +149,8 @@ procedure TFormReport.IsWordAviable(cbLocGeneral, cbLocWord: TsCheckBox);
 begin
   if NOT IsWordInstalled then
   begin
-    MessageBox(Handle, 'В операционной системе не установлена программа для просмотра файлов Microsoft Office.' + #13 + 'Установите программу и повторите попытку.', 'Предупреждение', MB_OK or MB_ICONWARNING);
+    MessageBox(Handle, 'В операционной системе не установлена программа для просмотра файлов Microsoft Office.' + #13 +
+      'Установите программу и повторите попытку.', 'Предупреждение', MB_OK or MB_ICONWARNING);
     cbLocGeneral.Checked := True;
     cbLocGeneral.Enabled := False;
     cbLocWord.Checked := False;
@@ -417,7 +418,8 @@ var
         ofType := list2[2];
         if ofType[1] = '@' then
           delete(ofType, 1, 1); // НЕ ИСПОЛЬЗУЕТСЯ ТУТ
-        adres := Format('    Адрес: %s - %s, %s, %s,', [FormEditor.GetNameByID('COUNTRY', country_str), list2[3], FormEditor.GetNameByID('GOROD', city_str), list2[4]]);
+        adres := Format('    Адрес: %s - %s, %s, %s,', [FormEditor.GetNameByID('COUNTRY', country_str), list2[3],
+          FormEditor.GetNameByID('GOROD', city_str), list2[4]]);
         AddLine(adres, clWindowText, 10, 'Times New Roman', []);
         AddLine(tmp, clWindowText, 10, 'Times New Roman', []);
       end;
@@ -484,7 +486,8 @@ var
           list2[3] := ' - ' + list2[3];
         if Length(list2[4]) > 0 then
           list2[4] := ', ' + list2[4];
-        adres := Format('%s%s, %s%s', [FormEditor.GetNameByID('COUNTRY', country_str), list2[3], FormEditor.GetNameByID('GOROD', city_str), list2[4]]);
+        adres := Format('%s%s, %s%s', [FormEditor.GetNameByID('COUNTRY', country_str), list2[3], FormEditor.GetNameByID('GOROD', city_str),
+          list2[4]]);
         adres := Trim(adres);
         if adres[Length(adres)] = ',' then
           delete(adres, Length(adres), 1);
@@ -637,7 +640,8 @@ var
   end;
 
 begin
-  if (editSelect1.ItemIndex = 0) and (editSelect3.ItemIndex = 0) and (editSelect5.ItemIndex = 0) and (editSelect7.ItemIndex = 0) and (editSelect9.ItemIndex = 0) and (NOT cbDateAdded.Checked) and (NOT cbDateEdited.Checked) then
+  if (editSelect1.ItemIndex = 0) and (editSelect3.ItemIndex = 0) and (editSelect5.ItemIndex = 0) and (editSelect7.ItemIndex = 0) and
+    (editSelect9.ItemIndex = 0) and (NOT cbDateAdded.Checked) and (NOT cbDateEdited.Checked) then
   begin
     MessageBox(Handle, 'Укажите данные для генерации отчета', 'Предупреждение', MB_OK or MB_ICONWARNING);
     Exit;
@@ -745,7 +749,8 @@ begin
       if cbDateAdded.Checked then
         AddLine(cbDateAdded.Caption + ' = ' + editDateAdded1.Text + ' - ' + editDateAdded2.Text, clWindowText, 10, 'Times New Roman', []);
       if cbDateEdited.Checked then
-        AddLine(cbDateEdited.Caption + ' = ' + editDateEdited1.Text + ' - ' + editDateEdited2.Text, clWindowText, 10, 'Times New Roman', []);
+        AddLine(cbDateEdited.Caption + ' = ' + editDateEdited1.Text + ' - ' + editDateEdited2.Text, clWindowText, 10,
+          'Times New Roman', []);
       AddLine('', clWindowText, 10, 'Times New Roman', []);
     end;
 
@@ -855,8 +860,10 @@ begin
 
       if cbLocGeneral.Checked then
       begin
-        FormMain.SGAddRow(FormMain.SGGeneral, Q_GEN.FieldByName('ACTIVITY').AsInteger, Q_GEN.FieldByName('RELEVANCE').AsInteger, Q_GEN.FieldValues['NAME'], Q_GEN.FieldValues['CURATOR'], Q_GEN.FieldValues['DATE_ADDED'],
-          Q_GEN.FieldValues['DATE_EDITED'], Q_GEN.FieldValues['WEB'], Q_GEN.FieldValues['EMAIL'], Q_GEN.FieldValues['TYPE'], Q_GEN.FieldValues['ID'], Q_GEN.FieldValues['FIO'], Q_GEN.FieldValues['RUBR']);
+        FormMain.SGAddRow(FormMain.SGGeneral, Q_GEN.FieldByName('ACTIVITY').AsInteger, Q_GEN.FieldByName('RELEVANCE').AsInteger,
+          Q_GEN.FieldValues['NAME'], Q_GEN.FieldValues['CURATOR'], Q_GEN.FieldValues['DATE_ADDED'], Q_GEN.FieldValues['DATE_EDITED'],
+          Q_GEN.FieldValues['WEB'], Q_GEN.FieldValues['EMAIL'], Q_GEN.FieldValues['TYPE'], Q_GEN.FieldValues['ID'],
+          Q_GEN.FieldValues['FIO'], Q_GEN.FieldValues['RUBR']);
       end;
 
       if cbLocWord.Checked then
@@ -1013,7 +1020,8 @@ begin
         on E: Exception do
         begin
           FormMain.WriteLog('TFormReport.GenerateReport' + #13 + strError + #13 + 'Ошибка при сохранении файла отчета:' + #13 + E.Message);
-          MessageBox(Handle, PChar('Ошибка при сохранении файла отчета:' + #13 + strError + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
+          MessageBox(Handle, PChar('Ошибка при сохранении файла отчета:' + #13 + strError + #13 + E.Message), 'Ошибка',
+            MB_OK or MB_ICONERROR);
           bShowReport := False;
         end;
       end;

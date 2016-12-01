@@ -75,7 +75,7 @@ type
     procedure btnEmailClearClick(Sender: TObject);
     procedure btnLogClick(Sender: TObject);
     procedure IdSMTPStatus(ASender: TObject; const AStatus: TIdStatus; const AStatusText: String);
-//    procedure IdMessageInitializeISO(var VTransferHeader: TTransfer; var VHeaderEncoding: Char; var VCharSet: String);
+    // procedure IdMessageInitializeISO(var VTransferHeader: TTransfer; var VHeaderEncoding: Char; var VCharSet: String);
     procedure LV_InsertFiles(nFile: string; ListView: TsListView; ImageList: TsAlphaImageList);
     function IsValidEmail(const Value: string): Boolean;
     function IsValidWeb(const Value: string): Boolean;
@@ -92,8 +92,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SendEmail(Sender: TObject);
     procedure SendRegInfoCheck(Sender: TObject);
-    procedure IdMessageInitializeISO(var VHeaderEncoding: Char;
-      var VCharSet: string);
+    procedure IdMessageInitializeISO(var VHeaderEncoding: Char; var VCharSet: string);
   private
     { Private declarations }
   public
@@ -263,7 +262,8 @@ begin
   capt := ExtractFileName(nFile) + ' (' + fSize + ')';
   for i := 0 to ListView.Items.Count - 1 do
   begin
-    if (AnsiLowerCase(ListView.Items[i].Caption) = AnsiLowerCase(capt)) AND (AnsiLowerCase(ListView.Items[i].SubItems[0]) = AnsiLowerCase(fPath)) then
+    if (AnsiLowerCase(ListView.Items[i].Caption) = AnsiLowerCase(capt)) AND
+      (AnsiLowerCase(ListView.Items[i].SubItems[0]) = AnsiLowerCase(fPath)) then
     begin
       MessageBox(handle, 'Этот файл уже находится в списке', 'Информация', MB_OK or MB_ICONINFORMATION);
       exit;
@@ -365,7 +365,9 @@ begin
         exit;
 
       FormMain.IBQuery1.Close;
-      FormMain.IBQuery1.SQL.Text := 'insert into ACCOUNTS (NAME,HOST,PORT,UNAME,REPLYTO,DOMEN,LOGIN,PASS,SIGNATURE,SSL_METHOD,TLS_METHOD) values' + '(:NAME,:HOST,:PORT,:UNAME,:REPLYTO,:DOMEN,:LOGIN,:PASS,:SIGNATURE,:SSL_METHOD,:TLS_METHOD)';
+      FormMain.IBQuery1.SQL.Text :=
+        'insert into ACCOUNTS (NAME,HOST,PORT,UNAME,REPLYTO,DOMEN,LOGIN,PASS,SIGNATURE,SSL_METHOD,TLS_METHOD) values' +
+        '(:NAME,:HOST,:PORT,:UNAME,:REPLYTO,:DOMEN,:LOGIN,:PASS,:SIGNATURE,:SSL_METHOD,:TLS_METHOD)';
       FormMain.IBQuery1.ParamByName('NAME').AsString := Trim(profile);
       FormMain.IBQuery1.ParamByName('HOST').AsString := Trim(host);
       FormMain.IBQuery1.ParamByName('PORT').AsString := Trim(port);
@@ -417,7 +419,8 @@ begin
   if editProfile.ItemIndex < 0 then
     exit;
   FormMain.IBQuery1.Close;
-  FormMain.IBQuery1.SQL.Text := 'update ACCOUNTS set HOST=:HOST,PORT=:PORT,' + 'UNAME=:UNAME,REPLYTO=:REPLYTO,DOMEN=:DOMEN,LOGIN=:LOGIN,PASS=:PASS,SIGNATURE=:SIGNATURE,SSL_METHOD=:SSL_METHOD,TLS_METHOD=:TLS_METHOD where NAME = :NAME';
+  FormMain.IBQuery1.SQL.Text := 'update ACCOUNTS set HOST=:HOST,PORT=:PORT,' +
+    'UNAME=:UNAME,REPLYTO=:REPLYTO,DOMEN=:DOMEN,LOGIN=:LOGIN,PASS=:PASS,SIGNATURE=:SIGNATURE,SSL_METHOD=:SSL_METHOD,TLS_METHOD=:TLS_METHOD where NAME = :NAME';
   FormMain.IBQuery1.ParamByName('NAME').AsString := Trim(editProfile.Text);
   FormMain.IBQuery1.ParamByName('HOST').AsString := Trim(editHost.Text);
   FormMain.IBQuery1.ParamByName('PORT').AsString := Trim(editPort.Text);
@@ -859,7 +862,8 @@ begin
     if MessageBox(handle,'Текст сообщения пуст. Продолжить?',
     'Подтверждение',MB_YESNO or MB_ICONQUESTION) = mrNO then exit; }
   if editEmailList.Items.Count > 1 then
-    if MessageBox(handle, PChar(IntToStr(editEmailList.Items.Count) + ' адреса(ов) подготовлено для рассылки. Продолжить?'), 'Подтверждение', MB_YESNO or MB_ICONQUESTION) = MRNO then
+    if MessageBox(handle, PChar(IntToStr(editEmailList.Items.Count) + ' адреса(ов) подготовлено для рассылки. Продолжить?'),
+      'Подтверждение', MB_YESNO or MB_ICONQUESTION) = MRNO then
       exit;
 
   SendViaClient;
@@ -951,7 +955,7 @@ begin
   end;
   IdSMTP.Username := login;
   IdSMTP.Password := pass;
-//  IdSMTP.AuthType := atDefault;
+  // IdSMTP.AuthType := atDefault;
 
   { это необходимо использовать для SSL }
   IdSSLIOHandlerSocketOpenSSL.Destination := IdSMTP.host + ':' + IntToStr(IdSMTP.port);
@@ -1244,7 +1248,8 @@ begin
     if MessageBox(handle, 'Текст сообщения пуст. Продолжить?', 'Подтверждение', MB_YESNO or MB_ICONQUESTION) = MRNO then
       exit;
   if editEmailList_tmp.Items.Count > 1 then
-    if MessageBox(handle, PChar(IntToStr(editEmailList_tmp.Items.Count) + ' фирм(ы) подготовлено для рассылки. Продолжить?'), 'Подтверждение', MB_YESNO or MB_ICONQUESTION) = MRNO then
+    if MessageBox(handle, PChar(IntToStr(editEmailList_tmp.Items.Count) + ' фирм(ы) подготовлено для рассылки. Продолжить?'),
+      'Подтверждение', MB_YESNO or MB_ICONQUESTION) = MRNO then
       exit;
   for i := Length(editFrom.Text) downto 0 do
     if editFrom.Text[i] = '(' then
@@ -1294,7 +1299,7 @@ begin
   end;
   IdSMTP.Username := login;
   IdSMTP.Password := pass;
-//  IdSMTP.AuthType := atDefault;
+  // IdSMTP.AuthType := atDefault;
 
   { это необходимо использовать для SSL }
   IdSSLIOHandlerSocketOpenSSL.Destination := IdSMTP.host + ':' + IntToStr(IdSMTP.port);
