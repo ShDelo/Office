@@ -579,22 +579,18 @@ object FormReport: TFormReport
     end
     object groupFormatData: TsGroupBox
       Left = 466
-      Top = 142
+      Top = 116
       Width = 225
-      Height = 215
+      Height = 241
       Caption = #1060#1086#1088#1084#1072#1090#1080#1088#1086#1074#1072#1085#1080#1077' '#1076#1086#1082#1091#1084#1077#1085#1090#1072
       TabOrder = 2
       SkinData.SkinSection = 'GROUPBOX'
-      DesignSize = (
-        225
-        215)
       object editFormatDoc: TsCheckListBox
         Left = 12
-        Top = 21
+        Top = 24
         Width = 200
-        Height = 184
+        Height = 201
         AutoComplete = False
-        Anchors = [akLeft, akTop, akRight, akBottom]
         BorderStyle = bsSingle
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET

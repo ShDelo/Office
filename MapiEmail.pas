@@ -90,8 +90,8 @@ end;
 
 procedure TMAPISendMail.AddRecipient(const Address, Name: string);
 var
-  LocalName: string;
-  LocalAddress: string;
+  LocalName: AnsiString;
+  LocalAddress: AnsiString;
 begin
   LocalAddress := Address;
   LocalName := Name;
