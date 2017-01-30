@@ -94,14 +94,14 @@ begin
   IniMain := TIniFile.Create(AppPath + 'office.ini');
   cbLocGeneral.Checked := IniMain.ReadBool('reportsimple', 'cbLocGeneral', False);
   cbLocWord.Checked := IniMain.ReadBool('reportsimple', 'cbLocWord', False);
-  if (NOT cbLocGeneral.Checked) and (NOT cbLocWord.Checked) then
+  if (not cbLocGeneral.Checked) and (not cbLocWord.Checked) then
     cbLocWord.Checked := True;
   IniMain.Free;
 end;
 
 procedure TFormReportSimple.cbLocGeneralClick(Sender: TObject);
 begin
-  if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked then
+  if not cbLocGeneral.Checked and not cbLocWord.Checked then
     cbLocGeneral.Checked := True;
 end;
 
@@ -117,12 +117,12 @@ begin
   editDate1.Date := Now;
   editDate2.Date := Now;
   case editFilter.ItemIndex of
-    0 .. 9:
+    0..9:
       begin
         panelFilters.Visible := True;
         panelDates.Visible := False;
       end;
-    10 .. 11:
+    10..11:
       begin
         panelFilters.Visible := False;
         panelDates.Visible := True;
@@ -285,7 +285,7 @@ begin
   editFilterData.Items.EndUpdate;
   if editFilterData.Items.Count > 0 then
     editFilterData.ItemIndex := 0;
-  if editFilter.ItemIndex in [0 .. 9] then
+  if editFilter.ItemIndex in [0..9] then
   begin
     editFilterData.SetFocus;
     editFilterData.DroppedDown := True;
@@ -430,7 +430,7 @@ var
 
   procedure GetRequest(var REQ, param: string);
   var
-    ID: String;
+    ID: string;
     index: integer;
   begin
     REQ := '';
@@ -517,7 +517,7 @@ var
   end;
 
 begin
-  if (editFilter.ItemIndex = -1) or ((editFilter.ItemIndex in [0 .. 9]) and (trim(editFilterData.Text) = '')) then
+  if (editFilter.ItemIndex = -1) or ((editFilter.ItemIndex in [0..9]) and (trim(editFilterData.Text) = '')) then
   begin
     MessageBox(handle, 'Укажите данные для генерации отчета', 'Предупреждение', MB_OK or MB_ICONWARNING);
     exit;
@@ -580,9 +580,9 @@ begin
       AddLine('Найдено записей: ' + IntToStr(Q_GEN.RecordCount), clWindowText, 10, 'Times New Roman', []);
       AddLine('Условия выбора:', clWindowText, 10, 'Times New Roman', []);
       case editFilter.ItemIndex of
-        0 .. 9:
+        0..9:
           AddLine(editFilter.Text + ' = ' + trim(editFilterData.Text), clWindowText, 10, 'Times New Roman', []);
-        10 .. 11:
+        10..11:
           AddLine(editFilter.Text + ' = ' + editDate1.Text + ' - ' + editDate2.Text, clWindowText, 10, 'Times New Roman', []);
       end;
       AddLine('', clWindowText, 10, 'Times New Roman', []);
@@ -646,8 +646,7 @@ begin
             AddLine(FormatNapr('NAPR', finalStr), clWindowText, 10, 'Times New Roman', [fsItalic]);
           end;
         end
-        else // Отображаем все направления
-          if trim(Q_GEN.FieldValues['NAPRAVLENIE']) <> '' then
+        else {// Отображаем все направления}if trim(Q_GEN.FieldValues['NAPRAVLENIE']) <> '' then
           begin
             AddLine(FormatNapr('NAPR', Q_GEN.FieldValues['NAPRAVLENIE']), clWindowText, 10, 'Times New Roman', [fsItalic]);
           end;
@@ -661,7 +660,7 @@ begin
     FormMain.sStatusBar1.Panels[2].Text := 'Отчет создан за ' + IntToStr(SecondsBetween(t1, t2)) + ' сек';
     RE.Lines.EndUpdate;
     FormMain.SGGeneral.EndUpdate;
-    if (length(RE.Text) > 0) AND (NOT Q_GEN_SIMPLE_BREAK) then
+    if (length(RE.Text) > 0) and (not Q_GEN_SIMPLE_BREAK) then
     begin
       try
         WordApp := GetActiveOleObject('Word.Application');

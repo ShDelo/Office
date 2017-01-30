@@ -1,5 +1,5 @@
 unit Main;
-
+
 interface
 
 uses
@@ -92,8 +92,8 @@ type
     function CurrentProcessMemory: Cardinal;
     function SearchNode(component: TsTreeView; id: integer; itemlevel: integer): TTreeNode;
     procedure WriteLog(Text: string);
-    procedure DisableAllForms(StayActive: String);
-    procedure EnableAllForms(StayNotActive: String);
+    procedure DisableAllForms(StayActive: string);
+    procedure EnableAllForms(StayNotActive: string);
     procedure ReloadDataGlobal(Sender: TObject);
     procedure LoadTempTables;
     procedure BuildRubrikatorTree(Sender: TObject);
@@ -115,8 +115,8 @@ type
     procedure nEditRecClick(Sender: TObject);
     procedure nAddRecClick(Sender: TObject);
     procedure PrintTabData(Sender: TObject);
-    function CloseTabByID(id: String): Boolean;
-    procedure OpenTabByID(id: String);
+    function CloseTabByID(id: string): Boolean;
+    procedure OpenTabByID(id: string);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure nSendEmailNewClick(Sender: TObject);
     procedure editSearchFastEnter(Sender: TObject);
@@ -138,7 +138,7 @@ type
     procedure nRubtToReportAdvancedClick(Sender: TObject);
     procedure nRubtToReportSimpleClick(Sender: TObject);
     procedure nRelationsClick(Sender: TObject);
-    procedure RichEditURLClick(Sender: TObject; const URLText: String; Button: TMouseButton);
+    procedure RichEditURLClick(Sender: TObject; const URLText: string; Button: TMouseButton);
     procedure nRegInfoCheckClick(Sender: TObject);
     procedure nSendEmailAddToClick(Sender: TObject);
     procedure nRubrInfoClick(Sender: TObject);
@@ -167,7 +167,7 @@ uses Editor, Logo, MailSend, Report, Directory, ReportSimple, Relations,
 { #BACKUP MapiEmail.pas }
 
 procedure TFormMain.WMGetMinMaxInfo(var M: TWMGetMinMaxInfo);
-Begin
+begin
   M.MinMaxInfo^.PTMaxPosition.X := 0;
   M.MinMaxInfo^.PTMinTrackSize.X := 800;
   M.MinMaxInfo^.PTMaxPosition.Y := 0;
@@ -184,7 +184,7 @@ begin
   LogFile := AppPath + 'log_' + d + '.txt';
   AssignFile(f, LogFile);
   try
-    if NOT FileExists(LogFile) then
+    if not FileExists(LogFile) then
       Rewrite(f)
     else
       Append(f);
@@ -194,7 +194,7 @@ begin
   end;
 end;
 
-procedure TFormMain.DisableAllForms(StayActive: String);
+procedure TFormMain.DisableAllForms(StayActive: string);
 begin
   StayActive := AnsiLowerCase(StayActive);
   if StayActive <> 'formmain' then
@@ -215,7 +215,7 @@ begin
     FormDublicate.Enabled := False;
 end;
 
-procedure TFormMain.EnableAllForms(StayNotActive: String);
+procedure TFormMain.EnableAllForms(StayNotActive: string);
 begin
   StayNotActive := AnsiLowerCase(StayNotActive);
   if StayNotActive <> 'formmain' then
@@ -296,7 +296,7 @@ begin
   Noddy := component.Items[0];
   Searching := True;
   while (Searching) and (Noddy <> nil) do
-    if (integer(Noddy.Data) = id) AND (Noddy.Level = itemlevel) then
+    if (integer(Noddy.Data) = id) and (Noddy.Level = itemlevel) then
     begin
       Searching := False;
       Result := Noddy;
@@ -350,7 +350,7 @@ var
 begin
   FormLogo.sGauge1.MinValue := 0;
   FormLogo.sLabel1.Caption := 'Подключение временных таблиц ...';
-  if NOT Assigned(sgCurator_tmp) then
+  if not Assigned(sgCurator_tmp) then
   begin
     sgCurator_tmp := TNextGrid.Create(FormMain);
     sgCurator_tmp.Parent := FormMain;
@@ -361,7 +361,7 @@ begin
     sgCurator_tmp.Columns[0].Sorted := True;
   end;
   sgCurator_tmp.ClearRows;
-  if NOT Assigned(sgRubr_tmp) then
+  if not Assigned(sgRubr_tmp) then
   begin
     sgRubr_tmp := TNextGrid.Create(FormMain);
     sgRubr_tmp.Parent := FormMain;
@@ -372,7 +372,7 @@ begin
     sgRubr_tmp.Columns[0].Sorted := True;
   end;
   sgRubr_tmp.ClearRows;
-  if NOT Assigned(sgType_tmp) then
+  if not Assigned(sgType_tmp) then
   begin
     sgType_tmp := TNextGrid.Create(FormMain);
     sgType_tmp.Parent := FormMain;
@@ -383,7 +383,7 @@ begin
     sgType_tmp.Columns[0].Sorted := True;
   end;
   sgType_tmp.ClearRows;
-  if NOT Assigned(sgNapr_tmp) then
+  if not Assigned(sgNapr_tmp) then
   begin
     sgNapr_tmp := TNextGrid.Create(FormMain);
     sgNapr_tmp.Parent := FormMain;
@@ -863,7 +863,7 @@ var
   i: integer;
   // t1, t2 : TDateTime;
 begin
-  if NOT LoadSGonRubrChange then
+  if not LoadSGonRubrChange then
     exit;
   // t1 := now;
   if TVRubrikator.Selected = nil then
@@ -913,7 +913,7 @@ begin
     BeginUpdate;
     for i := 0 to RowCount - 1 do
     begin
-      if NOT Odd(i) then
+      if not Odd(i) then
         C := $00EDE9EB { clMenuBar }
       else
         C := clWindow;
@@ -993,7 +993,7 @@ begin
   curr := sPageControl1.ActivePage.Name;
   while sPageControl1.PageCount <> 2 do
   begin
-    if NOT(sPageControl1.Pages[1].Name = curr) then
+    if not (sPageControl1.Pages[1].Name = curr) then
       sPageControl1.Pages[1].Free
     else if sPageControl1.PageCount > 2 then
       sPageControl1.Pages[2].Free;
@@ -1041,7 +1041,7 @@ begin
     exit;
   end;
   WriteLog('TFormMain.nAddRecClick: добавление записи');
-  if (TVRubrikator.Focused) AND (TVRubrikator.Selected.Level = 0) then
+  if (TVRubrikator.Focused) and (TVRubrikator.Selected.Level = 0) then
   begin
     FormEditor.Caption := 'Добавить фирму';
     FormEditor.BtnOK.Caption := 'Добавить';
@@ -1168,7 +1168,7 @@ end;
 
 procedure TFormMain.BtnSendEmailClick(Sender: TObject);
 begin
-  if (FormMailSender.Visible) AND (FormMailSender.Caption = 'Рассылка почты') then
+  if (FormMailSender.Visible) and (FormMailSender.Caption = 'Рассылка почты') then
   begin
     FormMailSender.SetFocus;
     exit;
@@ -1205,11 +1205,11 @@ begin
     FormMailSender.Show;
     FormMailSender.editTo.SetFocus;
   end;
-  if (TVRubrikator.Focused) AND (TVRubrikator.Selected <> nil) then
+  if (TVRubrikator.Focused) and (TVRubrikator.Selected <> nil) then
   begin
     if TVRubrikator.Selected.Level = 0 then
     begin
-      if NOT TVRubrikator.Selected.HasChildren then
+      if not TVRubrikator.Selected.HasChildren then
       begin
         MessageBox(Handle, 'Не было найдено ни одного адреса для рассылки', 'Информация', MB_OK or MB_ICONINFORMATION);
         exit;
@@ -1262,11 +1262,11 @@ begin
     FormMailSender.Show;
     FormMailSender.editTo.SetFocus;
   end;
-  if (TVRubrikator.Focused) AND (TVRubrikator.Selected <> nil) then
+  if (TVRubrikator.Focused) and (TVRubrikator.Selected <> nil) then
   begin
     if TVRubrikator.Selected.Level = 0 then
     begin
-      if NOT TVRubrikator.Selected.HasChildren then
+      if not TVRubrikator.Selected.HasChildren then
       begin
         MessageBox(Handle, 'Не было найдено ни одного адреса для рассылки', 'Информация', MB_OK or MB_ICONINFORMATION);
         exit;
@@ -1316,11 +1316,11 @@ begin
     FormMailSender.GetFirmList(1, IBQuery1, id, FormMailSender.editEmailList);
     FormMailSender.Show;
   end;
-  if (TVRubrikator.Focused) AND (TVRubrikator.Selected <> nil) then
+  if (TVRubrikator.Focused) and (TVRubrikator.Selected <> nil) then
   begin
     if TVRubrikator.Selected.Level = 0 then
     begin
-      if NOT TVRubrikator.Selected.HasChildren then
+      if not TVRubrikator.Selected.HasChildren then
       begin
         MessageBox(Handle, 'Не было найдено ни одной фирмы для сверки данных', 'Информация', MB_OK or MB_ICONINFORMATION);
         exit;
@@ -1358,7 +1358,7 @@ var
   id, msg: string;
   i, noactive: integer;
 begin
-  if NOT TVRubrikator.Focused then
+  if not TVRubrikator.Focused then
     exit;
   if TVRubrikator.Selected = nil then
     exit;
@@ -1392,7 +1392,7 @@ var
   tc: TWinControl;
   RE: TJvRichEdit;
 begin
-  if NOT FormReport.IsWordInstalled then
+  if not FormReport.IsWordInstalled then
   begin
     MessageBox(Handle, 'В операционной системе не установлена программа для просмотра файлов Microsoft Office.' + #13 +
       'Установите программу и повторите попытку.', 'Предупреждение', MB_OK or MB_ICONWARNING);
@@ -1422,7 +1422,7 @@ begin
   end;
 end;
 
-function TFormMain.CloseTabByID(id: String): Boolean;
+function TFormMain.CloseTabByID(id: string): Boolean;
 var
   i: integer;
 begin
@@ -1438,7 +1438,7 @@ begin
   end;
 end;
 
-procedure TFormMain.OpenTabByID(id: String);
+procedure TFormMain.OpenTabByID(id: string);
 var
   ts: TsTabSheet;
   RE: TJvRichEdit;
@@ -1705,7 +1705,7 @@ begin
     IBDatabase1.Close;
 end;
 
-procedure TFormMain.RichEditURLClick(Sender: TObject; const URLText: String; Button: TMouseButton);
+procedure TFormMain.RichEditURLClick(Sender: TObject; const URLText: string; Button: TMouseButton);
 begin
   ShellExecute(Handle, 'Open', PChar(URLText), nil, nil, SW_NORMAL);
 end;
@@ -1837,7 +1837,7 @@ var
 begin
   if TVRubrikator.Selected = nil then
     exit;
-  if (TVRubrikator.Focused) AND (TVRubrikator.Selected.Level = 0) then
+  if (TVRubrikator.Focused) and (TVRubrikator.Selected.Level = 0) then
   begin
     if FormReport.Visible then
       FormReport.Close;
@@ -1863,7 +1863,7 @@ var
 begin
   if TVRubrikator.Selected = nil then
     exit;
-  if (TVRubrikator.Focused) AND (TVRubrikator.Selected.Level = 0) then
+  if (TVRubrikator.Focused) and (TVRubrikator.Selected.Level = 0) then
   begin
     if FormReportSimple.Visible then
       FormReportSimple.Close;
@@ -1890,60 +1890,61 @@ procedure TFormMain.nCol_NameClick(Sender: TObject);
 begin
   if TMenuItem(Sender).Name = 'nCol_Name' then
   begin
-    nCol_Name.Checked := NOT nCol_Name.Checked;
+    nCol_Name.Checked := not nCol_Name.Checked;
     SGGeneral.Columns[2].Visible := nCol_Name.Checked;
   end
   else if TMenuItem(Sender).Name = 'nCol_Curator' then
   begin
-    nCol_Curator.Checked := NOT nCol_Curator.Checked;
+    nCol_Curator.Checked := not nCol_Curator.Checked;
     SGGeneral.Columns[3].Visible := nCol_Curator.Checked;
   end
   else if TMenuItem(Sender).Name = 'nCol_Added' then
   begin
-    nCol_Added.Checked := NOT nCol_Added.Checked;
+    nCol_Added.Checked := not nCol_Added.Checked;
     SGGeneral.Columns[4].Visible := nCol_Added.Checked;
   end
   else if TMenuItem(Sender).Name = 'nCol_Edited' then
   begin
-    nCol_Edited.Checked := NOT nCol_Edited.Checked;
+    nCol_Edited.Checked := not nCol_Edited.Checked;
     SGGeneral.Columns[5].Visible := nCol_Edited.Checked;
   end
   else if TMenuItem(Sender).Name = 'nCol_WEB' then
   begin
-    nCol_WEB.Checked := NOT nCol_WEB.Checked;
+    nCol_WEB.Checked := not nCol_WEB.Checked;
     SGGeneral.Columns[6].Visible := nCol_WEB.Checked;
   end
   else if TMenuItem(Sender).Name = 'nCol_EMAIL' then
   begin
-    nCol_EMAIL.Checked := NOT nCol_EMAIL.Checked;
+    nCol_EMAIL.Checked := not nCol_EMAIL.Checked;
     SGGeneral.Columns[7].Visible := nCol_EMAIL.Checked;
   end
   else if TMenuItem(Sender).Name = 'nCol_Type' then
   begin
-    nCol_Type.Checked := NOT nCol_Type.Checked;
+    nCol_Type.Checked := not nCol_Type.Checked;
     SGGeneral.Columns[8].Visible := nCol_Type.Checked;
   end
   else if TMenuItem(Sender).Name = 'nCol_FIO' then
   begin
-    nCol_FIO.Checked := NOT nCol_FIO.Checked;
+    nCol_FIO.Checked := not nCol_FIO.Checked;
     SGGeneral.Columns[9].Visible := nCol_FIO.Checked;
   end
   else if TMenuItem(Sender).Name = 'nCol_Rubr' then
   begin
-    nCol_Rubr.Checked := NOT nCol_Rubr.Checked;
+    nCol_Rubr.Checked := not nCol_Rubr.Checked;
     SGGeneral.Columns[10].Visible := nCol_Rubr.Checked;
   end
   else if TMenuItem(Sender).Name = 'nCol_Relevance' then
   begin
-    nCol_Relevance.Checked := NOT nCol_Relevance.Checked;
+    nCol_Relevance.Checked := not nCol_Relevance.Checked;
     SGGeneral.Columns[11].Visible := nCol_Relevance.Checked;
   end;
 end;
 
 procedure TFormMain.nLoadSGonRubrChangeClick(Sender: TObject);
 begin
-  nLoadSGonRubrChange.Checked := NOT nLoadSGonRubrChange.Checked;
+  nLoadSGonRubrChange.Checked := not nLoadSGonRubrChange.Checked;
   LoadSGonRubrChange := nLoadSGonRubrChange.Checked;
 end;
 
 end.
+

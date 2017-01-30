@@ -48,7 +48,7 @@ type
 var
   FormRelations: TFormRelations;
   listRubrRelations: TStrings;
-  FullNaprList: String;
+  FullNaprList: string;
 
 implementation
 
@@ -102,7 +102,7 @@ begin
   editRubrRelations.Clear;
   SGNaprAviable.ClearRows;
   SGNaprSelected.ClearRows;
-  if NOT Assigned(listRubrRelations) then
+  if not Assigned(listRubrRelations) then
     listRubrRelations := TStringList.Create;
   listRubrRelations.Clear;
 end;

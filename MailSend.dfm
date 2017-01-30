@@ -30,6 +30,8 @@ object FormMailSender: TFormMailSender
     SkinData.SkinSection = 'PAGECONTROL'
     object tabSendMail: TsTabSheet
       Caption = #1054#1090#1087#1088#1072#1074#1080#1090#1100' '#1087#1080#1089#1100#1084#1086
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object btnAttachAdd: TsSpeedButton
         Left = 541
         Top = 163
@@ -365,8 +367,8 @@ object FormMailSender: TFormMailSender
         ShowHint = True
         OnClick = btnPriorityClick
         SkinData.SkinSection = 'TOOLBUTTON'
-        Images = FormMain.imgMenus
         ImageIndex = 6
+        Images = FormMain.imgMenus
       end
       object btnCancel: TsSpeedButton
         Left = 464
@@ -464,6 +466,9 @@ object FormMailSender: TFormMailSender
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
       end
       object editTo: TsEdit
         Left = 60
@@ -488,6 +493,9 @@ object FormMailSender: TFormMailSender
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
       end
       object editFrom: TsComboBox
         Left = 60
@@ -503,8 +511,10 @@ object FormMailSender: TFormMailSender
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
         SkinData.SkinSection = 'COMBOBOX'
-        VerticalAlignment = taAlignTop
         Style = csDropDownList
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
@@ -512,6 +522,7 @@ object FormMailSender: TFormMailSender
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
+        ItemHeight = 15
         ItemIndex = -1
         ParentFont = False
         TabOrder = 0
@@ -529,6 +540,9 @@ object FormMailSender: TFormMailSender
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
         SkinData.SkinSection = 'EDIT'
         Color = clWhite
         Columns = <
@@ -567,15 +581,20 @@ object FormMailSender: TFormMailSender
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
+        ItemHeight = 16
         MultiSelect = True
         ParentFont = False
         TabOrder = 2
         OnKeyUp = editEmailListKeyUp
+        BoundLabel.Indent = 0
         BoundLabel.Font.Charset = DEFAULT_CHARSET
         BoundLabel.Font.Color = clWindowText
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
         SkinData.SkinSection = 'EDIT'
       end
       object editMessage: TsMemo
@@ -592,20 +611,22 @@ object FormMailSender: TFormMailSender
         ParentFont = False
         ScrollBars = ssVertical
         TabOrder = 5
+        BoundLabel.Indent = 0
         BoundLabel.Font.Charset = DEFAULT_CHARSET
         BoundLabel.Font.Color = clWindowText
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
         SkinData.SkinSection = 'EDIT'
       end
     end
     object tabParams: TsTabSheet
       Caption = #1059#1095#1077#1090#1085#1099#1077' '#1079#1072#1087#1080#1089#1080
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object btnProfileCreate: TsSpeedButton
         Left = 328
         Top = 16
@@ -664,6 +685,8 @@ object FormMailSender: TFormMailSender
           BoundLabel.Font.Name = 'MS Sans Serif'
           BoundLabel.Font.Style = []
           BoundLabel.Layout = sclTopLeft
+          BoundLabel.MaxWidth = 0
+          BoundLabel.UseSkinColor = True
         end
         object editPort: TsSpinEdit
           Left = 228
@@ -689,6 +712,8 @@ object FormMailSender: TFormMailSender
           BoundLabel.Font.Name = 'MS Sans Serif'
           BoundLabel.Font.Style = []
           BoundLabel.Layout = sclTopLeft
+          BoundLabel.MaxWidth = 0
+          BoundLabel.UseSkinColor = True
           MaxValue = 0
           MinValue = 0
           Value = 0
@@ -717,6 +742,8 @@ object FormMailSender: TFormMailSender
           BoundLabel.Font.Name = 'MS Sans Serif'
           BoundLabel.Font.Style = []
           BoundLabel.Layout = sclTopLeft
+          BoundLabel.MaxWidth = 0
+          BoundLabel.UseSkinColor = True
         end
         object editLogin: TsEdit
           Left = 8
@@ -742,6 +769,8 @@ object FormMailSender: TFormMailSender
           BoundLabel.Font.Name = 'MS Sans Serif'
           BoundLabel.Font.Style = []
           BoundLabel.Layout = sclTopLeft
+          BoundLabel.MaxWidth = 0
+          BoundLabel.UseSkinColor = True
         end
         object editPassword: TsEdit
           Left = 8
@@ -768,6 +797,8 @@ object FormMailSender: TFormMailSender
           BoundLabel.Font.Name = 'MS Sans Serif'
           BoundLabel.Font.Style = []
           BoundLabel.Layout = sclTopLeft
+          BoundLabel.MaxWidth = 0
+          BoundLabel.UseSkinColor = True
         end
         object editUName: TsEdit
           Left = 8
@@ -793,6 +824,8 @@ object FormMailSender: TFormMailSender
           BoundLabel.Font.Name = 'MS Sans Serif'
           BoundLabel.Font.Style = []
           BoundLabel.Layout = sclTopLeft
+          BoundLabel.MaxWidth = 0
+          BoundLabel.UseSkinColor = True
         end
         object editReplyTo: TsEdit
           Left = 8
@@ -818,14 +851,17 @@ object FormMailSender: TFormMailSender
           BoundLabel.Font.Name = 'MS Sans Serif'
           BoundLabel.Font.Style = []
           BoundLabel.Layout = sclTopLeft
+          BoundLabel.MaxWidth = 0
+          BoundLabel.UseSkinColor = True
         end
         object editSignature: TsMemo
           Left = 8
           Top = 296
           Width = 533
           Height = 97
+          Color = clWhite
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
+          Font.Color = clBlack
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
@@ -841,6 +877,8 @@ object FormMailSender: TFormMailSender
           BoundLabel.Font.Name = 'MS Sans Serif'
           BoundLabel.Font.Style = []
           BoundLabel.Layout = sclTopLeft
+          BoundLabel.MaxWidth = 0
+          BoundLabel.UseSkinColor = True
           SkinData.SkinSection = 'EDIT'
         end
         object editSSLMethod: TsComboBox
@@ -858,8 +896,9 @@ object FormMailSender: TFormMailSender
           BoundLabel.Font.Name = 'MS Sans Serif'
           BoundLabel.Font.Style = []
           BoundLabel.Layout = sclTopLeft
+          BoundLabel.MaxWidth = 0
+          BoundLabel.UseSkinColor = True
           SkinData.SkinSection = 'COMBOBOX'
-          VerticalAlignment = taAlignTop
           Style = csDropDownList
           Color = clWhite
           Font.Charset = DEFAULT_CHARSET
@@ -867,6 +906,7 @@ object FormMailSender: TFormMailSender
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
+          ItemHeight = 15
           ItemIndex = -1
           ParentFont = False
           TabOrder = 8
@@ -889,8 +929,9 @@ object FormMailSender: TFormMailSender
           BoundLabel.Font.Name = 'MS Sans Serif'
           BoundLabel.Font.Style = []
           BoundLabel.Layout = sclTopLeft
+          BoundLabel.MaxWidth = 0
+          BoundLabel.UseSkinColor = True
           SkinData.SkinSection = 'COMBOBOX'
-          VerticalAlignment = taAlignTop
           Style = csDropDownList
           Color = clWhite
           Font.Charset = DEFAULT_CHARSET
@@ -898,6 +939,7 @@ object FormMailSender: TFormMailSender
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
+          ItemHeight = 15
           ItemIndex = -1
           ParentFont = False
           TabOrder = 9
@@ -921,8 +963,10 @@ object FormMailSender: TFormMailSender
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
         SkinData.SkinSection = 'COMBOBOX'
-        VerticalAlignment = taAlignTop
         Style = csDropDownList
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
@@ -930,6 +974,7 @@ object FormMailSender: TFormMailSender
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
+        ItemHeight = 15
         ItemIndex = -1
         ParentFont = False
         TabOrder = 0
@@ -957,7 +1002,6 @@ object FormMailSender: TFormMailSender
     Port = 0
     DefaultPort = 0
     SSLOptions.Method = sslvSSLv2
-    SSLOptions.SSLVersions = [sslvSSLv2]
     SSLOptions.Mode = sslmUnassigned
     SSLOptions.VerifyMode = []
     SSLOptions.VerifyDepth = 0

@@ -4,7 +4,6 @@
 
 !*.dll
 !*.dpr
-!*.dproj
 !*.dfm
 !*.pas
 !*.res

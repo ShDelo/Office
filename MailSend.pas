@@ -9,7 +9,7 @@ uses
   IdMessageClient, IdSMTPBase, IdSMTP, IdComponent, IdIOHandler,
   IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL,
   IdBaseComponent, IdMessage, sMemo, Buttons, sSpeedButton, sListBox,
-  sGroupBox, sComboBox, IdAttachmentFile, IdHeaderCoderIndy, sListView,
+  sGroupBox, sComboBox, IdAttachmentFile, IdCoderHeader, sListView,
   ShellApi, acAlphaImageList, ImgList, DB, IBCustomDataSet, IBQuery,
   IdText, Menus, sRichEdit, acPNG, ExtCtrls, sFontCtrls, sPanel,
   sComboBoxes, NxEdit, sLabel, sGauge, IniFiles, NxScrollControl,
@@ -70,12 +70,11 @@ type
     procedure btnProfileEditClick(Sender: TObject);
     procedure btnProfileDeleteClick(Sender: TObject);
     procedure btnAttachAddClick(Sender: TObject);
-
     procedure btnEmailDeleteClick(Sender: TObject);
     procedure btnEmailClearClick(Sender: TObject);
     procedure btnLogClick(Sender: TObject);
-    procedure IdSMTPStatus(ASender: TObject; const AStatus: TIdStatus; const AStatusText: String);
-    // procedure IdMessageInitializeISO(var VTransferHeader: TTransfer; var VHeaderEncoding: Char; var VCharSet: String);
+    procedure IdSMTPStatus(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
+    procedure IdMessageInitializeISO(var VTransferHeader: TTransfer; var VHeaderEncoding: Char; var VCharSet: string);
     procedure LV_InsertFiles(nFile: string; ListView: TsListView; ImageList: TsAlphaImageList);
     function IsValidEmail(const Value: string): Boolean;
     function IsValidWeb(const Value: string): Boolean;
@@ -87,12 +86,12 @@ type
     procedure editToKeyPress(Sender: TObject; var Key: Char);
     procedure editEmailListKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnEmailAddClick(Sender: TObject);
-    procedure IdSMTPFailedRecipient(Sender: TObject; const AAddress, ACode, AText: String; var VContinue: Boolean);
+    procedure IdSMTPFailedRecipient(Sender: TObject; const AAddress, ACode, AText: string; var VContinue: Boolean);
     procedure btnCancelClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SendEmail(Sender: TObject);
     procedure SendRegInfoCheck(Sender: TObject);
-    procedure IdMessageInitializeISO(var VHeaderEncoding: Char; var VCharSet: string);
+
   private
     { Private declarations }
   public
@@ -262,7 +261,7 @@ begin
   capt := ExtractFileName(nFile) + ' (' + fSize + ')';
   for i := 0 to ListView.Items.Count - 1 do
   begin
-    if (AnsiLowerCase(ListView.Items[i].Caption) = AnsiLowerCase(capt)) AND
+    if (AnsiLowerCase(ListView.Items[i].Caption) = AnsiLowerCase(capt)) and
       (AnsiLowerCase(ListView.Items[i].SubItems[0]) = AnsiLowerCase(fPath)) then
     begin
       MessageBox(handle, 'Этот файл уже находится в списке', 'Информация', MB_OK or MB_ICONINFORMATION);
@@ -285,12 +284,12 @@ begin
   end;
 end;
 
-procedure TFormMailSender.IdSMTPStatus(ASender: TObject; const AStatus: TIdStatus; const AStatusText: String);
+procedure TFormMailSender.IdSMTPStatus(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
 begin
   memoLog.Lines.Insert(0, '[' + TimeToStr(Now) + '] Status: ' + AStatusText);
 end;
 
-procedure TFormMailSender.IdSMTPFailedRecipient(Sender: TObject; const AAddress, ACode, AText: String; var VContinue: Boolean);
+procedure TFormMailSender.IdSMTPFailedRecipient(Sender: TObject; const AAddress, ACode, AText: string; var VContinue: Boolean);
 begin
   { i := editEmailList.Items.IndexOf(AAddress);
     if i <> -1 then editEmailList.Items.Delete(i); }
@@ -298,7 +297,7 @@ begin
   VContinue := True;
 end;
 
-procedure TFormMailSender.IdMessageInitializeISO(var VHeaderEncoding: Char; var VCharSet: string);
+procedure TFormMailSender.IdMessageInitializeISO(var VTransferHeader: TTransfer; var VHeaderEncoding: Char; var VCharSet: string);
 begin
   VHeaderEncoding := 'B';
   VCharSet := 'Windows-1251';
@@ -341,25 +340,25 @@ begin
         MessageBox(handle, 'Профиль с таким именем уже существует', 'Предупреждение', MB_OK or MB_ICONWARNING);
         exit;
       end;
-      if NOT InputQuery(profile, 'Сервер отправки почти (SMTP server):', host) then
+      if not InputQuery(profile, 'Сервер отправки почти (SMTP server):', host) then
         exit;
       if Trim(host) = '' then
         exit;
-      if NOT InputQuery(profile, 'Порт:', port) then
+      if not InputQuery(profile, 'Порт:', port) then
         exit;
       if Trim(port) = '' then
         exit;
       InputQuery(profile, 'Имя отправителя (не обязательно):', uname);
       InputQuery(profile, 'Обратный адрес (не обязательно):', replyto);
-      if NOT InputQuery(profile, 'Домен (адрес электронной почты):', domen) then
+      if not InputQuery(profile, 'Домен (адрес электронной почты):', domen) then
         exit;
       if Trim(domen) = '' then
         exit;
-      if NOT InputQuery(profile, 'Логин:', login) then
+      if not InputQuery(profile, 'Логин:', login) then
         exit;
       if Trim(login) = '' then
         exit;
-      if NOT InputQuery(profile, 'Пароль:', pass) then
+      if not InputQuery(profile, 'Пароль:', pass) then
         exit;
       if Trim(pass) = '' then
         exit;
@@ -536,7 +535,7 @@ var
 begin
   if Trim(editTo.Text) = '' then
     exit;
-  if NOT IsValidEmail(editTo.Text) then
+  if not IsValidEmail(editTo.Text) then
   begin
     MessageBox(handle, 'Неверно указан адрес получателя', 'Информация', MB_OK or MB_ICONINFORMATION);
     exit;
@@ -560,9 +559,9 @@ begin
     exit;
   i := editEmailList.ItemIndex;
   editEmailList.DeleteSelected;
-  if (i > -1) AND (i <= editEmailList.Items.Count - 1) then
+  if (i > -1) and (i <= editEmailList.Items.Count - 1) then
     editEmailList.Selected[i] := True;
-  if (editEmailList.ItemIndex = -1) AND (editEmailList.Items.Count > 0) then
+  if (editEmailList.ItemIndex = -1) and (editEmailList.Items.Count > 0) then
     editEmailList.ItemIndex := editEmailList.Items.Count - 1;
 end;
 
@@ -635,7 +634,7 @@ function TFormMailSender.IsValidEmail(const Value: string): Boolean;
     Result := False;
     for i := 1 to Length(s) do
     begin
-      if not(s[i] in ['a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-', '.', '&']) then
+      if not (s[i] in ['a'..'z', 'A'..'Z', '0'..'9', '_', '-', '.', '&']) then
         exit;
     end;
     Result := True;
@@ -667,7 +666,7 @@ function TFormMailSender.IsValidWeb(const Value: string): Boolean;
     Result := False;
     for i := 1 to Length(s) do
     begin
-      if not(s[i] in ['a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-', '.']) then
+      if not (s[i] in ['a'..'z', 'A'..'Z', '0'..'9', '_', '-', '.']) then
         exit;
     end;
     Result := True;
@@ -722,11 +721,11 @@ begin
           Delete(email, 1, Length(tmp));
           tmp := Trim(tmp);
           Delete(tmp, Length(tmp), 1);
-          if NOT IsValidEmail(tmp) then
+          if not IsValidEmail(tmp) then
             inList := True;
           if List.Items.IndexOf(tmp) > -1 then
             inList := True;
-          if NOT inList then
+          if not inList then
             List.Items.Add(tmp);
         end;
       end;
@@ -760,11 +759,11 @@ begin
         Delete(email, 1, Length(tmp));
         tmp := Trim(tmp);
         Delete(tmp, Length(tmp), 1);
-        if NOT IsValidEmail(tmp) then
+        if not IsValidEmail(tmp) then
           inList := True;
         if List.Items.IndexOf(tmp) > -1 then
           inList := True;
-        if NOT inList then
+        if not inList then
           List.Items.Add(tmp);
       end;
     end;
@@ -829,11 +828,11 @@ procedure TFormMailSender.SendEmail(Sender: TObject);
     MAPISendMail := TMAPISendMail.Create;
     { if MAPISendMail.Prerequisites.IsMapiAvailable then showmessage('MapiAvailable');
       if MAPISendMail.Prerequisites.IsClientAvailable then showmessage('ClientAvailable'); }
-    Try
+    try
       for i := 0 to editEmailList.Count - 1 do
         MAPISendMail.AddRecipient(editEmailList.Items[i]);
       MAPISendMail.SendMail;
-    Finally
+    finally
       MAPISendMail.Free;
     end;
   end;
@@ -1003,7 +1002,7 @@ begin
       try
         IdMessage.Recipients.Clear;
         IdMessage.Recipients.Add.Text := editEmailList.Items[i];
-        if NOT IdSMTP.Connected then
+        if not IdSMTP.Connected then
           IdSMTP.Connect;
         IdSMTP.Send(IdMessage);
         Gauge.Progress := i + 1;
@@ -1027,7 +1026,7 @@ begin
     btnCancel.Caption := 'Закрыть';
   end;
   btnSend.Enabled := True;
-  if NOT isError then
+  if not isError then
   begin
     btnLog.Caption := 'Показать лог';
     memoLog.Visible := False;
@@ -1096,11 +1095,11 @@ var
         tmp := Trim(tmp);
         Delete(tmp, Length(tmp), 1);
         if (Pos('@', tmp) = 0) or (Pos('.', tmp) = 0) { можно делать IsValidEMail }
-          or (Pos(',', tmp) > 0) then
+        or (Pos(',', tmp) > 0) then
           inList := True;
         if EmailsList.IndexOf(tmp) <> -1 then
           inList := True;
-        if NOT inList then
+        if not inList then
           EmailsList.Add(tmp);
       end;
     end;
@@ -1343,7 +1342,7 @@ begin
       lblGauge.Caption := IntToStr(z + 1) + ' из ' + IntToStr(editEmailList_tmp.Items.Count);
       Gauge.Progress := z + 1;
       Application.ProcessMessages;
-      if NOT(GetFirmData(editEmailList_tmp.Items[z])) then
+      if not (GetFirmData(editEmailList_tmp.Items[z])) then
         Continue;
       { формируем тело сообщения }
       IdMessage.Clear;
@@ -1390,7 +1389,7 @@ begin
         try
           IdMessage.Recipients.Clear;
           IdMessage.Recipients.Add.Text := EmailsList[i];
-          if NOT IdSMTP.Connected then
+          if not IdSMTP.Connected then
             IdSMTP.Connect;
           IdSMTP.Send(IdMessage);
         except
@@ -1415,7 +1414,7 @@ begin
     FormMain.IBDatabase1.Close;
   end;
   btnSend.Enabled := True;
-  if NOT isError then
+  if not isError then
   begin
     btnLog.Caption := 'Показать лог';
     memoLog.Visible := False;

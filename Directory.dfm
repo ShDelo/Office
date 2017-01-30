@@ -31,6 +31,8 @@ object FormDirectory: TFormDirectory
     SkinData.SkinSection = 'PAGECONTROL'
     object tabCurator: TsTabSheet
       Caption = #1050#1091#1088#1072#1090#1086#1088#1099
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object panelCurator: TsPanel
         Left = 0
         Top = 0
@@ -44,9 +46,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 56
           Height = 23
-          Align = alLeft
           Caption = #1057#1086#1079#1076#1072#1090#1100
           OnClick = btnCreateClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnCuratorEdit: TsSpeedButton
@@ -54,9 +56,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 84
           Height = 23
-          Align = alLeft
           Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
           OnClick = btnEditClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnCuratorDelete: TsSpeedButton
@@ -64,9 +66,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 58
           Height = 23
-          Align = alLeft
           Caption = #1059#1076#1072#1083#1080#1090#1100
           OnClick = btnDeleteClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
       end
@@ -75,46 +77,21 @@ object FormDirectory: TFormDirectory
         Top = 46
         Width = 596
         Height = 291
-        Touch.InteractiveGestures = [igPan, igPressAndTap]
-        Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
         Align = alClient
         AppearanceOptions = [aoHideFocus, aoHighlightSlideCells]
-        Caption = ''
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
         object NxTextColumn1: TNxTextColumn
           DefaultWidth = 575
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 0
           Sorted = True
           SortType = stAlphabetic
           Width = 575
         end
         object NxTextColumn2: TNxTextColumn
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = 'ID'
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 1
           SortType = stAlphabetic
           Visible = False
@@ -125,7 +102,6 @@ object FormDirectory: TFormDirectory
         Top = 25
         Width = 596
         Height = 21
-        Align = alTop
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -135,20 +111,23 @@ object FormDirectory: TFormDirectory
         ParentFont = False
         TabOrder = 1
         OnChange = editCuratorChange
+        Align = alTop
         SkinData.SkinSection = 'EDIT'
+        BoundLabel.Indent = 0
         BoundLabel.Font.Charset = DEFAULT_CHARSET
         BoundLabel.Font.Color = clWindowText
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
       end
     end
     object tabRubr: TsTabSheet
       Caption = #1056#1091#1073#1088#1080#1082#1080
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object panelRubr: TsPanel
         Left = 0
         Top = 0
@@ -162,9 +141,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 56
           Height = 23
-          Align = alLeft
           Caption = #1057#1086#1079#1076#1072#1090#1100
           OnClick = btnCreateClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnRubrEdit: TsSpeedButton
@@ -172,9 +151,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 84
           Height = 23
-          Align = alLeft
           Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
           OnClick = btnEditClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnRubrDelete: TsSpeedButton
@@ -182,9 +161,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 58
           Height = 23
-          Align = alLeft
           Caption = #1059#1076#1072#1083#1080#1090#1100
           OnClick = btnDeleteClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
       end
@@ -193,46 +172,21 @@ object FormDirectory: TFormDirectory
         Top = 46
         Width = 596
         Height = 291
-        Touch.InteractiveGestures = [igPan, igPressAndTap]
-        Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
         Align = alClient
         AppearanceOptions = [aoHideFocus, aoHighlightSlideCells]
-        Caption = ''
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
         object NxTextColumn3: TNxTextColumn
           DefaultWidth = 575
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 0
           Sorted = True
           SortType = stAlphabetic
           Width = 575
         end
         object NxTextColumn4: TNxTextColumn
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = 'ID'
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 1
           SortType = stAlphabetic
           Visible = False
@@ -243,7 +197,6 @@ object FormDirectory: TFormDirectory
         Top = 25
         Width = 596
         Height = 21
-        Align = alTop
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -253,20 +206,23 @@ object FormDirectory: TFormDirectory
         ParentFont = False
         TabOrder = 1
         OnChange = editCuratorChange
+        Align = alTop
         SkinData.SkinSection = 'EDIT'
+        BoundLabel.Indent = 0
         BoundLabel.Font.Charset = DEFAULT_CHARSET
         BoundLabel.Font.Color = clWindowText
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
       end
     end
     object tabFirmType: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1092#1080#1088#1084
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object panelFirmType: TsPanel
         Left = 0
         Top = 0
@@ -280,9 +236,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 56
           Height = 23
-          Align = alLeft
           Caption = #1057#1086#1079#1076#1072#1090#1100
           OnClick = btnCreateClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnFirmTypeEdit: TsSpeedButton
@@ -290,9 +246,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 84
           Height = 23
-          Align = alLeft
           Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
           OnClick = btnEditClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnFirmTypeDelete: TsSpeedButton
@@ -300,9 +256,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 58
           Height = 23
-          Align = alLeft
           Caption = #1059#1076#1072#1083#1080#1090#1100
           OnClick = btnDeleteClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
       end
@@ -311,46 +267,21 @@ object FormDirectory: TFormDirectory
         Top = 46
         Width = 596
         Height = 291
-        Touch.InteractiveGestures = [igPan, igPressAndTap]
-        Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
         Align = alClient
         AppearanceOptions = [aoHideFocus, aoHighlightSlideCells]
-        Caption = ''
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
         object NxTextColumn5: TNxTextColumn
           DefaultWidth = 575
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 0
           Sorted = True
           SortType = stAlphabetic
           Width = 575
         end
         object NxTextColumn6: TNxTextColumn
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = 'ID'
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 1
           SortType = stAlphabetic
           Visible = False
@@ -361,7 +292,6 @@ object FormDirectory: TFormDirectory
         Top = 25
         Width = 596
         Height = 21
-        Align = alTop
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -371,20 +301,23 @@ object FormDirectory: TFormDirectory
         ParentFont = False
         TabOrder = 1
         OnChange = editCuratorChange
+        Align = alTop
         SkinData.SkinSection = 'EDIT'
+        BoundLabel.Indent = 0
         BoundLabel.Font.Charset = DEFAULT_CHARSET
         BoundLabel.Font.Color = clWindowText
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
       end
     end
     object tabNapr: TsTabSheet
       Caption = #1042#1080#1076#1099' '#1076#1077#1103#1090#1077#1083#1100#1085#1086#1089#1090#1080
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object panelNapr: TsPanel
         Left = 0
         Top = 0
@@ -398,9 +331,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 56
           Height = 23
-          Align = alLeft
           Caption = #1057#1086#1079#1076#1072#1090#1100
           OnClick = btnCreateClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnNaprEdit: TsSpeedButton
@@ -408,9 +341,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 84
           Height = 23
-          Align = alLeft
           Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
           OnClick = btnEditClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnNaprDelete: TsSpeedButton
@@ -418,9 +351,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 58
           Height = 23
-          Align = alLeft
           Caption = #1059#1076#1072#1083#1080#1090#1100
           OnClick = btnDeleteClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
       end
@@ -429,46 +362,21 @@ object FormDirectory: TFormDirectory
         Top = 46
         Width = 596
         Height = 291
-        Touch.InteractiveGestures = [igPan, igPressAndTap]
-        Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
         Align = alClient
         AppearanceOptions = [aoHideFocus, aoHighlightSlideCells]
-        Caption = ''
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
         object NxTextColumn7: TNxTextColumn
           DefaultWidth = 575
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 0
           Sorted = True
           SortType = stAlphabetic
           Width = 575
         end
         object NxTextColumn8: TNxTextColumn
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = 'ID'
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 1
           SortType = stAlphabetic
           Visible = False
@@ -479,7 +387,6 @@ object FormDirectory: TFormDirectory
         Top = 25
         Width = 596
         Height = 21
-        Align = alTop
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -489,20 +396,23 @@ object FormDirectory: TFormDirectory
         ParentFont = False
         TabOrder = 1
         OnChange = editCuratorChange
+        Align = alTop
         SkinData.SkinSection = 'EDIT'
+        BoundLabel.Indent = 0
         BoundLabel.Font.Charset = DEFAULT_CHARSET
         BoundLabel.Font.Color = clWindowText
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
       end
     end
     object tabOfficeType: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1072#1076#1088#1077#1089#1086#1074
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object panelOfficeType: TsPanel
         Left = 0
         Top = 0
@@ -516,9 +426,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 56
           Height = 23
-          Align = alLeft
           Caption = #1057#1086#1079#1076#1072#1090#1100
           OnClick = btnCreateClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnOfficeTypeEdit: TsSpeedButton
@@ -526,9 +436,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 84
           Height = 23
-          Align = alLeft
           Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
           OnClick = btnEditClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnOfficeTypeDelete: TsSpeedButton
@@ -536,9 +446,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 58
           Height = 23
-          Align = alLeft
           Caption = #1059#1076#1072#1083#1080#1090#1100
           OnClick = btnDeleteClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
       end
@@ -547,46 +457,21 @@ object FormDirectory: TFormDirectory
         Top = 46
         Width = 596
         Height = 291
-        Touch.InteractiveGestures = [igPan, igPressAndTap]
-        Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
         Align = alClient
         AppearanceOptions = [aoHideFocus, aoHighlightSlideCells]
-        Caption = ''
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
         object NxTextColumn9: TNxTextColumn
           DefaultWidth = 575
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 0
           Sorted = True
           SortType = stAlphabetic
           Width = 575
         end
         object NxTextColumn10: TNxTextColumn
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = 'ID'
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 1
           SortType = stAlphabetic
           Visible = False
@@ -597,7 +482,6 @@ object FormDirectory: TFormDirectory
         Top = 25
         Width = 596
         Height = 21
-        Align = alTop
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -607,20 +491,23 @@ object FormDirectory: TFormDirectory
         ParentFont = False
         TabOrder = 1
         OnChange = editCuratorChange
+        Align = alTop
         SkinData.SkinSection = 'EDIT'
+        BoundLabel.Indent = 0
         BoundLabel.Font.Charset = DEFAULT_CHARSET
         BoundLabel.Font.Color = clWindowText
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
       end
     end
     object tabCountry: TsTabSheet
       Caption = #1057#1090#1088#1072#1085#1099
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object panelCountry: TsPanel
         Left = 0
         Top = 0
@@ -634,9 +521,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 56
           Height = 23
-          Align = alLeft
           Caption = #1057#1086#1079#1076#1072#1090#1100
           OnClick = btnCreateClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnCountryEdit: TsSpeedButton
@@ -644,9 +531,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 84
           Height = 23
-          Align = alLeft
           Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
           OnClick = btnEditClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnCountryDelete: TsSpeedButton
@@ -654,9 +541,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 58
           Height = 23
-          Align = alLeft
           Caption = #1059#1076#1072#1083#1080#1090#1100
           OnClick = btnDeleteClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
       end
@@ -665,46 +552,21 @@ object FormDirectory: TFormDirectory
         Top = 46
         Width = 596
         Height = 291
-        Touch.InteractiveGestures = [igPan, igPressAndTap]
-        Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
         Align = alClient
         AppearanceOptions = [aoHideFocus, aoHighlightSlideCells]
-        Caption = ''
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
         object NxTextColumn11: TNxTextColumn
           DefaultWidth = 575
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 0
           Sorted = True
           SortType = stAlphabetic
           Width = 575
         end
         object NxTextColumn12: TNxTextColumn
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = 'ID'
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 1
           SortType = stAlphabetic
           Visible = False
@@ -715,7 +577,6 @@ object FormDirectory: TFormDirectory
         Top = 25
         Width = 596
         Height = 21
-        Align = alTop
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -725,20 +586,23 @@ object FormDirectory: TFormDirectory
         ParentFont = False
         TabOrder = 1
         OnChange = editCuratorChange
+        Align = alTop
         SkinData.SkinSection = 'EDIT'
+        BoundLabel.Indent = 0
         BoundLabel.Font.Charset = DEFAULT_CHARSET
         BoundLabel.Font.Color = clWindowText
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
       end
     end
     object tabCity: TsTabSheet
       Caption = #1043#1086#1088#1086#1076#1072
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object panelCity: TsPanel
         Left = 0
         Top = 0
@@ -752,9 +616,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 56
           Height = 23
-          Align = alLeft
           Caption = #1057#1086#1079#1076#1072#1090#1100
           OnClick = btnCreateClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnCityEdit: TsSpeedButton
@@ -762,9 +626,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 84
           Height = 23
-          Align = alLeft
           Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
           OnClick = btnEditClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnCityDelete: TsSpeedButton
@@ -772,9 +636,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 58
           Height = 23
-          Align = alLeft
           Caption = #1059#1076#1072#1083#1080#1090#1100
           OnClick = btnDeleteClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
       end
@@ -783,46 +647,21 @@ object FormDirectory: TFormDirectory
         Top = 46
         Width = 596
         Height = 291
-        Touch.InteractiveGestures = [igPan, igPressAndTap]
-        Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
         Align = alClient
         AppearanceOptions = [aoHideFocus, aoHighlightSlideCells]
-        Caption = ''
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
         object NxTextColumn13: TNxTextColumn
           DefaultWidth = 575
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 0
           Sorted = True
           SortType = stAlphabetic
           Width = 575
         end
         object NxTextColumn14: TNxTextColumn
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = 'ID'
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 1
           SortType = stAlphabetic
           Visible = False
@@ -833,7 +672,6 @@ object FormDirectory: TFormDirectory
         Top = 25
         Width = 596
         Height = 21
-        Align = alTop
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -843,20 +681,23 @@ object FormDirectory: TFormDirectory
         ParentFont = False
         TabOrder = 1
         OnChange = editCuratorChange
+        Align = alTop
         SkinData.SkinSection = 'EDIT'
+        BoundLabel.Indent = 0
         BoundLabel.Font.Charset = DEFAULT_CHARSET
         BoundLabel.Font.Color = clWindowText
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
       end
     end
     object sTabSheet1: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1090#1077#1083#1077#1092#1086#1085#1086#1074
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
       object panelPhoneType: TsPanel
         Left = 0
         Top = 0
@@ -870,9 +711,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 56
           Height = 23
-          Align = alLeft
           Caption = #1057#1086#1079#1076#1072#1090#1100
           OnClick = btnCreateClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnPhoneTypeEdit: TsSpeedButton
@@ -880,9 +721,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 84
           Height = 23
-          Align = alLeft
           Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
           OnClick = btnEditClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
         object btnPhoneTypeDelete: TsSpeedButton
@@ -890,9 +731,9 @@ object FormDirectory: TFormDirectory
           Top = 1
           Width = 58
           Height = 23
-          Align = alLeft
           Caption = #1059#1076#1072#1083#1080#1090#1100
           OnClick = btnDeleteClick
+          Align = alLeft
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
       end
@@ -901,7 +742,6 @@ object FormDirectory: TFormDirectory
         Top = 25
         Width = 596
         Height = 21
-        Align = alTop
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -911,58 +751,38 @@ object FormDirectory: TFormDirectory
         ParentFont = False
         TabOrder = 1
         OnChange = editCuratorChange
+        Align = alTop
         SkinData.SkinSection = 'EDIT'
+        BoundLabel.Indent = 0
         BoundLabel.Font.Charset = DEFAULT_CHARSET
         BoundLabel.Font.Color = clWindowText
         BoundLabel.Font.Height = -11
         BoundLabel.Font.Name = 'MS Sans Serif'
         BoundLabel.Font.Style = []
+        BoundLabel.Layout = sclLeft
+        BoundLabel.MaxWidth = 0
+        BoundLabel.UseSkinColor = True
       end
       object SGPhoneType: TNextGrid
         Left = 0
         Top = 46
         Width = 596
         Height = 291
-        Touch.InteractiveGestures = [igPan, igPressAndTap]
-        Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
         Align = alClient
         AppearanceOptions = [aoHideFocus, aoHighlightSlideCells]
-        Caption = ''
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
         object NxTextColumn15: TNxTextColumn
           DefaultWidth = 575
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 0
           Sorted = True
           SortType = stAlphabetic
           Width = 575
         end
         object NxTextColumn16: TNxTextColumn
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
           Header.Caption = 'ID'
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          ParentFont = False
           Position = 1
           SortType = stAlphabetic
           Visible = False

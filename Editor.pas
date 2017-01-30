@@ -239,11 +239,11 @@ type
     procedure BtnCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     function UpperFirst(s: string): string;
-    function GetIDByName(component: TsComboBox): String;
-    function GetNameByID(table, id: string): String;
-    function GetIDString(component: TNextGrid): String;
-    function GetWebEmailString(component: TNextGrid): String;
-    function GetFirmCount: String;
+    function GetIDByName(component: TsComboBox): string;
+    function GetNameByID(table, id: string): string;
+    function GetIDString(component: TNextGrid): string;
+    function GetWebEmailString(component: TNextGrid): string;
+    function GetFirmCount: string;
     procedure IsNewRecordCheck;
     procedure IsRecordDublicate;
     procedure ClearEdits;
@@ -421,14 +421,14 @@ begin
       exit;
     end;
   if TsSpeedButton(Sender).Name = 'BtnAddWebToList' then
-    if NOT FormMailSender.IsValidWeb(edit.Text) then
+    if not FormMailSender.IsValidWeb(edit.Text) then
     begin
       // if (Pos('www.',AnsiLowerCase(edit.Text)) = 0) OR (Pos(',',edit.Text) > 0) OR (Pos(' ',edit.Text) > 0) then begin
       MessageBox(handle, 'Неверно указан электронный адрес.', 'Предупреждение', MB_OK or MB_ICONWARNING);
       exit;
     end;
   if TsSpeedButton(Sender).Name = 'BtnAddEMailToList' then
-    if NOT FormMailSender.IsValidEmail(edit.Text) then
+    if not FormMailSender.IsValidEmail(edit.Text) then
     begin
       MessageBox(handle, 'Неверно указан адрес электронной почты.', 'Предупреждение', MB_OK or MB_ICONWARNING);
       exit;
@@ -631,7 +631,7 @@ end;
 procedure TFormEditor.EditPhone1KeyPress(Sender: TObject; var Key: Char);
 begin
   EditCuratorKeyPress(Sender, Key);
-  if NOT(Key in ['0' .. '9', #8, #32, '+', '-']) then
+  if not (Key in ['0'..'9', #8, #32, '+', '-']) then
     Key := #0;
 end;
 
@@ -768,7 +768,7 @@ begin
   Q.Free; // FormMain.IBDatabase1.Close;
 end;
 
-function TFormEditor.GetFirmCount: String;
+function TFormEditor.GetFirmCount: string;
 begin
   FormMain.IBQuery1.Close;
   FormMain.IBQuery1.SQL.Text := 'select COUNT(*) from BASE';
@@ -778,7 +778,7 @@ begin
   FormMain.IBDatabase1.Close;
 end;
 
-function TFormEditor.GetNameByID(table, id: string): String;
+function TFormEditor.GetNameByID(table, id: string): string;
 var
   Q: TIBQuery;
 begin
@@ -798,7 +798,7 @@ begin
   Q.Free;
 end;
 
-function TFormEditor.GetIDByName(component: TsComboBox): String;
+function TFormEditor.GetIDByName(component: TsComboBox): string;
 var
   index: Integer;
 begin
@@ -809,7 +809,7 @@ begin
     Result := IntToStr(Integer(component.Items.Objects[index]));
 end;
 
-function TFormEditor.GetIDString(component: TNextGrid): String; { #1$#2$#3$ }
+function TFormEditor.GetIDString(component: TNextGrid): string; { #1$#2$#3$ }
 var
   i: Integer;
   tmp, id: string;
@@ -840,7 +840,7 @@ begin
   Result := tmp;
 end;
 
-function TFormEditor.GetWebEmailString(component: TNextGrid): String;
+function TFormEditor.GetWebEmailString(component: TNextGrid): string;
 var
   i: Integer;
   tmp: string;
@@ -964,13 +964,13 @@ var
     end;
   end;
 
-  function BuildRelations: String;
+  function BuildRelations: string;
   var
     x, z: Integer;
     idRUBR, idNAPR, finalSTR: string;
   begin
     Result := '';
-    if (SGRubr.RowCount = 0) OR (SGNapravlenie.RowCount = 0) then
+    if (SGRubr.RowCount = 0) or (SGNapravlenie.RowCount = 0) then
       exit;
     for x := 0 to SGRubr.RowCount - 1 do
     begin
@@ -1001,7 +1001,7 @@ begin
     MessageBox(handle, 'Необходимо указать рубрику.', 'Информация', MB_OK or MB_ICONWARNING);
     exit;
   end;
-  if NOT(IsDublicate) then
+  if not (IsDublicate) then
   begin
     FormEditor.Close;
     IsRecordDublicate;
@@ -1194,25 +1194,25 @@ procedure TFormEditor.PrepareEditRecord(id: string);
       delete(ph_list, 1, length(ph_tmp2));
       delete(ph_tmp2, 1, 1);
       delete(ph_tmp2, length(ph_tmp2), 1);
-      if (ph_tmp = '1') AND (CBAdres1.Checked) then
+      if (ph_tmp = '1') and (CBAdres1.Checked) then
         Loading(MemoPhone1, SGPhone1, ph_tmp2);
-      if (ph_tmp = '2') AND (CBAdres2.Checked) then
+      if (ph_tmp = '2') and (CBAdres2.Checked) then
         Loading(MemoPhone2, SGPhone2, ph_tmp2);
-      if (ph_tmp = '3') AND (CBAdres3.Checked) then
+      if (ph_tmp = '3') and (CBAdres3.Checked) then
         Loading(MemoPhone3, SGPhone3, ph_tmp2);
-      if (ph_tmp = '4') AND (CBAdres4.Checked) then
+      if (ph_tmp = '4') and (CBAdres4.Checked) then
         Loading(MemoPhone4, SGPhone4, ph_tmp2);
-      if (ph_tmp = '5') AND (CBAdres5.Checked) then
+      if (ph_tmp = '5') and (CBAdres5.Checked) then
         Loading(MemoPhone5, SGPhone5, ph_tmp2);
-      if (ph_tmp = '6') AND (CBAdres6.Checked) then
+      if (ph_tmp = '6') and (CBAdres6.Checked) then
         Loading(MemoPhone6, SGPhone6, ph_tmp2);
-      if (ph_tmp = '7') AND (CBAdres7.Checked) then
+      if (ph_tmp = '7') and (CBAdres7.Checked) then
         Loading(MemoPhone7, SGPhone7, ph_tmp2);
-      if (ph_tmp = '8') AND (CBAdres8.Checked) then
+      if (ph_tmp = '8') and (CBAdres8.Checked) then
         Loading(MemoPhone8, SGPhone8, ph_tmp2);
-      if (ph_tmp = '9') AND (CBAdres9.Checked) then
+      if (ph_tmp = '9') and (CBAdres9.Checked) then
         Loading(MemoPhone9, SGPhone9, ph_tmp2);
-      if (ph_tmp = '10') AND (CBAdres10.Checked) then
+      if (ph_tmp = '10') and (CBAdres10.Checked) then
         Loading(MemoPhone10, SGPhone10, ph_tmp2);
     end;
   end;
@@ -1254,7 +1254,7 @@ procedure TFormEditor.PrepareEditRecord(id: string);
           name := Main.sgNapr_tmp.Cells[0, Main.sgNapr_tmp.SelectedRow];
           id := Main.sgNapr_tmp.Cells[1, Main.sgNapr_tmp.SelectedRow];
         end;
-      if (Trim(name) <> '') AND (Trim(id) <> '') then
+      if (Trim(name) <> '') and (Trim(id) <> '') then
       begin
         component.AddRow;
         component.Cells[0, component.LastAddedRow] := name;
@@ -1416,13 +1416,13 @@ var
     end;
   end;
 
-  function BuildRelations: String;
+  function BuildRelations: string;
   var
     x, z: Integer;
     idRUBR, idNAPR, finalSTR: string;
   begin
     Result := '';
-    if (SGRubr.RowCount = 0) OR (SGNapravlenie.RowCount = 0) then
+    if (SGRubr.RowCount = 0) or (SGNapravlenie.RowCount = 0) then
       exit;
     for x := 0 to SGRubr.RowCount - 1 do
     begin
@@ -1519,8 +1519,8 @@ begin
   // удалили все старые ( до редактирования ) TVRubrikator
   FormMain.TVRubrikator.Items.BeginUpdate;
   for i := FormMain.TVRubrikator.Items.Count - 1 downto 0 do
-    if (IntToStr(Integer(Pointer(FormMain.TVRubrikator.Items[i].Data))) = lblID.Caption) AND (FormMain.TVRubrikator.Items[i].Level <> 0)
-    then
+    if (IntToStr(Integer(Pointer(FormMain.TVRubrikator.Items[i].Data))) = lblID.Caption) and (FormMain.TVRubrikator.Items[i].Level <> 0)
+      then
       FormMain.TVRubrikator.Items[i].delete;
   rubrID := NewRubr;
   while pos('$', rubrID) > 0 do // создали новые ( после редактирования )
@@ -1604,7 +1604,7 @@ begin
   Q.Free;
   // FormMain.IBDatabase1.Close;
   for i := FormMain.TVRubrikator.Items.Count - 1 downto 0 do
-    if (IntToStr(Integer(Pointer(FormMain.TVRubrikator.Items[i].Data))) = id) AND (FormMain.TVRubrikator.Items[i].Level <> 0) then
+    if (IntToStr(Integer(Pointer(FormMain.TVRubrikator.Items[i].Data))) = id) and (FormMain.TVRubrikator.Items[i].Level <> 0) then
       FormMain.TVRubrikator.Items[i].delete;
   for i := FormMain.SGGeneral.RowCount - 1 downto 0 do
     if FormMain.SGGeneral.Cells[0, i] = id then
@@ -1726,13 +1726,13 @@ begin
   for x := 1 to 10 do
   begin
     edit := TsComboBox(FindComponent('EditOfficeType' + IntToStr(x)));
-    if (edit.Items.IndexOf(Trim(edit.Text)) = -1) AND (Trim(edit.Text) <> '') then
+    if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
       AddingNewRec('OFFICETYPE', UpperFirst(edit.Text), nil, FormDirectory.SGOfficeType);
     edit := TsComboBox(FindComponent('EditCountry' + IntToStr(x)));
-    if (edit.Items.IndexOf(Trim(edit.Text)) = -1) AND (Trim(edit.Text) <> '') then
+    if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
       AddingNewRec('COUNTRY', UpperFirst(edit.Text), nil, FormDirectory.SGCountry);
     edit := TsComboBox(FindComponent('EditCity' + IntToStr(x)));
-    if (edit.Items.IndexOf(Trim(edit.Text)) = -1) AND (Trim(edit.Text) <> '') then
+    if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
       AddingNewRec('GOROD', UpperFirst(edit.Text), nil, FormDirectory.SGCity);
   end;
   if isNewRubr then
@@ -1743,7 +1743,7 @@ procedure TFormEditor.IsRecordDublicate;
 var
   Name, WEBstr, WEBtmp, EMAILstr, EMAILtmp, PHONEstr: string;
   WEBlist, EMAILlist, PHONElist: TStrings;
-  REQ, REQ1, REQ2, REQ3, REQ4: String;
+  REQ, REQ1, REQ2, REQ3, REQ4: string;
   x: Integer;
   Q: TIBQuery;
 

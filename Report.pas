@@ -97,7 +97,7 @@ begin
   cbLocWord.Checked := IniMain.ReadBool('report', 'cbLocWord', False);
   cbLocExcel_List.Checked := IniMain.ReadBool('report', 'cbLocExcel_List', False);
   cbLocExcel_Report.Checked := IniMain.ReadBool('report', 'cbLocExcel_Report', False);
-  if (NOT cbLocGeneral.Checked) and (NOT cbLocWord.Checked) and (NOT cbLocExcel_List.Checked) and (NOT cbLocExcel_Report.Checked) then
+  if (not cbLocGeneral.Checked) and (not cbLocWord.Checked) and (not cbLocExcel_List.Checked) and (not cbLocExcel_Report.Checked) then
     cbLocWord.Checked := True;
   editFormatDoc.Checked[0] := IniMain.ReadBool('report', 'formatDoc0', False);
   editFormatDoc.Checked[1] := IniMain.ReadBool('report', 'formatDoc1', False);
@@ -147,7 +147,7 @@ end;
 
 procedure TFormReport.IsWordAviable(cbLocGeneral, cbLocWord: TsCheckBox);
 begin
-  if NOT IsWordInstalled then
+  if not IsWordInstalled then
   begin
     MessageBox(Handle, 'В операционной системе не установлена программа для просмотра файлов Microsoft Office.' + #13 +
       'Установите программу и повторите попытку.', 'Предупреждение', MB_OK or MB_ICONWARNING);
@@ -165,13 +165,13 @@ end;
 
 procedure TFormReport.cbLocGeneralClick(Sender: TObject);
 begin
-  if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked and NOT cbLocExcel_List.Checked and NOT cbLocExcel_Report.Checked then
+  if not cbLocGeneral.Checked and not cbLocWord.Checked and not cbLocExcel_List.Checked and not cbLocExcel_Report.Checked then
     cbLocGeneral.Checked := True;
 end;
 
 procedure TFormReport.cbLocWordClick(Sender: TObject);
 begin
-  if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked and NOT cbLocExcel_List.Checked and NOT cbLocExcel_Report.Checked then
+  if not cbLocGeneral.Checked and not cbLocWord.Checked and not cbLocExcel_List.Checked and not cbLocExcel_Report.Checked then
   begin
     cbLocGeneral.Checked := True
   end
@@ -184,7 +184,7 @@ end;
 
 procedure TFormReport.cbLocExcel_ListClick(Sender: TObject);
 begin
-  if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked and NOT cbLocExcel_List.Checked and NOT cbLocExcel_Report.Checked then
+  if not cbLocGeneral.Checked and not cbLocWord.Checked and not cbLocExcel_List.Checked and not cbLocExcel_Report.Checked then
   begin
     cbLocGeneral.Checked := True
   end
@@ -197,7 +197,7 @@ end;
 
 procedure TFormReport.cbLocExcel_ReportClick(Sender: TObject);
 begin
-  if NOT cbLocGeneral.Checked and NOT cbLocWord.Checked and NOT cbLocExcel_List.Checked and NOT cbLocExcel_Report.Checked then
+  if not cbLocGeneral.Checked and not cbLocWord.Checked and not cbLocExcel_List.Checked and not cbLocExcel_Report.Checked then
   begin
     cbLocGeneral.Checked := True
   end
@@ -577,7 +577,7 @@ var
 
   procedure GetRequest(select1, select2: TsComboBox; paramNO: string; var REQ, param: string);
   var
-    ID: String;
+    ID: string;
   begin
     REQ := '';
     param := '';
@@ -641,7 +641,7 @@ var
 
 begin
   if (editSelect1.ItemIndex = 0) and (editSelect3.ItemIndex = 0) and (editSelect5.ItemIndex = 0) and (editSelect7.ItemIndex = 0) and
-    (editSelect9.ItemIndex = 0) and (NOT cbDateAdded.Checked) and (NOT cbDateEdited.Checked) then
+    (editSelect9.ItemIndex = 0) and (not cbDateAdded.Checked) and (not cbDateEdited.Checked) then
   begin
     MessageBox(Handle, 'Укажите данные для генерации отчета', 'Предупреждение', MB_OK or MB_ICONWARNING);
     Exit;
@@ -967,7 +967,7 @@ begin
     FormMain.sStatusBar1.Panels[2].Text := 'Отчет создан за ' + IntToStr(SecondsBetween(t1, t2)) + ' сек';
     RE.Lines.EndUpdate;
     FormMain.SGGeneral.EndUpdate;
-    if (Length(RE.Text) > 0) AND (NOT Q_GEN_BREAK) then
+    if (Length(RE.Text) > 0) and (not Q_GEN_BREAK) then
     begin
       try
         WordApp := GetActiveOleObject('Word.Application');
@@ -1114,7 +1114,7 @@ end;
 
 procedure TFormReport.DeleteTempReports;
 
-  function FilesInDir(Dir: String): integer;
+  function FilesInDir(Dir: string): integer;
   var
     sr: TSearchRec;
   begin

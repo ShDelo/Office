@@ -46,7 +46,7 @@ end;
 
 procedure TFormDublicate.SGDublicateDblClick(Sender: TObject);
 var
-  ID: String;
+  ID: string;
   i: integer;
 begin
   if SGDublicate.SelectedCount = 0 then
