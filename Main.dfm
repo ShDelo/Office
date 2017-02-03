@@ -183,6 +183,9 @@ object FormMain: TFormMain
       object sTabSheet1: TsTabSheet
         Caption = #1043#1083#1072#1074#1085#1072#1103
         UseCloseBtn = False
+        DesignSize = (
+          462
+          470)
         object SGGeneral: TNextGrid
           Left = 0
           Top = 0
@@ -746,6 +749,23 @@ object FormMain: TFormMain
             SortType = stAlphabetic
             Width = 115
           end
+        end
+        object memoDebug: TsMemo
+          Left = -340
+          Top = 216
+          Width = 800
+          Height = 250
+          Anchors = [akRight, akBottom]
+          Color = clWhite
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 1
+          Visible = False
         end
       end
     end
@@ -7378,6 +7398,7 @@ object FormMain: TFormMain
           01781C5B89DF9B2CFC4F800100006E870C42C98A6B0000000049454E44AE4260
           82}
       end>
+    SkinDirectory = 'c:\Skins'
     SkinName = 'iOS4 (internal)'
     SkinInfo = '10.25'
     ThirdParty.ThirdEdits = ' '

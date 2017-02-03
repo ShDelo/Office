@@ -10,7 +10,8 @@ uses
   sPageControl, NxScrollControl, NxCustomGridControl, NxCustomGrid, NxGrid,
   NxColumns, NxColumnClasses, Menus, sSpeedButton, sPanel, Buttons,
   ComObj, sRichEdit, sEdit, sComboBoxes, sComboBox, NxEdit, acCoolBar,
-  StrUtils, IniFiles, sCheckBox, sButton, JvExStdCtrls, JvRichEdit, ShellApi;
+  StrUtils, IniFiles, sCheckBox, sButton, JvExStdCtrls, JvRichEdit, ShellApi,
+  sMemo;
 
 type
   TFormMain = class(TForm)
@@ -89,8 +90,10 @@ type
     nRubrInfo: TMenuItem;
     NxTextColumn11: TNxTextColumn;
     nCol_Relevance: TMenuItem;
+    memoDebug: TsMemo;
     function CurrentProcessMemory: Cardinal;
     function SearchNode(component: TsTreeView; id: integer; itemlevel: integer): TTreeNode;
+    procedure debug(Text: string);
     procedure WriteLog(Text: string);
     procedure DisableAllForms(StayActive: string);
     procedure EnableAllForms(StayNotActive: string);
@@ -161,6 +164,9 @@ implementation
 uses Editor, Logo, MailSend, Report, Directory, ReportSimple, Relations,
   Dublicate;
 
+const
+  bDebug: boolean = true;
+
 {$R *.dfm}
 { #BACKUP [changes].txt }
 { #BACKUP office.ini }
@@ -172,6 +178,14 @@ begin
   M.MinMaxInfo^.PTMinTrackSize.X := 800;
   M.MinMaxInfo^.PTMaxPosition.Y := 0;
   M.MinMaxInfo^.PTMinTrackSize.Y := 600;
+end;
+
+procedure TFormMain.debug(Text: string);
+begin
+  if bDebug then
+  begin
+    memoDebug.Lines.Add(DateTimeToStr(now) + ': ' + Text);
+  end;
 end;
 
 procedure TFormMain.WriteLog(Text: string);
@@ -537,6 +551,7 @@ end;
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
+  memoDebug.Visible := bDebug;
   AppPath := ExtractFilePath(Application.ExeName);
   IBDatabase1.DatabaseName := AppPath + 'usrdt.msq';
   WriteLog('* Запуск программы *');
@@ -560,6 +575,8 @@ end;
 procedure TFormMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   IBDatabase1.Connected := False;
+  // с формы FormEditor
+  Editor.list_Directory_ID_Before_Edit.Free;
   // с формы FormRelations
   Relations.listRubrRelations.Free;
   // с формы FormEmailSander

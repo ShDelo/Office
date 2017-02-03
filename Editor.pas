@@ -235,6 +235,7 @@ type
     EditWEB: TsComboBox;
     EditEMAIL: TsComboBox;
     cbDataRelevance: TsCheckBox;
+    sButton1: TsButton;
     procedure LoadDataEditor;
     procedure BtnCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -244,6 +245,9 @@ type
     function GetIDString(component: TNextGrid): string;
     function GetWebEmailString(component: TNextGrid): string;
     function GetFirmCount: string;
+    function ParseIDString(IDString: string): TStringList;
+    function QueryCreate: TIBQuery;
+    function DoGarbageCollection: boolean;
     procedure IsNewRecordCheck;
     procedure IsRecordDublicate;
     procedure ClearEdits;
@@ -272,6 +276,7 @@ type
 var
   FormEditor: TFormEditor;
   IsDublicate: Boolean = False;
+  list_Directory_ID_Before_Edit: TStringList;
 
 implementation
 
@@ -304,6 +309,35 @@ begin
   Result := t + s;
 end;
 
+function TFormEditor.ParseIDString(IDString: string): TStringList;
+var
+  tmp: string;
+  StringList: TStringList;
+begin
+  StringList := TStringList.Create;
+
+  while pos('$', IDString) > 0 do
+  begin
+    tmp := copy(IDString, 0, pos('$', IDString));
+    delete(IDString, 1, length(tmp));
+    delete(tmp, 1, 1);
+    delete(tmp, length(tmp), 1);
+    StringList.Add(tmp);
+  end;
+
+  result := StringList;
+end;
+
+function TFormEditor.QueryCreate: TIBQuery;
+var
+  Query: TIBQuery;
+begin
+  Query := TIBQuery.Create(nil);
+  Query.Database := FormMain.IBDatabase1;
+  Query.Transaction := FormMain.IBTransaction1;
+  result := Query;
+end;
+
 procedure TFormEditor.FormCreate(Sender: TObject);
 begin
   LoadDataEditor;
@@ -324,11 +358,13 @@ procedure TFormEditor.BtnAddCuratorToListClick(Sender: TObject);
     if Trim(edit.Text) = '' then
       exit;
     for i := 0 to sg.RowCount - 1 do
+    begin
       if AnsiLowerCase(sg.Cells[0, i]) = AnsiLowerCase(Trim(edit.Text)) then
       begin
         MessageBox(handle, 'Запись с таким именем уже есть в списке.', 'Информация', MB_OK or MB_ICONINFORMATION);
         exit;
       end;
+    end;
     sg.AddRow;
     sg.Cells[0, sg.LastAddedRow] := UpperFirst(edit.Text);
     sg.Cells[1, sg.LastAddedRow] := GetIDByName(edit);
@@ -897,6 +933,9 @@ begin
     TNextGrid(FindComponent('SGPhone' + IntToStr(i))).ClearRows;
     TsMemo(FindComponent('MemoPhone' + IntToStr(i))).Clear;
   end;
+  if not Assigned(list_Directory_ID_Before_Edit) then
+    list_Directory_ID_Before_Edit := TStringList.Create;
+  list_Directory_ID_Before_Edit.Clear;
 end;
 
 procedure TFormEditor.AddRecord(Sender: TObject);
@@ -1220,6 +1259,7 @@ procedure TFormEditor.PrepareEditRecord(id: string);
   procedure LoadDataToGrids(component: TNextGrid; str: string);
   var
     tmp, Name, id: string;
+    i: integer;
   begin
     if length(Trim(str)) = 0 then
       exit;
@@ -1263,6 +1303,19 @@ procedure TFormEditor.PrepareEditRecord(id: string);
     end;
     component.Resort;
     component.EndUpdate;
+
+    // build list with directory ID's before any changes were done
+    // we'll use this list to check if each of those ID's are no longer in use after edit accepted
+    // var name MUST match the coresponding table name
+    tmp := EmptyStr;
+    for i := 0 to component.RowCount - 1 do
+    begin
+      tmp := tmp + '#' + component.Cells[1, i] + '$';
+    end;
+    name := StringReplace(component.Name, 'SG', EmptyStr, [rfReplaceAll, rfIgnoreCase]);
+    if AnsiLowerCase(name) = 'rubr' then // rename so it matches table name
+      name := 'Rubrikator';
+    list_Directory_ID_Before_Edit.Add(name + '=' + tmp);
   end;
 
   procedure LoadWebEmailToGrids(component: TNextGrid; str: string);
@@ -1450,7 +1503,10 @@ begin
     MessageBox(handle, 'Необходимо указать рубрику.', 'Информация', MB_OK or MB_ICONWARNING);
     exit;
   end;
+
+  DoGarbageCollection;
   IsNewRecordCheck;
+
   EditName.Text := UpperFirst(EditName.Text);
   EditFIO.Text := UpperFirst(EditFIO.Text);
   FormMain.IBQuery1.Close;
@@ -1872,6 +1928,128 @@ begin
   Q.Close;
   Q.Free;
   FormMain.IBDatabase1.Close;
+end;
+
+// do the same when deleting record
+
+function TFormEditor.DoGarbageCollection: boolean;
+var
+  i, n: integer;
+  strDIR, strID, strFieldName: string;
+  listID: TStringList;
+  TableToFieldName: TStringList;
+  TableToSGMain: TStringList;
+  TableToSGDirectory: TStringList;
+  Query: TIBQuery;
+begin
+  result := true;
+  if list_Directory_ID_Before_Edit.Count = 0 then
+    exit
+  else
+  begin
+
+    // constants
+    TableToFieldName := TStringList.Create;
+    TableToSGMain := TStringList.Create;
+    TableToSGDirectory := TStringList.Create;
+    TableToFieldName.Add('curator=curator');
+    TableToFieldName.Add('rubrikator=rubr');
+    TableToFieldName.Add('type=type');
+    TableToFieldName.Add('napravlenie=napravlenie');
+    TableToSGMain.Add('curator=sgCurator_tmp');
+    TableToSGMain.Add('rubrikator=sgRubr_tmp');
+    TableToSGMain.Add('type=sgType_tmp');
+    TableToSGMain.Add('napravlenie=sgNapr_tmp');
+    TableToSGDirectory.Add('curator=SGCurator');
+    TableToSGDirectory.Add('rubrikator=SGRubr');
+    TableToSGDirectory.Add('type=SGFirmType');
+    TableToSGDirectory.Add('napravlenie=SGNapr');
+
+    Query := QueryCreate;
+
+    for i := 0 to list_Directory_ID_Before_Edit.Count - 1 do
+    begin
+      strDIR := AnsiLowerCase(list_Directory_ID_Before_Edit.Names[i]); // Curator, Rubrikator, Type, Napravlenie (matches table name)
+      if AnsiLowerCase(strDIR) = 'rubrikator' then // skip Ribrikator for now
+        Continue;
+      strID := list_Directory_ID_Before_Edit.Values[strDIR]; // #100$#200$#300$
+      listID := ParseIDString(strID);
+
+      for n := 0 to listID.Count - 1 do
+      begin
+        strFieldName := TableToFieldName.Values[strDIR];
+        Query.SQL.Text := 'select ID from BASE where ' + strFieldName + ' like :ID rows 2';
+        Query.ParamByName('ID').AsString := '%#' + listID[n] + '$%';
+        FormMain.debug('select ID from BASE where ' + strFieldName + ' like ' + listID[n] + ' rows 2');
+        Query.Open;
+        if (Query.RecordCount <= 1) and (Query.FieldByName('ID').AsString = lblID.Caption) then
+        begin
+          Query.Close;
+          Query.SQL.Text := 'delete from ' + strDIR + ' where ID = :ID';
+          Query.ParamByName('ID').AsString := listID[n];
+          try
+            FormMain.debug('delete from ' + strDIR + ' where ID = ' + listID[n]);
+            Query.Open;
+
+            if strDIR = 'curator' then
+            begin
+              if main.sgCurator_tmp.FindText(1, listID[n], [soCaseInsensitive, soExactMatch]) then
+              begin
+                formmain.debug('main.sgCurator_tmp row found. deleted data: name = "'+
+                  main.sgCurator_tmp.Cells[0,main.sgCurator_tmp.SelectedRow]+'" | ID = '+
+                  main.sgCurator_tmp.Cells[1,main.sgCurator_tmp.SelectedRow]);                 
+
+                main.sgCurator_tmp.DeleteRow(main.sgCurator_tmp.SelectedRow);
+              end;
+            end
+            else if strDIR = 'type' then
+            begin
+              if main.sgType_tmp.FindText(1, listID[n], [soCaseInsensitive, soExactMatch]) then
+              begin
+                formmain.debug('main.sgType_tmp row found. deleted data: name = "'+
+                  main.sgType_tmp.Cells[0,main.sgType_tmp.SelectedRow]+'" | ID = '+
+                  main.sgType_tmp.Cells[1,main.sgType_tmp.SelectedRow]);
+                main.sgType_tmp.DeleteRow(main.sgType_tmp.SelectedRow);
+              end;
+            end
+            else if strDIR = 'napravlenie' then
+            begin
+              if main.sgNapr_tmp.FindText(1, listID[n], [soCaseInsensitive, soExactMatch]) then
+              begin
+                formmain.debug('main.sgNapr_tmp row found. deleted data: name = "'+
+                  main.sgNapr_tmp.Cells[0,main.sgNapr_tmp.SelectedRow]+'" | ID = '+
+                  main.sgNapr_tmp.Cells[1,main.sgNapr_tmp.SelectedRow]);
+                main.sgNapr_tmp.DeleteRow(main.sgNapr_tmp.SelectedRow);
+              end;
+            end;
+
+            with FormDirectory.FindComponent(TableToSGDirectory.Values[strDIR]) as TNextGrid do
+            begin
+              if FindText(1, listID[n], [soCaseInsensitive, soExactMatch]) then
+              begin
+                DeleteRow(SelectedRow);
+              end;
+            end;
+          except
+            on E: Exception do
+            begin
+              FormMain.WriteLog('TFormEditor.DoGarbageCollection' + #13 + 'Ошибка: ' + E.Message);
+              MessageBox(handle, PChar('Ошибка при очистке директорий.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
+              result := false;
+              exit;
+            end;
+          end;
+        end;
+      end;
+      listID.Free;
+    end;
+    TableToFieldName.Free;
+    TableToSGMain.Free;
+    TableToSGDirectory.Free;
+    Query.Close;
+    Query.Free();
+  end;
+  list_Directory_ID_Before_Edit.Clear;
 end;
 
 end.
