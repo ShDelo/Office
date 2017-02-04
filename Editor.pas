@@ -1545,13 +1545,6 @@ begin
 
   IsNewRecordCheck;
 
-  DoGarbageCollection(lblID.Caption, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], GetIDString(sgCurator),
-    Main.sgCurator_tmp, FormDirectory.SGCurator, EditCurator, 'edit');
-  DoGarbageCollection(lblID.Caption, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], GetIDString(SGType),
-    Main.sgType_tmp, FormDirectory.SGFirmType, EditType, 'edit');
-  DoGarbageCollection(lblID.Caption, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'],
-    GetIDString(SGNapravlenie), Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'edit');
-
   EditName.Text := UpperFirst(EditName.Text);
   EditFIO.Text := UpperFirst(EditFIO.Text);
   FormMain.IBQuery1.Close;
@@ -1602,6 +1595,14 @@ begin
 
   try
     FormMain.IBQuery1.ExecSQL;
+
+    DoGarbageCollection(lblID.Caption, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], GetIDString(sgCurator),
+      Main.sgCurator_tmp, FormDirectory.SGCurator, EditCurator, 'edit');
+    DoGarbageCollection(lblID.Caption, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], GetIDString(SGType),
+      Main.sgType_tmp, FormDirectory.SGFirmType, EditType, 'edit');
+    DoGarbageCollection(lblID.Caption, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'],
+      GetIDString(SGNapravlenie), Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'edit');
+
     FormMain.WriteLog('TFormEditor.EditRecord: запись отредактирована ' + lblID.Caption);
   except
     on E: Exception do
@@ -1696,19 +1697,20 @@ begin
   if Q.FieldValues['NAPRAVLENIE'] <> null then
     list_GC_IDs.Add('NAPRAVLENIE=' + Q.FieldValues['NAPRAVLENIE']);
 
-  // DO Garbage Collection
-  DoGarbageCollection(id, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], EmptyStr,
-    Main.sgCurator_tmp, FormDirectory.SGCurator, EditCurator, 'delete');
-  DoGarbageCollection(id, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], EmptyStr,
-    Main.sgType_tmp, FormDirectory.SGFirmType, EditType, 'delete');
-  DoGarbageCollection(id, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'],
-    EmptyStr, Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'delete');
-
   Q.Close;
   Q.SQL.Text := 'delete from BASE where ID = :ID';
   Q.ParamByName('ID').AsString := id;
   try
     Q.ExecSQL;
+
+    // DO Garbage Collection
+    DoGarbageCollection(id, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], EmptyStr,
+      Main.sgCurator_tmp, FormDirectory.SGCurator, EditCurator, 'delete');
+    DoGarbageCollection(id, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], EmptyStr,
+      Main.sgType_tmp, FormDirectory.SGFirmType, EditType, 'delete');
+    DoGarbageCollection(id, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'],
+      EmptyStr, Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'delete');
+
     FormMain.WriteLog('TFormEditor.DeleteRecord: запись удалена ' + id);
   except
     on E: Exception do
