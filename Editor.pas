@@ -245,9 +245,8 @@ type
     function GetWebEmailString(component: TNextGrid): string;
     function GetFirmCount: string;
     function ParseIDString(IDString: string; IncludeSyntax: boolean = false): TStringList;
-    function QueryCreate: TIBQuery;
-    function DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string;
-      SGTemp, SGDir: TNextGrid; EditOwner: TsComboBox): boolean;
+    procedure DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string;
+      SGTemp, SGDir: TNextGrid; EditOwner: TsComboBox; Method: string);
     function IsNewRecordFound_Notify(var listNewRecords: TStringList): boolean;
     procedure IsNewRecordCheck;
     procedure IsRecordDublicate;
@@ -330,16 +329,6 @@ begin
   end;
 
   result := StringList;
-end;
-
-function TFormEditor.QueryCreate: TIBQuery;
-var
-  Query: TIBQuery;
-begin
-  Query := TIBQuery.Create(nil);
-  Query.Database := FormMain.IBDatabase1;
-  Query.Transaction := FormMain.IBTransaction1;
-  result := Query;
 end;
 
 procedure TFormEditor.FormCreate(Sender: TObject);
@@ -1541,11 +1530,11 @@ begin
   IsNewRecordCheck;
 
   DoGarbageCollection(lblID.Caption, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], GetIDString(sgCurator),
-    Main.sgCurator_tmp, FormDirectory.SGCurator, EditCurator);
+    Main.sgCurator_tmp, FormDirectory.SGCurator, EditCurator, 'edit');
   DoGarbageCollection(lblID.Caption, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], GetIDString(SGType),
-    Main.sgType_tmp, FormDirectory.SGFirmType, EditType);
+    Main.sgType_tmp, FormDirectory.SGFirmType, EditType, 'edit');
   DoGarbageCollection(lblID.Caption, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'],
-    GetIDString(SGNapravlenie), Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie);
+    GetIDString(SGNapravlenie), Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'edit');
 
   EditName.Text := UpperFirst(EditName.Text);
   EditFIO.Text := UpperFirst(EditFIO.Text);
@@ -1678,7 +1667,7 @@ begin
     exit;
   end;
 
-{  // Build list_GC_IDs that is used for DoGarbageCollection
+  // Build list_GC_IDs that is used for DoGarbageCollection
   if not Assigned(list_GC_IDs) then
     list_GC_IDs := TStringList.Create;
   list_GC_IDs.Clear;
@@ -1692,12 +1681,12 @@ begin
     list_GC_IDs.Add('NAPRAVLENIE=' + Q.FieldValues['NAPRAVLENIE']);
 
   // DO Garbage Collection
-  DoGarbageCollection(id, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], GetIDString(sgCurator),
-    Main.sgCurator_tmp, FormDirectory.SGCurator, EditCurator);
-  DoGarbageCollection(id, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], GetIDString(SGType),
-    Main.sgType_tmp, FormDirectory.SGFirmType, EditType);
+  DoGarbageCollection(id, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], EmptyStr,
+    Main.sgCurator_tmp, FormDirectory.SGCurator, EditCurator, 'delete');
+  DoGarbageCollection(id, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], EmptyStr,
+    Main.sgType_tmp, FormDirectory.SGFirmType, EditType, 'delete');
   DoGarbageCollection(id, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'],
-    GetIDString(SGNapravlenie), Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie);}
+    EmptyStr, Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'delete');
 
   Q.Close;
   Q.SQL.Text := 'delete from BASE where ID = :ID';
@@ -2046,93 +2035,116 @@ begin
   FormMain.IBDatabase1.Close;
 end;
 
-// do the same when deleting record
-
-function TFormEditor.DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string;
-  SGTemp, SGDir: TNextGrid; EditOwner: TsComboBox): boolean;
+procedure TFormEditor.DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string;
+  SGTemp, SGDir: TNextGrid; EditOwner: TsComboBox; Method: string);
 var
   ID_OLD: string;
   i, index: integer;
   listID_OLD: TStringList;
-  Query: TIBQuery;
-begin
-  result := true;
 
-  Query := QueryCreate;
+  procedure GC_RUN;
+  var
+    Query: TIBQuery;
+  begin
+    Query := QueryCreate;
+    Query.SQL.Text := 'select ID from BASE where ' + BASE_Field + ' like :ID rows 2';
+    Query.ParamByName('ID').AsString := '%#' + ID_OLD + '$%';
+//    debug('select ID from BASE where %s like %s rows 2', [BASE_Field, ID_OLD]);
+    Query.Open;
+    Query.FetchAll;
+    if (Query.RecordCount = 0) or ((Query.RecordCount = 1) and (Query.FieldByName('ID').AsString = BASE_ID)) then
+    begin
+//      debug('Query record count = %s | ID = %s', [IntToStr(Query.RecordCount), Query.FieldByName('ID').AsString]);
+      Query.Close;
+      Query.SQL.Text := 'delete from ' + DIR_Table + ' where ID = :ID';
+      Query.ParamByName('ID').AsString := ID_OLD;
+
+      try
+//        debug('delete from %s where ID = %s', [DIR_Table, ID_OLD]);
+        FormMain.WriteLog('TFormEditor.DoGarbageCollection_SQL_LOG (Method: ' + Method +
+          '): delete from ' + DIR_Table + ' where ID = ' + ID_OLD);
+
+        Query.Open;
+        FormMain.IBTransaction1.CommitRetaining;
+
+        if SGTemp.FindText(1, ID_OLD, [soCaseInsensitive, soExactMatch]) then
+        begin
+          debug('SGTEMP row found. deleted data: name = %s | ID = %s',
+            [SGTemp.Cells[0, SGTemp.SelectedRow], SGTemp.Cells[1, SGTemp.SelectedRow]]);
+
+          SGTemp.DeleteRow(SGTemp.SelectedRow);
+        end
+        else
+          debug('____WARNING!!!!_____   SGTEMP row NOT FOUND. expected data: ID = %s', [ID_OLD]);
+
+        if SGDir.FindText(1, ID_OLD, [soCaseInsensitive, soExactMatch]) then
+        begin
+          debug('SGDIR row found. deleted data: name = %s | ID = %s',
+            [SGDir.Cells[0, SGDir.SelectedRow], SGDir.Cells[1, SGDir.SelectedRow]]);
+
+          SGDir.DeleteRow(SGDir.SelectedRow);
+        end
+        else
+          debug('____WARNING!!!!_____   SGDir row NOT FOUND. expected data: ID = %s', [ID_OLD]);
+
+        index := EditOwner.Items.IndexOfObject(TObject(StrToInt(ID_OLD)));
+        if index <> -1 then
+        begin
+          debug('EditOwner item found. deleted data: name = %s | ID = %s',
+            [EditOwner.Items[index], IntToStr(Integer(EditOwner.Items.Objects[index]))]);
+
+          EditOwner.Items.Delete(index);
+        end
+        else
+          debug('____WARNING!!!!_____   EditOwner item NOT FOUND. expected data: ID = %s', [ID_OLD]);
+
+      except
+        on E: Exception do
+        begin
+          FormMain.WriteLog('TFormEditor.DoGarbageCollection' + #13 + 'Ошибка: ' + E.Message);
+          MessageBox(handle, PChar('Ошибка при очистке директорий.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
+        end;
+      end;
+    end
+    else
+    begin
+      debug('Record of type %s with ID = %s IS IN USE. Continue...', [DIR_Table, ID_OLD]);
+    end;
+
+    Query.Close;
+    Query.Free;
+  end;
+
+begin
   listID_OLD := ParseIDString(IDString_OLD);
   debug('*** check %s directory for garbage... ***', [DIR_Table]);
 
   for i := 0 to listID_OLD.Count - 1 do
   begin
+
     ID_OLD := listID_OLD[i];
-    if AnsiContainsStr(IDString_NEW, '#' + ID_OLD + '$') then
+
+    if Method = 'edit' then
     begin
-      debug('*%s* ID FOUND. SKIP: listID[i] = %s', [DIR_Table, ID_OLD]);
-    end
-    else
-    begin
-      debug('*%s* ID NOT FOUND. DELETING: listID[i] = %s', [DIR_Table, ID_OLD]);
-      Query.SQL.Text := 'select ID from BASE where ' + BASE_Field + ' like :ID rows 2';
-      Query.ParamByName('ID').AsString := '%#' + ID_OLD + '$%';
-      debug('select ID from BASE where %s like %s rows 2', [BASE_Field, ID_OLD]);
-      Query.Open;
-      Query.FetchAll;
-      if (Query.RecordCount = 0) or ((Query.RecordCount = 1) and (Query.FieldByName('ID').AsString = BASE_ID)) then
+      if AnsiContainsStr(IDString_NEW, '#' + ID_OLD + '$') then
       begin
-        debug('Query record count = %s | ID = %s', [IntToStr(Query.RecordCount), Query.FieldByName('ID').AsString]);
-        Query.Close;
-        Query.SQL.Text := 'delete from ' + DIR_Table + ' where ID = :ID';
-        Query.ParamByName('ID').AsString := ID_OLD;
-
-        try
-          debug('delete from %s where ID = %s', [DIR_Table, ID_OLD]);
-          FormMain.WriteLog('TFormEditor.DoGarbageCollection_SQL_LOG: delete from ' + DIR_Table + ' where ID = ' + ID_OLD);
-
-          Query.Open;
-          FormMain.IBTransaction1.CommitRetaining;
-
-          if SGTemp.FindText(1, ID_OLD, [soCaseInsensitive, soExactMatch]) then
-          begin
-            debug('SGTEMP row found. deleted data: name = %s | ID = %s',
-              [SGTemp.Cells[0, SGTemp.SelectedRow], SGTemp.Cells[1, SGTemp.SelectedRow]]);
-
-            SGTemp.DeleteRow(SGTemp.SelectedRow);
-          end;
-
-          if SGDir.FindText(1, ID_OLD, [soCaseInsensitive, soExactMatch]) then
-          begin
-            debug('SGDIR row found. deleted data: name = %s | ID = %s',
-              [SGDir.Cells[0, SGDir.SelectedRow], SGDir.Cells[1, SGDir.SelectedRow]]);
-
-            SGDir.DeleteRow(SGDir.SelectedRow);
-          end;
-
-          index := EditOwner.Items.IndexOfObject(TObject(StrToInt(ID_OLD)));
-          if index <> -1 then
-          begin
-            debug('EditOwner item found. deleted data: name = %s | ID = %s',
-              [EditOwner.Items[index], IntToStr(Integer(EditOwner.Items.Objects[index]))]);
-
-            EditOwner.Items.Delete(index);
-          end;
-        except
-          on E: Exception do
-          begin
-            FormMain.WriteLog('TFormEditor.DoGarbageCollection' + #13 + 'Ошибка: ' + E.Message);
-            MessageBox(handle, PChar('Ошибка при очистке директорий.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
-            result := false;
-          end;
-        end;
-
+        debug('SKIP: table = %s | ID = %s', [DIR_Table, ID_OLD]);
       end
       else
       begin
-        debug('Record of type %s with ID = %s IS IN USE. Continue...', [DIR_Table, ID_OLD]);
+        debug('DELETING: table = %s | ID = %s', [DIR_Table, ID_OLD]);
+        GC_RUN;
       end;
     end;
+
+    if Method = 'delete' then
+    begin
+      debug('DELETING: table = %s | ID = %s', [DIR_Table, ID_OLD]);
+      GC_RUN;
+    end;
+
   end;
-  Query.Close;
-  Query.Free;
+
   listID_OLD.Free;
 end;
 
