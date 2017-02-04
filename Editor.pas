@@ -260,7 +260,7 @@ type
     procedure EditCuratorKeyPress(Sender: TObject; var Key: Char);
     procedure SGCuratorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EditCuratorExit(Sender: TObject);
-    procedure BtnAddPhoneToList1Click(Sender: TObject);
+    procedure BtnAddPhoneToListClick(Sender: TObject);
     procedure EditPhone1KeyPress(Sender: TObject; var Key: Char);
     procedure btnDeleteAdresClick(Sender: TObject);
     procedure BtnAddWebToListClick(Sender: TObject);
@@ -490,25 +490,25 @@ begin
     if TsComboBox(Sender).Name = 'EditEMAIL' then
       BtnAddWebToListClick(BtnAddEMailToList);
     if (TsComboBox(Sender).Name = 'EditPhoneType1') or (TsEdit(Sender).Name = 'EditPhone1') then
-      BtnAddPhoneToList1Click(BtnAddPhoneToList1);
+      BtnAddPhoneToListClick(BtnAddPhoneToList1);
     if (TsComboBox(Sender).Name = 'EditPhoneType2') or (TsEdit(Sender).Name = 'EditPhone2') then
-      BtnAddPhoneToList1Click(BtnAddPhoneToList2);
+      BtnAddPhoneToListClick(BtnAddPhoneToList2);
     if (TsComboBox(Sender).Name = 'EditPhoneType3') or (TsEdit(Sender).Name = 'EditPhone3') then
-      BtnAddPhoneToList1Click(BtnAddPhoneToList3);
+      BtnAddPhoneToListClick(BtnAddPhoneToList3);
     if (TsComboBox(Sender).Name = 'EditPhoneType4') or (TsEdit(Sender).Name = 'EditPhone4') then
-      BtnAddPhoneToList1Click(BtnAddPhoneToList4);
+      BtnAddPhoneToListClick(BtnAddPhoneToList4);
     if (TsComboBox(Sender).Name = 'EditPhoneType5') or (TsEdit(Sender).Name = 'EditPhone5') then
-      BtnAddPhoneToList1Click(BtnAddPhoneToList5);
+      BtnAddPhoneToListClick(BtnAddPhoneToList5);
     if (TsComboBox(Sender).Name = 'EditPhoneType6') or (TsEdit(Sender).Name = 'EditPhone6') then
-      BtnAddPhoneToList1Click(BtnAddPhoneToList6);
+      BtnAddPhoneToListClick(BtnAddPhoneToList6);
     if (TsComboBox(Sender).Name = 'EditPhoneType7') or (TsEdit(Sender).Name = 'EditPhone7') then
-      BtnAddPhoneToList1Click(BtnAddPhoneToList7);
+      BtnAddPhoneToListClick(BtnAddPhoneToList7);
     if (TsComboBox(Sender).Name = 'EditPhoneType8') or (TsEdit(Sender).Name = 'EditPhone8') then
-      BtnAddPhoneToList1Click(BtnAddPhoneToList8);
+      BtnAddPhoneToListClick(BtnAddPhoneToList8);
     if (TsComboBox(Sender).Name = 'EditPhoneType9') or (TsEdit(Sender).Name = 'EditPhone9') then
-      BtnAddPhoneToList1Click(BtnAddPhoneToList9);
+      BtnAddPhoneToListClick(BtnAddPhoneToList9);
     if (TsComboBox(Sender).Name = 'EditPhoneType10') or (TsEdit(Sender).Name = 'EditPhone10') then
-      BtnAddPhoneToList1Click(BtnAddPhoneToList10);
+      BtnAddPhoneToListClick(BtnAddPhoneToList10);
   end;
 end;
 
@@ -604,7 +604,7 @@ begin
       TNextGrid(Sender).SelectFirstRow;
 end;
 
-procedure TFormEditor.BtnAddPhoneToList1Click(Sender: TObject);
+procedure TFormEditor.BtnAddPhoneToListClick(Sender: TObject);
 
   procedure Adding(editPhoneType: TsComboBox; editPhone: TsEdit; sg: TNextGrid);
   var
@@ -2041,12 +2041,10 @@ var
   ID_OLD: string;
   i, index: integer;
   listID_OLD: TStringList;
+  Query: TIBQuery;
 
   procedure GC_RUN;
-  var
-    Query: TIBQuery;
   begin
-    Query := QueryCreate;
     Query.SQL.Text := 'select ID from BASE where ' + BASE_Field + ' like :ID rows 2';
     Query.ParamByName('ID').AsString := '%#' + ID_OLD + '$%';
 //    debug('select ID from BASE where %s like %s rows 2', [BASE_Field, ID_OLD]);
@@ -2110,12 +2108,10 @@ var
     begin
       debug('Record of type %s with ID = %s IS IN USE. Continue...', [DIR_Table, ID_OLD]);
     end;
-
-    Query.Close;
-    Query.Free;
   end;
 
 begin
+  Query := QueryCreate;
   listID_OLD := ParseIDString(IDString_OLD);
   debug('*** check %s directory for garbage... ***', [DIR_Table]);
 
@@ -2146,6 +2142,8 @@ begin
   end;
 
   listID_OLD.Free;
+  Query.Close;
+  Query.Free;
 end;
 
 end.

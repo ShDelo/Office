@@ -1033,7 +1033,7 @@ object FormEditor: TFormEditor
               FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00}
             ParentShowHint = False
             ShowHint = True
-            OnClick = BtnAddPhoneToList1Click
+            OnClick = BtnAddPhoneToListClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
           object BtnDeletePhoneFromList1: TsSpeedButton
@@ -1590,7 +1590,7 @@ object FormEditor: TFormEditor
               FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00}
             ParentShowHint = False
             ShowHint = True
-            OnClick = BtnAddPhoneToList1Click
+            OnClick = BtnAddPhoneToListClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
           object BtnDeletePhoneFromList2: TsSpeedButton
@@ -2146,7 +2146,7 @@ object FormEditor: TFormEditor
               FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00}
             ParentShowHint = False
             ShowHint = True
-            OnClick = BtnAddPhoneToList1Click
+            OnClick = BtnAddPhoneToListClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
           object BtnDeletePhoneFromList3: TsSpeedButton
@@ -2702,7 +2702,7 @@ object FormEditor: TFormEditor
               FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00}
             ParentShowHint = False
             ShowHint = True
-            OnClick = BtnAddPhoneToList1Click
+            OnClick = BtnAddPhoneToListClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
           object BtnDeletePhoneFromList4: TsSpeedButton
@@ -3258,7 +3258,7 @@ object FormEditor: TFormEditor
               FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00}
             ParentShowHint = False
             ShowHint = True
-            OnClick = BtnAddPhoneToList1Click
+            OnClick = BtnAddPhoneToListClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
           object BtnDeletePhoneFromList5: TsSpeedButton
@@ -3814,7 +3814,7 @@ object FormEditor: TFormEditor
               FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00}
             ParentShowHint = False
             ShowHint = True
-            OnClick = BtnAddPhoneToList1Click
+            OnClick = BtnAddPhoneToListClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
           object BtnDeletePhoneFromList6: TsSpeedButton
@@ -4370,7 +4370,7 @@ object FormEditor: TFormEditor
               FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00}
             ParentShowHint = False
             ShowHint = True
-            OnClick = BtnAddPhoneToList1Click
+            OnClick = BtnAddPhoneToListClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
           object BtnDeletePhoneFromList7: TsSpeedButton
@@ -4926,7 +4926,7 @@ object FormEditor: TFormEditor
               FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00}
             ParentShowHint = False
             ShowHint = True
-            OnClick = BtnAddPhoneToList1Click
+            OnClick = BtnAddPhoneToListClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
           object BtnDeletePhoneFromList8: TsSpeedButton
@@ -5482,7 +5482,7 @@ object FormEditor: TFormEditor
               FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00}
             ParentShowHint = False
             ShowHint = True
-            OnClick = BtnAddPhoneToList1Click
+            OnClick = BtnAddPhoneToListClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
           object BtnDeletePhoneFromList9: TsSpeedButton
@@ -6038,7 +6038,7 @@ object FormEditor: TFormEditor
               FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00}
             ParentShowHint = False
             ShowHint = True
-            OnClick = BtnAddPhoneToList1Click
+            OnClick = BtnAddPhoneToListClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
           object BtnDeletePhoneFromList10: TsSpeedButton
