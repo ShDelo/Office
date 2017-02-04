@@ -1,5 +1,5 @@
 unit Main;
-
+
 interface
 
 uses
@@ -12,6 +12,8 @@ uses
   ComObj, sRichEdit, sEdit, sComboBoxes, sComboBox, NxEdit, acCoolBar,
   StrUtils, IniFiles, sCheckBox, sButton, JvExStdCtrls, JvRichEdit, ShellApi,
   sMemo;
+
+procedure debug(Text: string; Params: array of TVarRec);
 
 type
   TFormMain = class(TForm)
@@ -93,7 +95,6 @@ type
     memoDebug: TsMemo;
     function CurrentProcessMemory: Cardinal;
     function SearchNode(component: TsTreeView; id: integer; itemlevel: integer): TTreeNode;
-    procedure debug(Text: string);
     procedure WriteLog(Text: string);
     procedure DisableAllForms(StayActive: string);
     procedure EnableAllForms(StayNotActive: string);
@@ -168,9 +169,17 @@ const
   bDebug: boolean = true;
 
 {$R *.dfm}
-{ #BACKUP [changes].txt }
-{ #BACKUP office.ini }
-{ #BACKUP MapiEmail.pas }
+  { #BACKUP [changes].txt }
+  { #BACKUP office.ini }
+  { #BACKUP MapiEmail.pas }
+
+procedure debug(Text: string; Params: array of TVarRec);
+begin
+  if bDebug then
+  begin
+    FormMain.memoDebug.Lines.Add(DateTimeToStr(now) + ': ' + Format(Text, Params));
+  end;
+end;
 
 procedure TFormMain.WMGetMinMaxInfo(var M: TWMGetMinMaxInfo);
 begin
@@ -178,14 +187,6 @@ begin
   M.MinMaxInfo^.PTMinTrackSize.X := 800;
   M.MinMaxInfo^.PTMaxPosition.Y := 0;
   M.MinMaxInfo^.PTMinTrackSize.Y := 600;
-end;
-
-procedure TFormMain.debug(Text: string);
-begin
-  if bDebug then
-  begin
-    memoDebug.Lines.Add(DateTimeToStr(now) + ': ' + Text);
-  end;
 end;
 
 procedure TFormMain.WriteLog(Text: string);
@@ -576,7 +577,7 @@ procedure TFormMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   IBDatabase1.Connected := False;
   // с формы FormEditor
-  Editor.list_Directory_ID_Before_Edit.Free;
+  Editor.list_GC_IDs.Free;
   // с формы FormRelations
   Relations.listRubrRelations.Free;
   // с формы FormEmailSander
@@ -1964,4 +1965,3 @@ begin
 end;
 
 end.
-

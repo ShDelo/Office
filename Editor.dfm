@@ -96,14 +96,6 @@ object FormEditor: TFormEditor
       ImgUnchecked = 0
       ShowFocus = False
     end
-    object sButton1: TsButton
-      Left = 96
-      Top = 12
-      Width = 75
-      Height = 25
-      Caption = 'sButton1'
-      TabOrder = 4
-    end
   end
   object PanelMain: TsPanel
     Left = 0
@@ -6527,6 +6519,7 @@ object FormEditor: TFormEditor
         InputCaption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1088#1091#1073#1088#1080#1082#1091'...'
         Position = 1
         SortType = stAlphabetic
+        Visible = False
         Width = 30
       end
     end

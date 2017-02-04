@@ -759,7 +759,7 @@ object FormMain: TFormMain
           Color = clWhite
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -16
+          Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False

@@ -31,8 +31,6 @@ object FormDirectory: TFormDirectory
     SkinData.SkinSection = 'PAGECONTROL'
     object tabCurator: TsTabSheet
       Caption = #1050#1091#1088#1072#1090#1086#1088#1099
-      SkinData.CustomColor = False
-      SkinData.CustomFont = False
       object panelCurator: TsPanel
         Left = 0
         Top = 0
@@ -113,21 +111,10 @@ object FormDirectory: TFormDirectory
         OnChange = editCuratorChange
         Align = alTop
         SkinData.SkinSection = 'EDIT'
-        BoundLabel.Indent = 0
-        BoundLabel.Font.Charset = DEFAULT_CHARSET
-        BoundLabel.Font.Color = clWindowText
-        BoundLabel.Font.Height = -11
-        BoundLabel.Font.Name = 'MS Sans Serif'
-        BoundLabel.Font.Style = []
-        BoundLabel.Layout = sclLeft
-        BoundLabel.MaxWidth = 0
-        BoundLabel.UseSkinColor = True
       end
     end
     object tabRubr: TsTabSheet
       Caption = #1056#1091#1073#1088#1080#1082#1080
-      SkinData.CustomColor = False
-      SkinData.CustomFont = False
       object panelRubr: TsPanel
         Left = 0
         Top = 0
@@ -208,21 +195,10 @@ object FormDirectory: TFormDirectory
         OnChange = editCuratorChange
         Align = alTop
         SkinData.SkinSection = 'EDIT'
-        BoundLabel.Indent = 0
-        BoundLabel.Font.Charset = DEFAULT_CHARSET
-        BoundLabel.Font.Color = clWindowText
-        BoundLabel.Font.Height = -11
-        BoundLabel.Font.Name = 'MS Sans Serif'
-        BoundLabel.Font.Style = []
-        BoundLabel.Layout = sclLeft
-        BoundLabel.MaxWidth = 0
-        BoundLabel.UseSkinColor = True
       end
     end
     object tabFirmType: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1092#1080#1088#1084
-      SkinData.CustomColor = False
-      SkinData.CustomFont = False
       object panelFirmType: TsPanel
         Left = 0
         Top = 0
@@ -303,21 +279,10 @@ object FormDirectory: TFormDirectory
         OnChange = editCuratorChange
         Align = alTop
         SkinData.SkinSection = 'EDIT'
-        BoundLabel.Indent = 0
-        BoundLabel.Font.Charset = DEFAULT_CHARSET
-        BoundLabel.Font.Color = clWindowText
-        BoundLabel.Font.Height = -11
-        BoundLabel.Font.Name = 'MS Sans Serif'
-        BoundLabel.Font.Style = []
-        BoundLabel.Layout = sclLeft
-        BoundLabel.MaxWidth = 0
-        BoundLabel.UseSkinColor = True
       end
     end
     object tabNapr: TsTabSheet
       Caption = #1042#1080#1076#1099' '#1076#1077#1103#1090#1077#1083#1100#1085#1086#1089#1090#1080
-      SkinData.CustomColor = False
-      SkinData.CustomFont = False
       object panelNapr: TsPanel
         Left = 0
         Top = 0
@@ -398,21 +363,10 @@ object FormDirectory: TFormDirectory
         OnChange = editCuratorChange
         Align = alTop
         SkinData.SkinSection = 'EDIT'
-        BoundLabel.Indent = 0
-        BoundLabel.Font.Charset = DEFAULT_CHARSET
-        BoundLabel.Font.Color = clWindowText
-        BoundLabel.Font.Height = -11
-        BoundLabel.Font.Name = 'MS Sans Serif'
-        BoundLabel.Font.Style = []
-        BoundLabel.Layout = sclLeft
-        BoundLabel.MaxWidth = 0
-        BoundLabel.UseSkinColor = True
       end
     end
     object tabOfficeType: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1072#1076#1088#1077#1089#1086#1074
-      SkinData.CustomColor = False
-      SkinData.CustomFont = False
       object panelOfficeType: TsPanel
         Left = 0
         Top = 0
@@ -493,21 +447,10 @@ object FormDirectory: TFormDirectory
         OnChange = editCuratorChange
         Align = alTop
         SkinData.SkinSection = 'EDIT'
-        BoundLabel.Indent = 0
-        BoundLabel.Font.Charset = DEFAULT_CHARSET
-        BoundLabel.Font.Color = clWindowText
-        BoundLabel.Font.Height = -11
-        BoundLabel.Font.Name = 'MS Sans Serif'
-        BoundLabel.Font.Style = []
-        BoundLabel.Layout = sclLeft
-        BoundLabel.MaxWidth = 0
-        BoundLabel.UseSkinColor = True
       end
     end
     object tabCountry: TsTabSheet
       Caption = #1057#1090#1088#1072#1085#1099
-      SkinData.CustomColor = False
-      SkinData.CustomFont = False
       object panelCountry: TsPanel
         Left = 0
         Top = 0
@@ -588,21 +531,10 @@ object FormDirectory: TFormDirectory
         OnChange = editCuratorChange
         Align = alTop
         SkinData.SkinSection = 'EDIT'
-        BoundLabel.Indent = 0
-        BoundLabel.Font.Charset = DEFAULT_CHARSET
-        BoundLabel.Font.Color = clWindowText
-        BoundLabel.Font.Height = -11
-        BoundLabel.Font.Name = 'MS Sans Serif'
-        BoundLabel.Font.Style = []
-        BoundLabel.Layout = sclLeft
-        BoundLabel.MaxWidth = 0
-        BoundLabel.UseSkinColor = True
       end
     end
     object tabCity: TsTabSheet
       Caption = #1043#1086#1088#1086#1076#1072
-      SkinData.CustomColor = False
-      SkinData.CustomFont = False
       object panelCity: TsPanel
         Left = 0
         Top = 0
@@ -683,21 +615,10 @@ object FormDirectory: TFormDirectory
         OnChange = editCuratorChange
         Align = alTop
         SkinData.SkinSection = 'EDIT'
-        BoundLabel.Indent = 0
-        BoundLabel.Font.Charset = DEFAULT_CHARSET
-        BoundLabel.Font.Color = clWindowText
-        BoundLabel.Font.Height = -11
-        BoundLabel.Font.Name = 'MS Sans Serif'
-        BoundLabel.Font.Style = []
-        BoundLabel.Layout = sclLeft
-        BoundLabel.MaxWidth = 0
-        BoundLabel.UseSkinColor = True
       end
     end
     object sTabSheet1: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1090#1077#1083#1077#1092#1086#1085#1086#1074
-      SkinData.CustomColor = False
-      SkinData.CustomFont = False
       object panelPhoneType: TsPanel
         Left = 0
         Top = 0
@@ -753,15 +674,6 @@ object FormDirectory: TFormDirectory
         OnChange = editCuratorChange
         Align = alTop
         SkinData.SkinSection = 'EDIT'
-        BoundLabel.Indent = 0
-        BoundLabel.Font.Charset = DEFAULT_CHARSET
-        BoundLabel.Font.Color = clWindowText
-        BoundLabel.Font.Height = -11
-        BoundLabel.Font.Name = 'MS Sans Serif'
-        BoundLabel.Font.Style = []
-        BoundLabel.Layout = sclLeft
-        BoundLabel.MaxWidth = 0
-        BoundLabel.UseSkinColor = True
       end
       object SGPhoneType: TNextGrid
         Left = 0
