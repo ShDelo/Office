@@ -14,6 +14,7 @@ uses
   sMemo;
 
 procedure debug(Text: string; Params: array of TVarRec);
+function QueryCreate: TIBQuery;
 
 type
   TFormMain = class(TForm)
@@ -179,6 +180,16 @@ begin
   begin
     FormMain.memoDebug.Lines.Add(DateTimeToStr(now) + ': ' + Format(Text, Params));
   end;
+end;
+
+function QueryCreate: TIBQuery;
+var
+  Query: TIBQuery;
+begin
+  Query := TIBQuery.Create(nil);
+  Query.Database := FormMain.IBDatabase1;
+  Query.Transaction := FormMain.IBTransaction1;
+  result := Query;
 end;
 
 procedure TFormMain.WMGetMinMaxInfo(var M: TWMGetMinMaxInfo);
@@ -409,16 +420,14 @@ begin
     sgNapr_tmp.Columns[0].Sorted := True;
   end;
   sgNapr_tmp.ClearRows;
-  Q_LTT := TIBQuery.Create(FormMain);
-  Q_LTT.Database := IBDatabase1;
-  Q_LTT.Transaction := IBTransaction1;
+  Q_LTT := QueryCreate;
   Q_LTT.Close;
   Q_LTT.SQL.Text := 'select * from RUBRIKATOR';
   Q_LTT.Open;
   Q_LTT.FetchAll;
   // Получаю рубрики первыми чтобы сформировать ProgressBar
-  // 4 = шаги TempTables + кол-во рубрик + 8 = шаги из Editor.LoadDataEditor;
-  FormLogo.sGauge1.MaxValue := 4 + Q_LTT.RecordCount + 8;
+  // 4 = шаги TempTables + кол-во рубрик + 8 = шаги из Editor.LoadDataEditor + 8 = шаги из Directory.LoadDataDirectory; 
+  FormLogo.sGauge1.MaxValue := 4 + Q_LTT.RecordCount + 8 + 8;
   sgRubr_tmp.BeginUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
   for i := 1 to Q_LTT.RecordCount do

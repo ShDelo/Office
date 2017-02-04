@@ -90,6 +90,7 @@ type
     procedure btnDeleteClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure editCuratorChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -99,12 +100,11 @@ type
 
 var
   FormDirectory: TFormDirectory;
-  isFirstShow: Boolean = True;
   isDataEdited: Boolean = False;
 
 implementation
 
-uses Main, Editor, Report;
+uses Main, Editor, Report, Logo;
 
 {$R *.dfm}
 { TFormDirectory }
@@ -115,11 +115,13 @@ begin
   Params.ExStyle := Params.ExStyle or WS_Ex_AppWindow;
 end;
 
+procedure TFormDirectory.FormCreate(Sender: TObject);
+begin
+  LoadDataDirectory;
+end;
+
 procedure TFormDirectory.FormShow(Sender: TObject);
 begin
-  if isFirstShow then
-    LoadDataDirectory;
-  isFirstShow := False;
   editCurator.Clear;
   editRubr.Clear;
   editFirmType.Clear;
@@ -146,6 +148,7 @@ var
   Q_Dir: TIBQuery;
   i: integer;
 begin
+  FormLogo.sLabel1.Caption := 'Подключение директорий ...';
   SGCurator.BeginUpdate;
   SGCurator.ClearRows;
   for i := 0 to Main.sgCurator_tmp.RowCount - 1 do
@@ -155,6 +158,8 @@ begin
     SGCurator.Cells[1, SGCurator.LastAddedRow] := Main.sgCurator_tmp.Cells[1, i];
   end;
   SGCurator.EndUpdate;
+  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+  Application.ProcessMessages;  
   SGRubr.BeginUpdate;
   SGRubr.ClearRows;
   for i := 0 to Main.sgRubr_tmp.RowCount - 1 do
@@ -164,6 +169,8 @@ begin
     SGRubr.Cells[1, SGRubr.LastAddedRow] := Main.sgRubr_tmp.Cells[1, i];
   end;
   SGRubr.EndUpdate;
+  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+  Application.ProcessMessages;  
   SGFirmType.BeginUpdate;
   SGFirmType.ClearRows;
   for i := 0 to Main.sgType_tmp.RowCount - 1 do
@@ -173,6 +180,8 @@ begin
     SGFirmType.Cells[1, SGFirmType.LastAddedRow] := Main.sgType_tmp.Cells[1, i];
   end;
   SGFirmType.EndUpdate;
+  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+  Application.ProcessMessages;  
   SGNapr.BeginUpdate;
   SGNapr.ClearRows;
   for i := 0 to Main.sgNapr_tmp.RowCount - 1 do
@@ -182,9 +191,9 @@ begin
     SGNapr.Cells[1, SGNapr.LastAddedRow] := Main.sgNapr_tmp.Cells[1, i];
   end;
   SGNapr.EndUpdate;
-  Q_Dir := TIBQuery.Create(FormDirectory);
-  Q_Dir.Database := FormMain.IBDatabase1;
-  Q_Dir.Transaction := FormMain.IBTransaction1;
+  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+  Application.ProcessMessages;  
+  Q_Dir := QueryCreate;
   Q_Dir.Close;
   Q_Dir.SQL.Text := 'select * from OFFICETYPE order by lower(NAME)';
   Q_Dir.Open;
@@ -200,6 +209,8 @@ begin
       Q_Dir.Next;
     end;
   SGOfficeType.EndUpdate;
+  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+  Application.ProcessMessages;  
   Q_Dir.Close;
   Q_Dir.SQL.Text := 'select * from COUNTRY order by lower(NAME)';
   Q_Dir.Open;
@@ -215,6 +226,8 @@ begin
       Q_Dir.Next;
     end;
   SGCountry.EndUpdate;
+  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+  Application.ProcessMessages;  
   Q_Dir.Close;
   Q_Dir.SQL.Text := 'select * from GOROD order by lower(NAME)';
   Q_Dir.Open;
@@ -230,6 +243,8 @@ begin
       Q_Dir.Next;
     end;
   SGCity.EndUpdate;
+  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+  Application.ProcessMessages;  
   Q_Dir.Close;
   Q_Dir.SQL.Text := 'select * from PHONETYPE order by lower(NAME)';
   Q_Dir.Open;
@@ -245,6 +260,8 @@ begin
       Q_Dir.Next;
     end;
   SGPhoneType.EndUpdate;
+  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+  Application.ProcessMessages;    
   Q_Dir.Close;
   Q_Dir.Free;
 end;
