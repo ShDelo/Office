@@ -8,6 +8,8 @@
 !*.pas
 !*.res
 !*.ini
+!*.dof
+!*.cfg
 
 !README.md
 
