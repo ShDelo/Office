@@ -566,6 +566,22 @@ begin
     if TNextGrid(Sender).Name = 'SGPhone10' then
       BtnDeleteCuratorFromListClick(BtnDeletePhoneFromList10);
   end;
+  if Key = 13 then
+  begin
+    Key := 0;
+    if TNextGrid(Sender).Name = 'SGCurator' then
+      SGCuratorDblClick(SGCurator);
+    if TNextGrid(Sender).Name = 'SGRubr' then
+      SGCuratorDblClick(SGRubr);
+    if TNextGrid(Sender).Name = 'SGType' then
+      SGCuratorDblClick(SGType);
+    if TNextGrid(Sender).Name = 'SGNapravlenie' then
+      SGCuratorDblClick(SGNapravlenie);
+    if TNextGrid(Sender).Name = 'SGWeb' then
+      SGCuratorDblClick(SGWeb);
+    if TNextGrid(Sender).Name = 'SGEMail' then
+      SGCuratorDblClick(SGEMail);
+  end;
 end;
 
 procedure TFormEditor.SGCuratorDblClick(Sender: TObject);
@@ -2047,18 +2063,18 @@ var
   begin
     Query.SQL.Text := 'select ID from BASE where ' + BASE_Field + ' like :ID rows 2';
     Query.ParamByName('ID').AsString := '%#' + ID_OLD + '$%';
-//    debug('select ID from BASE where %s like %s rows 2', [BASE_Field, ID_OLD]);
+    //  debug('select ID from BASE where %s like %s rows 2', [BASE_Field, ID_OLD]);
     Query.Open;
     Query.FetchAll;
     if (Query.RecordCount = 0) or ((Query.RecordCount = 1) and (Query.FieldByName('ID').AsString = BASE_ID)) then
     begin
-//      debug('Query record count = %s | ID = %s', [IntToStr(Query.RecordCount), Query.FieldByName('ID').AsString]);
+      //  debug('Query record count = %s | ID = %s', [IntToStr(Query.RecordCount), Query.FieldByName('ID').AsString]);
       Query.Close;
       Query.SQL.Text := 'delete from ' + DIR_Table + ' where ID = :ID';
       Query.ParamByName('ID').AsString := ID_OLD;
 
       try
-//        debug('delete from %s where ID = %s', [DIR_Table, ID_OLD]);
+        //  debug('delete from %s where ID = %s', [DIR_Table, ID_OLD]);
         FormMain.WriteLog('TFormEditor.DoGarbageCollection_SQL_LOG (Method: ' + Method +
           '): delete from ' + DIR_Table + ' where ID = ' + ID_OLD);
 
