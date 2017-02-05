@@ -2063,12 +2063,12 @@ var
 
   procedure GC_RUN;
   begin
-    Query.SQL.Text := 'select ID from BASE where ' + BASE_Field + ' like :ID rows 2';
-    Query.ParamByName('ID').AsString := '%#' + ID_OLD + '$%';
+    Query.SQL.Text := 'select ID from BASE where ID <> :BASE_ID and ' + BASE_Field + ' like :ID_OLD rows 1';
+    Query.ParamByName('BASE_ID').AsString := BASE_ID;
+    Query.ParamByName('ID_OLD').AsString := '%#' + ID_OLD + '$%';
     //  debug('select ID from BASE where %s like %s rows 2', [BASE_Field, ID_OLD]);
     Query.Open;
-    Query.FetchAll;
-    if (Query.RecordCount = 0) or ((Query.RecordCount = 1) and (Query.FieldByName('ID').AsString = BASE_ID)) then
+    if Query.RecordCount = 0 then
     begin
       //  debug('Query record count = %s | ID = %s', [IntToStr(Query.RecordCount), Query.FieldByName('ID').AsString]);
       Query.Close;
