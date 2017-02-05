@@ -134,7 +134,7 @@ end;
 
 procedure TFormDirectory.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  FormMain.WriteLog(Format('TFormDirectory.FormClose: редактирование директорий (isDataEdited = %s)', [BoolToStr(isDataEdited, True)]));
+  WriteLog(Format('TFormDirectory.FormClose: редактирование директорий (isDataEdited = %s)', [BoolToStr(isDataEdited, True)]));
   try
     if isDataEdited then
       FormMain.ReloadDataGlobal(FormDirectory);
@@ -369,7 +369,7 @@ begin
       except
         on E: Exception do
         begin
-          FormMain.WriteLog('TFormDirectory.btnCreateClick' + #13 + 'Ошибка: ' + E.Message);
+          WriteLog('TFormDirectory.btnCreateClick' + #13 + 'Ошибка: ' + E.Message);
           MessageBox(handle, PChar('Ошибка при создании директории.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
           Q_Dir.Close;
           Q_Dir.Free;
@@ -603,7 +603,7 @@ begin
       except
         on E: Exception do
         begin
-          FormMain.WriteLog('TFormDirectory.btnEditClick' + #13 + 'Ошибка: ' + E.Message);
+          WriteLog('TFormDirectory.btnEditClick' + #13 + 'Ошибка: ' + E.Message);
           MessageBox(handle, PChar('Ошибка при редактировании директории.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
           Q_Dir.Close;
           Q_Dir.Free;
@@ -784,7 +784,7 @@ begin
     except
       on E: Exception do
       begin
-        FormMain.WriteLog('TFormDirectory.btnDeleteClick' + #13 + 'Ошибка: ' + E.Message);
+        WriteLog('TFormDirectory.btnDeleteClick' + #13 + 'Ошибка: ' + E.Message);
         MessageBox(handle, PChar('Ошибка при удалении директории.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
         Q_Dir.Close;
         Q_Dir.Free;

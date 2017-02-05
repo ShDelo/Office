@@ -14,6 +14,7 @@ uses
   sMemo;
 
 procedure debug(Text: string; Params: array of TVarRec);
+procedure WriteLog(Text: string);
 function QueryCreate: TIBQuery;
 
 type
@@ -96,7 +97,6 @@ type
     memoDebug: TsMemo;
     function CurrentProcessMemory: Cardinal;
     function SearchNode(component: TsTreeView; id: integer; itemlevel: integer): TTreeNode;
-    procedure WriteLog(Text: string);
     procedure DisableAllForms(StayActive: string);
     procedure EnableAllForms(StayNotActive: string);
     procedure ReloadDataGlobal(Sender: TObject);
@@ -200,7 +200,7 @@ begin
   M.MinMaxInfo^.PTMinTrackSize.Y := 600;
 end;
 
-procedure TFormMain.WriteLog(Text: string);
+procedure WriteLog(Text: string);
 var
   LogFile, d: string;
   f: TextFile;

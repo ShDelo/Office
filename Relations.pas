@@ -84,12 +84,12 @@ begin
       FormMain.IBQuery1.ExecSQL;
       FormMain.IBTransaction1.CommitRetaining;
       FormMain.IBQuery1.Close;
-      FormMain.WriteLog('TFormRelations.BtnOKClick: RELATIONS успешно обновленны ' + lblID.Caption);
+      WriteLog('TFormRelations.BtnOKClick: RELATIONS успешно обновленны ' + lblID.Caption);
     end;
   except
     on E: Exception do
     begin
-      FormMain.WriteLog('TFormRelations.BtnOKClick: RELATIONS ошибка обновления' + #13 + 'Ошибка: ' + E.Message + #13 +
+      WriteLog('TFormRelations.BtnOKClick: RELATIONS ошибка обновления' + #13 + 'Ошибка: ' + E.Message + #13 +
         'listRubrRelations.Text =' + #13 + listRubrRelations.Text);
       MessageBox(Handle, PChar('Ошибка при сохранении данных фирмы (RELATIONS).' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
     end;

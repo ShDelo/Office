@@ -546,7 +546,7 @@ begin
       Q_GEN.Free;
       exit;
     end;
-    FormMain.WriteLog('TFormReportSimple.GenerateReport: создание простого отчета');
+    WriteLog('TFormReportSimple.GenerateReport: создание простого отчета');
     Q_GEN.SQL.Text := REQ;
     Q_GEN.Open;
     Q_GEN.FetchAll;
@@ -686,7 +686,7 @@ begin
   except
     on E: Exception do
     begin
-      FormMain.WriteLog('TFormReportSimple.GenerateReport' + #13 + 'Произошел сбой при генерации отчета' + #13 + E.Message);
+      WriteLog('TFormReportSimple.GenerateReport' + #13 + 'Произошел сбой при генерации отчета' + #13 + E.Message);
       MessageBox(handle, PChar('Произошел сбой при генерации отчета' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
     end;
   end;
@@ -705,7 +705,7 @@ begin
   Q_GEN.Free;
   FormMain.IBDatabase1.Close;
   FormReportSimple.Close;
-  FormMain.WriteLog('TFormReportSimple.GenerateReport: отчет создан успешно');
+  WriteLog('TFormReportSimple.GenerateReport: отчет создан успешно');
 end;
 
 end.

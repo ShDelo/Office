@@ -705,7 +705,7 @@ begin
     end;
     delete(REQ, Length(REQ) - 3, Length(REQ));
     REQ := REQ + ' ) order by lower(NAME)';
-    FormMain.WriteLog('TFormReport.GenerateReport: создание расширенного отчета');
+    WriteLog('TFormReport.GenerateReport: создание расширенного отчета');
     Q_GEN.SQL.Text := REQ;
     Q_GEN.Open;
     Q_GEN.FetchAll;
@@ -1019,7 +1019,7 @@ begin
       except
         on E: Exception do
         begin
-          FormMain.WriteLog('TFormReport.GenerateReport' + #13 + strError + #13 + 'Ошибка при сохранении файла отчета:' + #13 + E.Message);
+          WriteLog('TFormReport.GenerateReport' + #13 + strError + #13 + 'Ошибка при сохранении файла отчета:' + #13 + E.Message);
           MessageBox(Handle, PChar('Ошибка при сохранении файла отчета:' + #13 + strError + #13 + E.Message), 'Ошибка',
             MB_OK or MB_ICONERROR);
           bShowReport := False;
@@ -1036,7 +1036,7 @@ begin
         except
           on E: Exception do
           begin
-            FormMain.WriteLog('TFormReport.GenerateReport' + #13 + 'Ошибка при отображении файла отчета:' + #13 + E.Message);
+            WriteLog('TFormReport.GenerateReport' + #13 + 'Ошибка при отображении файла отчета:' + #13 + E.Message);
             MessageBox(Handle, PChar('Ошибка при отображении файла отчета:' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
           end;
         end;
@@ -1050,7 +1050,7 @@ begin
   except
     on E: Exception do
     begin
-      FormMain.WriteLog('TFormReport.GenerateReport' + #13 + 'Произошел сбой при генерации отчета' + #13 + E.Message);
+      WriteLog('TFormReport.GenerateReport' + #13 + 'Произошел сбой при генерации отчета' + #13 + E.Message);
       MessageBox(Handle, PChar('Произошел сбой при генерации отчета' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
     end;
   end;
@@ -1067,7 +1067,7 @@ begin
   Q_GEN.Free;
   FormMain.IBDatabase1.Close;
   FormReport.Close;
-  FormMain.WriteLog('TFormReport.GenerateReport: отчет создан успешно');
+  WriteLog('TFormReport.GenerateReport: отчет создан успешно');
 end;
 
 procedure TFormReport.FormatReport(FilesCount: integer; RE: TsRichEdit; PB: TsGauge; lbl: TsLabel);
@@ -1144,7 +1144,7 @@ begin
   except
     on E: Exception do
     begin
-      FormMain.WriteLog('TFormReport.GenerateReport' + #13 + 'Ошибка удаления временных файлов' + #13 + E.Message);
+      WriteLog('TFormReport.GenerateReport' + #13 + 'Ошибка удаления временных файлов' + #13 + E.Message);
       MessageBox(Handle, PChar('Ошибка удаления временных файлов' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
     end;
   end;

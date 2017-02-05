@@ -338,7 +338,7 @@ end;
 
 procedure TFormEditor.BtnCancelClick(Sender: TObject);
 begin
-  FormMain.WriteLog('TFormEditor.BtnCancelClick: отмена');
+  WriteLog('TFormEditor.BtnCancelClick: отмена');
   FormEditor.Close;
 end;
 
@@ -1129,7 +1129,7 @@ begin
   except
     on E: Exception do
     begin
-      FormMain.WriteLog('TFormEditor.AddRecord' + #13 + 'Ошибка: ' + E.Message);
+      WriteLog('TFormEditor.AddRecord' + #13 + 'Ошибка: ' + E.Message);
       MessageBox(handle, PChar('Ошибка при создании фирмы.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
       exit;
     end;
@@ -1141,7 +1141,7 @@ begin
   FormMain.IBQuery1.SQL.Text := 'select MAX(ID) from BASE';
   FormMain.IBQuery1.Open;
   id := FormMain.IBQuery1.Fields[0].Value;
-  FormMain.WriteLog('TFormEditor.AddRecord: запись добавлена ' + id);
+  WriteLog('TFormEditor.AddRecord: запись добавлена ' + id);
   NewRubr := GetIDString(SGRubr);
   tmp2 := NewRubr;
   while pos('$', NewRubr) > 0 do // создали новые
@@ -1603,11 +1603,11 @@ begin
     DoGarbageCollection(lblID.Caption, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'],
       GetIDString(SGNapravlenie), Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'edit');
 
-    FormMain.WriteLog('TFormEditor.EditRecord: запись отредактирована ' + lblID.Caption);
+    WriteLog('TFormEditor.EditRecord: запись отредактирована ' + lblID.Caption);
   except
     on E: Exception do
     begin
-      FormMain.WriteLog('TFormEditor.EditRecord' + #13 + 'Ошибка: ' + E.Message);
+      WriteLog('TFormEditor.EditRecord' + #13 + 'Ошибка: ' + E.Message);
       MessageBox(handle, PChar('Ошибка при редактировании фирмы.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
       exit;
     end;
@@ -1711,11 +1711,11 @@ begin
     DoGarbageCollection(id, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'],
       EmptyStr, Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'delete');
 
-    FormMain.WriteLog('TFormEditor.DeleteRecord: запись удалена ' + id);
+    WriteLog('TFormEditor.DeleteRecord: запись удалена ' + id);
   except
     on E: Exception do
     begin
-      FormMain.WriteLog('TFormEditor.DeleteRecord' + #13 + 'Ошибка: ' + E.Message);
+      WriteLog('TFormEditor.DeleteRecord' + #13 + 'Ошибка: ' + E.Message);
       MessageBox(handle, PChar('Ошибка при удалении фирмы ' + id + '.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
       exit;
     end;
@@ -1817,7 +1817,7 @@ var
     except
       on E: Exception do
       begin
-        FormMain.WriteLog('TFormEditor.IsNewRecordCheck' + #13 + 'Ошибка: ' + E.Message);
+        WriteLog('TFormEditor.IsNewRecordCheck' + #13 + 'Ошибка: ' + E.Message);
         MessageBox(handle, PChar('Ошибка при проверке существующих директорий.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
         Q.Close;
         Q.Free;
@@ -2016,7 +2016,7 @@ begin
   except
     on E: Exception do
     begin
-      FormMain.WriteLog('TFormEditor.IsRecordDublicate' + #13 + 'Ошибка: ' + E.Message);
+      WriteLog('TFormEditor.IsRecordDublicate' + #13 + 'Ошибка: ' + E.Message);
       MessageBox(handle, PChar('Произошла ошибка при проверке фирм дубликатов' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
       exit;
     end;
@@ -2077,7 +2077,7 @@ var
 
       try
         //  debug('delete from %s where ID = %s', [DIR_Table, ID_OLD]);
-        FormMain.WriteLog('TFormEditor.DoGarbageCollection_SQL_LOG (Method: ' + Method +
+        WriteLog('TFormEditor.DoGarbageCollection_SQL_LOG (Method: ' + Method +
           '): delete from ' + DIR_Table + ' where ID = ' + ID_OLD);
 
         Query.Open;
@@ -2117,7 +2117,7 @@ var
       except
         on E: Exception do
         begin
-          FormMain.WriteLog('TFormEditor.DoGarbageCollection' + #13 + 'Ошибка: ' + E.Message);
+          WriteLog('TFormEditor.DoGarbageCollection' + #13 + 'Ошибка: ' + E.Message);
           MessageBox(handle, PChar('Ошибка при очистке директорий.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
         end;
       end;

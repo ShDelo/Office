@@ -388,7 +388,7 @@ begin
       except
         on E: Exception do
         begin
-          FormMain.WriteLog('TFormMailSender.btnProfileCreateClick' + #13 + 'Ошибка: ' + E.Message);
+          WriteLog('TFormMailSender.btnProfileCreateClick' + #13 + 'Ошибка: ' + E.Message);
           MessageBox(handle, PChar('Ошибка при создании профиля.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
           exit;
         end;
@@ -438,7 +438,7 @@ begin
   except
     on E: Exception do
     begin
-      FormMain.WriteLog('TFormMailSender.btnProfileEditClick' + #13 + 'Ошибка: ' + E.Message);
+      WriteLog('TFormMailSender.btnProfileEditClick' + #13 + 'Ошибка: ' + E.Message);
       MessageBox(handle, PChar('Ошибка при редактировании профиля.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
       exit;
     end;
@@ -463,7 +463,7 @@ begin
   except
     on E: Exception do
     begin
-      FormMain.WriteLog('TFormMailSender.btnProfileDeleteClick' + #13 + 'Ошибка: ' + E.Message);
+      WriteLog('TFormMailSender.btnProfileDeleteClick' + #13 + 'Ошибка: ' + E.Message);
       MessageBox(handle, PChar('Ошибка при удалении профиля.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
       exit;
     end;
@@ -945,7 +945,7 @@ begin
   except
     on E: Exception do
     begin
-      FormMain.WriteLog('TFormMailSender.btnSendClick' + #13 + 'Ошибка: Wrong port number: ' + E.Message);
+      WriteLog('TFormMailSender.btnSendClick' + #13 + 'Ошибка: Wrong port number: ' + E.Message);
       btnLog.Caption := 'Скрыть лог';
       memoLog.Visible := True;
       memoLog.Lines.Insert(0, '[' + TimeToStr(Now) + '] ERROR: Wrong port number (' + E.Message + ')');
@@ -1011,7 +1011,7 @@ begin
         on E: Exception do
         begin
           isError := True;
-          FormMain.WriteLog('TFormMailSender.btnSendClick' + #13 + 'Ошибка: IdSMTP.Send(IdMessage): ' + E.Message);
+          WriteLog('TFormMailSender.btnSendClick' + #13 + 'Ошибка: IdSMTP.Send(IdMessage): ' + E.Message);
           memoLog.Lines.Insert(0, '[' + TimeToStr(Now) + '] ERROR: ' + E.Message);
         end;
       end;
@@ -1289,7 +1289,7 @@ begin
   except
     on E: Exception do
     begin
-      FormMain.WriteLog('TFormMailSender.btnSendClick' + #13 + 'Ошибка: Wrong port number: ' + E.Message);
+      WriteLog('TFormMailSender.btnSendClick' + #13 + 'Ошибка: Wrong port number: ' + E.Message);
       btnLog.Caption := 'Скрыть лог';
       memoLog.Visible := True;
       memoLog.Lines.Insert(0, '[' + TimeToStr(Now) + '] ERROR: Wrong port number (' + E.Message + ')');
@@ -1396,7 +1396,7 @@ begin
           on E: Exception do
           begin
             isError := True;
-            FormMain.WriteLog('TFormMailSender.btnSendClick' + #13 + 'Ошибка: IdSMTP.Send(IdMessage): ' + E.Message);
+            WriteLog('TFormMailSender.btnSendClick' + #13 + 'Ошибка: IdSMTP.Send(IdMessage): ' + E.Message);
             memoLog.Lines.Insert(0, '[' + TimeToStr(Now) + '] ERROR: ' + E.Message);
           end;
         end;
