@@ -357,6 +357,7 @@ begin
   LoadTempTables;
   BuildRubrikatorTree(FormMain);
   FormEditor.LoadDataEditor;
+  FormDirectory.LoadDataDirectory;
   FormLogo.Hide;
   FormLogo.Free;
   TVRubrikator.Items.EndUpdate;
