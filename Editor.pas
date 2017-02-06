@@ -247,6 +247,7 @@ type
     function ParseIDString(IDString: string; IncludeSyntax: boolean = false): TStringList;
     procedure DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string;
       SGTemp, SGDir: TNextGrid; EditOwner: TsComboBox; Method: string);
+    procedure DoActivityValidation(BASE_ID, IDString_OLD, IDString_NEW: string; IsActive: boolean; Method: string);
     function IsNewRecordFound_Notify(var listNewRecords: TStringList): boolean;
     procedure IsNewRecordCheck;
     procedure IsRecordDublicate;
@@ -1126,6 +1127,8 @@ begin
   FormMain.IBQuery1.ParamByName('RELATIONS').AsString := BuildRelations;
   try
     FormMain.IBQuery1.ExecSQL;
+
+    DoActivityValidation(EmptyStr, GetIDString(SGNapravlenie), EmptyStr, CBActivity.Checked, 'add');
   except
     on E: Exception do
     begin
@@ -1603,6 +1606,8 @@ begin
     DoGarbageCollection(lblID.Caption, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'],
       GetIDString(SGNapravlenie), Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'edit');
 
+    DoActivityValidation(lblID.Caption, list_GC_IDs.Values['NAPRAVLENIE'], GetIDString(SGNapravlenie), CBActivity.Checked, 'edit');
+
     WriteLog('TFormEditor.EditRecord: запись отредактирована ' + lblID.Caption);
   except
     on E: Exception do
@@ -1710,6 +1715,8 @@ begin
       Main.sgType_tmp, FormDirectory.SGFirmType, EditType, 'delete');
     DoGarbageCollection(id, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'],
       EmptyStr, Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'delete');
+
+    DoActivityValidation(id, list_GC_IDs.Values['NAPRAVLENIE'], EmptyStr, false, 'delete');
 
     WriteLog('TFormEditor.DeleteRecord: запись удалена ' + id);
   except
@@ -2162,6 +2169,162 @@ begin
   listID_OLD.Free;
   Query.Close;
   Query.Free;
+end;
+
+procedure TFormEditor.DoActivityValidation(BASE_ID, IDString_OLD, IDString_NEW: string; IsActive: boolean; Method: string);
+var
+  Query: TIBQuery;
+  i: integer;
+  listID_OLD, listID_NEW, listID_ALL, listID_DEL: TStringList;
+  IDString_ALL, IDString_DEL, ID_OLD, ID_NEW, ID_ALL, ID_DEL: string;
+
+  function IsNaprShouldBeActive(BASE_ID, NAPR_ID: string): boolean;
+  begin
+    if BASE_ID = EmptyStr then
+      BASE_ID := '-1';
+    Query.Close;
+    Query.SQL.Text := 'select COUNT(*) from BASE where (ACTIVITY = -1 and ID <> :BASE_ID and NAPRAVLENIE like :NAPR_ID)';
+    Query.ParamByName('BASE_ID').AsString := BASE_ID;
+    Query.ParamByName('NAPR_ID').AsString := '%#' + NAPR_ID + '$%';
+    Query.Open;
+    result := Query.FieldValues['COUNT'] > 0;
+  end;
+
+  procedure UpdateNaprAcitivity(NAPR_ID: string; SetToActive: boolean = false);
+  var
+    QueryUpdate: TIBQuery;
+    nActive: integer;
+  begin
+    QueryUpdate := QueryCreate;
+
+    if SetToActive = true then
+      nActive := -1
+    else
+      nActive := 0;
+
+    QueryUpdate.SQL.Text := 'update NAPRAVLENIE set ACTIVITY = :ACTIVITY where ID = :ID';
+    QueryUpdate.ParamByName('ACTIVITY').AsInteger := nActive;
+    QueryUpdate.ParamByName('ID').AsString := NAPR_ID;
+    try
+      QueryUpdate.Open;
+    except
+      on E: Exception do
+      begin
+        WriteLog('TFTFormEditor.DoActivityValidation' + #13 + 'Ошибка: ' + E.Message);
+        MessageBox(handle, PChar('Ошибка при проверке активности видов деятельности.' + #13 + E.Message), 'Ошибка', MB_OK or
+          MB_ICONERROR);
+      end;
+    end;
+    FormMain.IBTransaction1.CommitRetaining;
+    QueryUpdate.Close;
+    QueryUpdate.Free;
+  end;
+
+begin
+  debug('*** DoActivityValidation ... ***', []);
+  Query := QueryCreate;
+  Method := AnsiLowerCase(Method);
+
+  // build IDString_ALL with unique oldID's + newID's and IDString_DEL with deleted(edited) ID's
+  IDString_ALL := IDString_NEW;
+  listID_OLD := ParseIDString(IDString_OLD);
+  for i := 0 to listID_OLD.Count - 1 do
+  begin
+    ID_OLD := listID_OLD[i];
+    if not AnsiContainsStr(IDString_NEW, '#' + ID_OLD + '$') then
+    begin
+      IDString_DEL := IDString_DEL + '#' + ID_OLD + '$';
+      IDString_ALL := IDString_ALL + '#' + ID_OLD + '$';
+    end;
+  end;
+
+  listID_DEL := ParseIDString(IDString_DEL);
+  listID_NEW := ParseIDString(IDString_NEW);
+  listID_ALL := ParseIDString(IDString_ALL);
+
+  // if Method = EDIT first we want to check new value of ACTIVITY for edited firm
+  if Method = 'edit' then
+  begin
+    // if ACTIVE = TRUE then we have to do two seperate iteration
+    // 1: go through list of DEL(deleted\edited) NAPR's and set their ACTIVITY values to FALSE except if current NAPR is in use by active firm
+    // 2: go through list of NEW(made after edit) NAPR's and set their ACTIVITY values to TRUE
+    if IsActive = true then
+    begin
+      debug('METHOD = %s | IsActive = %s | listID_DEL.COUNT = %s', [Method, 'TRUE', IntToStr(listID_DEL.Count)]);
+      for i := 0 to listID_DEL.Count - 1 do
+      begin
+        ID_DEL := listID_DEL[i];
+        UpdateNaprAcitivity(ID_DEL, IsNaprShouldBeActive(BASE_ID, ID_DEL));
+        debug('listID_DEL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_DEL, GetNameByID('NAPRAVLENIE', ID_DEL),
+          BoolToStr(IsNaprShouldBeActive(BASE_ID, ID_DEL))]);
+      end;
+      debug('METHOD = %s | IsActive = %s | listID_NEW.COUNT = %s', [Method, 'TRUE', IntToStr(listID_NEW.Count)]);
+      for i := 0 to listID_NEW.Count - 1 do
+      begin
+        ID_NEW := listID_NEW[i];
+        UpdateNaprAcitivity(ID_NEW, true);
+        debug('listID_NEW item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_NEW, GetNameByID('NAPRAVLENIE', ID_NEW),
+          'TRUE']);
+      end;
+    end
+      // if ACTIVE = FALSE then we have to do single iteration
+      // 1: go through list of ALL(old+new) NAPR's and set their ACTIVITY values to FALSE except if current NAPR is in use by active firm
+    else
+    begin
+      debug('METHOD = %s | IsActive = %s | listID_ALL.COUNT = %s', [Method, 'FALSE', IntToStr(listID_ALL.Count)]);
+      for i := 0 to listID_ALL.Count - 1 do
+      begin
+        ID_ALL := listID_ALL[i];
+        UpdateNaprAcitivity(ID_ALL, IsNaprShouldBeActive(BASE_ID, ID_ALL));
+        debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('NAPRAVLENIE', ID_ALL),
+          BoolToStr(IsNaprShouldBeActive(BASE_ID, ID_ALL))]);
+      end;
+    end;
+  end;
+
+  // if Method = ADD first we want to check the value of ACTIVITY for added firm
+  if Method = 'add' then
+  begin
+    debug('METHOD = %s | IsActive = %s | listID_ALL.COUNT = %s', [Method, BoolToStr(IsActive), IntToStr(listID_ALL.Count)]);
+    for i := 0 to listID_ALL.Count - 1 do
+    begin
+      ID_ALL := listID_ALL[i];
+      // if firm ACITIVITY is TRUE then we set ACTIVITY of the current NAPR to TRUE
+      if IsActive = true then
+      begin
+        UpdateNaprAcitivity(ID_ALL, true);
+        debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('NAPRAVLENIE', ID_ALL),
+          'TRUE']);
+      end
+        // if firm ACITIVITY is FALSE then we attempt to update ACTIVITY of the current NAPR to FALSE except if current NAPR is in use by active firm
+      else
+      begin
+        UpdateNaprAcitivity(ID_ALL, IsNaprShouldBeActive(BASE_ID, ID_ALL));
+        debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('NAPRAVLENIE', ID_ALL),
+          BoolToStr(IsNaprShouldBeActive(BASE_ID, ID_ALL))]);
+      end;
+    end;
+  end;
+
+  // if Method = DELETE we attempt to update ACTIVITY of every NAPR to FALSE except if current NAPR is in use by active firm
+  if Method = 'delete' then
+  begin
+    debug('METHOD = %s | IsActive = %s | listID_ALL.COUNT = %s', [Method, 'FALSE', IntToStr(listID_ALL.Count)]);
+    for i := 0 to listID_ALL.Count - 1 do
+    begin
+      ID_ALL := listID_ALL[i];
+      UpdateNaprAcitivity(ID_ALL, IsNaprShouldBeActive(BASE_ID, ID_ALL));
+      debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('NAPRAVLENIE', ID_ALL),
+        BoolToStr(IsNaprShouldBeActive(BASE_ID, ID_ALL))]);
+    end;
+  end;
+
+  Query.Close;
+  Query.Free;
+  listID_OLD.Free;
+  listID_NEW.Free;
+  listID_ALL.Free;
+  listID_DEL.Free;
 end;
 
 end.
