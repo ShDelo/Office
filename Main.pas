@@ -4,18 +4,17 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, DateUtils, psAPI, sSkinProvider, sSkinManager, ComCtrls, ToolWin, sToolBar,
-  sTreeView, sListView, IBDatabase, DB, IBCustomDataSet, IBQuery, StdCtrls,
-  acProgressBar, ExtCtrls, sStatusBar, ImgList, acAlphaImageList,
-  sPageControl, NxScrollControl, NxCustomGridControl, NxCustomGrid, NxGrid,
-  NxColumns, NxColumnClasses, Menus, sSpeedButton, sPanel, Buttons,
-  ComObj, sRichEdit, sEdit, sComboBoxes, sComboBox, NxEdit, acCoolBar,
-  StrUtils, IniFiles, sCheckBox, sButton, JvExStdCtrls, JvRichEdit, ShellApi,
-  sMemo;
+  Dialogs, DateUtils, psAPI, sSkinProvider, sSkinManager, ComCtrls, ToolWin,
+  sToolBar, sTreeView, sListView, StdCtrls, IBC, DB, DBAccess, acProgressBar,
+  ExtCtrls, sStatusBar, ImgList, acAlphaImageList, sPageControl, NxScrollControl,
+  NxCustomGridControl, NxCustomGrid, NxGrid, NxColumns, NxColumnClasses, Menus,
+  sSpeedButton, sPanel, Buttons, ComObj, sRichEdit, sEdit, sComboBoxes, sComboBox,
+  NxEdit, acCoolBar, StrUtils, IniFiles, sCheckBox, sButton, JvExStdCtrls,
+  JvRichEdit, ShellApi, sMemo, MemDS;
 
 procedure debug(Text: string; Params: array of TVarRec);
 procedure WriteLog(Text: string);
-function QueryCreate: TIBQuery;
+function QueryCreate: TIBCQuery;
 
 type
   TFormMain = class(TForm)
@@ -32,9 +31,6 @@ type
     nAddRec: TMenuItem;
     nDeleteRec: TMenuItem;
     nEditRec: TMenuItem;
-    IBDatabase1: TIBDatabase;
-    IBTransaction1: TIBTransaction;
-    IBQuery1: TIBQuery;
     nSeparator1: TMenuItem;
     nSendEmail: TMenuItem;
     imgMenus: TImageList;
@@ -95,6 +91,9 @@ type
     NxTextColumn11: TNxTextColumn;
     nCol_Relevance: TMenuItem;
     memoDebug: TsMemo;
+    IBDatabase1: TIBCConnection;
+    IBTransaction1: TIBCTransaction;
+    IBQuery1: TIBCQuery;
     function CurrentProcessMemory: Cardinal;
     function SearchNode(component: TsTreeView; id: integer; itemlevel: integer): TTreeNode;
     procedure DisableAllForms(StayActive: string);
@@ -182,12 +181,12 @@ begin
   end;
 end;
 
-function QueryCreate: TIBQuery;
+function QueryCreate: TIBCQuery;
 var
-  Query: TIBQuery;
+  Query: TIBCQuery;
 begin
-  Query := TIBQuery.Create(nil);
-  Query.Database := FormMain.IBDatabase1;
+  Query := TIBCQuery.Create(nil);
+  Query.Connection := FormMain.IBDatabase1;
   Query.Transaction := FormMain.IBTransaction1;
   result := Query;
 end;
@@ -372,7 +371,7 @@ end;
 
 procedure TFormMain.LoadTempTables;
 var
-  Q_LTT: TIBQuery;
+  Q_LTT: TIBCQuery;
   i: integer;
 begin
   FormLogo.sGauge1.MinValue := 0;
@@ -425,9 +424,9 @@ begin
   Q_LTT.Close;
   Q_LTT.SQL.Text := 'select * from RUBRIKATOR';
   Q_LTT.Open;
-  Q_LTT.FetchAll;
+  Q_LTT.FetchAll := True;
   // Получаю рубрики первыми чтобы сформировать ProgressBar
-  // 4 = шаги TempTables + кол-во рубрик + 8 = шаги из Editor.LoadDataEditor + 8 = шаги из Directory.LoadDataDirectory; 
+  // 4 = шаги TempTables + кол-во рубрик + 8 = шаги из Editor.LoadDataEditor + 8 = шаги из Directory.LoadDataDirectory;
   FormLogo.sGauge1.MaxValue := 4 + Q_LTT.RecordCount + 8 + 8;
   sgRubr_tmp.BeginUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
@@ -444,7 +443,7 @@ begin
   Q_LTT.Close;
   Q_LTT.SQL.Text := 'select * from CURATOR';
   Q_LTT.Open;
-  Q_LTT.FetchAll;
+  Q_LTT.FetchAll := True;
   sgCurator_tmp.BeginUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
   for i := 1 to Q_LTT.RecordCount do
@@ -460,7 +459,7 @@ begin
   Q_LTT.Close;
   Q_LTT.SQL.Text := 'select * from TYPE';
   Q_LTT.Open;
-  Q_LTT.FetchAll;
+  Q_LTT.FetchAll := True;
   sgType_tmp.BeginUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
   for i := 1 to Q_LTT.RecordCount do
@@ -476,7 +475,7 @@ begin
   Q_LTT.Close;
   Q_LTT.SQL.Text := 'select * from NAPRAVLENIE';
   Q_LTT.Open;
-  Q_LTT.FetchAll;
+  Q_LTT.FetchAll := True;
   sgNapr_tmp.BeginUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
   for i := 1 to Q_LTT.RecordCount do
@@ -496,7 +495,7 @@ end;
 
 procedure TFormMain.BuildRubrikatorTree(Sender: TObject);
 var
-  Q: TIBQuery;
+  Q: TIBCQuery;
   i, n: integer;
   Node, tmp: TTreeNode;
   // T : TDateTime;
@@ -507,7 +506,7 @@ begin
   IBQuery1.Close;
   IBQuery1.SQL.Text := 'select * from RUBRIKATOR';
   IBQuery1.Open;
-  IBQuery1.FetchAll;
+  IBQuery1.FetchAll := True;
   TVRubrikator.Items.BeginUpdate;
   for i := 1 to IBQuery1.RecordCount do
   begin
@@ -523,19 +522,19 @@ begin
     tmp.ImageIndex := 0;
     tmp.SelectedIndex := 0;
 
-    Q := TIBQuery.Create(FormMain);
-    Q.Database := IBDatabase1;
+    Q := TIBCQuery.Create(FormMain);
+    Q.Connection := IBDatabase1;
     Q.Transaction := IBTransaction1;
     Q.Close;
     Q.SQL.Text := 'select ID,ACTIVITY,NAME from BASE where RUBR like :RUBR';
     Q.ParamByName('RUBR').AsString := '%#' + IBQuery1.FieldByName('ID').AsString + '$%';
     Q.Open;
-    Q.FetchAll;
+    Q.FetchAll := True;
     Node := SearchNode(TVRubrikator, IBQuery1.FieldByName('ID').AsInteger, 0);
     for n := 1 to Q.RecordCount do
     begin
       tmp := TVRubrikator.Items.AddChildObject(Node, Q.FieldByName('Name').AsString, Pointer(Q.FieldByName('ID').AsInteger));
-      if Q.FieldByName('ACTIVITY').AsInteger = -1 then
+      if Q.FieldByName('ACTIVITY').AsInteger = 1 then
       begin
         tmp.ImageIndex := 1;
         tmp.SelectedIndex := 1;
@@ -564,7 +563,7 @@ procedure TFormMain.FormCreate(Sender: TObject);
 begin
   memoDebug.Visible := bDebug;
   AppPath := ExtractFilePath(Application.ExeName);
-  IBDatabase1.DatabaseName := AppPath + 'usrdt.msq';
+  IBDatabase1.Database := AppPath + 'usrdt.msq';
   WriteLog('* Запуск программы *');
   try
     LoadTempTables;
@@ -867,7 +866,7 @@ begin
   end;
   Grid.AddRow;
   Grid.Cells[0, Grid.LastAddedRow] := id;
-  if Activity = -1 then
+  if Activity = 1 then
     Grid.Cells[1, Grid.LastAddedRow] := '1'
   else
     Grid.Cells[1, Grid.LastAddedRow] := '2';
@@ -880,7 +879,7 @@ begin
   Grid.Cells[8, Grid.LastAddedRow] := Typ;
   Grid.Cells[9, Grid.LastAddedRow] := FIO;
   Grid.Cells[10, Grid.LastAddedRow] := Rub;
-  if Relevance = -1 then
+  if Relevance = 1 then
     Grid.Cells[11, Grid.LastAddedRow] := 'Да'
   else
     Grid.Cells[11, Grid.LastAddedRow] := 'Нет';
@@ -904,7 +903,7 @@ begin
     IBQuery1.SQL.Text := 'select * from BASE where RUBR like :RUBR';
     IBQuery1.ParamByName('RUBR').AsString := '%#' + IntToStr(integer(Pointer(TVRubrikator.Selected.Data))) + '$%';
     IBQuery1.Open;
-    IBQuery1.FetchAll;
+    IBQuery1.FetchAll := True;
     if IBQuery1.RecordCount = 0 then
     begin
       SGGeneral.ClearRows;
@@ -1209,7 +1208,7 @@ end;
 procedure TFormMain.nSendEmailNewClick(Sender: TObject);
 var
   id: string;
-  Q: TIBQuery;
+  Q: TIBCQuery;
 begin
   if Sender.ClassName = 'TsSpeedButton' then
     if TsSpeedButton(Sender).Caption = 'Рассылка почты' then
@@ -1243,14 +1242,14 @@ begin
         exit;
       end;
       id := IntToStr(integer(TVRubrikator.Selected.Data));
-      Q := TIBQuery.Create(FormMain);
-      Q.Database := IBDatabase1;
+      Q := TIBCQuery.Create(FormMain);
+      Q.Connection := IBDatabase1;
       Q.Transaction := IBTransaction1;
       Q.Close;
       Q.SQL.Text := 'select * from BASE where RUBR like :RUBR order by lower(NAME)';
       Q.ParamByName('RUBR').AsString := '%#' + id + '$%';
       Q.Open;
-      Q.FetchAll;
+      Q.FetchAll := True;
       FormMailSender.Caption := 'Рассылка почты';
       FormMailSender.ClearEdits(True);
       FormMailSender.GetEmailList(0, Q, '', FormMailSender.editEmailList, True);
@@ -1275,7 +1274,7 @@ end;
 procedure TFormMain.nSendEmailAddToClick(Sender: TObject);
 var
   id: string;
-  Q: TIBQuery;
+  Q: TIBCQuery;
 begin
   if FormMailSender.Caption <> 'Рассылка почты' then
     FormMailSender.ClearEdits(True);
@@ -1300,14 +1299,14 @@ begin
         exit;
       end;
       id := IntToStr(integer(TVRubrikator.Selected.Data));
-      Q := TIBQuery.Create(FormMain);
-      Q.Database := IBDatabase1;
+      Q := TIBCQuery.Create(FormMain);
+      Q.Connection := IBDatabase1;
       Q.Transaction := IBTransaction1;
       Q.Close;
       Q.SQL.Text := 'select * from BASE where RUBR like :RUBR order by lower(NAME)';
       Q.ParamByName('RUBR').AsString := '%#' + id + '$%';
       Q.Open;
-      Q.FetchAll;
+      Q.FetchAll := True;
       FormMailSender.Caption := 'Рассылка почты';
       FormMailSender.ClearEdits(False);
       FormMailSender.GetEmailList(0, Q, '', FormMailSender.editEmailList, False);
@@ -1332,7 +1331,7 @@ end;
 procedure TFormMain.nRegInfoCheckClick(Sender: TObject);
 var
   id: string;
-  Q: TIBQuery;
+  Q: TIBCQuery;
 begin
   if SGGeneral.Focused then
   begin
@@ -1354,14 +1353,14 @@ begin
         exit;
       end;
       id := IntToStr(integer(TVRubrikator.Selected.Data));
-      Q := TIBQuery.Create(FormMain);
-      Q.Database := IBDatabase1;
+      Q := TIBCQuery.Create(FormMain);
+      Q.Connection := IBDatabase1;
       Q.Transaction := IBTransaction1;
       Q.Close;
       Q.SQL.Text := 'select * from BASE where RUBR like :RUBR order by lower(NAME)';
       Q.ParamByName('RUBR').AsString := '%#' + id + '$%';
       Q.Open;
-      Q.FetchAll;
+      Q.FetchAll := True;
       FormMailSender.Caption := 'Сверка регистрационных данных';
       FormMailSender.ClearEdits(True);
       FormMailSender.GetFirmList(0, Q, '', FormMailSender.editEmailList);
@@ -1398,7 +1397,7 @@ begin
   IBQuery1.SQL.Text := 'select ACTIVITY from BASE where RUBR like :RUBR';
   IBQuery1.Params[0].Value := '%#' + id + '$%';
   IBQuery1.Open;
-  IBQuery1.FetchAll;
+  IBQuery1.FetchAll := True;
   for i := 1 to IBQuery1.RecordCount do
   begin
     if IBQuery1.FieldValues['ACTIVITY'] = '0' then
@@ -1475,7 +1474,7 @@ var
   i, RE_TextLength: integer;
   Rubr, tmp, adres, Cur, city_str, country_str, ofType, zip_str: string;
   phones: WideString;
-  Q: TIBQuery;
+  Q: TIBCQuery;
   list, list2: TStrings;
 
   procedure AddColoredLine(AText: string; AColor: TColor; AFontSize: integer; AFontName: TFontName; AFontStyle: TFontStyles);
@@ -1599,8 +1598,8 @@ begin
     delete(Rubr, 1, length(tmp));
     delete(tmp, 1, 1);
     delete(tmp, length(tmp), 1);
-    Q := TIBQuery.Create(FormMain);
-    Q.Database := IBDatabase1;
+    Q := TIBCQuery.Create(FormMain);
+    Q.Connection := IBDatabase1;
     Q.Transaction := IBTransaction1;
     Q.Close;
     Q.SQL.Text := 'select * from RUBRIKATOR where ID = :ID';
@@ -1621,8 +1620,8 @@ begin
     delete(Rubr, 1, length(tmp));
     delete(tmp, 1, 1);
     delete(tmp, length(tmp), 1);
-    Q := TIBQuery.Create(FormMain);
-    Q.Database := IBDatabase1;
+    Q := TIBCQuery.Create(FormMain);
+    Q.Connection := IBDatabase1;
     Q.Transaction := IBTransaction1;
     Q.Close;
     Q.SQL.Text := 'select * from NAPRAVLENIE where ID = :ID';
@@ -1768,13 +1767,13 @@ procedure TFormMain.SearchFast(Sender: TObject);
 var
   SS1: string;
   i: integer;
-  QuerySearch: TIBQuery;
+  QuerySearch: TIBCQuery;
 begin
   SS1 := AnsiLowerCase(Trim(editSearchFast.Text));
   if (SS1 = 'поиск ...') or (SS1 = '') then
     exit;
-  QuerySearch := TIBQuery.Create(FormMain);
-  QuerySearch.Database := IBDatabase1;
+  QuerySearch := TIBCQuery.Create(FormMain);
+  QuerySearch.Connection := IBDatabase1;
   QuerySearch.Transaction := IBTransaction1;
   try
     QuerySearch.Close;
@@ -1789,7 +1788,7 @@ begin
       QuerySearch.ParamByName('NAME').AsString := '%' + SS1 + '%';
     end;
     QuerySearch.Open;
-    QuerySearch.FetchAll;
+    QuerySearch.FetchAll := True;
     if QuerySearch.RecordCount = 0 then
     begin
       QuerySearch.Close;

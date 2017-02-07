@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, sComboBox, ExtCtrls, sPanel, sButton, sCheckListBox,
-  sGroupBox, sListBox, DB, IBCustomDataSet, IBQuery, sRichEdit, sGauge, ComObj,
+  sGroupBox, sListBox, DB, IBC, sRichEdit, sGauge, ComObj,
   sLabel, DateUtils, StrUtils, Mask, sMaskEdit, sCustomComboEdit, sTooledit,
   sCheckBox, NxScrollControl, NxCustomGridControl, NxCustomGrid, NxGrid,
   IniFiles, sMemo, Registry, ComCtrls, ShellAPI, XLSFile, XLSWorkbook, XLSFormat;
@@ -223,7 +223,7 @@ procedure TFormReport.editSelect1Change(Sender: TObject);
 
   procedure editSelectChange(select1, select2: TsComboBox);
   var
-    Q: TIBQuery;
+    Q: TIBCQuery;
     i: integer;
   begin
     select2.Clear;
@@ -235,13 +235,13 @@ procedure TFormReport.editSelect1Change(Sender: TObject);
     end
     else if select1.ItemIndex = 3 then
     begin { СТРАНА }
-      Q := TIBQuery.Create(FormReport);
-      Q.Database := FormMain.IBDatabase1;
+      Q := TIBCQuery.Create(FormReport);
+      Q.Connection := FormMain.IBDatabase1;
       Q.Transaction := FormMain.IBTransaction1;
       Q.Close;
       Q.SQL.Text := 'select * from COUNTRY order by lower(NAME)';
       Q.Open;
-      Q.FetchAll;
+      Q.FetchAll := True;
       for i := 1 to Q.RecordCount do
       begin
         select2.AddItem(Q.FieldValues['NAME'], Pointer(integer(Q.FieldValues['ID'])));
@@ -254,13 +254,13 @@ procedure TFormReport.editSelect1Change(Sender: TObject);
     end
     else if select1.ItemIndex = 4 then
     begin { ГОРОД }
-      Q := TIBQuery.Create(FormReport);
-      Q.Database := FormMain.IBDatabase1;
+      Q := TIBCQuery.Create(FormReport);
+      Q.Connection := FormMain.IBDatabase1;
       Q.Transaction := FormMain.IBTransaction1;
       Q.Close;
       Q.SQL.Text := 'select * from GOROD order by lower(NAME)';
       Q.Open;
-      Q.FetchAll;
+      Q.FetchAll := True;
       for i := 1 to Q.RecordCount do
       begin
         select2.AddItem(Q.FieldValues['NAME'], Pointer(integer(Q.FieldValues['ID'])));
@@ -316,7 +316,7 @@ end;
 procedure TFormReport.GenerateReport;
 var
   i, n, row, RE_TextLength: integer;
-  Q_GEN: TIBQuery;
+  Q_GEN: TIBCQuery;
   REQ, strError, strReportFileName: string;
   d1, d2, d3, d4: string;
   req1, req2, req3, req4, req5: string;
@@ -585,7 +585,7 @@ var
     begin // АКТИВНОСТЬ
       REQ := ' (ACTIVITY = :' + paramNO + ') and';
       if select2.ItemIndex = 0 then
-        param := '-1'
+        param := '1'
       else
         param := '0';
     end
@@ -593,7 +593,7 @@ var
     begin // АКТУАЛЬНОСТЬ
       REQ := ' (RELEVANCE = :' + paramNO + ') and';
       if select2.ItemIndex = 0 then
-        param := '-1'
+        param := '1'
       else
         param := '0';
     end
@@ -646,8 +646,8 @@ begin
     MessageBox(Handle, 'Укажите данные для генерации отчета', 'Предупреждение', MB_OK or MB_ICONWARNING);
     Exit;
   end;
-  Q_GEN := TIBQuery.Create(FormReport);
-  Q_GEN.Database := FormMain.IBDatabase1;
+  Q_GEN := TIBCQuery.Create(FormReport);
+  Q_GEN.Connection := FormMain.IBDatabase1;
   Q_GEN.Transaction := FormMain.IBTransaction1;
   RE := TsRichEdit.Create(FormReport);
   RE.Visible := False;
@@ -708,7 +708,7 @@ begin
     WriteLog('TFormReport.GenerateReport: создание расширенного отчета');
     Q_GEN.SQL.Text := REQ;
     Q_GEN.Open;
-    Q_GEN.FetchAll;
+    Q_GEN.FetchAll := True;
     if Q_GEN.RecordCount = 0 then
     begin
       MessageBox(Handle, 'По Вашему запросу не было найдено ни одной записи', 'Информация', MB_OK or MB_ICONINFORMATION);
@@ -873,14 +873,14 @@ begin
           FormatAdres(Q_GEN.FieldValues['ADRES'], Q_GEN.FieldValues['PHONES']);
         if editFormatDoc.Checked[1] then
         begin
-          if Q_GEN.FieldByName('ACTIVITY').AsInteger = -1 then
+          if Q_GEN.FieldByName('ACTIVITY').AsInteger = 1 then
             AddLine('    Активность: да', clWindowText, 10, 'Times New Roman', [])
           else
             AddLine('    Активность: нет', clWindowText, 10, 'Times New Roman', []);
         end;
         if editFormatDoc.Checked[2] then
         begin
-          if Q_GEN.FieldByName('RELEVANCE').AsInteger = -1 then
+          if Q_GEN.FieldByName('RELEVANCE').AsInteger = 1 then
             AddLine('    Актуальность: да', clWindowText, 10, 'Times New Roman', [])
           else
             AddLine('    Актуальность: нет', clWindowText, 10, 'Times New Roman', []);
@@ -922,14 +922,14 @@ begin
         with XLSDoc.Workbook.Sheets[0] do
         begin
 
-          if Q_GEN.FieldByName('ACTIVITY').AsInteger = -1 then
+          if Q_GEN.FieldByName('ACTIVITY').AsInteger = 1 then
             Cells[row, 0].Value := 'да'
           else
             Cells[row, 0].Value := 'нет';
           XLS_SetStyle(row, 0);
           XLS_SetStyle(row, 0);
 
-          if Q_GEN.FieldByName('RELEVANCE').AsInteger = -1 then
+          if Q_GEN.FieldByName('RELEVANCE').AsInteger = 1 then
             Cells[row, 1].Value := 'да'
           else
             Cells[row, 1].Value := 'нет';

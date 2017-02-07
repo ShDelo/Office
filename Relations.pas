@@ -81,7 +81,7 @@ begin
       FormMain.IBQuery1.SQL.Text := 'update BASE set RELATIONS = :RELATIONS where ID = :ID';
       FormMain.IBQuery1.ParamByName('RELATIONS').AsString := s;
       FormMain.IBQuery1.ParamByName('ID').AsString := lblID.Caption;
-      FormMain.IBQuery1.ExecSQL;
+      FormMain.IBQuery1.Execute;
       FormMain.IBTransaction1.CommitRetaining;
       FormMain.IBQuery1.Close;
       WriteLog('TFormRelations.BtnOKClick: RELATIONS успешно обновленны ' + lblID.Caption);
@@ -116,7 +116,7 @@ begin
   FormMain.IBQuery1.SQL.Text := 'select * from BASE where ID = :ID';
   FormMain.IBQuery1.ParamByName('ID').AsString := ID;
   FormMain.IBQuery1.Open;
-  FormMain.IBQuery1.FetchAll;
+  FormMain.IBQuery1.FetchAll := True;
   if FormMain.IBQuery1.FieldValues['RUBR'] <> null then
     RUBRstr := FormMain.IBQuery1.FieldValues['RUBR'];
   if FormMain.IBQuery1.FieldValues['NAPRAVLENIE'] <> null then

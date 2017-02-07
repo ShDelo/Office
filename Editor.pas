@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, sButton, ExtCtrls, sPanel, sComboBox, sEdit,
-  sCheckBox, sLabel, sGroupBox, ComCtrls, sPageControl, acPNG, IBQuery,
+  sCheckBox, sLabel, sGroupBox, ComCtrls, sPageControl, acPNG, IBC,
   NxColumns, NxColumnClasses, NxScrollControl, NxCustomGridControl,
   NxCustomGrid, NxGrid, sSpeedButton, Buttons, sMemo, StrUtils;
 
@@ -719,7 +719,7 @@ end;
 procedure TFormEditor.LoadDataEditor;
 var
   i, z: Integer;
-  Q: TIBQuery;
+  Q: TIBCQuery;
 begin
   FormLogo.sLabel1.Caption := 'Ïîäêëþ÷àåìûå ìîäóëè ...';
   EditCurator.Clear; // ÊÓÐÀÒÎÐÛ
@@ -752,13 +752,13 @@ begin
   Application.ProcessMessages;
   for z := 1 to 10 do
     TsComboBox(FindComponent('EditOfficeType' + IntToStr(z))).Clear;
-  Q := TIBQuery.Create(FormEditor);
-  Q.Database := FormMain.IBDatabase1;
+  Q := TIBCQuery.Create(FormEditor);
+  Q.Connection := FormMain.IBDatabase1;
   Q.Transaction := FormMain.IBTransaction1;
   Q.Close; // ÒÈÏ ÎÔÈÑÀ
   Q.SQL.Text := 'select * from OFFICETYPE order by lower(NAME)';
   Q.Open;
-  Q.FetchAll;
+  Q.FetchAll := True;
   for i := 1 to Q.RecordCount do
   begin
     for z := 1 to 10 do
@@ -772,7 +772,7 @@ begin
   Q.Close; // ÑÒÐÀÍÛ
   Q.SQL.Text := 'select * from COUNTRY order by lower(NAME)';
   Q.Open;
-  Q.FetchAll;
+  Q.FetchAll := True;
   for i := 1 to Q.RecordCount do
   begin
     for z := 1 to 10 do
@@ -786,7 +786,7 @@ begin
   Q.Close; // ÃÎÐÎÄÀ
   Q.SQL.Text := 'select * from GOROD order by lower(NAME)';
   Q.Open;
-  Q.FetchAll;
+  Q.FetchAll := True;
   for i := 1 to Q.RecordCount do
   begin
     for z := 1 to 10 do
@@ -800,7 +800,7 @@ begin
   Q.Close; // ÒÈÏÛ ÒÅËÅÔÎÍÎÂ
   Q.SQL.Text := 'select * from PHONETYPE order by lower(NAME)';
   Q.Open;
-  Q.FetchAll;
+  Q.FetchAll := True;
   for i := 1 to Q.RecordCount do
   begin
     for z := 1 to 10 do
@@ -826,18 +826,18 @@ end;
 
 function TFormEditor.GetNameByID(table, id: string): string;
 var
-  Q: TIBQuery;
+  Q: TIBCQuery;
 begin
   Result := '';
   if (Trim(table) = '') or (Trim(id) = '') then
     exit;
-  Q := TIBQuery.Create(FormMain);
-  Q.Database := FormMain.IBDatabase1;
+  Q := TIBCQuery.Create(FormMain);
+  Q.Connection := FormMain.IBDatabase1;
   Q.Transaction := FormMain.IBTransaction1;
   Q.Close;
   Q.SQL.Text := 'select * from ' + table + ' where id = ' + id;
   Q.Open;
-  Q.FetchAll;
+  Q.FetchAll := True;
   if Q.RecordCount > 0 then
     Result := Q.FieldValues['NAME'];
   Q.Close;
@@ -1084,7 +1084,7 @@ begin
   FormMain.IBQuery1.Close;
   FormMain.IBQuery1.SQL.Text :=
     'insert into BASE (ACTIVITY,RELEVANCE,NAME,FIO,CURATOR,RUBR,TYPE,NAPRAVLENIE,WEB,EMAIL,ADRES,PHONES,DATE_ADDED,DATE_EDITED,RELATIONS) values '
-    + '(:ACTIVITY,:RELEVANCE,:NAME,:FIO,:CURATOR,:RUBR,:TYPE,:NAPRAVLENIE,:WEB,:EMAIL,:ADRES,:PHONES,:DATE_ADDED,:DATE_EDITED,:RELATIONS)';
+    + '(:ACTIVITY,:RELEVANCE,:NAME,:FIO,:CURATOR,:RUBR,:TYPE,:NAPRAVLENIE,:WEB,:EMAIL,:ADRES,:PHONES,:DATE_ADDED,:DATE_EDITED,:RELATIONS) returning ID';
   FormMain.IBQuery1.ParamByName('ACTIVITY').AsBoolean := CBActivity.Checked;
   FormMain.IBQuery1.ParamByName('RELEVANCE').AsBoolean := cbDataRelevance.Checked;
   FormMain.IBQuery1.ParamByName('NAME').AsString := EditName.Text;
@@ -1126,9 +1126,12 @@ begin
   FormMain.IBQuery1.ParamByName('DATE_EDITED').AsString := DateToStr(Now);
   FormMain.IBQuery1.ParamByName('RELATIONS').AsString := BuildRelations;
   try
-    FormMain.IBQuery1.ExecSQL;
+    FormMain.IBQuery1.Execute;
+    id := FormMain.IBQuery1.ParamByName('RET_ID').AsString;
 
     DoActivityValidation(EmptyStr, GetIDString(SGNapravlenie), EmptyStr, CBActivity.Checked, 'add');
+
+    WriteLog('TFormEditor.AddRecord: çàïèñü äîáàâëåíà ' + id);
   except
     on E: Exception do
     begin
@@ -1140,11 +1143,6 @@ begin
   FormMain.IBTransaction1.CommitRetaining;
   FormMain.sStatusBar1.Panels[1].Text := 'Ôèðì â áàçå: ' + GetFirmCount;
 
-  FormMain.IBQuery1.Close;
-  FormMain.IBQuery1.SQL.Text := 'select MAX(ID) from BASE';
-  FormMain.IBQuery1.Open;
-  id := FormMain.IBQuery1.Fields[0].Value;
-  WriteLog('TFormEditor.AddRecord: çàïèñü äîáàâëåíà ' + id);
   NewRubr := GetIDString(SGRubr);
   tmp2 := NewRubr;
   while pos('$', NewRubr) > 0 do // ñîçäàëè íîâûå
@@ -1369,7 +1367,7 @@ begin
   FormMain.IBQuery1.SQL.Text := 'select * from BASE where ID = :ID';
   FormMain.IBQuery1.ParamByName('ID').AsString := id;
   FormMain.IBQuery1.Open;
-  FormMain.IBQuery1.FetchAll;
+  FormMain.IBQuery1.FetchAll := True;
   if FormMain.IBQuery1.RecordCount = 0 then
     exit;
 
@@ -1597,7 +1595,7 @@ begin
   phones.Free;
 
   try
-    FormMain.IBQuery1.ExecSQL;
+    FormMain.IBQuery1.Execute;
 
     DoGarbageCollection(lblID.Caption, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], GetIDString(sgCurator),
       Main.sgCurator_tmp, FormDirectory.SGCurator, EditCurator, 'edit');
@@ -1674,7 +1672,7 @@ end;
 procedure TFormEditor.DeleteRecord(id: string);
 var
   i: Integer;
-  Q: TIBQuery;
+  Q: TIBCQuery;
   capt: string;
 begin
   Q := QueryCreate;
@@ -1706,7 +1704,7 @@ begin
   Q.SQL.Text := 'delete from BASE where ID = :ID';
   Q.ParamByName('ID').AsString := id;
   try
-    Q.ExecSQL;
+    Q.Execute;
 
     // DO Garbage Collection
     DoGarbageCollection(id, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], EmptyStr,
@@ -1808,19 +1806,17 @@ var
 
   procedure AddingNewRec(table, Value: string; sg_Main, sg_Directory: TNextGrid);
   var
-    Q: TIBQuery;
+    Q: TIBCQuery;
     id: string;
     node: TTreeNode;
     z: Integer;
   begin
-    Q := TIBQuery.Create(FormEditor);
-    Q.Database := FormMain.IBDatabase1;
-    Q.Transaction := FormMain.IBTransaction1;
+    Q := QueryCreate;
     Q.Close;
-    Q.SQL.Text := 'insert into ' + table + ' (NAME) values (:NAME)';
+    Q.SQL.Text := 'insert into ' + table + ' (NAME) values (:NAME) returning ID';
     Q.ParamByName('NAME').AsString := Value;
     try
-      Q.ExecSQL;
+      Q.Execute;
     except
       on E: Exception do
       begin
@@ -1832,11 +1828,7 @@ var
       end;
     end;
     FormMain.IBTransaction1.CommitRetaining;
-    Q.Close;
-    Q.SQL.Text := 'select MAX(ID) from ' + table;
-    Q.Open;
-    Q.FetchAll;
-    id := Q.Fields[0].Value;
+    id := Q.ParamByName('RET_ID').AsString;
     Q.Close;
     Q.Free;
     if AnsiLowerCase(table) = 'curator' then
@@ -1930,7 +1922,7 @@ var
   WEBlist, EMAILlist, PHONElist: TStrings;
   REQ, REQ1, REQ2, REQ3, REQ4: string;
   x: Integer;
-  Q: TIBQuery;
+  Q: TIBCQuery;
 
   procedure GetPhoneList(SGPhone: TNextGrid);
   var
@@ -2012,8 +2004,8 @@ begin
   EMAILlist.Free;
   PHONElist.Free;
 
-  Q := TIBQuery.Create(FormEditor);
-  Q.Database := FormMain.IBDatabase1;
+  Q := TIBCQuery.Create(FormEditor);
+  Q.Connection := FormMain.IBDatabase1;
   Q.Transaction := FormMain.IBTransaction1;
   Q.Close;
   Q.SQL.Text := REQ;
@@ -2028,7 +2020,7 @@ begin
       exit;
     end;
   end;
-  Q.FetchAll;
+  Q.FetchAll := True;
   if Q.RecordCount > 0 then
   begin
     FormDublicate.SGDublicate.ClearRows;
@@ -2036,7 +2028,7 @@ begin
     for x := 1 to Q.RecordCount do
     begin
       FormDublicate.SGDublicate.AddRow;
-      if Q.FieldValues['ACTIVITY'] = '-1' then
+      if Q.FieldValues['ACTIVITY'] = '1' then
         FormDublicate.SGDublicate.Cells[0, FormDublicate.SGDublicate.LastAddedRow] := '1'
       else
         FormDublicate.SGDublicate.Cells[0, FormDublicate.SGDublicate.LastAddedRow] := '2';
@@ -2066,7 +2058,7 @@ var
   ID_OLD: string;
   i, index: integer;
   listID_OLD: TStringList;
-  Query: TIBQuery;
+  Query: TIBCQuery;
 
   procedure GC_RUN;
   begin
@@ -2087,7 +2079,7 @@ var
         WriteLog('TFormEditor.DoGarbageCollection_SQL_LOG (Method: ' + Method +
           '): delete from ' + DIR_Table + ' where ID = ' + ID_OLD);
 
-        Query.Open;
+        Query.Execute;
         FormMain.IBTransaction1.CommitRetaining;
 
         if SGTemp.FindText(1, ID_OLD, [soCaseInsensitive, soExactMatch]) then
@@ -2173,7 +2165,7 @@ end;
 
 procedure TFormEditor.DoActivityValidation(BASE_ID, IDString_OLD, IDString_NEW: string; IsActive: boolean; Method: string);
 var
-  Query: TIBQuery;
+  Query: TIBCQuery;
   i: integer;
   listID_OLD, listID_NEW, listID_ALL, listID_DEL: TStringList;
   IDString_ALL, IDString_DEL, ID_OLD, ID_NEW, ID_ALL, ID_DEL: string;
@@ -2183,7 +2175,7 @@ var
     if BASE_ID = EmptyStr then
       BASE_ID := '-1';
     Query.Close;
-    Query.SQL.Text := 'select COUNT(*) from BASE where (ACTIVITY = -1 and ID <> :BASE_ID and NAPRAVLENIE like :NAPR_ID)';
+    Query.SQL.Text := 'select COUNT(*) from BASE where (ACTIVITY = 1 and ID <> :BASE_ID and NAPRAVLENIE like :NAPR_ID)';
     Query.ParamByName('BASE_ID').AsString := BASE_ID;
     Query.ParamByName('NAPR_ID').AsString := '%#' + NAPR_ID + '$%';
     Query.Open;
@@ -2192,13 +2184,13 @@ var
 
   procedure UpdateNaprAcitivity(NAPR_ID: string; SetToActive: boolean = false);
   var
-    QueryUpdate: TIBQuery;
+    QueryUpdate: TIBCQuery;
     nActive: integer;
   begin
     QueryUpdate := QueryCreate;
 
     if SetToActive = true then
-      nActive := -1
+      nActive := 1
     else
       nActive := 0;
 
@@ -2206,7 +2198,7 @@ var
     QueryUpdate.ParamByName('ACTIVITY').AsInteger := nActive;
     QueryUpdate.ParamByName('ID').AsString := NAPR_ID;
     try
-      QueryUpdate.Open;
+      QueryUpdate.Execute;
     except
       on E: Exception do
       begin

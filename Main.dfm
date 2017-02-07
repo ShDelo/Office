@@ -3801,33 +3801,6 @@ object FormMain: TFormMain
       OnClick = nLoadSGonRubrChangeClick
     end
   end
-  object IBDatabase1: TIBDatabase
-    Params.Strings = (
-      'user_name=SYSDBA'
-      'password=masterkey')
-    LoginPrompt = False
-    DefaultTransaction = IBTransaction1
-    IdleTimer = 0
-    SQLDialect = 3
-    TraceFlags = []
-    Left = 604
-    Top = 368
-  end
-  object IBTransaction1: TIBTransaction
-    Active = False
-    DefaultDatabase = IBDatabase1
-    AutoStopAction = saNone
-    Left = 636
-    Top = 368
-  end
-  object IBQuery1: TIBQuery
-    Database = IBDatabase1
-    Transaction = IBTransaction1
-    BufferChunks = 1000
-    CachedUpdates = False
-    Left = 572
-    Top = 368
-  end
   object imgMenus: TImageList
     Left = 576
     Top = 336
@@ -7432,5 +7405,27 @@ object FormMain: TFormMain
     TitleButtons = <>
     Left = 610
     Top = 305
+  end
+  object IBDatabase1: TIBCConnection
+    Params.Strings = (
+      '')
+    DefaultTransaction = IBTransaction1
+    Port = '3050'
+    Username = 'SYSDBA'
+    LoginPrompt = False
+    Left = 570
+    Top = 409
+    EncryptedPassword = '92FF9EFF8CFF8BFF9AFF8DFF94FF9AFF86FF'
+  end
+  object IBTransaction1: TIBCTransaction
+    DefaultConnection = IBDatabase1
+    Left = 602
+    Top = 409
+  end
+  object IBQuery1: TIBCQuery
+    Connection = IBDatabase1
+    Transaction = IBTransaction1
+    Left = 634
+    Top = 409
   end
 end

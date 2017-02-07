@@ -10,10 +10,10 @@ uses
   IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL,
   IdBaseComponent, IdMessage, sMemo, Buttons, sSpeedButton, sListBox,
   sGroupBox, sComboBox, IdAttachmentFile, IdCoderHeader, sListView,
-  ShellApi, acAlphaImageList, ImgList, DB, IBCustomDataSet, IBQuery,
-  IdText, Menus, sRichEdit, acPNG, ExtCtrls, sFontCtrls, sPanel,
-  sComboBoxes, NxEdit, sLabel, sGauge, IniFiles, NxScrollControl,
-  NxCustomGridControl, NxCustomGrid, NxGrid, EncdDecd, MapiEmail;
+  ShellApi, acAlphaImageList, ImgList, DB, IBC, IdText, Menus, sRichEdit,
+  acPNG, ExtCtrls, sFontCtrls, sPanel, sComboBoxes, NxEdit, sLabel, sGauge,
+  IniFiles, NxScrollControl, NxCustomGridControl, NxCustomGrid, NxGrid,
+  EncdDecd, MapiEmail;
 
 type
   TFormMailSender = class(TForm)
@@ -78,8 +78,8 @@ type
     procedure LV_InsertFiles(nFile: string; ListView: TsListView; ImageList: TsAlphaImageList);
     function IsValidEmail(const Value: string): Boolean;
     function IsValidWeb(const Value: string): Boolean;
-    procedure GetEmailList(param: integer; Query: TIBQuery; ID: string; List: TsListBox; ClearList: Boolean);
-    procedure GetFirmList(param: integer; Query: TIBQuery; ID: string; List: TsListBox);
+    procedure GetEmailList(param: integer; Query: TIBCQuery; ID: string; List: TsListBox; ClearList: Boolean);
+    procedure GetFirmList(param: integer; Query: TIBCQuery; ID: string; List: TsListBox);
     procedure btnAttachDeleteClick(Sender: TObject);
     procedure nPriorityHighClick(Sender: TObject);
     procedure btnPriorityClick(Sender: TObject);
@@ -199,7 +199,7 @@ begin
   FormMain.IBQuery1.Close;
   FormMain.IBQuery1.SQL.Text := 'select * from ACCOUNTS';
   FormMain.IBQuery1.Open;
-  FormMain.IBQuery1.FetchAll;
+  FormMain.IBQuery1.FetchAll := True;
   if FormMain.IBQuery1.RecordCount > 0 then
     for i := 0 to FormMain.IBQuery1.RecordCount - 1 do
     begin
@@ -384,7 +384,7 @@ begin
       else
         FormMain.IBQuery1.ParamByName('TLS_METHOD').AsInteger := 0;
       try
-        FormMain.IBQuery1.ExecSQL;
+        FormMain.IBQuery1.Execute;
       except
         on E: Exception do
         begin
@@ -434,7 +434,7 @@ begin
   FormMain.IBQuery1.ParamByName('SSL_METHOD').AsInteger := editSSLMethod.ItemIndex;
   FormMain.IBQuery1.ParamByName('TLS_METHOD').AsInteger := editTLSMethod.ItemIndex;
   try
-    FormMain.IBQuery1.ExecSQL;
+    FormMain.IBQuery1.Execute;
   except
     on E: Exception do
     begin
@@ -459,7 +459,7 @@ begin
   FormMain.IBQuery1.SQL.Text := 'delete from ACCOUNTS where NAME = :NAME';
   FormMain.IBQuery1.ParamByName('NAME').AsString := editProfile.Text;
   try
-    FormMain.IBQuery1.ExecSQL;
+    FormMain.IBQuery1.Execute;
   except
     on E: Exception do
     begin
@@ -690,12 +690,12 @@ begin
   Result := CheckAllowed(wwwPart) and CheckAllowed(domenPart);
 end;
 
-procedure TFormMailSender.GetEmailList(param: integer; Query: TIBQuery; ID: string; List: TsListBox; ClearList: Boolean);
+procedure TFormMailSender.GetEmailList(param: integer; Query: TIBCQuery; ID: string; List: TsListBox; ClearList: Boolean);
 var
   i: integer;
   email, tmp: string;
   inList: Boolean;
-  Q: TIBQuery;
+  Q: TIBCQuery;
 begin
   if param = 0 then // работаем с Query
   begin
@@ -736,8 +736,8 @@ begin
   begin
     if ClearList then
       List.Clear;
-    Q := TIBQuery.Create(FormMailSender);
-    Q.Database := FormMain.IBDatabase1;
+    Q := TIBCQuery.Create(FormMailSender);
+    Q.Connection := FormMain.IBDatabase1;
     Q.Transaction := FormMain.IBTransaction1;
     Q.Close;
     Q.SQL.Text := 'select * from BASE where ID = :ID';
@@ -774,10 +774,10 @@ begin
     FormMain.IBDatabase1.Close;
 end;
 
-procedure TFormMailSender.GetFirmList(param: integer; Query: TIBQuery; ID: string; List: TsListBox);
+procedure TFormMailSender.GetFirmList(param: integer; Query: TIBCQuery; ID: string; List: TsListBox);
 var
   i: integer;
-  Q: TIBQuery;
+  Q: TIBCQuery;
 begin
   if param = 0 then // работаем с Query
   begin
@@ -799,8 +799,8 @@ begin
   begin
     List.Clear;
     editEmailList_tmp.Clear;
-    Q := TIBQuery.Create(FormMailSender);
-    Q.Database := FormMain.IBDatabase1;
+    Q := TIBCQuery.Create(FormMailSender);
+    Q.Connection := FormMain.IBDatabase1;
     Q.Transaction := FormMain.IBTransaction1;
     Q.Close;
     Q.SQL.Text := 'select * from BASE where ID = :ID';
@@ -1050,7 +1050,7 @@ var
 
   function GetFirmData(Firm_ID: string): Boolean;
   var
-    Q, Q1: TIBQuery;
+    Q, Q1: TIBCQuery;
     email: string;
     inList: Boolean;
     X: integer;
@@ -1072,8 +1072,8 @@ var
     Result := False;
     EmailsList.Clear;
     REFirmInfo.Clear;
-    Q := TIBQuery.Create(FormMailSender);
-    Q.Database := FormMain.IBDatabase1;
+    Q := TIBCQuery.Create(FormMailSender);
+    Q.Connection := FormMain.IBDatabase1;
     Q.Transaction := FormMain.IBTransaction1;
     Q.Close;
     Q.SQL.Text := 'select * from BASE where ID = :ID';
@@ -1120,8 +1120,8 @@ var
         Delete(Rubr, 1, Length(tmp));
         Delete(tmp, 1, 1);
         Delete(tmp, Length(tmp), 1);
-        Q1 := TIBQuery.Create(FormMailSender);
-        Q1.Database := FormMain.IBDatabase1;
+        Q1 := TIBCQuery.Create(FormMailSender);
+        Q1.Connection := FormMain.IBDatabase1;
         Q1.Transaction := FormMain.IBTransaction1;
         Q1.Close;
         Q1.SQL.Text := 'select * from RUBRIKATOR where ID = :ID';
@@ -1142,8 +1142,8 @@ var
         Delete(Rubr, 1, Length(tmp));
         Delete(tmp, 1, 1);
         Delete(tmp, Length(tmp), 1);
-        Q1 := TIBQuery.Create(FormMailSender);
-        Q1.Database := FormMain.IBDatabase1;
+        Q1 := TIBCQuery.Create(FormMailSender);
+        Q1.Connection := FormMain.IBDatabase1;
         Q1.Transaction := FormMain.IBTransaction1;
         Q1.Close;
         Q1.SQL.Text := 'select * from NAPRAVLENIE where ID = :ID';

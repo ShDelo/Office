@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, sButton, sCheckBox, sGroupBox, NxColumns,
   NxColumnClasses, NxScrollControl, NxCustomGridControl, NxCustomGrid,
-  NxGrid, sEdit, sComboBox, ExtCtrls, sPanel, IniFiles, IBQuery, sLabel,
+  NxGrid, sEdit, sComboBox, ExtCtrls, sPanel, IniFiles, IBC, sLabel,
   Mask, sMaskEdit, sCustomComboEdit, sTooledit, sRichEdit, StrUtils, ComObj,
   sGauge, DateUtils;
 
@@ -107,7 +107,7 @@ end;
 
 procedure TFormReportSimple.editFilterSelect(Sender: TObject);
 var
-  Q: TIBQuery;
+  Q: TIBCQuery;
   i, n: integer;
   memo: TStrings;
   Phones, Email, Web, tmp: string;
@@ -128,8 +128,8 @@ begin
         panelDates.Visible := True;
       end;
   end;
-  Q := TIBQuery.Create(FormReportSimple);
-  Q.Database := FormMain.IBDatabase1;
+  Q := TIBCQuery.Create(FormReportSimple);
+  Q.Connection := FormMain.IBDatabase1;
   Q.Transaction := FormMain.IBTransaction1;
   if editFilter.ItemIndex = 0 then
   begin // РУБРИКИ
@@ -143,7 +143,7 @@ begin
     Q.Close;
     Q.SQL.Text := 'select * from GOROD';
     Q.Open;
-    Q.FetchAll;
+    Q.FetchAll := True;
     for i := 1 to Q.RecordCount do
     begin
       editFilterData.AddItem(Q.FieldValues['NAME'], Pointer(integer(Q.FieldValues['ID'])));
@@ -155,7 +155,7 @@ begin
     Q.Close;
     Q.SQL.Text := 'select * from COUNTRY';
     Q.Open;
-    Q.FetchAll;
+    Q.FetchAll := True;
     for i := 1 to Q.RecordCount do
     begin
       editFilterData.AddItem(Q.FieldValues['NAME'], Pointer(integer(Q.FieldValues['ID'])));
@@ -191,7 +191,7 @@ begin
     Q.Close;
     Q.SQL.Text := 'select PHONES from BASE';
     Q.Open;
-    Q.FetchAll;
+    Q.FetchAll := True;
     memo := TStringList.Create;
     for i := 1 to Q.RecordCount do
     begin
@@ -226,7 +226,7 @@ begin
     Q.Close;
     Q.SQL.Text := 'select EMAIL from BASE';
     Q.Open;
-    Q.FetchAll;
+    Q.FetchAll := True;
     for i := 1 to Q.RecordCount do
     begin
       Email := Q.Fields[0].AsString;
@@ -251,7 +251,7 @@ begin
     Q.Close;
     Q.SQL.Text := 'select WEB from BASE';
     Q.Open;
-    Q.FetchAll;
+    Q.FetchAll := True;
     for i := 1 to Q.RecordCount do
     begin
       Web := Q.Fields[0].AsString;
@@ -295,7 +295,7 @@ end;
 procedure TFormReportSimple.GenerateReport;
 var
   i, RE_TextLength, index: integer;
-  Q_GEN: TIBQuery;
+  Q_GEN: TIBCQuery;
   REQ, param, d1, d2, ID_tmp, str1, str2, finalStr: string;
   RE: TsRichEdit;
   WordApp: OleVariant;
@@ -469,7 +469,7 @@ var
     begin // АКТИВНОСТЬ
       REQ := 'select * from BASE where ACTIVITY like :param order by lower(NAME)';
       if AnsiLowerCase(trim(editFilterData.Text)) = 'да' then
-        ID := '-1'
+        ID := '1'
       else if AnsiLowerCase(trim(editFilterData.Text)) = 'нет' then
         ID := '0'
       else
@@ -480,7 +480,7 @@ var
     begin // АКТУАЛЬНОСТЬ
       REQ := 'select * from BASE where RELEVANCE like :param order by lower(NAME)';
       if AnsiLowerCase(trim(editFilterData.Text)) = 'да' then
-        ID := '-1'
+        ID := '1'
       else if AnsiLowerCase(trim(editFilterData.Text)) = 'нет' then
         ID := '0'
       else
@@ -523,8 +523,8 @@ begin
     exit;
   end;
   index := editFilterData.Items.IndexOf(trim(editFilterData.Text));
-  Q_GEN := TIBQuery.Create(FormReportSimple);
-  Q_GEN.Database := FormMain.IBDatabase1;
+  Q_GEN := TIBCQuery.Create(FormReportSimple);
+  Q_GEN.Connection := FormMain.IBDatabase1;
   Q_GEN.Transaction := FormMain.IBTransaction1;
   RE := TsRichEdit.Create(FormReportSimple);
   RE.Visible := False;
@@ -549,7 +549,7 @@ begin
     WriteLog('TFormReportSimple.GenerateReport: создание простого отчета');
     Q_GEN.SQL.Text := REQ;
     Q_GEN.Open;
-    Q_GEN.FetchAll;
+    Q_GEN.FetchAll := True;
     if Q_GEN.RecordCount = 0 then
     begin
       MessageBox(handle, 'По Вашему запросу не было найдено ни одной записи', 'Информация', MB_OK or MB_ICONINFORMATION);

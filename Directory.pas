@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, sPageControl, NxScrollControl, NxCustomGridControl,
   NxCustomGrid, NxGrid, StdCtrls, sEdit, Buttons, sSpeedButton, ExtCtrls,
-  sPanel, IBQuery, NxColumns, NxColumnClasses, sButton;
+  sPanel, IBC, NxColumns, NxColumnClasses, sButton;
 
 type
   TFormDirectory = class(TForm)
@@ -104,7 +104,7 @@ var
 
 implementation
 
-uses Main, Editor, Report, Logo;
+uses Main, Editor, Report, Logo, DBAccess;
 
 {$R *.dfm}
 { TFormDirectory }
@@ -145,7 +145,7 @@ end;
 
 procedure TFormDirectory.LoadDataDirectory;
 var
-  Q_Dir: TIBQuery;
+  Q_Dir: TIBCQuery;
   i: integer;
 begin
   FormLogo.sLabel1.Caption := 'Подключение директорий ...';
@@ -197,7 +197,7 @@ begin
   Q_Dir.Close;
   Q_Dir.SQL.Text := 'select * from OFFICETYPE order by lower(NAME)';
   Q_Dir.Open;
-  Q_Dir.FetchAll;
+  Q_Dir.FetchAll := True;
   SGOfficeType.BeginUpdate;
   SGOfficeType.ClearRows;
   if Q_Dir.RecordCount > 0 then
@@ -214,7 +214,7 @@ begin
   Q_Dir.Close;
   Q_Dir.SQL.Text := 'select * from COUNTRY order by lower(NAME)';
   Q_Dir.Open;
-  Q_Dir.FetchAll;
+  Q_Dir.FetchAll := True;
   SGCountry.BeginUpdate;
   SGCountry.ClearRows;
   if Q_Dir.RecordCount > 0 then
@@ -231,7 +231,7 @@ begin
   Q_Dir.Close;
   Q_Dir.SQL.Text := 'select * from GOROD order by lower(NAME)';
   Q_Dir.Open;
-  Q_Dir.FetchAll;
+  Q_Dir.FetchAll := True;
   SGCity.BeginUpdate;
   SGCity.ClearRows;
   if Q_Dir.RecordCount > 0 then
@@ -248,7 +248,7 @@ begin
   Q_Dir.Close;
   Q_Dir.SQL.Text := 'select * from PHONETYPE order by lower(NAME)';
   Q_Dir.Open;
-  Q_Dir.FetchAll;
+  Q_Dir.FetchAll := True;
   SGPhoneType.BeginUpdate;
   SGPhoneType.ClearRows;
   if Q_Dir.RecordCount > 0 then
@@ -304,7 +304,7 @@ end;
 procedure TFormDirectory.btnCreateClick(Sender: TObject);
 var
   s, req, max_id: string;
-  Q_Dir: TIBQuery;
+  Q_Dir: TIBCQuery;
 begin
   if InputQuery('Создать', 'Управление директориями', s) then
     if Trim(s) <> '' then
@@ -328,13 +328,11 @@ begin
         7:
           req := 'select ID from PHONETYPE where lower(NAME) = :NAME';
       end;
-      Q_Dir := TIBQuery.Create(FormDirectory);
-      Q_Dir.Database := FormMain.IBDatabase1;
-      Q_Dir.Transaction := FormMain.IBTransaction1;
+      Q_Dir := QueryCreate;
       Q_Dir.Close;
       Q_Dir.SQL.Text := req;
       Q_Dir.Params[0].AsString := AnsiLowerCase(s);
-      Q_Dir.Open; // Q_Dir.FetchAll;
+      Q_Dir.Open; // Q_Dir.FetchAll := True;
       if Q_Dir.RecordCount > 0 then
       begin
         MessageBox(handle, 'Запись с таким названием уже существует', 'Информация', MB_OK or MB_ICONINFORMATION);
@@ -344,28 +342,28 @@ begin
       end;
       case PageControl.ActivePageIndex of
         0:
-          req := 'insert into CURATOR (NAME) values (:NAME)';
+          req := 'insert into CURATOR (NAME) values (:NAME) returning ID';
         1:
-          req := 'insert into RUBRIKATOR (NAME) values (:NAME)';
+          req := 'insert into RUBRIKATOR (NAME) values (:NAME) returning ID';
         2:
-          req := 'insert into TYPE (NAME) values (:NAME)';
+          req := 'insert into TYPE (NAME) values (:NAME) returning ID';
         3:
-          req := 'insert into NAPRAVLENIE (NAME) values (:NAME)';
+          req := 'insert into NAPRAVLENIE (NAME) values (:NAME) returning ID';
         4:
-          req := 'insert into OFFICETYPE (NAME) values (:NAME)';
+          req := 'insert into OFFICETYPE (NAME) values (:NAME) returning ID';
         5:
-          req := 'insert into COUNTRY (NAME) values (:NAME)';
+          req := 'insert into COUNTRY (NAME) values (:NAME) returning ID';
         6:
-          req := 'insert into GOROD (NAME) values (:NAME)';
+          req := 'insert into GOROD (NAME) values (:NAME) returning ID';
         7:
-          req := 'insert into PHONETYPE (NAME) values (:NAME)';
+          req := 'insert into PHONETYPE (NAME) values (:NAME) returning ID';
       end;
       Q_Dir.Close;
       Q_Dir.SQL.Text := req;
       s := FormEditor.UpperFirst(s);
       Q_Dir.Params[0].AsString := s;
       try
-        Q_Dir.ExecSQL;
+        Q_Dir.Execute;
       except
         on E: Exception do
         begin
@@ -378,27 +376,9 @@ begin
       end;
       FormMain.IBTransaction1.CommitRetaining;
       isDataEdited := True;
-      Q_Dir.Close;
-      case PageControl.ActivePageIndex of
-        0:
-          Q_Dir.SQL.Text := 'select MAX(ID) from CURATOR';
-        1:
-          Q_Dir.SQL.Text := 'select MAX(ID) from RUBRIKATOR';
-        2:
-          Q_Dir.SQL.Text := 'select MAX(ID) from TYPE';
-        3:
-          Q_Dir.SQL.Text := 'select MAX(ID) from NAPRAVLENIE';
-        4:
-          Q_Dir.SQL.Text := 'select MAX(ID) from OFFICETYPE';
-        5:
-          Q_Dir.SQL.Text := 'select MAX(ID) from COUNTRY';
-        6:
-          Q_Dir.SQL.Text := 'select MAX(ID) from GOROD';
-        7:
-          Q_Dir.SQL.Text := 'select MAX(ID) from PHONETYPE';
-      end;
-      Q_Dir.Open;
-      max_id := Q_Dir.Fields[0].Value;
+
+      max_id := Q_Dir.ParamByName('RET_ID').AsString;
+
       if PageControl.ActivePageIndex = 0 then
       begin
         SGCurator.AddRow; // КУРАТОРЫ
@@ -471,7 +451,7 @@ end;
 procedure TFormDirectory.btnEditClick(Sender: TObject);
 var
   s, req, id: string;
-  Q_Dir: TIBQuery;
+  Q_Dir: TIBCQuery;
   grid: TNextGrid;
 begin
   grid := nil;
@@ -561,13 +541,13 @@ begin
         7:
           req := 'select ID from PHONETYPE where lower(NAME) = :NAME';
       end;
-      Q_Dir := TIBQuery.Create(FormDirectory);
-      Q_Dir.Database := FormMain.IBDatabase1;
+      Q_Dir := TIBCQuery.Create(FormDirectory);
+      Q_Dir.Connection := FormMain.IBDatabase1;
       Q_Dir.Transaction := FormMain.IBTransaction1;
       Q_Dir.Close;
       Q_Dir.SQL.Text := req;
       Q_Dir.Params[0].AsString := AnsiLowerCase(s);
-      Q_Dir.Open; // Q_Dir.FetchAll;
+      Q_Dir.Open; // Q_Dir.FetchAll := True;
       if Q_Dir.RecordCount > 0 then
       begin
         MessageBox(handle, 'Запись с таким названием уже существует', 'Информация', MB_OK or MB_ICONINFORMATION);
@@ -599,7 +579,7 @@ begin
       Q_Dir.ParamByName('NAME').AsString := s;
       Q_Dir.ParamByName('ID').AsString := id;
       try
-        Q_Dir.ExecSQL;
+        Q_Dir.Execute;
       except
         on E: Exception do
         begin
@@ -623,20 +603,20 @@ procedure TFormDirectory.btnDeleteClick(Sender: TObject);
 
   function CheckInUse(field, match: string; var count: integer): Boolean;
   var
-    Q: TIBQuery;
+    Q: TIBCQuery;
   begin
     result := False;
     count := 0;
     if (Trim(field) = '') or (Trim(match) = '') then
       exit;
-    Q := TIBQuery.Create(FormDirectory);
-    Q.Database := FormMain.IBDatabase1;
+    Q := TIBCQuery.Create(FormDirectory);
+    Q.Connection := FormMain.IBDatabase1;
     Q.Transaction := FormMain.IBTransaction1;
     Q.Close;
     Q.SQL.Text := 'select ID from BASE where lower(' + field + ') like :STR';
     Q.ParamByName('STR').AsString := match;
     Q.Open;
-    Q.FetchAll;
+    Q.FetchAll := True;
     if Q.RecordCount > 0 then
     begin
       count := Q.RecordCount;
@@ -649,7 +629,7 @@ procedure TFormDirectory.btnDeleteClick(Sender: TObject);
 
 var
   req, id: string;
-  Q_Dir: TIBQuery;
+  Q_Dir: TIBCQuery;
   grid: TNextGrid;
   c: integer;
 begin
@@ -773,14 +753,14 @@ begin
       7:
         req := 'delete from PHONETYPE where ID = :ID';
     end;
-    Q_Dir := TIBQuery.Create(FormDirectory);
-    Q_Dir.Database := FormMain.IBDatabase1;
+    Q_Dir := TIBCQuery.Create(FormDirectory);
+    Q_Dir.Connection := FormMain.IBDatabase1;
     Q_Dir.Transaction := FormMain.IBTransaction1;
     Q_Dir.Close;
     Q_Dir.SQL.Text := req;
     Q_Dir.Params[0].AsString := id;
     try
-      Q_Dir.ExecSQL;
+      Q_Dir.Execute;
     except
       on E: Exception do
       begin
