@@ -188,6 +188,8 @@ begin
   Query := TIBCQuery.Create(nil);
   Query.Connection := FormMain.IBDatabase1;
   Query.Transaction := FormMain.IBTransaction1;
+  Query.AutoCommit := False;
+  Query.FetchRows := 1;
   result := Query;
 end;
 
@@ -522,9 +524,7 @@ begin
     tmp.ImageIndex := 0;
     tmp.SelectedIndex := 0;
 
-    Q := TIBCQuery.Create(FormMain);
-    Q.Connection := IBDatabase1;
-    Q.Transaction := IBTransaction1;
+    Q := QueryCreate;
     Q.Close;
     Q.SQL.Text := 'select ID,ACTIVITY,NAME from BASE where RUBR like :RUBR';
     Q.ParamByName('RUBR').AsString := '%#' + IBQuery1.FieldByName('ID').AsString + '$%';
@@ -1242,9 +1242,7 @@ begin
         exit;
       end;
       id := IntToStr(integer(TVRubrikator.Selected.Data));
-      Q := TIBCQuery.Create(FormMain);
-      Q.Connection := IBDatabase1;
-      Q.Transaction := IBTransaction1;
+      Q := QueryCreate;
       Q.Close;
       Q.SQL.Text := 'select * from BASE where RUBR like :RUBR order by lower(NAME)';
       Q.ParamByName('RUBR').AsString := '%#' + id + '$%';
@@ -1299,9 +1297,7 @@ begin
         exit;
       end;
       id := IntToStr(integer(TVRubrikator.Selected.Data));
-      Q := TIBCQuery.Create(FormMain);
-      Q.Connection := IBDatabase1;
-      Q.Transaction := IBTransaction1;
+      Q := QueryCreate;
       Q.Close;
       Q.SQL.Text := 'select * from BASE where RUBR like :RUBR order by lower(NAME)';
       Q.ParamByName('RUBR').AsString := '%#' + id + '$%';
@@ -1353,9 +1349,7 @@ begin
         exit;
       end;
       id := IntToStr(integer(TVRubrikator.Selected.Data));
-      Q := TIBCQuery.Create(FormMain);
-      Q.Connection := IBDatabase1;
-      Q.Transaction := IBTransaction1;
+      Q := QueryCreate;
       Q.Close;
       Q.SQL.Text := 'select * from BASE where RUBR like :RUBR order by lower(NAME)';
       Q.ParamByName('RUBR').AsString := '%#' + id + '$%';
@@ -1598,9 +1592,7 @@ begin
     delete(Rubr, 1, length(tmp));
     delete(tmp, 1, 1);
     delete(tmp, length(tmp), 1);
-    Q := TIBCQuery.Create(FormMain);
-    Q.Connection := IBDatabase1;
-    Q.Transaction := IBTransaction1;
+    Q := QueryCreate;
     Q.Close;
     Q.SQL.Text := 'select * from RUBRIKATOR where ID = :ID';
     Q.ParamByName('ID').AsString := tmp;
@@ -1620,9 +1612,7 @@ begin
     delete(Rubr, 1, length(tmp));
     delete(tmp, 1, 1);
     delete(tmp, length(tmp), 1);
-    Q := TIBCQuery.Create(FormMain);
-    Q.Connection := IBDatabase1;
-    Q.Transaction := IBTransaction1;
+    Q := QueryCreate;
     Q.Close;
     Q.SQL.Text := 'select * from NAPRAVLENIE where ID = :ID';
     Q.ParamByName('ID').AsString := tmp;
@@ -1772,9 +1762,7 @@ begin
   SS1 := AnsiLowerCase(Trim(editSearchFast.Text));
   if (SS1 = 'поиск ...') or (SS1 = '') then
     exit;
-  QuerySearch := TIBCQuery.Create(FormMain);
-  QuerySearch.Connection := IBDatabase1;
-  QuerySearch.Transaction := IBTransaction1;
+  QuerySearch := QueryCreate;
   try
     QuerySearch.Close;
     if SS1[1] = '+' then

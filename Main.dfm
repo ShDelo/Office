@@ -7426,6 +7426,7 @@ object FormMain: TFormMain
   object IBQuery1: TIBCQuery
     Connection = IBDatabase1
     Transaction = IBTransaction1
+    FetchRows = 1
     AutoCommit = False
     Left = 634
     Top = 409

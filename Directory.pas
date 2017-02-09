@@ -541,9 +541,7 @@ begin
         7:
           req := 'select ID from PHONETYPE where lower(NAME) = :NAME';
       end;
-      Q_Dir := TIBCQuery.Create(FormDirectory);
-      Q_Dir.Connection := FormMain.IBDatabase1;
-      Q_Dir.Transaction := FormMain.IBTransaction1;
+      Q_Dir := QueryCreate;
       Q_Dir.Close;
       Q_Dir.SQL.Text := req;
       Q_Dir.Params[0].AsString := AnsiLowerCase(s);
@@ -609,9 +607,7 @@ procedure TFormDirectory.btnDeleteClick(Sender: TObject);
     count := 0;
     if (Trim(field) = '') or (Trim(match) = '') then
       exit;
-    Q := TIBCQuery.Create(FormDirectory);
-    Q.Connection := FormMain.IBDatabase1;
-    Q.Transaction := FormMain.IBTransaction1;
+    Q := QueryCreate;
     Q.Close;
     Q.SQL.Text := 'select ID from BASE where lower(' + field + ') like :STR';
     Q.ParamByName('STR').AsString := match;
@@ -753,9 +749,7 @@ begin
       7:
         req := 'delete from PHONETYPE where ID = :ID';
     end;
-    Q_Dir := TIBCQuery.Create(FormDirectory);
-    Q_Dir.Connection := FormMain.IBDatabase1;
-    Q_Dir.Transaction := FormMain.IBTransaction1;
+    Q_Dir := QueryCreate;
     Q_Dir.Close;
     Q_Dir.SQL.Text := req;
     Q_Dir.Params[0].AsString := id;

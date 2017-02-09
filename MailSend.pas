@@ -736,9 +736,7 @@ begin
   begin
     if ClearList then
       List.Clear;
-    Q := TIBCQuery.Create(FormMailSender);
-    Q.Connection := FormMain.IBDatabase1;
-    Q.Transaction := FormMain.IBTransaction1;
+    Q := QueryCreate;
     Q.Close;
     Q.SQL.Text := 'select * from BASE where ID = :ID';
     Q.ParamByName('ID').AsString := ID;
@@ -799,9 +797,7 @@ begin
   begin
     List.Clear;
     editEmailList_tmp.Clear;
-    Q := TIBCQuery.Create(FormMailSender);
-    Q.Connection := FormMain.IBDatabase1;
-    Q.Transaction := FormMain.IBTransaction1;
+    Q := QueryCreate;
     Q.Close;
     Q.SQL.Text := 'select * from BASE where ID = :ID';
     Q.ParamByName('ID').AsString := ID;
@@ -1072,9 +1068,7 @@ var
     Result := False;
     EmailsList.Clear;
     REFirmInfo.Clear;
-    Q := TIBCQuery.Create(FormMailSender);
-    Q.Connection := FormMain.IBDatabase1;
-    Q.Transaction := FormMain.IBTransaction1;
+    Q := QueryCreate;
     Q.Close;
     Q.SQL.Text := 'select * from BASE where ID = :ID';
     Q.ParamByName('ID').AsString := Firm_ID;
@@ -1120,9 +1114,7 @@ var
         Delete(Rubr, 1, Length(tmp));
         Delete(tmp, 1, 1);
         Delete(tmp, Length(tmp), 1);
-        Q1 := TIBCQuery.Create(FormMailSender);
-        Q1.Connection := FormMain.IBDatabase1;
-        Q1.Transaction := FormMain.IBTransaction1;
+        Q1 := QueryCreate;
         Q1.Close;
         Q1.SQL.Text := 'select * from RUBRIKATOR where ID = :ID';
         Q1.ParamByName('ID').AsString := tmp;
@@ -1142,9 +1134,7 @@ var
         Delete(Rubr, 1, Length(tmp));
         Delete(tmp, 1, 1);
         Delete(tmp, Length(tmp), 1);
-        Q1 := TIBCQuery.Create(FormMailSender);
-        Q1.Connection := FormMain.IBDatabase1;
-        Q1.Transaction := FormMain.IBTransaction1;
+        Q1 := QueryCreate;
         Q1.Close;
         Q1.SQL.Text := 'select * from NAPRAVLENIE where ID = :ID';
         Q1.ParamByName('ID').AsString := tmp;

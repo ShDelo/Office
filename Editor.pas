@@ -752,9 +752,7 @@ begin
   Application.ProcessMessages;
   for z := 1 to 10 do
     TsComboBox(FindComponent('EditOfficeType' + IntToStr(z))).Clear;
-  Q := TIBCQuery.Create(FormEditor);
-  Q.Connection := FormMain.IBDatabase1;
-  Q.Transaction := FormMain.IBTransaction1;
+  Q := QueryCreate;
   Q.Close; // “»œ Œ‘»—¿
   Q.SQL.Text := 'select * from OFFICETYPE order by lower(NAME)';
   Q.Open;
@@ -831,9 +829,7 @@ begin
   Result := '';
   if (Trim(table) = '') or (Trim(id) = '') then
     exit;
-  Q := TIBCQuery.Create(FormMain);
-  Q.Connection := FormMain.IBDatabase1;
-  Q.Transaction := FormMain.IBTransaction1;
+  Q := QueryCreate;
   Q.Close;
   Q.SQL.Text := 'select * from ' + table + ' where id = ' + id;
   Q.Open;
@@ -2004,9 +2000,7 @@ begin
   EMAILlist.Free;
   PHONElist.Free;
 
-  Q := TIBCQuery.Create(FormEditor);
-  Q.Connection := FormMain.IBDatabase1;
-  Q.Transaction := FormMain.IBTransaction1;
+  Q := QueryCreate;
   Q.Close;
   Q.SQL.Text := REQ;
   Q.Params[0].AsString := NAME;

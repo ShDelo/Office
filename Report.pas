@@ -235,9 +235,7 @@ procedure TFormReport.editSelect1Change(Sender: TObject);
     end
     else if select1.ItemIndex = 3 then
     begin { СТРАНА }
-      Q := TIBCQuery.Create(FormReport);
-      Q.Connection := FormMain.IBDatabase1;
-      Q.Transaction := FormMain.IBTransaction1;
+      Q := QueryCreate;
       Q.Close;
       Q.SQL.Text := 'select * from COUNTRY order by lower(NAME)';
       Q.Open;
@@ -254,9 +252,7 @@ procedure TFormReport.editSelect1Change(Sender: TObject);
     end
     else if select1.ItemIndex = 4 then
     begin { ГОРОД }
-      Q := TIBCQuery.Create(FormReport);
-      Q.Connection := FormMain.IBDatabase1;
-      Q.Transaction := FormMain.IBTransaction1;
+      Q := QueryCreate;
       Q.Close;
       Q.SQL.Text := 'select * from GOROD order by lower(NAME)';
       Q.Open;
@@ -646,9 +642,7 @@ begin
     MessageBox(Handle, 'Укажите данные для генерации отчета', 'Предупреждение', MB_OK or MB_ICONWARNING);
     Exit;
   end;
-  Q_GEN := TIBCQuery.Create(FormReport);
-  Q_GEN.Connection := FormMain.IBDatabase1;
-  Q_GEN.Transaction := FormMain.IBTransaction1;
+  Q_GEN := QueryCreate;
   RE := TsRichEdit.Create(FormReport);
   RE.Visible := False;
   RE.Parent := FormReport;

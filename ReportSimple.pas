@@ -128,9 +128,7 @@ begin
         panelDates.Visible := True;
       end;
   end;
-  Q := TIBCQuery.Create(FormReportSimple);
-  Q.Connection := FormMain.IBDatabase1;
-  Q.Transaction := FormMain.IBTransaction1;
+  Q := QueryCreate;
   if editFilter.ItemIndex = 0 then
   begin // –”¡–» »
     for i := 0 to Main.sgRubr_tmp.RowCount - 1 do
@@ -523,9 +521,7 @@ begin
     exit;
   end;
   index := editFilterData.Items.IndexOf(trim(editFilterData.Text));
-  Q_GEN := TIBCQuery.Create(FormReportSimple);
-  Q_GEN.Connection := FormMain.IBDatabase1;
-  Q_GEN.Transaction := FormMain.IBTransaction1;
+  Q_GEN := QueryCreate;
   RE := TsRichEdit.Create(FormReportSimple);
   RE.Visible := False;
   RE.Parent := FormReportSimple;
