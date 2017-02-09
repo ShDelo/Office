@@ -7412,6 +7412,7 @@ object FormMain: TFormMain
     DefaultTransaction = IBTransaction1
     Port = '3050'
     Username = 'SYSDBA'
+    AutoCommit = False
     LoginPrompt = False
     Left = 570
     Top = 409
@@ -7425,6 +7426,7 @@ object FormMain: TFormMain
   object IBQuery1: TIBCQuery
     Connection = IBDatabase1
     Transaction = IBTransaction1
+    AutoCommit = False
     Left = 634
     Top = 409
   end
