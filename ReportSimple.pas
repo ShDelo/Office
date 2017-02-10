@@ -440,7 +440,7 @@ var
       ID := '-1';
     if editFilter.ItemIndex = 0 then
     begin // –”¡–» ¿
-      REQ := 'select * from BASE where RUBR like :param and ACTIVITY = -1 order by lower(NAME)';
+      REQ := 'select * from BASE where RUBR like :param and ACTIVITY = 1 order by lower(NAME)';
       param := '%#' + ID + '$%';
     end
     else if editFilter.ItemIndex = 1 then
