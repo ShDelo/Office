@@ -245,9 +245,11 @@ type
     function GetWebEmailString(component: TNextGrid): string;
     function GetFirmCount: string;
     function ParseIDString(IDString: string; IncludeSyntax: boolean = false): TStringList;
+    function ParseAdresFieldToCityIDList(Field_ADRES: string; IncludeSyntax: boolean = false): TStringList;
     procedure DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string; SGTemp, SGDir: TNextGrid;
       EditOwner: TsComboBox; Method: string);
-    procedure DoActivityValidation(BASE_ID, IDString_OLD, IDString_NEW: string; IsActive: boolean; Method: string);
+    procedure DoNaprActivityValidation(BASE_ID, IDString_OLD, IDString_NEW: string; IsActive: boolean; Method: string);
+    procedure DoCityActivityValidation(BASE_ID, FieldAdres_OLD, FieldAdres_NEW: string; IsActive: boolean; Method: string);
     function IsNewRecordFound_Notify(var listNewRecords: TStringList): boolean;
     procedure IsNewRecordCheck;
     procedure IsRecordDublicate;
@@ -277,7 +279,7 @@ type
 var
   FormEditor: TFormEditor;
   IsDublicate: Boolean = False;
-  list_GC_IDs: TStringList; // used for DoGarbageCollection
+  list_GC_IDs: TStringList; // used for DoGarbageCollection and DoNaprActivityValidation
 
 implementation
 
@@ -308,6 +310,34 @@ begin
   delete(s, 1, 1);
   t := AnsiUpperCase(t);
   Result := t + s;
+end;
+
+function TFormEditor.ParseAdresFieldToCityIDList(Field_ADRES: string; IncludeSyntax: boolean): TStringList;
+var
+  tmp, AdresString: string;
+  ResultList, AdresList: TStringList;
+  i: integer;
+begin
+  ResultList := TStringList.Create;
+  AdresList := TStringList.Create;
+
+  AdresList.Text := Field_ADRES;
+  for i := 0 to AdresList.Count - 1 do
+  begin
+    AdresString := AdresList[i];
+    if pos('#^', AdresString) > 0 then
+    begin
+      tmp := copy(AdresString, pos('#^', AdresString) + 2, Length(AdresString));
+      delete(tmp, Pos('$', tmp), Length(tmp));
+      if IncludeSyntax = True then
+        tmp := '#' + tmp + '$';
+      if ResultList.IndexOf(tmp) = -1 then
+        ResultList.Add(tmp);
+    end;
+  end;
+
+  AdresList.Free;
+  result := ResultList;
 end;
 
 function TFormEditor.ParseIDString(IDString: string; IncludeSyntax: boolean = false): TStringList;
@@ -1116,8 +1146,6 @@ begin
   AdresProcs(CBAdres10, EditNO10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditCity10, MemoPhone10, SGPhone10);
   FormMain.IBQuery1.ParamByName('ADRES').AsString := str.Text;
   FormMain.IBQuery1.ParamByName('PHONES').AsString := phones.Text;
-  str.Free;
-  phones.Free;
   FormMain.IBQuery1.ParamByName('DATE_ADDED').AsString := DateToStr(Now);
   FormMain.IBQuery1.ParamByName('DATE_EDITED').AsString := DateToStr(Now);
   FormMain.IBQuery1.ParamByName('RELATIONS').AsString := BuildRelations;
@@ -1125,7 +1153,9 @@ begin
     FormMain.IBQuery1.Execute;
     id := FormMain.IBQuery1.ParamByName('RET_ID').AsString;
 
-    DoActivityValidation(EmptyStr, GetIDString(SGNapravlenie), EmptyStr, CBActivity.Checked, 'add');
+    DoNaprActivityValidation(EmptyStr, GetIDString(SGNapravlenie), EmptyStr, CBActivity.Checked, 'add');
+
+    DoCityActivityValidation(EmptyStr, str.Text, EmptyStr, CBActivity.Checked, 'add');
 
     WriteLog('TFormEditor.AddRecord: запись добавлена ' + id);
   except
@@ -1138,6 +1168,9 @@ begin
   end;
   FormMain.IBTransaction1.CommitRetaining;
   FormMain.sStatusBar1.Panels[1].Text := 'Фирм в базе: ' + GetFirmCount;
+
+  str.Free;
+  phones.Free;
 
   NewRubr := GetIDString(SGRubr);
   tmp2 := NewRubr;
@@ -1376,6 +1409,8 @@ begin
     list_GC_IDs.Add('TYPE=' + FormMain.IBQuery1.FieldValues['TYPE']);
   if FormMain.IBQuery1.FieldValues['NAPRAVLENIE'] <> null then
     list_GC_IDs.Add('NAPRAVLENIE=' + FormMain.IBQuery1.FieldValues['NAPRAVLENIE']);
+  if FormMain.IBQuery1.FieldValues['ADRES'] <> null then
+    list_GC_IDs.Add('ADRES=' + FormMain.IBQuery1.FieldValues['ADRES']);
 
   if FormMain.IBQuery1.FieldValues['ACTIVITY'] <> null then
     CBActivity.Checked := FormMain.IBQuery1.FieldValues['ACTIVITY']
@@ -1587,8 +1622,6 @@ begin
   FormMain.IBQuery1.ParamByName('DATE_EDITED').AsString := DateToStr(Now);
   FormMain.IBQuery1.ParamByName('RELATIONS').AsString := BuildRelations;
   FormMain.IBQuery1.ParamByName('ID').AsString := lblID.Caption;
-  str.Free;
-  phones.Free;
 
   try
     FormMain.IBQuery1.Execute;
@@ -1600,7 +1633,9 @@ begin
     DoGarbageCollection(lblID.Caption, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'], GetIDString(SGNapravlenie),
       Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'edit');
 
-    DoActivityValidation(lblID.Caption, list_GC_IDs.Values['NAPRAVLENIE'], GetIDString(SGNapravlenie), CBActivity.Checked, 'edit');
+    DoNaprActivityValidation(lblID.Caption, list_GC_IDs.Values['NAPRAVLENIE'], GetIDString(SGNapravlenie), CBActivity.Checked, 'edit');
+
+    DoCityActivityValidation(lblID.Caption, list_GC_IDs.Values['ADRES'], str.Text, CBActivity.Checked, 'edit');
 
     WriteLog('TFormEditor.EditRecord: запись отредактирована ' + lblID.Caption);
   except
@@ -1612,6 +1647,9 @@ begin
     end;
   end;
   FormMain.IBTransaction1.CommitRetaining;
+
+  str.Free;
+  phones.Free;
 
   // если вкладка была открыта, заркрываем старую, открываем новую
   if FormMain.CloseTabByID(lblID.Caption) then
@@ -1672,10 +1710,10 @@ var
   capt: string;
 begin
   Q := QueryCreate;
-  Q.SQL.Text := 'select NAME, CURATOR, RUBR, TYPE, NAPRAVLENIE from BASE where ID = :ID';
+  Q.SQL.Text := 'select * from BASE where ID = :ID';
   Q.ParamByName('ID').AsString := id;
   Q.Open;
-  capt := Q.Fields[0].Value;
+  capt := Q.FieldByName('NAME').AsString;
   if MessageBox(handle, 'Запись будет удалена. Продолжить?', PChar(capt), MB_YESNO or MB_ICONQUESTION) = MRNO then
   begin
     Q.Close;
@@ -1695,6 +1733,8 @@ begin
     list_GC_IDs.Add('TYPE=' + Q.FieldValues['TYPE']);
   if Q.FieldValues['NAPRAVLENIE'] <> null then
     list_GC_IDs.Add('NAPRAVLENIE=' + Q.FieldValues['NAPRAVLENIE']);
+  if Q.FieldValues['ADRES'] <> null then
+    list_GC_IDs.Add('ADRES=' + Q.FieldValues['ADRES']);
 
   Q.Close;
   Q.SQL.Text := 'delete from BASE where ID = :ID';
@@ -1710,7 +1750,9 @@ begin
     DoGarbageCollection(id, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'], EmptyStr, Main.sgNapr_tmp,
       FormDirectory.SGNapr, EditNapravlenie, 'delete');
 
-    DoActivityValidation(id, list_GC_IDs.Values['NAPRAVLENIE'], EmptyStr, false, 'delete');
+    DoNaprActivityValidation(id, list_GC_IDs.Values['NAPRAVLENIE'], EmptyStr, False, 'delete');
+
+    DoCityActivityValidation(id, list_GC_IDs.Values['ADRES'], EmptyStr, False, 'delete');
 
     WriteLog('TFormEditor.DeleteRecord: запись удалена ' + id);
   except
@@ -2156,7 +2198,7 @@ begin
   Query.Free;
 end;
 
-procedure TFormEditor.DoActivityValidation(BASE_ID, IDString_OLD, IDString_NEW: string; IsActive: boolean; Method: string);
+procedure TFormEditor.DoNaprActivityValidation(BASE_ID, IDString_OLD, IDString_NEW: string; IsActive: boolean; Method: string);
 var
   Query: TIBCQuery;
   i: integer;
@@ -2195,7 +2237,7 @@ var
     except
       on E: Exception do
       begin
-        WriteLog('TFTFormEditor.DoActivityValidation' + #13 + 'Ошибка: ' + E.Message);
+        WriteLog('TFTFormEditor.DoNaprActivityValidation' + #13 + 'Ошибка: ' + E.Message);
         MessageBox(handle, PChar('Ошибка при проверке активности видов деятельности.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
       end;
     end;
@@ -2205,7 +2247,7 @@ var
   end;
 
 begin
-  debug('*** DoActivityValidation ... ***', []);
+  debug('*** DoNaprActivityValidation ... ***', []);
   Query := QueryCreate;
   Method := AnsiLowerCase(Method);
 
@@ -2240,7 +2282,7 @@ begin
         ID_DEL := listID_DEL[i];
         UpdateNaprAcitivity(ID_DEL, IsNaprShouldBeActive(BASE_ID, ID_DEL));
         debug('listID_DEL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_DEL, GetNameByID('NAPRAVLENIE', ID_DEL),
-          BoolToStr(IsNaprShouldBeActive(BASE_ID, ID_DEL))]);
+          BoolToStr(IsNaprShouldBeActive(BASE_ID, ID_DEL), True)]);
       end;
       debug('METHOD = %s | IsActive = %s | listID_NEW.COUNT = %s', [Method, 'TRUE', IntToStr(listID_NEW.Count)]);
       for i := 0 to listID_NEW.Count - 1 do
@@ -2261,7 +2303,7 @@ begin
         ID_ALL := listID_ALL[i];
         UpdateNaprAcitivity(ID_ALL, IsNaprShouldBeActive(BASE_ID, ID_ALL));
         debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('NAPRAVLENIE', ID_ALL),
-          BoolToStr(IsNaprShouldBeActive(BASE_ID, ID_ALL))]);
+          BoolToStr(IsNaprShouldBeActive(BASE_ID, ID_ALL), True)]);
       end;
     end;
   end;
@@ -2269,7 +2311,7 @@ begin
   // if Method = ADD first we want to check the value of ACTIVITY for added firm
   if Method = 'add' then
   begin
-    debug('METHOD = %s | IsActive = %s | listID_ALL.COUNT = %s', [Method, BoolToStr(IsActive), IntToStr(listID_ALL.Count)]);
+    debug('METHOD = %s | IsActive = %s | listID_ALL.COUNT = %s', [Method, BoolToStr(IsActive, True), IntToStr(listID_ALL.Count)]);
     for i := 0 to listID_ALL.Count - 1 do
     begin
       ID_ALL := listID_ALL[i];
@@ -2285,7 +2327,7 @@ begin
       begin
         UpdateNaprAcitivity(ID_ALL, IsNaprShouldBeActive(BASE_ID, ID_ALL));
         debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('NAPRAVLENIE', ID_ALL),
-          BoolToStr(IsNaprShouldBeActive(BASE_ID, ID_ALL))]);
+          BoolToStr(IsNaprShouldBeActive(BASE_ID, ID_ALL), True)]);
       end;
     end;
   end;
@@ -2299,7 +2341,160 @@ begin
       ID_ALL := listID_ALL[i];
       UpdateNaprAcitivity(ID_ALL, IsNaprShouldBeActive(BASE_ID, ID_ALL));
       debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('NAPRAVLENIE', ID_ALL),
-        BoolToStr(IsNaprShouldBeActive(BASE_ID, ID_ALL))]);
+        BoolToStr(IsNaprShouldBeActive(BASE_ID, ID_ALL), True)]);
+    end;
+  end;
+
+  Query.Close;
+  Query.Free;
+  listID_OLD.Free;
+  listID_NEW.Free;
+  listID_ALL.Free;
+  listID_DEL.Free;
+end;
+
+procedure TFormEditor.DoCityActivityValidation(BASE_ID, FieldAdres_OLD, FieldAdres_NEW: string; IsActive: boolean; Method: string);
+var
+  Query: TIBCQuery;
+  i: integer;
+  listID_OLD, listID_NEW, listID_ALL, listID_DEL: TStringList;
+  ID_OLD, ID_NEW, ID_ALL, ID_DEL: string;
+
+  function IsCityShouldBeActive(BASE_ID, CITY_ID: string): boolean;
+  begin
+    if BASE_ID = EmptyStr then
+      BASE_ID := '-1';
+    Query.Close;
+    Query.SQL.Text := 'select COUNT(*) from BASE where (ACTIVITY = 1 and ID <> :BASE_ID and ADRES like :CITY_ID)';
+    Query.ParamByName('BASE_ID').AsString := BASE_ID;
+    Query.ParamByName('CITY_ID').AsString := '%#^' + CITY_ID + '$%';
+    Query.Open;
+    result := Query.FieldValues['COUNT'] > 0;
+  end;
+
+  procedure UpdateCityAcitivity(CITY_ID: string; SetToActive: boolean = false);
+  var
+    QueryUpdate: TIBCQuery;
+    nActive: integer;
+  begin
+    QueryUpdate := QueryCreate;
+
+    if SetToActive = true then
+      nActive := 1
+    else
+      nActive := 0;
+
+    QueryUpdate.SQL.Text := 'update GOROD set ACTIVITY = :ACTIVITY where ID = :ID';
+    QueryUpdate.ParamByName('ACTIVITY').AsInteger := nActive;
+    QueryUpdate.ParamByName('ID').AsString := CITY_ID;
+    try
+      QueryUpdate.Execute;
+    except
+      on E: Exception do
+      begin
+        WriteLog('TFTFormEditor.DoCityActivityValidation' + #13 + 'Ошибка: ' + E.Message);
+        MessageBox(handle, PChar('Ошибка при проверке активности городов.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
+      end;
+    end;
+    FormMain.IBTransaction1.CommitRetaining;
+    QueryUpdate.Close;
+    QueryUpdate.Free;
+  end;
+
+begin
+  debug('*** DoCityActivityValidation ... ***', []);
+  Query := QueryCreate;
+  Method := AnsiLowerCase(Method);
+
+  listID_ALL := TStringList.Create;
+  listID_DEL := TStringList.Create;
+  listID_OLD := ParseAdresFieldToCityIDList(FieldAdres_OLD);
+  listID_NEW := ParseAdresFieldToCityIDList(FieldAdres_NEW);
+
+  // build listID_ALL with unique oldID's + newID's and listID_DEL with deleted(edited) ID's
+  listID_ALL.Text := listID_NEW.Text;
+  for i := 0 to listID_OLD.Count - 1 do
+  begin
+    ID_OLD := listID_OLD[i];
+    if listID_NEW.IndexOf(ID_OLD) = -1 then
+    begin
+      listID_DEL.Add(ID_OLD);
+      listID_ALL.Add(ID_OLD);
+    end;
+  end;
+
+  // if Method = EDIT first we want to check new value of ACTIVITY for edited firm
+  if Method = 'edit' then
+  begin
+    // if ACTIVE = TRUE then we have to do two seperate iteration
+    // 1: go through list of DEL(deleted\edited) CITY's and set their ACTIVITY values to FALSE except if current CITY is in use by active firm
+    // 2: go through list of NEW(made after edit) CITY's and set their ACTIVITY values to TRUE
+    if IsActive = true then
+    begin
+      debug('METHOD = %s | IsActive = %s | listID_DEL.COUNT = %s', [Method, 'TRUE', IntToStr(listID_DEL.Count)]);
+      for i := 0 to listID_DEL.Count - 1 do
+      begin
+        ID_DEL := listID_DEL[i];
+        UpdateCityAcitivity(ID_DEL, IsCityShouldBeActive(BASE_ID, ID_DEL));
+        debug('listID_DEL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_DEL, GetNameByID('GOROD', ID_DEL),
+          BoolToStr(IsCityShouldBeActive(BASE_ID, ID_DEL), True)]);
+      end;
+      debug('METHOD = %s | IsActive = %s | listID_NEW.COUNT = %s', [Method, 'TRUE', IntToStr(listID_NEW.Count)]);
+      for i := 0 to listID_NEW.Count - 1 do
+      begin
+        ID_NEW := listID_NEW[i];
+        UpdateCityAcitivity(ID_NEW, true);
+        debug('listID_NEW item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_NEW, GetNameByID('GOROD', ID_NEW), 'TRUE']);
+      end;
+    end
+    // if ACTIVE = FALSE then we have to do single iteration
+    // 1: go through list of ALL(old+new) CITY's and set their ACTIVITY values to FALSE except if current CITY is in use by active firm
+    else
+    begin
+      debug('METHOD = %s | IsActive = %s | listID_ALL.COUNT = %s', [Method, 'FALSE', IntToStr(listID_ALL.Count)]);
+      for i := 0 to listID_ALL.Count - 1 do
+      begin
+        ID_ALL := listID_ALL[i];
+        UpdateCityAcitivity(ID_ALL, IsCityShouldBeActive(BASE_ID, ID_ALL));
+        debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('GOROD', ID_ALL),
+          BoolToStr(IsCityShouldBeActive(BASE_ID, ID_ALL), True)]);
+      end;
+    end;
+  end;
+
+  // if Method = ADD first we want to check the value of ACTIVITY for added firm
+  if Method = 'add' then
+  begin
+    debug('METHOD = %s | IsActive = %s | listID_ALL.COUNT = %s', [Method, BoolToStr(IsActive, True), IntToStr(listID_ALL.Count)]);
+    for i := 0 to listID_ALL.Count - 1 do
+    begin
+      ID_ALL := listID_ALL[i];
+      // if firm ACITIVITY is TRUE then we set ACTIVITY of the current CITY to TRUE
+      if IsActive = true then
+      begin
+        UpdateCityAcitivity(ID_ALL, true);
+        debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('GOROD', ID_ALL), 'TRUE']);
+      end
+      // if firm ACITIVITY is FALSE then we attempt to update ACTIVITY of the current CITY to FALSE except if current CITY is in use by active firm
+      else
+      begin
+        UpdateCityAcitivity(ID_ALL, IsCityShouldBeActive(BASE_ID, ID_ALL));
+        debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('GOROD', ID_ALL),
+          BoolToStr(IsCityShouldBeActive(BASE_ID, ID_ALL), True)]);
+      end;
+    end;
+  end;
+
+  // if Method = DELETE we attempt to update ACTIVITY of every CITY to FALSE except if current CITY is in use by active firm
+  if Method = 'delete' then
+  begin
+    debug('METHOD = %s | IsActive = %s | listID_ALL.COUNT = %s', [Method, 'FALSE', IntToStr(listID_ALL.Count)]);
+    for i := 0 to listID_ALL.Count - 1 do
+    begin
+      ID_ALL := listID_ALL[i];
+      UpdateCityAcitivity(ID_ALL, IsCityShouldBeActive(BASE_ID, ID_ALL));
+      debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('GOROD', ID_ALL),
+        BoolToStr(IsCityShouldBeActive(BASE_ID, ID_ALL), True)]);
     end;
   end;
 

@@ -1866,7 +1866,7 @@ object FormEditor: TFormEditor
             Left = 10
             Top = 165
             Width = 20
-            Height = 18
+            Height = 16
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
@@ -2433,7 +2433,7 @@ object FormEditor: TFormEditor
             Left = 10
             Top = 165
             Width = 20
-            Height = 18
+            Height = 16
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
@@ -3000,7 +3000,7 @@ object FormEditor: TFormEditor
             Left = 10
             Top = 165
             Width = 20
-            Height = 18
+            Height = 16
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
@@ -3567,7 +3567,7 @@ object FormEditor: TFormEditor
             Left = 10
             Top = 165
             Width = 20
-            Height = 18
+            Height = 16
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
@@ -4134,7 +4134,7 @@ object FormEditor: TFormEditor
             Left = 10
             Top = 165
             Width = 20
-            Height = 18
+            Height = 16
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
@@ -4701,7 +4701,7 @@ object FormEditor: TFormEditor
             Left = 10
             Top = 165
             Width = 20
-            Height = 18
+            Height = 16
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
@@ -5268,7 +5268,7 @@ object FormEditor: TFormEditor
             Left = 10
             Top = 165
             Width = 20
-            Height = 18
+            Height = 16
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
@@ -5835,7 +5835,7 @@ object FormEditor: TFormEditor
             Left = 10
             Top = 165
             Width = 20
-            Height = 18
+            Height = 16
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
