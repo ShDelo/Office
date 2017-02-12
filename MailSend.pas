@@ -74,7 +74,7 @@ type
     procedure btnEmailClearClick(Sender: TObject);
     procedure btnLogClick(Sender: TObject);
     procedure IdSMTPStatus(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
-    procedure IdMessageInitializeISO(var VTransferHeader: TTransfer; var VHeaderEncoding: Char; var VCharSet: string);
+    procedure IdMessageInitializeISO(var VHeaderEncoding: Char; var VCharSet: string);
     procedure LV_InsertFiles(nFile: string; ListView: TsListView; ImageList: TsAlphaImageList);
     function IsValidEmail(const Value: string): Boolean;
     function IsValidWeb(const Value: string): Boolean;
@@ -297,7 +297,7 @@ begin
   VContinue := True;
 end;
 
-procedure TFormMailSender.IdMessageInitializeISO(var VTransferHeader: TTransfer; var VHeaderEncoding: Char; var VCharSet: string);
+procedure TFormMailSender.IdMessageInitializeISO(var VHeaderEncoding: Char; var VCharSet: string);
 begin
   VHeaderEncoding := 'B';
   VCharSet := 'Windows-1251';
@@ -634,7 +634,7 @@ function TFormMailSender.IsValidEmail(const Value: string): Boolean;
     Result := False;
     for i := 1 to Length(s) do
     begin
-      if not (s[i] in ['a'..'z', 'A'..'Z', '0'..'9', '_', '-', '.', '&']) then
+      if not(s[i] in ['a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-', '.', '&']) then
         exit;
     end;
     Result := True;
@@ -666,7 +666,7 @@ function TFormMailSender.IsValidWeb(const Value: string): Boolean;
     Result := False;
     for i := 1 to Length(s) do
     begin
-      if not (s[i] in ['a'..'z', 'A'..'Z', '0'..'9', '_', '-', '.']) then
+      if not(s[i] in ['a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-', '.']) then
         exit;
     end;
     Result := True;
@@ -1089,7 +1089,7 @@ var
         tmp := Trim(tmp);
         Delete(tmp, Length(tmp), 1);
         if (Pos('@', tmp) = 0) or (Pos('.', tmp) = 0) { можно делать IsValidEMail }
-        or (Pos(',', tmp) > 0) then
+          or (Pos(',', tmp) > 0) then
           inList := True;
         if EmailsList.IndexOf(tmp) <> -1 then
           inList := True;
@@ -1332,7 +1332,7 @@ begin
       lblGauge.Caption := IntToStr(z + 1) + ' из ' + IntToStr(editEmailList_tmp.Items.Count);
       Gauge.Progress := z + 1;
       Application.ProcessMessages;
-      if not (GetFirmData(editEmailList_tmp.Items[z])) then
+      if not(GetFirmData(editEmailList_tmp.Items[z])) then
         Continue;
       { формируем тело сообщения }
       IdMessage.Clear;

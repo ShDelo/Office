@@ -34,7 +34,7 @@ object FormReport: TFormReport
       Visible = False
       SkinData.SkinSection = 'GAUGE'
       ForeColor = clBlack
-      MaxValue = 100
+      Progress = 0
       Suffix = '%'
     end
     object lblStatus: TsLabel
@@ -76,7 +76,6 @@ object FormReport: TFormReport
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = 0
         ParentFont = False
         TabOrder = 8
@@ -109,7 +108,6 @@ object FormReport: TFormReport
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = 0
         ParentFont = False
         TabOrder = 6
@@ -142,7 +140,6 @@ object FormReport: TFormReport
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = 0
         ParentFont = False
         TabOrder = 4
@@ -175,7 +172,6 @@ object FormReport: TFormReport
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = 0
         ParentFont = False
         TabOrder = 2
@@ -208,7 +204,6 @@ object FormReport: TFormReport
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = 0
         ParentFont = False
         TabOrder = 0
@@ -373,7 +368,6 @@ object FormReport: TFormReport
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = 0
         ParentFont = False
         TabOrder = 1
@@ -400,7 +394,6 @@ object FormReport: TFormReport
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = 0
         ParentFont = False
         TabOrder = 3
@@ -425,7 +418,6 @@ object FormReport: TFormReport
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = 0
         ParentFont = False
         TabOrder = 5
@@ -450,7 +442,6 @@ object FormReport: TFormReport
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = 0
         ParentFont = False
         TabOrder = 7
@@ -475,7 +466,6 @@ object FormReport: TFormReport
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = 0
         ParentFont = False
         TabOrder = 9

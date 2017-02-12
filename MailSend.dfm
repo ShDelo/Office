@@ -424,7 +424,6 @@ object FormMailSender: TFormMailSender
         Visible = False
         SkinData.SkinSection = 'GAUGE'
         ForeColor = clBlack
-        MaxValue = 100
         Progress = 50
         ShowText = False
         Suffix = '%'
@@ -516,7 +515,6 @@ object FormMailSender: TFormMailSender
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = -1
         ParentFont = False
         TabOrder = 0
@@ -573,7 +571,6 @@ object FormMailSender: TFormMailSender
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 16
         MultiSelect = True
         ParentFont = False
         TabOrder = 2
@@ -599,6 +596,10 @@ object FormMailSender: TFormMailSender
     end
     object tabParams: TsTabSheet
       Caption = #1059#1095#1077#1090#1085#1099#1077' '#1079#1072#1087#1080#1089#1080
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object btnProfileCreate: TsSpeedButton
         Left = 328
         Top = 16
@@ -685,7 +686,9 @@ object FormMailSender: TFormMailSender
           BoundLabel.Indent = 5
           BoundLabel.Caption = #1055#1086#1088#1090
           BoundLabel.Layout = sclTopLeft
-          Increment = 1
+          MaxValue = 0
+          MinValue = 0
+          Value = 0
         end
         object editDomen: TsEdit
           Left = 8
@@ -823,9 +826,8 @@ object FormMailSender: TFormMailSender
           Top = 296
           Width = 533
           Height = 97
-          Color = clWhite
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
+          Font.Color = clWindowText
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
@@ -869,7 +871,6 @@ object FormMailSender: TFormMailSender
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 15
           ItemIndex = -1
           ParentFont = False
           TabOrder = 8
@@ -902,7 +903,6 @@ object FormMailSender: TFormMailSender
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 15
           ItemIndex = -1
           ParentFont = False
           TabOrder = 9
@@ -936,7 +936,6 @@ object FormMailSender: TFormMailSender
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = -1
         ParentFont = False
         TabOrder = 0
@@ -964,6 +963,7 @@ object FormMailSender: TFormMailSender
     Port = 0
     DefaultPort = 0
     SSLOptions.Method = sslvSSLv2
+    SSLOptions.SSLVersions = [sslvSSLv2]
     SSLOptions.Mode = sslmUnassigned
     SSLOptions.VerifyMode = []
     SSLOptions.VerifyDepth = 0

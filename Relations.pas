@@ -89,8 +89,8 @@ begin
   except
     on E: Exception do
     begin
-      WriteLog('TFormRelations.BtnOKClick: RELATIONS ошибка обновления' + #13 + 'Ошибка: ' + E.Message + #13 +
-        'listRubrRelations.Text =' + #13 + listRubrRelations.Text);
+      WriteLog('TFormRelations.BtnOKClick: RELATIONS ошибка обновления' + #13 + 'Ошибка: ' + E.Message + #13 + 'listRubrRelations.Text =' +
+        #13 + listRubrRelations.Text);
       MessageBox(Handle, PChar('Ошибка при сохранении данных фирмы (RELATIONS).' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
     end;
   end;

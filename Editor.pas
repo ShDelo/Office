@@ -245,8 +245,8 @@ type
     function GetWebEmailString(component: TNextGrid): string;
     function GetFirmCount: string;
     function ParseIDString(IDString: string; IncludeSyntax: boolean = false): TStringList;
-    procedure DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string;
-      SGTemp, SGDir: TNextGrid; EditOwner: TsComboBox; Method: string);
+    procedure DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string; SGTemp, SGDir: TNextGrid;
+      EditOwner: TsComboBox; Method: string);
     procedure DoActivityValidation(BASE_ID, IDString_OLD, IDString_NEW: string; IsActive: boolean; Method: string);
     function IsNewRecordFound_Notify(var listNewRecords: TStringList): boolean;
     procedure IsNewRecordCheck;
@@ -677,7 +677,7 @@ end;
 procedure TFormEditor.EditPhone1KeyPress(Sender: TObject; var Key: Char);
 begin
   EditCuratorKeyPress(Sender, Key);
-  if not (Key in ['0'..'9', #8, #32, '+', '-']) then
+  if not(Key in ['0' .. '9', #8, #32, '+', '-']) then
     Key := #0;
 end;
 
@@ -1048,7 +1048,7 @@ begin
     exit;
   end;
 
-  if not (IsDublicate) then
+  if not(IsDublicate) then
   begin
 
     // shit code forced me to put this notify here
@@ -1056,8 +1056,8 @@ begin
     // if run this below IsDublicate = false check then it pop after dublicate window and potentialy lose all data
     if IsNewRecordFound_Notify(listNewRecords) = true then
     begin
-      if MessageBox(handle, PChar('Новые директории будут созданы. Продолжить?' + #13#10 + #13#10 + listNewRecords.Text),
-        'Подтверждение', MB_YESNO or MB_ICONQUESTION) = MRNO then
+      if MessageBox(handle, PChar('Новые директории будут созданы. Продолжить?' + #13#10 + #13#10 + listNewRecords.Text), 'Подтверждение',
+        MB_YESNO or MB_ICONQUESTION) = MRNO then
       begin
         listNewRecords.Free;
         exit;
@@ -1531,8 +1531,8 @@ begin
 
   if IsNewRecordFound_Notify(listNewRecords) = true then
   begin
-    if MessageBox(handle, PChar('Новые директории будут созданы. Продолжить?' + #13#10 + #13#10 + listNewRecords.Text),
-      'Подтверждение', MB_YESNO or MB_ICONQUESTION) = MRNO then
+    if MessageBox(handle, PChar('Новые директории будут созданы. Продолжить?' + #13#10 + #13#10 + listNewRecords.Text), 'Подтверждение',
+      MB_YESNO or MB_ICONQUESTION) = MRNO then
     begin
       listNewRecords.Free;
       exit;
@@ -1593,12 +1593,12 @@ begin
   try
     FormMain.IBQuery1.Execute;
 
-    DoGarbageCollection(lblID.Caption, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], GetIDString(sgCurator),
-      Main.sgCurator_tmp, FormDirectory.SGCurator, EditCurator, 'edit');
-    DoGarbageCollection(lblID.Caption, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], GetIDString(SGType),
-      Main.sgType_tmp, FormDirectory.SGFirmType, EditType, 'edit');
-    DoGarbageCollection(lblID.Caption, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'],
-      GetIDString(SGNapravlenie), Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'edit');
+    DoGarbageCollection(lblID.Caption, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], GetIDString(sgCurator), Main.sgCurator_tmp,
+      FormDirectory.SGCurator, EditCurator, 'edit');
+    DoGarbageCollection(lblID.Caption, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], GetIDString(SGType), Main.sgType_tmp,
+      FormDirectory.SGFirmType, EditType, 'edit');
+    DoGarbageCollection(lblID.Caption, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'], GetIDString(SGNapravlenie),
+      Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'edit');
 
     DoActivityValidation(lblID.Caption, list_GC_IDs.Values['NAPRAVLENIE'], GetIDString(SGNapravlenie), CBActivity.Checked, 'edit');
 
@@ -1621,7 +1621,7 @@ begin
   FormMain.TVRubrikator.Items.BeginUpdate;
   for i := FormMain.TVRubrikator.Items.Count - 1 downto 0 do
     if (IntToStr(Integer(Pointer(FormMain.TVRubrikator.Items[i].Data))) = lblID.Caption) and (FormMain.TVRubrikator.Items[i].Level <> 0)
-      then
+    then
       FormMain.TVRubrikator.Items[i].delete;
   rubrID := NewRubr;
   while pos('$', rubrID) > 0 do // создали новые ( после редактирования )
@@ -1703,12 +1703,12 @@ begin
     Q.Execute;
 
     // DO Garbage Collection
-    DoGarbageCollection(id, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], EmptyStr,
-      Main.sgCurator_tmp, FormDirectory.SGCurator, EditCurator, 'delete');
-    DoGarbageCollection(id, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], EmptyStr,
-      Main.sgType_tmp, FormDirectory.SGFirmType, EditType, 'delete');
-    DoGarbageCollection(id, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'],
-      EmptyStr, Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'delete');
+    DoGarbageCollection(id, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], EmptyStr, Main.sgCurator_tmp, FormDirectory.SGCurator,
+      EditCurator, 'delete');
+    DoGarbageCollection(id, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], EmptyStr, Main.sgType_tmp, FormDirectory.SGFirmType, EditType,
+      'delete');
+    DoGarbageCollection(id, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'], EmptyStr, Main.sgNapr_tmp,
+      FormDirectory.SGNapr, EditNapravlenie, 'delete');
 
     DoActivityValidation(id, list_GC_IDs.Values['NAPRAVLENIE'], EmptyStr, false, 'delete');
 
@@ -1765,12 +1765,12 @@ begin
       result := true;
       listNewRecords.Add('Тип фирмы: ' + SGType.Cells[0, i]);
     end;
-  {  for i := 0 to SGNapravlenie.RowCount - 1 do
-      if SGNapravlenie.Cells[1, i] = '' then
-      begin
-        result := true;
-        listNewRecords.Add('Профиль: ' + SGNapravlenie.Cells[0, i]);
-      end;}
+  { for i := 0 to SGNapravlenie.RowCount - 1 do
+    if SGNapravlenie.Cells[1, i] = '' then
+    begin
+    result := true;
+    listNewRecords.Add('Профиль: ' + SGNapravlenie.Cells[0, i]);
+    end; }
   for x := 1 to 10 do
   begin
     edit := TsComboBox(FindComponent('EditOfficeType' + IntToStr(x)));
@@ -1939,7 +1939,7 @@ var
 
 begin
   IsDublicate := True;
-  Name := AnsiLowerCase(Trim(EditName.Text));
+  name := AnsiLowerCase(Trim(EditName.Text));
   WEBstr := GetWebEmailString(SGWeb);
   WEBlist := TStringList.Create;
   if length(WEBstr) > 0 then
@@ -2003,7 +2003,7 @@ begin
   Q := QueryCreate;
   Q.Close;
   Q.SQL.Text := REQ;
-  Q.Params[0].AsString := NAME;
+  Q.Params[0].AsString := name;
   try
     Q.Open;
   except
@@ -2046,8 +2046,8 @@ begin
   FormMain.IBDatabase1.Close;
 end;
 
-procedure TFormEditor.DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string;
-  SGTemp, SGDir: TNextGrid; EditOwner: TsComboBox; Method: string);
+procedure TFormEditor.DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string; SGTemp, SGDir: TNextGrid;
+  EditOwner: TsComboBox; Method: string);
 var
   ID_OLD: string;
   i, index: integer;
@@ -2059,27 +2059,26 @@ var
     Query.SQL.Text := 'select ID from BASE where ID <> :BASE_ID and ' + BASE_Field + ' like :ID_OLD rows 1';
     Query.ParamByName('BASE_ID').AsString := BASE_ID;
     Query.ParamByName('ID_OLD').AsString := '%#' + ID_OLD + '$%';
-    //  debug('select ID from BASE where %s like %s rows 2', [BASE_Field, ID_OLD]);
+    // debug('select ID from BASE where %s like %s rows 2', [BASE_Field, ID_OLD]);
     Query.Open;
     if Query.RecordCount = 0 then
     begin
-      //  debug('Query record count = %s | ID = %s', [IntToStr(Query.RecordCount), Query.FieldByName('ID').AsString]);
+      // debug('Query record count = %s | ID = %s', [IntToStr(Query.RecordCount), Query.FieldByName('ID').AsString]);
       Query.Close;
       Query.SQL.Text := 'delete from ' + DIR_Table + ' where ID = :ID';
       Query.ParamByName('ID').AsString := ID_OLD;
 
       try
-        //  debug('delete from %s where ID = %s', [DIR_Table, ID_OLD]);
-        WriteLog('TFormEditor.DoGarbageCollection_SQL_LOG (Method: ' + Method +
-          '): delete from ' + DIR_Table + ' where ID = ' + ID_OLD);
+        // debug('delete from %s where ID = %s', [DIR_Table, ID_OLD]);
+        WriteLog('TFormEditor.DoGarbageCollection_SQL_LOG (Method: ' + Method + '): delete from ' + DIR_Table + ' where ID = ' + ID_OLD);
 
         Query.Execute;
         FormMain.IBTransaction1.CommitRetaining;
 
         if SGTemp.FindText(1, ID_OLD, [soCaseInsensitive, soExactMatch]) then
         begin
-          debug('SGTEMP row found. deleted data: name = %s | ID = %s',
-            [SGTemp.Cells[0, SGTemp.SelectedRow], SGTemp.Cells[1, SGTemp.SelectedRow]]);
+          debug('SGTEMP row found. deleted data: name = %s | ID = %s', [SGTemp.Cells[0, SGTemp.SelectedRow],
+            SGTemp.Cells[1, SGTemp.SelectedRow]]);
 
           SGTemp.DeleteRow(SGTemp.SelectedRow);
         end
@@ -2088,8 +2087,8 @@ var
 
         if SGDir.FindText(1, ID_OLD, [soCaseInsensitive, soExactMatch]) then
         begin
-          debug('SGDIR row found. deleted data: name = %s | ID = %s',
-            [SGDir.Cells[0, SGDir.SelectedRow], SGDir.Cells[1, SGDir.SelectedRow]]);
+          debug('SGDIR row found. deleted data: name = %s | ID = %s', [SGDir.Cells[0, SGDir.SelectedRow],
+            SGDir.Cells[1, SGDir.SelectedRow]]);
 
           SGDir.DeleteRow(SGDir.SelectedRow);
         end
@@ -2197,8 +2196,7 @@ var
       on E: Exception do
       begin
         WriteLog('TFTFormEditor.DoActivityValidation' + #13 + 'Ошибка: ' + E.Message);
-        MessageBox(handle, PChar('Ошибка при проверке активности видов деятельности.' + #13 + E.Message), 'Ошибка', MB_OK or
-          MB_ICONERROR);
+        MessageBox(handle, PChar('Ошибка при проверке активности видов деятельности.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
       end;
     end;
     FormMain.IBTransaction1.CommitRetaining;
@@ -2253,8 +2251,8 @@ begin
           'TRUE']);
       end;
     end
-      // if ACTIVE = FALSE then we have to do single iteration
-      // 1: go through list of ALL(old+new) NAPR's and set their ACTIVITY values to FALSE except if current NAPR is in use by active firm
+    // if ACTIVE = FALSE then we have to do single iteration
+    // 1: go through list of ALL(old+new) NAPR's and set their ACTIVITY values to FALSE except if current NAPR is in use by active firm
     else
     begin
       debug('METHOD = %s | IsActive = %s | listID_ALL.COUNT = %s', [Method, 'FALSE', IntToStr(listID_ALL.Count)]);
@@ -2282,7 +2280,7 @@ begin
         debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('NAPRAVLENIE', ID_ALL),
           'TRUE']);
       end
-        // if firm ACITIVITY is FALSE then we attempt to update ACTIVITY of the current NAPR to FALSE except if current NAPR is in use by active firm
+      // if firm ACITIVITY is FALSE then we attempt to update ACTIVITY of the current NAPR to FALSE except if current NAPR is in use by active firm
       else
       begin
         UpdateNaprAcitivity(ID_ALL, IsNaprShouldBeActive(BASE_ID, ID_ALL));

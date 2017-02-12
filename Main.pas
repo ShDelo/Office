@@ -870,7 +870,7 @@ begin
     Grid.Cells[1, Grid.LastAddedRow] := '1'
   else
     Grid.Cells[1, Grid.LastAddedRow] := '2';
-  Grid.Cells[2, Grid.LastAddedRow] := Name;
+  Grid.Cells[2, Grid.LastAddedRow] := name;
   Grid.Cells[3, Grid.LastAddedRow] := Cur;
   Grid.Cells[4, Grid.LastAddedRow] := DateAdded;
   Grid.Cells[5, Grid.LastAddedRow] := DateEdited;
@@ -1020,7 +1020,7 @@ begin
   curr := sPageControl1.ActivePage.Name;
   while sPageControl1.PageCount <> 2 do
   begin
-    if not (sPageControl1.Pages[1].Name = curr) then
+    if not(sPageControl1.Pages[1].Name = curr) then
       sPageControl1.Pages[1].Free
     else if sPageControl1.PageCount > 2 then
       sPageControl1.Pages[2].Free;

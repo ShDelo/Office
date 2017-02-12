@@ -117,12 +117,12 @@ begin
   editDate1.Date := Now;
   editDate2.Date := Now;
   case editFilter.ItemIndex of
-    0..9:
+    0 .. 9:
       begin
         panelFilters.Visible := True;
         panelDates.Visible := False;
       end;
-    10..11:
+    10 .. 11:
       begin
         panelFilters.Visible := False;
         panelDates.Visible := True;
@@ -283,7 +283,7 @@ begin
   editFilterData.Items.EndUpdate;
   if editFilterData.Items.Count > 0 then
     editFilterData.ItemIndex := 0;
-  if editFilter.ItemIndex in [0..9] then
+  if editFilter.ItemIndex in [0 .. 9] then
   begin
     editFilterData.SetFocus;
     editFilterData.DroppedDown := True;
@@ -515,7 +515,7 @@ var
   end;
 
 begin
-  if (editFilter.ItemIndex = -1) or ((editFilter.ItemIndex in [0..9]) and (trim(editFilterData.Text) = '')) then
+  if (editFilter.ItemIndex = -1) or ((editFilter.ItemIndex in [0 .. 9]) and (trim(editFilterData.Text) = '')) then
   begin
     MessageBox(handle, 'Укажите данные для генерации отчета', 'Предупреждение', MB_OK or MB_ICONWARNING);
     exit;
@@ -576,9 +576,9 @@ begin
       AddLine('Найдено записей: ' + IntToStr(Q_GEN.RecordCount), clWindowText, 10, 'Times New Roman', []);
       AddLine('Условия выбора:', clWindowText, 10, 'Times New Roman', []);
       case editFilter.ItemIndex of
-        0..9:
+        0 .. 9:
           AddLine(editFilter.Text + ' = ' + trim(editFilterData.Text), clWindowText, 10, 'Times New Roman', []);
-        10..11:
+        10 .. 11:
           AddLine(editFilter.Text + ' = ' + editDate1.Text + ' - ' + editDate2.Text, clWindowText, 10, 'Times New Roman', []);
       end;
       AddLine('', clWindowText, 10, 'Times New Roman', []);
@@ -642,7 +642,8 @@ begin
             AddLine(FormatNapr('NAPR', finalStr), clWindowText, 10, 'Times New Roman', [fsItalic]);
           end;
         end
-        else {// Отображаем все направления}if trim(Q_GEN.FieldValues['NAPRAVLENIE']) <> '' then
+        else { // Отображаем все направления }
+          if trim(Q_GEN.FieldValues['NAPRAVLENIE']) <> '' then
           begin
             AddLine(FormatNapr('NAPR', Q_GEN.FieldValues['NAPRAVLENIE']), clWindowText, 10, 'Times New Roman', [fsItalic]);
           end;

@@ -730,7 +730,6 @@ object FormEditor: TFormEditor
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = []
-      ItemHeight = 18
       ItemIndex = -1
       MaxLength = 255
       ParentFont = False
@@ -761,7 +760,6 @@ object FormEditor: TFormEditor
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = []
-      ItemHeight = 18
       ItemIndex = -1
       MaxLength = 255
       ParentFont = False
@@ -792,7 +790,6 @@ object FormEditor: TFormEditor
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = []
-      ItemHeight = 18
       ItemIndex = -1
       MaxLength = 255
       ParentFont = False
@@ -824,7 +821,6 @@ object FormEditor: TFormEditor
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = []
-      ItemHeight = 18
       ItemIndex = -1
       MaxLength = 5000
       ParentFont = False
@@ -843,6 +839,8 @@ object FormEditor: TFormEditor
       SkinData.SkinSection = 'PAGECONTROL'
       object sTabSheet1: TsTabSheet
         Caption = '1'
+        ExplicitTop = 6
+        ExplicitHeight = 234
         object sGroupBox1: TsGroupBox
           Left = 4
           Top = -4
@@ -1182,7 +1180,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -1262,7 +1259,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -1292,7 +1288,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -1332,7 +1327,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -1344,7 +1338,10 @@ object FormEditor: TFormEditor
             Top = 152
             Width = 321
             Height = 61
+            Touch.InteractiveGestures = [igPan, igPressAndTap]
+            Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+            Caption = ''
             Options = [goSelectFullRow]
             TabOrder = 9
             TabStop = True
@@ -1352,7 +1349,18 @@ object FormEditor: TFormEditor
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn9: TNxTextColumn
               DefaultWidth = 300
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
               Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+              Header.Font.Charset = DEFAULT_CHARSET
+              Header.Font.Color = clWindowText
+              Header.Font.Height = -11
+              Header.Font.Name = 'Tahoma'
+              Header.Font.Style = []
+              ParentFont = False
               Position = 0
               Sorted = True
               SortType = stAlphabetic
@@ -1400,6 +1408,8 @@ object FormEditor: TFormEditor
       end
       object sTabSheet2: TsTabSheet
         Caption = '2'
+        ExplicitTop = 6
+        ExplicitHeight = 234
         object sGroupBox2: TsGroupBox
           Left = 4
           Top = -4
@@ -1739,7 +1749,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -1819,7 +1828,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -1849,7 +1857,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -1888,7 +1895,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -1900,7 +1906,10 @@ object FormEditor: TFormEditor
             Top = 152
             Width = 321
             Height = 61
+            Touch.InteractiveGestures = [igPan, igPressAndTap]
+            Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+            Caption = ''
             Options = [goSelectFullRow]
             TabOrder = 9
             TabStop = True
@@ -1908,7 +1917,18 @@ object FormEditor: TFormEditor
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn10: TNxTextColumn
               DefaultWidth = 300
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
               Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+              Header.Font.Charset = DEFAULT_CHARSET
+              Header.Font.Color = clWindowText
+              Header.Font.Height = -11
+              Header.Font.Name = 'Tahoma'
+              Header.Font.Style = []
+              ParentFont = False
               Position = 0
               Sorted = True
               SortType = stAlphabetic
@@ -1921,9 +1941,8 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 60
             TabStop = False
-            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
+            Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -1956,6 +1975,8 @@ object FormEditor: TFormEditor
       end
       object sTabSheet3: TsTabSheet
         Caption = '3'
+        ExplicitTop = 6
+        ExplicitHeight = 234
         object sGroupBox3: TsGroupBox
           Left = 4
           Top = -4
@@ -2295,7 +2316,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -2375,7 +2395,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -2405,7 +2424,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -2444,7 +2462,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -2456,7 +2473,10 @@ object FormEditor: TFormEditor
             Top = 152
             Width = 321
             Height = 61
+            Touch.InteractiveGestures = [igPan, igPressAndTap]
+            Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+            Caption = ''
             Options = [goSelectFullRow]
             TabOrder = 9
             TabStop = True
@@ -2464,7 +2484,18 @@ object FormEditor: TFormEditor
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn11: TNxTextColumn
               DefaultWidth = 300
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
               Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+              Header.Font.Charset = DEFAULT_CHARSET
+              Header.Font.Color = clWindowText
+              Header.Font.Height = -11
+              Header.Font.Name = 'Tahoma'
+              Header.Font.Style = []
+              ParentFont = False
               Position = 0
               Sorted = True
               SortType = stAlphabetic
@@ -2477,9 +2508,8 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 60
             TabStop = False
-            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
+            Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -2512,6 +2542,8 @@ object FormEditor: TFormEditor
       end
       object sTabSheet4: TsTabSheet
         Caption = '4'
+        ExplicitTop = 6
+        ExplicitHeight = 234
         object sGroupBox4: TsGroupBox
           Left = 4
           Top = -4
@@ -2851,7 +2883,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -2931,7 +2962,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -2961,7 +2991,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -3000,7 +3029,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -3012,7 +3040,10 @@ object FormEditor: TFormEditor
             Top = 152
             Width = 321
             Height = 61
+            Touch.InteractiveGestures = [igPan, igPressAndTap]
+            Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+            Caption = ''
             Options = [goSelectFullRow]
             TabOrder = 9
             TabStop = True
@@ -3020,7 +3051,18 @@ object FormEditor: TFormEditor
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn12: TNxTextColumn
               DefaultWidth = 300
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
               Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+              Header.Font.Charset = DEFAULT_CHARSET
+              Header.Font.Color = clWindowText
+              Header.Font.Height = -11
+              Header.Font.Name = 'Tahoma'
+              Header.Font.Style = []
+              ParentFont = False
               Position = 0
               Sorted = True
               SortType = stAlphabetic
@@ -3033,9 +3075,8 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 60
             TabStop = False
-            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
+            Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -3068,6 +3109,8 @@ object FormEditor: TFormEditor
       end
       object sTabSheet5: TsTabSheet
         Caption = '5'
+        ExplicitTop = 6
+        ExplicitHeight = 234
         object sGroupBox5: TsGroupBox
           Left = 4
           Top = -4
@@ -3407,7 +3450,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -3487,7 +3529,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -3517,7 +3558,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -3556,7 +3596,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -3568,7 +3607,10 @@ object FormEditor: TFormEditor
             Top = 152
             Width = 321
             Height = 61
+            Touch.InteractiveGestures = [igPan, igPressAndTap]
+            Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+            Caption = ''
             Options = [goSelectFullRow]
             TabOrder = 9
             TabStop = True
@@ -3576,7 +3618,18 @@ object FormEditor: TFormEditor
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn13: TNxTextColumn
               DefaultWidth = 300
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
               Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+              Header.Font.Charset = DEFAULT_CHARSET
+              Header.Font.Color = clWindowText
+              Header.Font.Height = -11
+              Header.Font.Name = 'Tahoma'
+              Header.Font.Style = []
+              ParentFont = False
               Position = 0
               Sorted = True
               SortType = stAlphabetic
@@ -3589,9 +3642,8 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 60
             TabStop = False
-            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
+            Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -3624,6 +3676,8 @@ object FormEditor: TFormEditor
       end
       object sTabSheet6: TsTabSheet
         Caption = '6'
+        ExplicitTop = 6
+        ExplicitHeight = 234
         object sGroupBox6: TsGroupBox
           Left = 4
           Top = -4
@@ -3963,7 +4017,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -4043,7 +4096,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -4073,7 +4125,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -4112,7 +4163,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -4124,7 +4174,10 @@ object FormEditor: TFormEditor
             Top = 152
             Width = 321
             Height = 61
+            Touch.InteractiveGestures = [igPan, igPressAndTap]
+            Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+            Caption = ''
             Options = [goSelectFullRow]
             TabOrder = 9
             TabStop = True
@@ -4132,7 +4185,18 @@ object FormEditor: TFormEditor
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn14: TNxTextColumn
               DefaultWidth = 300
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
               Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+              Header.Font.Charset = DEFAULT_CHARSET
+              Header.Font.Color = clWindowText
+              Header.Font.Height = -11
+              Header.Font.Name = 'Tahoma'
+              Header.Font.Style = []
+              ParentFont = False
               Position = 0
               Sorted = True
               SortType = stAlphabetic
@@ -4145,9 +4209,8 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 60
             TabStop = False
-            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
+            Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -4180,6 +4243,8 @@ object FormEditor: TFormEditor
       end
       object sTabSheet7: TsTabSheet
         Caption = '7'
+        ExplicitTop = 6
+        ExplicitHeight = 234
         object sGroupBox7: TsGroupBox
           Left = 4
           Top = -4
@@ -4519,7 +4584,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -4599,7 +4663,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -4629,7 +4692,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -4668,7 +4730,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -4680,7 +4741,10 @@ object FormEditor: TFormEditor
             Top = 152
             Width = 321
             Height = 61
+            Touch.InteractiveGestures = [igPan, igPressAndTap]
+            Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+            Caption = ''
             Options = [goSelectFullRow]
             TabOrder = 9
             TabStop = True
@@ -4688,7 +4752,18 @@ object FormEditor: TFormEditor
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn15: TNxTextColumn
               DefaultWidth = 300
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
               Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+              Header.Font.Charset = DEFAULT_CHARSET
+              Header.Font.Color = clWindowText
+              Header.Font.Height = -11
+              Header.Font.Name = 'Tahoma'
+              Header.Font.Style = []
+              ParentFont = False
               Position = 0
               Sorted = True
               SortType = stAlphabetic
@@ -4701,9 +4776,8 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 60
             TabStop = False
-            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
+            Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -4736,6 +4810,8 @@ object FormEditor: TFormEditor
       end
       object sTabSheet8: TsTabSheet
         Caption = '8'
+        ExplicitTop = 6
+        ExplicitHeight = 234
         object sGroupBox8: TsGroupBox
           Left = 4
           Top = -4
@@ -5075,7 +5151,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -5155,7 +5230,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -5185,7 +5259,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -5224,7 +5297,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -5236,7 +5308,10 @@ object FormEditor: TFormEditor
             Top = 152
             Width = 321
             Height = 61
+            Touch.InteractiveGestures = [igPan, igPressAndTap]
+            Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+            Caption = ''
             Options = [goSelectFullRow]
             TabOrder = 9
             TabStop = True
@@ -5244,7 +5319,18 @@ object FormEditor: TFormEditor
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn16: TNxTextColumn
               DefaultWidth = 300
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
               Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+              Header.Font.Charset = DEFAULT_CHARSET
+              Header.Font.Color = clWindowText
+              Header.Font.Height = -11
+              Header.Font.Name = 'Tahoma'
+              Header.Font.Style = []
+              ParentFont = False
               Position = 0
               Sorted = True
               SortType = stAlphabetic
@@ -5257,9 +5343,8 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 60
             TabStop = False
-            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
+            Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -5292,6 +5377,8 @@ object FormEditor: TFormEditor
       end
       object sTabSheet9: TsTabSheet
         Caption = '9'
+        ExplicitTop = 6
+        ExplicitHeight = 234
         object sGroupBox9: TsGroupBox
           Left = 4
           Top = -4
@@ -5631,7 +5718,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -5711,7 +5797,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -5741,7 +5826,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -5780,7 +5864,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -5792,7 +5875,10 @@ object FormEditor: TFormEditor
             Top = 152
             Width = 321
             Height = 61
+            Touch.InteractiveGestures = [igPan, igPressAndTap]
+            Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+            Caption = ''
             Options = [goSelectFullRow]
             TabOrder = 9
             TabStop = True
@@ -5800,7 +5886,18 @@ object FormEditor: TFormEditor
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn17: TNxTextColumn
               DefaultWidth = 300
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
               Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+              Header.Font.Charset = DEFAULT_CHARSET
+              Header.Font.Color = clWindowText
+              Header.Font.Height = -11
+              Header.Font.Name = 'Tahoma'
+              Header.Font.Style = []
+              ParentFont = False
               Position = 0
               Sorted = True
               SortType = stAlphabetic
@@ -5813,9 +5910,8 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 60
             TabStop = False
-            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
+            Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -5848,6 +5944,8 @@ object FormEditor: TFormEditor
       end
       object sTabSheet10: TsTabSheet
         Caption = '10'
+        ExplicitTop = 6
+        ExplicitHeight = 234
         object sGroupBox10: TsGroupBox
           Left = 4
           Top = -4
@@ -6187,7 +6285,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -6267,7 +6364,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -6297,7 +6393,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -6336,7 +6431,6 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 18
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
@@ -6348,7 +6442,10 @@ object FormEditor: TFormEditor
             Top = 152
             Width = 321
             Height = 61
+            Touch.InteractiveGestures = [igPan, igPressAndTap]
+            Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+            Caption = ''
             Options = [goSelectFullRow]
             TabOrder = 9
             TabStop = True
@@ -6356,7 +6453,18 @@ object FormEditor: TFormEditor
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn18: TNxTextColumn
               DefaultWidth = 300
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
               Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+              Header.Font.Charset = DEFAULT_CHARSET
+              Header.Font.Color = clWindowText
+              Header.Font.Height = -11
+              Header.Font.Name = 'Tahoma'
+              Header.Font.Style = []
+              ParentFont = False
               Position = 0
               Sorted = True
               SortType = stAlphabetic
@@ -6369,9 +6477,8 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 60
             TabStop = False
-            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
+            Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -6408,7 +6515,10 @@ object FormEditor: TFormEditor
       Top = 188
       Width = 321
       Height = 53
+      Touch.InteractiveGestures = [igPan, igPressAndTap]
+      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
       AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+      Caption = ''
       Options = [goSelectFullRow]
       TabOrder = 5
       TabStop = True
@@ -6417,7 +6527,18 @@ object FormEditor: TFormEditor
       OnKeyUp = SGCuratorKeyUp
       object NxTextColumn1: TNxTextColumn
         DefaultWidth = 300
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
         Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        ParentFont = False
         Position = 0
         Sorted = True
         SortType = stAlphabetic
@@ -6425,8 +6546,19 @@ object FormEditor: TFormEditor
       end
       object NxTextColumn2: TNxTextColumn
         DefaultWidth = 30
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
         Header.Caption = 'ID'
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
         InputCaption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1088#1091#1073#1088#1080#1082#1091'...'
+        ParentFont = False
         Position = 1
         SortType = stAlphabetic
         Visible = False
@@ -6438,7 +6570,10 @@ object FormEditor: TFormEditor
       Top = 288
       Width = 321
       Height = 53
+      Touch.InteractiveGestures = [igPan, igPressAndTap]
+      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
       AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+      Caption = ''
       Options = [goSelectFullRow]
       TabOrder = 7
       TabStop = True
@@ -6447,7 +6582,18 @@ object FormEditor: TFormEditor
       OnKeyUp = SGCuratorKeyUp
       object NxTextColumn3: TNxTextColumn
         DefaultWidth = 300
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
         Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        ParentFont = False
         Position = 0
         Sorted = True
         SortType = stAlphabetic
@@ -6455,8 +6601,19 @@ object FormEditor: TFormEditor
       end
       object NxTextColumn4: TNxTextColumn
         DefaultWidth = 30
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
         Header.Caption = 'ID'
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
         InputCaption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1088#1091#1073#1088#1080#1082#1091'...'
+        ParentFont = False
         Position = 1
         SortType = stAlphabetic
         Visible = False
@@ -6468,7 +6625,10 @@ object FormEditor: TFormEditor
       Top = 88
       Width = 321
       Height = 53
+      Touch.InteractiveGestures = [igPan, igPressAndTap]
+      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
       AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+      Caption = ''
       Options = [goSelectFullRow]
       TabOrder = 3
       TabStop = True
@@ -6477,7 +6637,18 @@ object FormEditor: TFormEditor
       OnKeyUp = SGCuratorKeyUp
       object NxTextColumn5: TNxTextColumn
         DefaultWidth = 300
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
         Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        ParentFont = False
         Position = 0
         Sorted = True
         SortType = stAlphabetic
@@ -6485,8 +6656,19 @@ object FormEditor: TFormEditor
       end
       object NxTextColumn6: TNxTextColumn
         DefaultWidth = 30
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
         Header.Caption = 'ID'
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
         InputCaption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1088#1091#1073#1088#1080#1082#1091'...'
+        ParentFont = False
         Position = 1
         SortType = stAlphabetic
         Visible = False
@@ -6498,7 +6680,10 @@ object FormEditor: TFormEditor
       Top = 88
       Width = 321
       Height = 53
+      Touch.InteractiveGestures = [igPan, igPressAndTap]
+      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
       AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+      Caption = ''
       Options = [goSelectFullRow]
       TabOrder = 9
       TabStop = True
@@ -6507,7 +6692,18 @@ object FormEditor: TFormEditor
       OnKeyUp = SGCuratorKeyUp
       object NxTextColumn7: TNxTextColumn
         DefaultWidth = 300
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
         Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        ParentFont = False
         Position = 0
         Sorted = True
         SortType = stAlphabetic
@@ -6515,8 +6711,19 @@ object FormEditor: TFormEditor
       end
       object NxTextColumn8: TNxTextColumn
         DefaultWidth = 30
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
         Header.Caption = 'ID'
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
         InputCaption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1088#1091#1073#1088#1080#1082#1091'...'
+        ParentFont = False
         Position = 1
         SortType = stAlphabetic
         Visible = False
@@ -6528,7 +6735,10 @@ object FormEditor: TFormEditor
       Top = 188
       Width = 321
       Height = 53
+      Touch.InteractiveGestures = [igPan, igPressAndTap]
+      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
       AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+      Caption = ''
       Options = [goSelectFullRow]
       TabOrder = 11
       TabStop = True
@@ -6537,7 +6747,18 @@ object FormEditor: TFormEditor
       OnKeyUp = SGCuratorKeyUp
       object NxTextColumn19: TNxTextColumn
         DefaultWidth = 300
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
         Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        ParentFont = False
         Position = 0
         Sorted = True
         SortType = stAlphabetic
@@ -6549,7 +6770,10 @@ object FormEditor: TFormEditor
       Top = 288
       Width = 321
       Height = 53
+      Touch.InteractiveGestures = [igPan, igPressAndTap]
+      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
       AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+      Caption = ''
       Options = [goSelectFullRow]
       TabOrder = 13
       TabStop = True
@@ -6558,7 +6782,18 @@ object FormEditor: TFormEditor
       OnKeyUp = SGCuratorKeyUp
       object NxTextColumn21: TNxTextColumn
         DefaultWidth = 300
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
         Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        ParentFont = False
         Position = 0
         Sorted = True
         SortType = stAlphabetic
@@ -6589,7 +6824,6 @@ object FormEditor: TFormEditor
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = []
-      ItemHeight = 16
       ItemIndex = -1
       MaxLength = 255
       ParentFont = False
@@ -6621,7 +6855,6 @@ object FormEditor: TFormEditor
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = []
-      ItemHeight = 16
       ItemIndex = -1
       MaxLength = 255
       ParentFont = False

@@ -42,7 +42,6 @@ object FormReportSimple: TFormReportSimple
         Visible = False
         SkinData.SkinSection = 'GAUGE'
         ForeColor = clBlack
-        MaxValue = 100
         Progress = 50
         Suffix = '%'
       end
@@ -104,12 +103,12 @@ object FormReportSimple: TFormReportSimple
         SkinData.SkinSection = 'COMBOBOX'
         VerticalAlignment = taAlignTop
         Style = csDropDownList
+        Color = clWhite
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
+        Font.Color = clBlack
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 15
         ItemIndex = -1
         ParentFont = False
         TabOrder = 0
@@ -217,6 +216,7 @@ object FormReportSimple: TFormReportSimple
           Top = 4
           Width = 417
           Height = 21
+          AutoDropDown = True
           Alignment = taLeftJustify
           DropDownCount = 9
           SkinData.SkinSection = 'COMBOBOX'
@@ -227,12 +227,10 @@ object FormReportSimple: TFormReportSimple
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 15
           ItemIndex = -1
           ParentFont = False
           Sorted = True
           TabOrder = 0
-          AutoDropDown = True
         end
       end
     end

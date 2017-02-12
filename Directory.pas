@@ -159,7 +159,7 @@ begin
   end;
   SGCurator.EndUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;  
+  Application.ProcessMessages;
   SGRubr.BeginUpdate;
   SGRubr.ClearRows;
   for i := 0 to Main.sgRubr_tmp.RowCount - 1 do
@@ -170,7 +170,7 @@ begin
   end;
   SGRubr.EndUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;  
+  Application.ProcessMessages;
   SGFirmType.BeginUpdate;
   SGFirmType.ClearRows;
   for i := 0 to Main.sgType_tmp.RowCount - 1 do
@@ -181,7 +181,7 @@ begin
   end;
   SGFirmType.EndUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;  
+  Application.ProcessMessages;
   SGNapr.BeginUpdate;
   SGNapr.ClearRows;
   for i := 0 to Main.sgNapr_tmp.RowCount - 1 do
@@ -192,7 +192,7 @@ begin
   end;
   SGNapr.EndUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;  
+  Application.ProcessMessages;
   Q_Dir := QueryCreate;
   Q_Dir.Close;
   Q_Dir.SQL.Text := 'select * from OFFICETYPE order by lower(NAME)';
@@ -210,7 +210,7 @@ begin
     end;
   SGOfficeType.EndUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;  
+  Application.ProcessMessages;
   Q_Dir.Close;
   Q_Dir.SQL.Text := 'select * from COUNTRY order by lower(NAME)';
   Q_Dir.Open;
@@ -227,7 +227,7 @@ begin
     end;
   SGCountry.EndUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;  
+  Application.ProcessMessages;
   Q_Dir.Close;
   Q_Dir.SQL.Text := 'select * from GOROD order by lower(NAME)';
   Q_Dir.Open;
@@ -244,7 +244,7 @@ begin
     end;
   SGCity.EndUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;  
+  Application.ProcessMessages;
   Q_Dir.Close;
   Q_Dir.SQL.Text := 'select * from PHONETYPE order by lower(NAME)';
   Q_Dir.Open;
@@ -261,7 +261,7 @@ begin
     end;
   SGPhoneType.EndUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;    
+  Application.ProcessMessages;
   Q_Dir.Close;
   Q_Dir.Free;
 end;
