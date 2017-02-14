@@ -269,7 +269,6 @@ type
     procedure BtnAddWebToListClick(Sender: TObject);
     procedure SGCuratorDblClick(Sender: TObject);
     procedure SGCuratorEnter(Sender: TObject);
-    procedure sComboBoxEx1Select(Sender: TObject);
   private
     { Private declarations }
   public
@@ -786,7 +785,6 @@ begin
   for i := 0 to Main.sgNapr_tmp.RowCount - 1 do
   begin
     EditNapravlenie.AddItem(Main.sgNapr_tmp.Cells[0, i], Pointer(StrToInt(Main.sgNapr_tmp.Cells[1, i])));
-    // sComboBoxEx1.AddItem(Main.sgNapr_tmp.Cells[0, i], TObject(StrToInt(Main.sgNapr_tmp.Cells[1, i])));
   end;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
   Application.ProcessMessages;
@@ -1468,11 +1466,6 @@ begin
   end;
   FormMain.IBQuery1.Close;
   // FormMain.IBDatabase1.Connected := False;
-end;
-
-procedure TFormEditor.sComboBoxEx1Select(Sender: TObject);
-begin
-  // ShowMessage(sComboBoxEx1.Items[sComboBoxEx1.ItemIndex] + ' = ' + Integer(sComboBoxEx1.Items.Objects[sComboBoxEx1.ItemIndex]).ToString);
 end;
 
 procedure TFormEditor.EditRecord(Sender: TObject);
