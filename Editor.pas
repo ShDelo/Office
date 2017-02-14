@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, sButton, ExtCtrls, sPanel, sComboBox, sEdit,
+  Dialogs, StdCtrls, sButton, ExtCtrls, sPanel, sComboBox, sComboBoxes, sEdit,
   sCheckBox, sLabel, sGroupBox, ComCtrls, sPageControl, acPNG, IBC,
   NxColumns, NxColumnClasses, NxScrollControl, NxCustomGridControl,
   NxCustomGrid, NxGrid, sSpeedButton, Buttons, sMemo, StrUtils;
@@ -15,92 +15,92 @@ type
     PanelMain: TsPanel;
     EditName: TsEdit;
     EditFIO: TsEdit;
-    EditCurator: TsComboBox;
-    EditRubr: TsComboBox;
-    EditType: TsComboBox;
-    EditNapravlenie: TsComboBox;
+    EditCurator: TsComboBoxEx;
+    EditRubr: TsComboBoxEx;
+    EditType: TsComboBoxEx;
+    EditNapravlenie: TsComboBoxEx;
     sPageControl1: TsPageControl;
     sTabSheet1: TsTabSheet;
     sGroupBox1: TsGroupBox;
     ImagePhone1: TImage;
     EditNO1: TsEdit;
-    EditOfficeType1: TsComboBox;
+    EditOfficeType1: TsComboBoxEx;
     EditZIP1: TsEdit;
     EditStreet1: TsEdit;
-    EditCountry1: TsComboBox;
-    EditCity1: TsComboBox;
+    EditCountry1: TsComboBoxEx;
+    EditCity1: TsComboBoxEx;
     sTabSheet2: TsTabSheet;
     sGroupBox2: TsGroupBox;
     EditNO2: TsEdit;
-    EditOfficeType2: TsComboBox;
+    EditOfficeType2: TsComboBoxEx;
     EditZIP2: TsEdit;
     EditStreet2: TsEdit;
-    EditCountry2: TsComboBox;
-    EditCity2: TsComboBox;
+    EditCountry2: TsComboBoxEx;
+    EditCity2: TsComboBoxEx;
     sTabSheet3: TsTabSheet;
     sGroupBox3: TsGroupBox;
     EditNO3: TsEdit;
-    EditOfficeType3: TsComboBox;
+    EditOfficeType3: TsComboBoxEx;
     EditZIP3: TsEdit;
     EditStreet3: TsEdit;
-    EditCountry3: TsComboBox;
-    EditCity3: TsComboBox;
+    EditCountry3: TsComboBoxEx;
+    EditCity3: TsComboBoxEx;
     sTabSheet4: TsTabSheet;
     sGroupBox4: TsGroupBox;
     EditNO4: TsEdit;
-    EditOfficeType4: TsComboBox;
+    EditOfficeType4: TsComboBoxEx;
     EditZIP4: TsEdit;
     EditStreet4: TsEdit;
-    EditCountry4: TsComboBox;
-    EditCity4: TsComboBox;
+    EditCountry4: TsComboBoxEx;
+    EditCity4: TsComboBoxEx;
     sTabSheet5: TsTabSheet;
     sGroupBox5: TsGroupBox;
     EditNO5: TsEdit;
-    EditOfficeType5: TsComboBox;
+    EditOfficeType5: TsComboBoxEx;
     EditZIP5: TsEdit;
     EditStreet5: TsEdit;
-    EditCountry5: TsComboBox;
-    EditCity5: TsComboBox;
+    EditCountry5: TsComboBoxEx;
+    EditCity5: TsComboBoxEx;
     sTabSheet6: TsTabSheet;
     sGroupBox6: TsGroupBox;
     EditNO6: TsEdit;
-    EditOfficeType6: TsComboBox;
+    EditOfficeType6: TsComboBoxEx;
     EditZIP6: TsEdit;
     EditStreet6: TsEdit;
-    EditCountry6: TsComboBox;
-    EditCity6: TsComboBox;
+    EditCountry6: TsComboBoxEx;
+    EditCity6: TsComboBoxEx;
     sTabSheet7: TsTabSheet;
     sGroupBox7: TsGroupBox;
     EditNO7: TsEdit;
-    EditOfficeType7: TsComboBox;
+    EditOfficeType7: TsComboBoxEx;
     EditZIP7: TsEdit;
     EditStreet7: TsEdit;
-    EditCountry7: TsComboBox;
-    EditCity7: TsComboBox;
+    EditCountry7: TsComboBoxEx;
+    EditCity7: TsComboBoxEx;
     sTabSheet8: TsTabSheet;
     sGroupBox8: TsGroupBox;
     EditNO8: TsEdit;
-    EditOfficeType8: TsComboBox;
+    EditOfficeType8: TsComboBoxEx;
     EditZIP8: TsEdit;
     EditStreet8: TsEdit;
-    EditCountry8: TsComboBox;
-    EditCity8: TsComboBox;
+    EditCountry8: TsComboBoxEx;
+    EditCity8: TsComboBoxEx;
     sTabSheet9: TsTabSheet;
     sGroupBox9: TsGroupBox;
     EditNO9: TsEdit;
-    EditOfficeType9: TsComboBox;
+    EditOfficeType9: TsComboBoxEx;
     EditZIP9: TsEdit;
     EditStreet9: TsEdit;
-    EditCountry9: TsComboBox;
-    EditCity9: TsComboBox;
+    EditCountry9: TsComboBoxEx;
+    EditCity9: TsComboBoxEx;
     sTabSheet10: TsTabSheet;
     sGroupBox10: TsGroupBox;
     EditNO10: TsEdit;
-    EditOfficeType10: TsComboBox;
+    EditOfficeType10: TsComboBoxEx;
     EditZIP10: TsEdit;
     EditStreet10: TsEdit;
-    EditCountry10: TsComboBox;
-    EditCity10: TsComboBox;
+    EditCountry10: TsComboBoxEx;
+    EditCity10: TsComboBoxEx;
     CBAdres1: TsCheckBox;
     CBAdres2: TsCheckBox;
     CBAdres3: TsCheckBox;
@@ -111,14 +111,8 @@ type
     CBAdres8: TsCheckBox;
     CBAdres9: TsCheckBox;
     CBAdres10: TsCheckBox;
-    SGRubr: TNextGrid;
-    NxTextColumn2: TNxTextColumn;
     BtnAddRubrToList: TsSpeedButton;
     BtnDeleteRubrFromList: TsSpeedButton;
-    NxTextColumn1: TNxTextColumn;
-    SGNapravlenie: TNextGrid;
-    NxTextColumn3: TNxTextColumn;
-    NxTextColumn4: TNxTextColumn;
     BtnAddNaprToList: TsSpeedButton;
     BtnDeleteNaprFromList: TsSpeedButton;
     ImagePhone2: TImage;
@@ -130,12 +124,6 @@ type
     ImagePhone8: TImage;
     ImagePhone9: TImage;
     ImagePhone10: TImage;
-    SGCurator: TNextGrid;
-    NxTextColumn5: TNxTextColumn;
-    NxTextColumn6: TNxTextColumn;
-    SGType: TNextGrid;
-    NxTextColumn7: TNxTextColumn;
-    NxTextColumn8: TNxTextColumn;
     lblID: TsLabel;
     CBActivity: TsCheckBox;
     BtnOK: TsButton;
@@ -144,70 +132,70 @@ type
     BtnDeleteCuratorFromList: TsSpeedButton;
     BtnAddTypeToList: TsSpeedButton;
     BtnDeleteTypeFromList: TsSpeedButton;
-    EditPhoneType1: TsComboBox;
+    EditPhoneType1: TsComboBoxEx;
     SGPhone1: TNextGrid;
     NxTextColumn9: TNxTextColumn;
     MemoPhone1: TsMemo;
     EditPhone1: TsEdit;
     BtnAddPhoneToList1: TsSpeedButton;
     BtnDeletePhoneFromList1: TsSpeedButton;
-    EditPhoneType2: TsComboBox;
+    EditPhoneType2: TsComboBoxEx;
     SGPhone2: TNextGrid;
     NxTextColumn10: TNxTextColumn;
     MemoPhone2: TsMemo;
     EditPhone2: TsEdit;
     BtnAddPhoneToList2: TsSpeedButton;
     BtnDeletePhoneFromList2: TsSpeedButton;
-    EditPhoneType3: TsComboBox;
+    EditPhoneType3: TsComboBoxEx;
     SGPhone3: TNextGrid;
     NxTextColumn11: TNxTextColumn;
     MemoPhone3: TsMemo;
     EditPhone3: TsEdit;
     BtnAddPhoneToList3: TsSpeedButton;
     BtnDeletePhoneFromList3: TsSpeedButton;
-    EditPhoneType4: TsComboBox;
+    EditPhoneType4: TsComboBoxEx;
     SGPhone4: TNextGrid;
     NxTextColumn12: TNxTextColumn;
     MemoPhone4: TsMemo;
     EditPhone4: TsEdit;
     BtnAddPhoneToList4: TsSpeedButton;
     BtnDeletePhoneFromList4: TsSpeedButton;
-    EditPhoneType5: TsComboBox;
+    EditPhoneType5: TsComboBoxEx;
     SGPhone5: TNextGrid;
     NxTextColumn13: TNxTextColumn;
     MemoPhone5: TsMemo;
     EditPhone5: TsEdit;
     BtnAddPhoneToList5: TsSpeedButton;
     BtnDeletePhoneFromList5: TsSpeedButton;
-    EditPhoneType6: TsComboBox;
+    EditPhoneType6: TsComboBoxEx;
     SGPhone6: TNextGrid;
     NxTextColumn14: TNxTextColumn;
     MemoPhone6: TsMemo;
     EditPhone6: TsEdit;
     BtnAddPhoneToList6: TsSpeedButton;
     BtnDeletePhoneFromList6: TsSpeedButton;
-    EditPhoneType7: TsComboBox;
+    EditPhoneType7: TsComboBoxEx;
     SGPhone7: TNextGrid;
     NxTextColumn15: TNxTextColumn;
     MemoPhone7: TsMemo;
     EditPhone7: TsEdit;
     BtnAddPhoneToList7: TsSpeedButton;
     BtnDeletePhoneFromList7: TsSpeedButton;
-    EditPhoneType8: TsComboBox;
+    EditPhoneType8: TsComboBoxEx;
     SGPhone8: TNextGrid;
     NxTextColumn16: TNxTextColumn;
     MemoPhone8: TsMemo;
     EditPhone8: TsEdit;
     BtnAddPhoneToList8: TsSpeedButton;
     BtnDeletePhoneFromList8: TsSpeedButton;
-    EditPhoneType9: TsComboBox;
+    EditPhoneType9: TsComboBoxEx;
     SGPhone9: TNextGrid;
     NxTextColumn17: TNxTextColumn;
     MemoPhone9: TsMemo;
     EditPhone9: TsEdit;
     BtnAddPhoneToList9: TsSpeedButton;
     BtnDeletePhoneFromList9: TsSpeedButton;
-    EditPhoneType10: TsComboBox;
+    EditPhoneType10: TsComboBoxEx;
     SGPhone10: TNextGrid;
     NxTextColumn18: TNxTextColumn;
     MemoPhone10: TsMemo;
@@ -224,22 +212,34 @@ type
     btnDeleteAdres8: TsSpeedButton;
     btnDeleteAdres9: TsSpeedButton;
     btnDeleteAdres10: TsSpeedButton;
-    SGWeb: TNextGrid;
-    NxTextColumn19: TNxTextColumn;
-    SGEMail: TNextGrid;
-    NxTextColumn21: TNxTextColumn;
     BtnAddWebToList: TsSpeedButton;
     BtnDeleteWebFromList: TsSpeedButton;
     BtnAddEMailToList: TsSpeedButton;
     BtnDeleteEMailFromList: TsSpeedButton;
-    EditWEB: TsComboBox;
-    EditEMAIL: TsComboBox;
+    EditWEB: TsEdit;
+    EditEMAIL: TsEdit;
     cbDataRelevance: TsCheckBox;
+    SGEMail: TNextGrid;
+    NxTextColumn21: TNxTextColumn;
+    SGWeb: TNextGrid;
+    NxTextColumn19: TNxTextColumn;
+    SGType: TNextGrid;
+    NxTextColumn7: TNxTextColumn;
+    NxTextColumn8: TNxTextColumn;
+    SGCurator: TNextGrid;
+    NxTextColumn5: TNxTextColumn;
+    NxTextColumn6: TNxTextColumn;
+    SGRubr: TNextGrid;
+    NxTextColumn1: TNxTextColumn;
+    NxTextColumn2: TNxTextColumn;
+    SGNapravlenie: TNextGrid;
+    NxTextColumn3: TNxTextColumn;
+    NxTextColumn4: TNxTextColumn;
     procedure LoadDataEditor;
     procedure BtnCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     function UpperFirst(s: string): string;
-    function GetIDByName(component: TsComboBox): string;
+    function GetIDByName(component: TsComboBoxEx): string;
     function GetNameByID(table, id: string): string;
     function GetIDString(component: TNextGrid): string;
     function GetWebEmailString(component: TNextGrid): string;
@@ -247,7 +247,7 @@ type
     function ParseIDString(IDString: string; IncludeSyntax: boolean = false): TStringList;
     function ParseAdresFieldToCityIDList(Field_ADRES: string; IncludeSyntax: boolean = false): TStringList;
     procedure DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string; SGTemp, SGDir: TNextGrid;
-      EditOwner: TsComboBox; Method: string);
+      EditOwner: TsComboBoxEx; Method: string);
     procedure DoNaprActivityValidation(BASE_ID, IDString_OLD, IDString_NEW: string; IsActive: boolean; Method: string);
     procedure DoCityActivityValidation(BASE_ID, FieldAdres_OLD, FieldAdres_NEW: string; IsActive: boolean; Method: string);
     function IsNewRecordFound_Notify(var listNewRecords: TStringList): boolean;
@@ -269,6 +269,7 @@ type
     procedure BtnAddWebToListClick(Sender: TObject);
     procedure SGCuratorDblClick(Sender: TObject);
     procedure SGCuratorEnter(Sender: TObject);
+    procedure sComboBoxEx1Select(Sender: TObject);
   private
     { Private declarations }
   public
@@ -375,7 +376,7 @@ end;
 
 procedure TFormEditor.BtnAddCuratorToListClick(Sender: TObject);
 
-  procedure Adding(sg: TNextGrid; edit: TsComboBox);
+  procedure Adding(sg: TNextGrid; edit: TsComboBoxEx);
   var
     i: Integer;
   begin
@@ -457,7 +458,7 @@ end;
 procedure TFormEditor.BtnAddWebToListClick(Sender: TObject);
 var
   i: Integer;
-  edit: TsComboBox;
+  edit: TsEdit;
   sg: TNextGrid;
 begin
   edit := nil;
@@ -501,61 +502,61 @@ end;
 
 procedure TFormEditor.EditCuratorKeyPress(Sender: TObject; var Key: Char);
 begin
-  // if TsComboBox(Sender).Name = 'EditNapravlenie' then
+  // if TsComboBoxEx(Sender).Name = 'EditNapravlenie' then
   // EditNapravlenie.DroppedDown := True; {¡˚Î ·‡„: ÒÚÂ‡ÎÓ ‚Ò˛ ÒÚÓÍÛ Â‰ËÚ‡ ÔË ‚˚Ô‡‰‡ÌËË ÒÔËÒÍ‡}
   if Key = #13 then
   begin
     Key := #0;
-    if TsComboBox(Sender).Name = 'EditCurator' then
+    if TsComboBoxEx(Sender).Name = 'EditCurator' then
       BtnAddCuratorToListClick(BtnAddCuratorToList);
-    if TsComboBox(Sender).Name = 'EditRubr' then
+    if TsComboBoxEx(Sender).Name = 'EditRubr' then
       BtnAddCuratorToListClick(BtnAddRubrToList);
-    if TsComboBox(Sender).Name = 'EditType' then
+    if TsComboBoxEx(Sender).Name = 'EditType' then
       BtnAddCuratorToListClick(BtnAddTypeToList);
-    if TsComboBox(Sender).Name = 'EditNapravlenie' then
+    if TsComboBoxEx(Sender).Name = 'EditNapravlenie' then
     begin
       BtnAddCuratorToListClick(BtnAddNaprToList); // EditNapravlenie.DroppedDown := False;
     end;
-    if TsComboBox(Sender).Name = 'EditWEB' then
+    if TsEdit(Sender).Name = 'EditWEB' then
       BtnAddWebToListClick(BtnAddWebToList);
-    if TsComboBox(Sender).Name = 'EditEMAIL' then
+    if TsEdit(Sender).Name = 'EditEMAIL' then
       BtnAddWebToListClick(BtnAddEMailToList);
-    if (TsComboBox(Sender).Name = 'EditPhoneType1') or (TsEdit(Sender).Name = 'EditPhone1') then
+    if (TsComboBoxEx(Sender).Name = 'EditPhoneType1') or (TsEdit(Sender).Name = 'EditPhone1') then
       BtnAddPhoneToListClick(BtnAddPhoneToList1);
-    if (TsComboBox(Sender).Name = 'EditPhoneType2') or (TsEdit(Sender).Name = 'EditPhone2') then
+    if (TsComboBoxEx(Sender).Name = 'EditPhoneType2') or (TsEdit(Sender).Name = 'EditPhone2') then
       BtnAddPhoneToListClick(BtnAddPhoneToList2);
-    if (TsComboBox(Sender).Name = 'EditPhoneType3') or (TsEdit(Sender).Name = 'EditPhone3') then
+    if (TsComboBoxEx(Sender).Name = 'EditPhoneType3') or (TsEdit(Sender).Name = 'EditPhone3') then
       BtnAddPhoneToListClick(BtnAddPhoneToList3);
-    if (TsComboBox(Sender).Name = 'EditPhoneType4') or (TsEdit(Sender).Name = 'EditPhone4') then
+    if (TsComboBoxEx(Sender).Name = 'EditPhoneType4') or (TsEdit(Sender).Name = 'EditPhone4') then
       BtnAddPhoneToListClick(BtnAddPhoneToList4);
-    if (TsComboBox(Sender).Name = 'EditPhoneType5') or (TsEdit(Sender).Name = 'EditPhone5') then
+    if (TsComboBoxEx(Sender).Name = 'EditPhoneType5') or (TsEdit(Sender).Name = 'EditPhone5') then
       BtnAddPhoneToListClick(BtnAddPhoneToList5);
-    if (TsComboBox(Sender).Name = 'EditPhoneType6') or (TsEdit(Sender).Name = 'EditPhone6') then
+    if (TsComboBoxEx(Sender).Name = 'EditPhoneType6') or (TsEdit(Sender).Name = 'EditPhone6') then
       BtnAddPhoneToListClick(BtnAddPhoneToList6);
-    if (TsComboBox(Sender).Name = 'EditPhoneType7') or (TsEdit(Sender).Name = 'EditPhone7') then
+    if (TsComboBoxEx(Sender).Name = 'EditPhoneType7') or (TsEdit(Sender).Name = 'EditPhone7') then
       BtnAddPhoneToListClick(BtnAddPhoneToList7);
-    if (TsComboBox(Sender).Name = 'EditPhoneType8') or (TsEdit(Sender).Name = 'EditPhone8') then
+    if (TsComboBoxEx(Sender).Name = 'EditPhoneType8') or (TsEdit(Sender).Name = 'EditPhone8') then
       BtnAddPhoneToListClick(BtnAddPhoneToList8);
-    if (TsComboBox(Sender).Name = 'EditPhoneType9') or (TsEdit(Sender).Name = 'EditPhone9') then
+    if (TsComboBoxEx(Sender).Name = 'EditPhoneType9') or (TsEdit(Sender).Name = 'EditPhone9') then
       BtnAddPhoneToListClick(BtnAddPhoneToList9);
-    if (TsComboBox(Sender).Name = 'EditPhoneType10') or (TsEdit(Sender).Name = 'EditPhone10') then
+    if (TsComboBoxEx(Sender).Name = 'EditPhoneType10') or (TsEdit(Sender).Name = 'EditPhone10') then
       BtnAddPhoneToListClick(BtnAddPhoneToList10);
   end;
 end;
 
 procedure TFormEditor.EditCuratorExit(Sender: TObject);
 begin
-  if TsComboBox(Sender).Name = 'EditCurator' then
+  if TsComboBoxEx(Sender).Name = 'EditCurator' then
     EditCurator.Text := ''
-  else if TsComboBox(Sender).Name = 'EditRubr' then
+  else if TsComboBoxEx(Sender).Name = 'EditRubr' then
     EditRubr.Text := ''
-  else if TsComboBox(Sender).Name = 'EditType' then
+  else if TsComboBoxEx(Sender).Name = 'EditType' then
     EditType.Text := ''
-  else if TsComboBox(Sender).Name = 'EditNapravlenie' then
+  else if TsComboBoxEx(Sender).Name = 'EditNapravlenie' then
     EditNapravlenie.Text := ''
-  else if TsComboBox(Sender).Name = 'EditWEB' then
+  else if TsEdit(Sender).Name = 'EditWEB' then
     EditWEB.Text := ''
-  else if TsComboBox(Sender).Name = 'EditEMAIL' then
+  else if TsEdit(Sender).Name = 'EditEMAIL' then
     EditEMAIL.Text := '';
 end;
 
@@ -617,14 +618,22 @@ end;
 
 procedure TFormEditor.SGCuratorDblClick(Sender: TObject);
 
-  procedure Editing(sg: TNextGrid; edit: TsComboBox);
+  procedure Editing(sg: TNextGrid; edit: TObject);
   begin
     if sg.SelectedCount = 0 then
       exit;
     if Assigned(edit) then
     begin
-      edit.Text := sg.Cells[0, sg.SelectedRow];
-      edit.SetFocus;
+      if edit.ClassName = 'TsEdit' then
+      begin
+        TsEdit(edit).Text := sg.Cells[0, sg.SelectedRow];
+        TsEdit(edit).SetFocus;
+      end;
+      if edit.ClassName = 'TsComboBoxEx' then
+      begin
+        TsComboBoxEx(edit).Text := sg.Cells[0, sg.SelectedRow];
+        TsComboBoxEx(edit).SetFocus;
+      end;
     end;
     sg.DeleteRow(sg.SelectedRow);
   end;
@@ -653,7 +662,7 @@ end;
 
 procedure TFormEditor.BtnAddPhoneToListClick(Sender: TObject);
 
-  procedure Adding(editPhoneType: TsComboBox; editPhone: TsEdit; sg: TNextGrid);
+  procedure Adding(editPhoneType: TsComboBoxEx; editPhone: TsEdit; sg: TNextGrid);
   var
     tp, ph: string;
   begin
@@ -713,7 +722,7 @@ end;
 
 procedure TFormEditor.btnDeleteAdresClick(Sender: TObject);
 
-  procedure ClearingEdits(OfficeType, Country, City: TsComboBox; ZIP, Street: TsEdit; SGPhone: TNextGrid);
+  procedure ClearingEdits(OfficeType, Country, City: TsComboBoxEx; ZIP, Street: TsEdit; SGPhone: TNextGrid);
   begin
     OfficeType.Text := '';
     Country.Text := '';
@@ -777,11 +786,12 @@ begin
   for i := 0 to Main.sgNapr_tmp.RowCount - 1 do
   begin
     EditNapravlenie.AddItem(Main.sgNapr_tmp.Cells[0, i], Pointer(StrToInt(Main.sgNapr_tmp.Cells[1, i])));
+    // sComboBoxEx1.AddItem(Main.sgNapr_tmp.Cells[0, i], TObject(StrToInt(Main.sgNapr_tmp.Cells[1, i])));
   end;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
   Application.ProcessMessages;
   for z := 1 to 10 do
-    TsComboBox(FindComponent('EditOfficeType' + IntToStr(z))).Clear;
+    TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(z))).Clear;
   Q := QueryCreate;
   Q.Close; // “»œ Œ‘»—¿
   Q.SQL.Text := 'select * from OFFICETYPE order by lower(NAME)';
@@ -790,13 +800,13 @@ begin
   for i := 1 to Q.RecordCount do
   begin
     for z := 1 to 10 do
-      TsComboBox(FindComponent('EditOfficeType' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
+      TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
     Q.Next;
   end;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
   Application.ProcessMessages;
   for z := 1 to 10 do
-    TsComboBox(FindComponent('EditCountry' + IntToStr(z))).Clear;
+    TsComboBoxEx(FindComponent('EditCountry' + IntToStr(z))).Clear;
   Q.Close; // —“–¿Õ€
   Q.SQL.Text := 'select * from COUNTRY order by lower(NAME)';
   Q.Open;
@@ -804,13 +814,13 @@ begin
   for i := 1 to Q.RecordCount do
   begin
     for z := 1 to 10 do
-      TsComboBox(FindComponent('EditCountry' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
+      TsComboBoxEx(FindComponent('EditCountry' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
     Q.Next;
   end;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
   Application.ProcessMessages;
   for z := 1 to 10 do
-    TsComboBox(FindComponent('EditCity' + IntToStr(z))).Clear;
+    TsComboBoxEx(FindComponent('EditCity' + IntToStr(z))).Clear;
   Q.Close; // √Œ–Œƒ¿
   Q.SQL.Text := 'select * from GOROD order by lower(NAME)';
   Q.Open;
@@ -818,13 +828,13 @@ begin
   for i := 1 to Q.RecordCount do
   begin
     for z := 1 to 10 do
-      TsComboBox(FindComponent('EditCity' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
+      TsComboBoxEx(FindComponent('EditCity' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
     Q.Next;
   end;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
   Application.ProcessMessages;
   for z := 1 to 10 do
-    TsComboBox(FindComponent('EditPhoneType' + IntToStr(z))).Clear;
+    TsComboBoxEx(FindComponent('EditPhoneType' + IntToStr(z))).Clear;
   Q.Close; // “»œ€ “≈À≈‘ŒÕŒ¬
   Q.SQL.Text := 'select * from PHONETYPE order by lower(NAME)';
   Q.Open;
@@ -832,7 +842,7 @@ begin
   for i := 1 to Q.RecordCount do
   begin
     for z := 1 to 10 do
-      TsComboBox(FindComponent('EditPhoneType' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
+      TsComboBoxEx(FindComponent('EditPhoneType' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
     Q.Next;
   end;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
@@ -870,7 +880,7 @@ begin
   Q.Free;
 end;
 
-function TFormEditor.GetIDByName(component: TsComboBox): string;
+function TFormEditor.GetIDByName(component: TsComboBoxEx): string;
 var
   index: Integer;
 begin
@@ -959,13 +969,13 @@ begin
   for i := 1 to 10 do
   begin
     TsCheckBox(FindComponent('CBAdres' + IntToStr(i))).Checked := False;
-    TsComboBox(FindComponent('EditOfficeType' + IntToStr(i))).Text := '';
-    TsComboBox(FindComponent('EditZIP' + IntToStr(i))).Text := '';
-    TsComboBox(FindComponent('EditStreet' + IntToStr(i))).Text := '';
-    TsComboBox(FindComponent('EditCountry' + IntToStr(i))).Text := '';
-    TsComboBox(FindComponent('EditCity' + IntToStr(i))).Text := '';
-    TsComboBox(FindComponent('EditPhoneType' + IntToStr(i))).Text := '';
-    TsComboBox(FindComponent('EditPhone' + IntToStr(i))).Text := '';
+    TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(i))).Text := '';
+    TsComboBoxEx(FindComponent('EditZIP' + IntToStr(i))).Text := '';
+    TsComboBoxEx(FindComponent('EditStreet' + IntToStr(i))).Text := '';
+    TsComboBoxEx(FindComponent('EditCountry' + IntToStr(i))).Text := '';
+    TsComboBoxEx(FindComponent('EditCity' + IntToStr(i))).Text := '';
+    TsComboBoxEx(FindComponent('EditPhoneType' + IntToStr(i))).Text := '';
+    TsComboBoxEx(FindComponent('EditPhone' + IntToStr(i))).Text := '';
     TNextGrid(FindComponent('SGPhone' + IntToStr(i))).ClearRows;
     TsMemo(FindComponent('MemoPhone' + IntToStr(i))).Clear;
   end;
@@ -978,8 +988,8 @@ procedure TFormEditor.AddRecord(Sender: TObject);
 var
   str, phones: TStrings;
 
-  procedure AdresProcs(CBAdres: TsCheckBox; No: TsEdit; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox;
-    City: TsComboBox; MemoPhone: TsMemo; SGPhone: TNextGrid);
+  procedure AdresProcs(CBAdres: TsCheckBox; No: TsEdit; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit; Country: TsComboBoxEx;
+    City: TsComboBoxEx; MemoPhone: TsMemo; SGPhone: TNextGrid);
   var
     i: Integer;
     offtype_id, country_id, city_id: string;
@@ -1003,8 +1013,8 @@ var
     end;
   end;
 
-  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox; City: TsComboBox;
-    SGPhone: TNextGrid);
+  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit; Country: TsComboBoxEx;
+    City: TsComboBoxEx; SGPhone: TNextGrid);
   begin
     CBAdres.Checked := False;
     if Trim(OfficeType.Text) <> '' then
@@ -1217,8 +1227,8 @@ end;
 
 procedure TFormEditor.PrepareEditRecord(id: string);
 
-  procedure AdresProcs(AdresList: TStrings; Num: Integer; CBAdres: TsCheckBox; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit;
-    Country: TsComboBox; City: TsComboBox);
+  procedure AdresProcs(AdresList: TStrings; Num: Integer; CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit;
+    Country: TsComboBoxEx; City: TsComboBoxEx);
   var
     tmp, city_str, country_str, ofType, s: string;
     list: TStrings;
@@ -1460,6 +1470,11 @@ begin
   // FormMain.IBDatabase1.Connected := False;
 end;
 
+procedure TFormEditor.sComboBoxEx1Select(Sender: TObject);
+begin
+  // ShowMessage(sComboBoxEx1.Items[sComboBoxEx1.ItemIndex] + ' = ' + Integer(sComboBoxEx1.Items.Objects[sComboBoxEx1.ItemIndex]).ToString);
+end;
+
 procedure TFormEditor.EditRecord(Sender: TObject);
 var
   str, phones: TStrings;
@@ -1468,8 +1483,8 @@ var
   i: Integer;
   listNewRecords: TStringList;
 
-  procedure AdresProcs(CBAdres: TsCheckBox; No: TsEdit; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox;
-    City: TsComboBox; MemoPhone: TsMemo; SGPhone: TNextGrid);
+  procedure AdresProcs(CBAdres: TsCheckBox; No: TsEdit; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit; Country: TsComboBoxEx;
+    City: TsComboBoxEx; MemoPhone: TsMemo; SGPhone: TNextGrid);
   var
     i: Integer;
     offtype_id, country_id, city_id: string;
@@ -1493,8 +1508,8 @@ var
     end;
   end;
 
-  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBox; ZIP: TsEdit; Street: TsEdit; Country: TsComboBox; City: TsComboBox;
-    SGPhone: TNextGrid);
+  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit; Country: TsComboBoxEx;
+    City: TsComboBoxEx; SGPhone: TNextGrid);
   begin
     CBAdres.Checked := False;
     if Trim(OfficeType.Text) <> '' then
@@ -1783,7 +1798,7 @@ end;
 function TFormEditor.IsNewRecordFound_Notify(var listNewRecords: TStringList): boolean;
 var
   i, x: integer;
-  edit: TsComboBox;
+  edit: TsComboBoxEx;
 begin
   result := false;
   if not Assigned(listNewRecords) then
@@ -1815,19 +1830,19 @@ begin
     end; }
   for x := 1 to 10 do
   begin
-    edit := TsComboBox(FindComponent('EditOfficeType' + IntToStr(x)));
+    edit := TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(x)));
     if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
     begin
       result := true;
       listNewRecords.Add('“ËÔ ‡‰ÂÒ‡: ' + Trim(edit.Text));
     end;
-    edit := TsComboBox(FindComponent('EditCountry' + IntToStr(x)));
+    edit := TsComboBoxEx(FindComponent('EditCountry' + IntToStr(x)));
     if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
     begin
       result := true;
       listNewRecords.Add('—Ú‡Ì‡: ' + Trim(edit.Text));
     end;
-    edit := TsComboBox(FindComponent('EditCity' + IntToStr(x)));
+    edit := TsComboBoxEx(FindComponent('EditCity' + IntToStr(x)));
     if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
     begin
       result := true;
@@ -1840,7 +1855,7 @@ procedure TFormEditor.IsNewRecordCheck;
 var
   i, x: Integer;
   isNewRubr: Boolean;
-  edit: TsComboBox;
+  edit: TsComboBoxEx;
 
   procedure AddingNewRec(table, Value: string; sg_Main, sg_Directory: TNextGrid);
   var
@@ -1894,13 +1909,13 @@ var
     end;
     if AnsiLowerCase(table) = 'officetype' then
       for z := 1 to 10 do
-        TsComboBox(FindComponent('EditOfficeType' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
+        TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
     if AnsiLowerCase(table) = 'country' then
       for z := 1 to 10 do
-        TsComboBox(FindComponent('EditCountry' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
+        TsComboBoxEx(FindComponent('EditCountry' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
     if AnsiLowerCase(table) = 'gorod' then
       for z := 1 to 10 do
-        TsComboBox(FindComponent('EditCity' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
+        TsComboBoxEx(FindComponent('EditCity' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
     if sg_Main <> nil then
     begin
       sg_Main.AddRow;
@@ -1940,13 +1955,13 @@ begin
     end;
   for x := 1 to 10 do
   begin
-    edit := TsComboBox(FindComponent('EditOfficeType' + IntToStr(x)));
+    edit := TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(x)));
     if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
       AddingNewRec('OFFICETYPE', UpperFirst(edit.Text), nil, FormDirectory.SGOfficeType);
-    edit := TsComboBox(FindComponent('EditCountry' + IntToStr(x)));
+    edit := TsComboBoxEx(FindComponent('EditCountry' + IntToStr(x)));
     if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
       AddingNewRec('COUNTRY', UpperFirst(edit.Text), nil, FormDirectory.SGCountry);
-    edit := TsComboBox(FindComponent('EditCity' + IntToStr(x)));
+    edit := TsComboBoxEx(FindComponent('EditCity' + IntToStr(x)));
     if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
       AddingNewRec('GOROD', UpperFirst(edit.Text), nil, FormDirectory.SGCity);
   end;
@@ -2089,7 +2104,7 @@ begin
 end;
 
 procedure TFormEditor.DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string; SGTemp, SGDir: TNextGrid;
-  EditOwner: TsComboBox; Method: string);
+  EditOwner: TsComboBoxEx; Method: string);
 var
   ID_OLD: string;
   i, index: integer;

@@ -707,12 +707,11 @@ object FormEditor: TFormEditor
       BoundLabel.Caption = #1060'.'#1048'.'#1054': '
       BoundLabel.Layout = sclTopLeft
     end
-    object EditCurator: TsComboBox
+    object EditCurator: TsComboBoxEx
       Left = 16
       Top = 64
       Width = 321
-      Height = 24
-      Alignment = taLeftJustify
+      Height = 25
       BoundLabel.Active = True
       BoundLabel.Font.Charset = DEFAULT_CHARSET
       BoundLabel.Font.Color = clBlack
@@ -723,7 +722,8 @@ object FormEditor: TFormEditor
       BoundLabel.Caption = #1050#1091#1088#1072#1090#1086#1088': '
       BoundLabel.Layout = sclTopLeft
       SkinData.SkinSection = 'COMBOBOX'
-      VerticalAlignment = taAlignTop
+      AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
+      ItemsEx = <>
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
@@ -737,12 +737,11 @@ object FormEditor: TFormEditor
       OnExit = EditCuratorExit
       OnKeyPress = EditCuratorKeyPress
     end
-    object EditRubr: TsComboBox
+    object EditRubr: TsComboBoxEx
       Left = 16
       Top = 164
       Width = 321
-      Height = 24
-      Alignment = taLeftJustify
+      Height = 25
       BoundLabel.Active = True
       BoundLabel.Font.Charset = DEFAULT_CHARSET
       BoundLabel.Font.Color = clBlack
@@ -753,7 +752,8 @@ object FormEditor: TFormEditor
       BoundLabel.Caption = #1056#1091#1073#1088#1080#1082#1072': '
       BoundLabel.Layout = sclTopLeft
       SkinData.SkinSection = 'COMBOBOX'
-      VerticalAlignment = taAlignTop
+      AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
+      ItemsEx = <>
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
@@ -767,12 +767,11 @@ object FormEditor: TFormEditor
       OnExit = EditCuratorExit
       OnKeyPress = EditCuratorKeyPress
     end
-    object EditType: TsComboBox
+    object EditType: TsComboBoxEx
       Left = 372
       Top = 64
       Width = 321
-      Height = 24
-      Alignment = taLeftJustify
+      Height = 25
       BoundLabel.Active = True
       BoundLabel.Font.Charset = DEFAULT_CHARSET
       BoundLabel.Font.Color = clBlack
@@ -783,7 +782,8 @@ object FormEditor: TFormEditor
       BoundLabel.Caption = #1058#1080#1087': '
       BoundLabel.Layout = sclTopLeft
       SkinData.SkinSection = 'COMBOBOX'
-      VerticalAlignment = taAlignTop
+      AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
+      ItemsEx = <>
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
@@ -797,12 +797,11 @@ object FormEditor: TFormEditor
       OnExit = EditCuratorExit
       OnKeyPress = EditCuratorKeyPress
     end
-    object EditNapravlenie: TsComboBox
+    object EditNapravlenie: TsComboBoxEx
       Left = 16
       Top = 264
       Width = 321
-      Height = 24
-      Alignment = taLeftJustify
+      Height = 25
       BoundLabel.Active = True
       BoundLabel.Font.Charset = DEFAULT_CHARSET
       BoundLabel.Font.Color = clBlack
@@ -813,8 +812,8 @@ object FormEditor: TFormEditor
       BoundLabel.Caption = #1055#1088#1086#1092#1080#1083#1100':'
       BoundLabel.Layout = sclTopLeft
       SkinData.SkinSection = 'COMBOBOX'
-      VerticalAlignment = taAlignTop
-      AutoComplete = False
+      AutoCompleteOptions = [acoAutoSuggest]
+      ItemsEx = <>
       Color = clWhite
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
@@ -822,6 +821,7 @@ object FormEditor: TFormEditor
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ItemIndex = -1
+      ItemHeight = 19
       MaxLength = 5000
       ParentFont = False
       TabOrder = 6
@@ -1156,12 +1156,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1055#1086#1088#1103#1076#1086#1082':'
             BoundLabel.Layout = sclTopLeft
           end
-          object EditOfficeType1: TsComboBox
+          object EditOfficeType1: TsComboBoxEx
             Left = 55
             Top = 25
             Width = 265
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -1173,7 +1172,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -1235,12 +1234,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1059#1083#1080#1094#1072': '
             BoundLabel.Layout = sclTopLeft
           end
-          object EditCountry1: TsComboBox
+          object EditCountry1: TsComboBoxEx
             Left = 12
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -1252,7 +1250,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -1264,12 +1262,11 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 5
           end
-          object EditCity1: TsComboBox
+          object EditCity1: TsComboBoxEx
             Left = 210
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -1281,7 +1278,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -1312,15 +1309,14 @@ object FormEditor: TFormEditor
             ImgUnchecked = 0
             ShowFocus = False
           end
-          object EditPhoneType1: TsComboBox
+          object EditPhoneType1: TsComboBoxEx
             Left = 48
             Top = 126
             Width = 115
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -1725,12 +1721,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1055#1086#1088#1103#1076#1086#1082':'
             BoundLabel.Layout = sclTopLeft
           end
-          object EditOfficeType2: TsComboBox
+          object EditOfficeType2: TsComboBoxEx
             Left = 55
             Top = 25
             Width = 265
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -1742,7 +1737,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -1804,12 +1799,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1059#1083#1080#1094#1072': '
             BoundLabel.Layout = sclTopLeft
           end
-          object EditCountry2: TsComboBox
+          object EditCountry2: TsComboBoxEx
             Left = 12
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -1821,7 +1815,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -1833,12 +1827,11 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 5
           end
-          object EditCity2: TsComboBox
+          object EditCity2: TsComboBoxEx
             Left = 210
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -1850,7 +1843,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -1880,15 +1873,14 @@ object FormEditor: TFormEditor
             ImgUnchecked = 0
             ShowFocus = False
           end
-          object EditPhoneType2: TsComboBox
+          object EditPhoneType2: TsComboBoxEx
             Left = 48
             Top = 126
             Width = 115
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -2292,12 +2284,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1055#1086#1088#1103#1076#1086#1082':'
             BoundLabel.Layout = sclTopLeft
           end
-          object EditOfficeType3: TsComboBox
+          object EditOfficeType3: TsComboBoxEx
             Left = 55
             Top = 25
             Width = 265
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -2309,7 +2300,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -2371,12 +2362,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1059#1083#1080#1094#1072': '
             BoundLabel.Layout = sclTopLeft
           end
-          object EditCountry3: TsComboBox
+          object EditCountry3: TsComboBoxEx
             Left = 12
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -2388,7 +2378,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -2400,12 +2390,11 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 5
           end
-          object EditCity3: TsComboBox
+          object EditCity3: TsComboBoxEx
             Left = 210
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -2417,7 +2406,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -2447,15 +2436,14 @@ object FormEditor: TFormEditor
             ImgUnchecked = 0
             ShowFocus = False
           end
-          object EditPhoneType3: TsComboBox
+          object EditPhoneType3: TsComboBoxEx
             Left = 48
             Top = 126
             Width = 115
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -2859,12 +2847,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1055#1086#1088#1103#1076#1086#1082':'
             BoundLabel.Layout = sclTopLeft
           end
-          object EditOfficeType4: TsComboBox
+          object EditOfficeType4: TsComboBoxEx
             Left = 55
             Top = 25
             Width = 265
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -2876,7 +2863,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -2938,12 +2925,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1059#1083#1080#1094#1072': '
             BoundLabel.Layout = sclTopLeft
           end
-          object EditCountry4: TsComboBox
+          object EditCountry4: TsComboBoxEx
             Left = 12
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -2955,7 +2941,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -2967,12 +2953,11 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 5
           end
-          object EditCity4: TsComboBox
+          object EditCity4: TsComboBoxEx
             Left = 210
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -2984,7 +2969,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -3014,15 +2999,14 @@ object FormEditor: TFormEditor
             ImgUnchecked = 0
             ShowFocus = False
           end
-          object EditPhoneType4: TsComboBox
+          object EditPhoneType4: TsComboBoxEx
             Left = 48
             Top = 126
             Width = 115
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -3426,12 +3410,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1055#1086#1088#1103#1076#1086#1082':'
             BoundLabel.Layout = sclTopLeft
           end
-          object EditOfficeType5: TsComboBox
+          object EditOfficeType5: TsComboBoxEx
             Left = 55
             Top = 25
             Width = 265
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -3443,7 +3426,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -3505,12 +3488,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1059#1083#1080#1094#1072': '
             BoundLabel.Layout = sclTopLeft
           end
-          object EditCountry5: TsComboBox
+          object EditCountry5: TsComboBoxEx
             Left = 12
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -3522,7 +3504,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -3534,12 +3516,11 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 5
           end
-          object EditCity5: TsComboBox
+          object EditCity5: TsComboBoxEx
             Left = 210
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -3551,7 +3532,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -3581,15 +3562,14 @@ object FormEditor: TFormEditor
             ImgUnchecked = 0
             ShowFocus = False
           end
-          object EditPhoneType5: TsComboBox
+          object EditPhoneType5: TsComboBoxEx
             Left = 48
             Top = 126
             Width = 115
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -3993,12 +3973,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1055#1086#1088#1103#1076#1086#1082':'
             BoundLabel.Layout = sclTopLeft
           end
-          object EditOfficeType6: TsComboBox
+          object EditOfficeType6: TsComboBoxEx
             Left = 55
             Top = 25
             Width = 265
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -4010,7 +3989,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -4072,12 +4051,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1059#1083#1080#1094#1072': '
             BoundLabel.Layout = sclTopLeft
           end
-          object EditCountry6: TsComboBox
+          object EditCountry6: TsComboBoxEx
             Left = 12
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -4089,7 +4067,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -4101,12 +4079,11 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 5
           end
-          object EditCity6: TsComboBox
+          object EditCity6: TsComboBoxEx
             Left = 210
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -4118,7 +4095,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -4148,15 +4125,14 @@ object FormEditor: TFormEditor
             ImgUnchecked = 0
             ShowFocus = False
           end
-          object EditPhoneType6: TsComboBox
+          object EditPhoneType6: TsComboBoxEx
             Left = 48
             Top = 126
             Width = 115
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -4560,12 +4536,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1055#1086#1088#1103#1076#1086#1082':'
             BoundLabel.Layout = sclTopLeft
           end
-          object EditOfficeType7: TsComboBox
+          object EditOfficeType7: TsComboBoxEx
             Left = 55
             Top = 25
             Width = 265
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -4577,7 +4552,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -4639,12 +4614,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1059#1083#1080#1094#1072': '
             BoundLabel.Layout = sclTopLeft
           end
-          object EditCountry7: TsComboBox
+          object EditCountry7: TsComboBoxEx
             Left = 12
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -4656,7 +4630,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -4668,12 +4642,11 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 5
           end
-          object EditCity7: TsComboBox
+          object EditCity7: TsComboBoxEx
             Left = 210
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -4685,7 +4658,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -4715,15 +4688,14 @@ object FormEditor: TFormEditor
             ImgUnchecked = 0
             ShowFocus = False
           end
-          object EditPhoneType7: TsComboBox
+          object EditPhoneType7: TsComboBoxEx
             Left = 48
             Top = 126
             Width = 115
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -5127,12 +5099,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1055#1086#1088#1103#1076#1086#1082':'
             BoundLabel.Layout = sclTopLeft
           end
-          object EditOfficeType8: TsComboBox
+          object EditOfficeType8: TsComboBoxEx
             Left = 55
             Top = 25
             Width = 265
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -5144,7 +5115,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -5206,12 +5177,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1059#1083#1080#1094#1072': '
             BoundLabel.Layout = sclTopLeft
           end
-          object EditCountry8: TsComboBox
+          object EditCountry8: TsComboBoxEx
             Left = 12
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -5223,7 +5193,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -5235,12 +5205,11 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 5
           end
-          object EditCity8: TsComboBox
+          object EditCity8: TsComboBoxEx
             Left = 210
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -5252,7 +5221,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -5282,15 +5251,14 @@ object FormEditor: TFormEditor
             ImgUnchecked = 0
             ShowFocus = False
           end
-          object EditPhoneType8: TsComboBox
+          object EditPhoneType8: TsComboBoxEx
             Left = 48
             Top = 126
             Width = 115
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -5694,12 +5662,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1055#1086#1088#1103#1076#1086#1082':'
             BoundLabel.Layout = sclTopLeft
           end
-          object EditOfficeType9: TsComboBox
+          object EditOfficeType9: TsComboBoxEx
             Left = 55
             Top = 25
             Width = 265
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -5711,7 +5678,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -5773,12 +5740,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1059#1083#1080#1094#1072': '
             BoundLabel.Layout = sclTopLeft
           end
-          object EditCountry9: TsComboBox
+          object EditCountry9: TsComboBoxEx
             Left = 12
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -5790,7 +5756,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -5802,12 +5768,11 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 5
           end
-          object EditCity9: TsComboBox
+          object EditCity9: TsComboBoxEx
             Left = 210
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -5819,7 +5784,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -5849,15 +5814,14 @@ object FormEditor: TFormEditor
             ImgUnchecked = 0
             ShowFocus = False
           end
-          object EditPhoneType9: TsComboBox
+          object EditPhoneType9: TsComboBoxEx
             Left = 48
             Top = 126
             Width = 115
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -6261,12 +6225,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1055#1086#1088#1103#1076#1086#1082':'
             BoundLabel.Layout = sclTopLeft
           end
-          object EditOfficeType10: TsComboBox
+          object EditOfficeType10: TsComboBoxEx
             Left = 55
             Top = 25
             Width = 265
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -6278,7 +6241,8 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -6340,12 +6304,11 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1059#1083#1080#1094#1072': '
             BoundLabel.Layout = sclTopLeft
           end
-          object EditCountry10: TsComboBox
+          object EditCountry10: TsComboBoxEx
             Left = 12
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -6357,7 +6320,8 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -6369,12 +6333,11 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 5
           end
-          object EditCity10: TsComboBox
+          object EditCity10: TsComboBoxEx
             Left = 210
             Top = 99
             Width = 190
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
             BoundLabel.Font.Color = clBlack
@@ -6386,7 +6349,8 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -6416,15 +6380,15 @@ object FormEditor: TFormEditor
             ImgUnchecked = 0
             ShowFocus = False
           end
-          object EditPhoneType10: TsComboBox
+          object EditPhoneType10: TsComboBoxEx
             Left = 48
             Top = 126
             Width = 115
-            Height = 24
-            Alignment = taLeftJustify
+            Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
-            VerticalAlignment = taAlignTop
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
+            ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -6508,6 +6472,240 @@ object FormEditor: TFormEditor
             BoundLabel.Indent = 2
           end
         end
+      end
+    end
+    object EditWEB: TsEdit
+      Left = 372
+      Top = 164
+      Width = 321
+      Height = 24
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      MaxLength = 255
+      ParentFont = False
+      TabOrder = 10
+      OnExit = EditCuratorExit
+      OnKeyPress = EditCuratorKeyPress
+      SkinData.SkinSection = 'COMBOBOX'
+      BoundLabel.Active = True
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clBlack
+      BoundLabel.Font.Height = -13
+      BoundLabel.Font.Name = 'MS Sans Serif'
+      BoundLabel.Font.Style = []
+      BoundLabel.ParentFont = False
+      BoundLabel.Caption = #1069#1083'. '#1072#1076#1088#1077#1089':'
+      BoundLabel.Layout = sclTopLeft
+    end
+    object EditEMAIL: TsEdit
+      Left = 372
+      Top = 264
+      Width = 321
+      Height = 24
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      MaxLength = 255
+      ParentFont = False
+      TabOrder = 12
+      OnExit = EditCuratorExit
+      OnKeyPress = EditCuratorKeyPress
+      SkinData.SkinSection = 'COMBOBOX'
+      BoundLabel.Active = True
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clBlack
+      BoundLabel.Font.Height = -13
+      BoundLabel.Font.Name = 'MS Sans Serif'
+      BoundLabel.Font.Style = []
+      BoundLabel.ParentFont = False
+      BoundLabel.Caption = #1069#1083'. '#1087#1086#1095#1090#1072':'
+      BoundLabel.Layout = sclTopLeft
+    end
+    object SGEMail: TNextGrid
+      Left = 372
+      Top = 288
+      Width = 321
+      Height = 53
+      Touch.InteractiveGestures = [igPan, igPressAndTap]
+      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
+      AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+      Caption = ''
+      Options = [goSelectFullRow]
+      TabOrder = 13
+      TabStop = True
+      OnDblClick = SGCuratorDblClick
+      OnEnter = SGCuratorEnter
+      OnKeyUp = SGCuratorKeyUp
+      object NxTextColumn21: TNxTextColumn
+        DefaultWidth = 300
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        ParentFont = False
+        Position = 0
+        Sorted = True
+        SortType = stAlphabetic
+        Width = 300
+      end
+    end
+    object SGWeb: TNextGrid
+      Left = 372
+      Top = 188
+      Width = 321
+      Height = 53
+      Touch.InteractiveGestures = [igPan, igPressAndTap]
+      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
+      AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+      Caption = ''
+      Options = [goSelectFullRow]
+      TabOrder = 11
+      TabStop = True
+      OnDblClick = SGCuratorDblClick
+      OnEnter = SGCuratorEnter
+      OnKeyUp = SGCuratorKeyUp
+      object NxTextColumn19: TNxTextColumn
+        DefaultWidth = 300
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        ParentFont = False
+        Position = 0
+        Sorted = True
+        SortType = stAlphabetic
+        Width = 300
+      end
+    end
+    object SGType: TNextGrid
+      Left = 372
+      Top = 88
+      Width = 321
+      Height = 53
+      Touch.InteractiveGestures = [igPan, igPressAndTap]
+      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
+      AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+      Caption = ''
+      Options = [goSelectFullRow]
+      TabOrder = 9
+      TabStop = True
+      OnDblClick = SGCuratorDblClick
+      OnEnter = SGCuratorEnter
+      OnKeyUp = SGCuratorKeyUp
+      object NxTextColumn7: TNxTextColumn
+        DefaultWidth = 300
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        ParentFont = False
+        Position = 0
+        Sorted = True
+        SortType = stAlphabetic
+        Width = 300
+      end
+      object NxTextColumn8: TNxTextColumn
+        DefaultWidth = 30
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Header.Caption = 'ID'
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        InputCaption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1088#1091#1073#1088#1080#1082#1091'...'
+        ParentFont = False
+        Position = 1
+        SortType = stAlphabetic
+        Visible = False
+        Width = 30
+      end
+    end
+    object SGCurator: TNextGrid
+      Left = 16
+      Top = 88
+      Width = 321
+      Height = 53
+      Touch.InteractiveGestures = [igPan, igPressAndTap]
+      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
+      AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
+      Caption = ''
+      Options = [goSelectFullRow]
+      TabOrder = 3
+      TabStop = True
+      OnDblClick = SGCuratorDblClick
+      OnEnter = SGCuratorEnter
+      OnKeyUp = SGCuratorKeyUp
+      object NxTextColumn5: TNxTextColumn
+        DefaultWidth = 300
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        ParentFont = False
+        Position = 0
+        Sorted = True
+        SortType = stAlphabetic
+        Width = 300
+      end
+      object NxTextColumn6: TNxTextColumn
+        DefaultWidth = 30
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        Header.Caption = 'ID'
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        InputCaption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1088#1091#1073#1088#1080#1082#1091'...'
+        ParentFont = False
+        Position = 1
+        SortType = stAlphabetic
+        Visible = False
+        Width = 30
       end
     end
     object SGRubr: TNextGrid
@@ -6619,248 +6817,6 @@ object FormEditor: TFormEditor
         Visible = False
         Width = 30
       end
-    end
-    object SGCurator: TNextGrid
-      Left = 16
-      Top = 88
-      Width = 321
-      Height = 53
-      Touch.InteractiveGestures = [igPan, igPressAndTap]
-      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
-      AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
-      Caption = ''
-      Options = [goSelectFullRow]
-      TabOrder = 3
-      TabStop = True
-      OnDblClick = SGCuratorDblClick
-      OnEnter = SGCuratorEnter
-      OnKeyUp = SGCuratorKeyUp
-      object NxTextColumn5: TNxTextColumn
-        DefaultWidth = 300
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-        Header.Font.Charset = DEFAULT_CHARSET
-        Header.Font.Color = clWindowText
-        Header.Font.Height = -11
-        Header.Font.Name = 'Tahoma'
-        Header.Font.Style = []
-        ParentFont = False
-        Position = 0
-        Sorted = True
-        SortType = stAlphabetic
-        Width = 300
-      end
-      object NxTextColumn6: TNxTextColumn
-        DefaultWidth = 30
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        Header.Caption = 'ID'
-        Header.Font.Charset = DEFAULT_CHARSET
-        Header.Font.Color = clWindowText
-        Header.Font.Height = -11
-        Header.Font.Name = 'Tahoma'
-        Header.Font.Style = []
-        InputCaption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1088#1091#1073#1088#1080#1082#1091'...'
-        ParentFont = False
-        Position = 1
-        SortType = stAlphabetic
-        Visible = False
-        Width = 30
-      end
-    end
-    object SGType: TNextGrid
-      Left = 372
-      Top = 88
-      Width = 321
-      Height = 53
-      Touch.InteractiveGestures = [igPan, igPressAndTap]
-      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
-      AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
-      Caption = ''
-      Options = [goSelectFullRow]
-      TabOrder = 9
-      TabStop = True
-      OnDblClick = SGCuratorDblClick
-      OnEnter = SGCuratorEnter
-      OnKeyUp = SGCuratorKeyUp
-      object NxTextColumn7: TNxTextColumn
-        DefaultWidth = 300
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-        Header.Font.Charset = DEFAULT_CHARSET
-        Header.Font.Color = clWindowText
-        Header.Font.Height = -11
-        Header.Font.Name = 'Tahoma'
-        Header.Font.Style = []
-        ParentFont = False
-        Position = 0
-        Sorted = True
-        SortType = stAlphabetic
-        Width = 300
-      end
-      object NxTextColumn8: TNxTextColumn
-        DefaultWidth = 30
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        Header.Caption = 'ID'
-        Header.Font.Charset = DEFAULT_CHARSET
-        Header.Font.Color = clWindowText
-        Header.Font.Height = -11
-        Header.Font.Name = 'Tahoma'
-        Header.Font.Style = []
-        InputCaption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1088#1091#1073#1088#1080#1082#1091'...'
-        ParentFont = False
-        Position = 1
-        SortType = stAlphabetic
-        Visible = False
-        Width = 30
-      end
-    end
-    object SGWeb: TNextGrid
-      Left = 372
-      Top = 188
-      Width = 321
-      Height = 53
-      Touch.InteractiveGestures = [igPan, igPressAndTap]
-      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
-      AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
-      Caption = ''
-      Options = [goSelectFullRow]
-      TabOrder = 11
-      TabStop = True
-      OnDblClick = SGCuratorDblClick
-      OnEnter = SGCuratorEnter
-      OnKeyUp = SGCuratorKeyUp
-      object NxTextColumn19: TNxTextColumn
-        DefaultWidth = 300
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-        Header.Font.Charset = DEFAULT_CHARSET
-        Header.Font.Color = clWindowText
-        Header.Font.Height = -11
-        Header.Font.Name = 'Tahoma'
-        Header.Font.Style = []
-        ParentFont = False
-        Position = 0
-        Sorted = True
-        SortType = stAlphabetic
-        Width = 300
-      end
-    end
-    object SGEMail: TNextGrid
-      Left = 372
-      Top = 288
-      Width = 321
-      Height = 53
-      Touch.InteractiveGestures = [igPan, igPressAndTap]
-      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
-      AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
-      Caption = ''
-      Options = [goSelectFullRow]
-      TabOrder = 13
-      TabStop = True
-      OnDblClick = SGCuratorDblClick
-      OnEnter = SGCuratorEnter
-      OnKeyUp = SGCuratorKeyUp
-      object NxTextColumn21: TNxTextColumn
-        DefaultWidth = 300
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-        Header.Font.Charset = DEFAULT_CHARSET
-        Header.Font.Color = clWindowText
-        Header.Font.Height = -11
-        Header.Font.Name = 'Tahoma'
-        Header.Font.Style = []
-        ParentFont = False
-        Position = 0
-        Sorted = True
-        SortType = stAlphabetic
-        Width = 300
-      end
-    end
-    object EditWEB: TsComboBox
-      Left = 372
-      Top = 164
-      Width = 321
-      Height = 22
-      Alignment = taLeftJustify
-      BoundLabel.Active = True
-      BoundLabel.Font.Charset = DEFAULT_CHARSET
-      BoundLabel.Font.Color = clBlack
-      BoundLabel.Font.Height = -13
-      BoundLabel.Font.Name = 'MS Sans Serif'
-      BoundLabel.Font.Style = []
-      BoundLabel.ParentFont = False
-      BoundLabel.Caption = #1069#1083'. '#1072#1076#1088#1077#1089':'
-      BoundLabel.Layout = sclTopLeft
-      SkinData.SkinSection = 'COMBOBOX'
-      VerticalAlignment = taAlignTop
-      Style = csSimple
-      Color = clWhite
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemIndex = -1
-      MaxLength = 255
-      ParentFont = False
-      TabOrder = 10
-      OnExit = EditCuratorExit
-      OnKeyPress = EditCuratorKeyPress
-    end
-    object EditEMAIL: TsComboBox
-      Left = 372
-      Top = 264
-      Width = 321
-      Height = 22
-      Alignment = taLeftJustify
-      BoundLabel.Active = True
-      BoundLabel.Font.Charset = DEFAULT_CHARSET
-      BoundLabel.Font.Color = clBlack
-      BoundLabel.Font.Height = -13
-      BoundLabel.Font.Name = 'MS Sans Serif'
-      BoundLabel.Font.Style = []
-      BoundLabel.ParentFont = False
-      BoundLabel.Caption = #1069#1083'. '#1087#1086#1095#1090#1072':'
-      BoundLabel.Layout = sclTopLeft
-      SkinData.SkinSection = 'COMBOBOX'
-      VerticalAlignment = taAlignTop
-      Style = csSimple
-      Color = clWhite
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemIndex = -1
-      MaxLength = 255
-      ParentFont = False
-      TabOrder = 12
-      OnExit = EditCuratorExit
-      OnKeyPress = EditCuratorKeyPress
     end
   end
 end
