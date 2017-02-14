@@ -4,7 +4,7 @@ object FormEditor: TFormEditor
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'FormEditor'
-  ClientHeight = 652
+  ClientHeight = 701
   ClientWidth = 729
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object FormEditor: TFormEditor
   TextHeight = 13
   object PanelAdv: TsPanel
     Left = 0
-    Top = 610
+    Top = 659
     Width = 729
     Height = 42
     Align = alBottom
@@ -101,7 +101,7 @@ object FormEditor: TFormEditor
     Left = 0
     Top = 0
     Width = 729
-    Height = 610
+    Height = 659
     Align = alClient
     TabOrder = 0
     SkinData.SkinSection = 'PANEL'
@@ -679,6 +679,7 @@ object FormEditor: TFormEditor
       BoundLabel.Font.Name = 'MS Sans Serif'
       BoundLabel.Font.Style = []
       BoundLabel.ParentFont = False
+      BoundLabel.Indent = 2
       BoundLabel.Caption = #1053#1072#1079#1074#1072#1085#1080#1077': '
       BoundLabel.Layout = sclTopLeft
     end
@@ -704,6 +705,7 @@ object FormEditor: TFormEditor
       BoundLabel.Font.Name = 'MS Sans Serif'
       BoundLabel.Font.Style = []
       BoundLabel.ParentFont = False
+      BoundLabel.Indent = 2
       BoundLabel.Caption = #1060'.'#1048'.'#1054': '
       BoundLabel.Layout = sclTopLeft
     end
@@ -719,6 +721,7 @@ object FormEditor: TFormEditor
       BoundLabel.Font.Name = 'MS Sans Serif'
       BoundLabel.Font.Style = []
       BoundLabel.ParentFont = False
+      BoundLabel.Indent = 2
       BoundLabel.Caption = #1050#1091#1088#1072#1090#1086#1088': '
       BoundLabel.Layout = sclTopLeft
       SkinData.SkinSection = 'COMBOBOX'
@@ -749,6 +752,7 @@ object FormEditor: TFormEditor
       BoundLabel.Font.Name = 'MS Sans Serif'
       BoundLabel.Font.Style = []
       BoundLabel.ParentFont = False
+      BoundLabel.Indent = 2
       BoundLabel.Caption = #1056#1091#1073#1088#1080#1082#1072': '
       BoundLabel.Layout = sclTopLeft
       SkinData.SkinSection = 'COMBOBOX'
@@ -779,6 +783,7 @@ object FormEditor: TFormEditor
       BoundLabel.Font.Name = 'MS Sans Serif'
       BoundLabel.Font.Style = []
       BoundLabel.ParentFont = False
+      BoundLabel.Indent = 2
       BoundLabel.Caption = #1058#1080#1087': '
       BoundLabel.Layout = sclTopLeft
       SkinData.SkinSection = 'COMBOBOX'
@@ -809,6 +814,7 @@ object FormEditor: TFormEditor
       BoundLabel.Font.Name = 'MS Sans Serif'
       BoundLabel.Font.Style = []
       BoundLabel.ParentFont = False
+      BoundLabel.Indent = 2
       BoundLabel.Caption = #1055#1088#1086#1092#1080#1083#1100':'
       BoundLabel.Layout = sclTopLeft
       SkinData.SkinSection = 'COMBOBOX'
@@ -832,7 +838,7 @@ object FormEditor: TFormEditor
       Left = 145
       Top = 354
       Width = 429
-      Height = 244
+      Height = 299
       ActivePage = sTabSheet1
       TabOrder = 14
       ShowFocus = False
@@ -840,17 +846,17 @@ object FormEditor: TFormEditor
       object sTabSheet1: TsTabSheet
         Caption = '1'
         ExplicitTop = 6
-        ExplicitHeight = 234
+        ExplicitHeight = 289
         object sGroupBox1: TsGroupBox
-          Left = 4
+          Left = 5
           Top = -4
           Width = 413
-          Height = 217
+          Height = 272
           TabOrder = 0
           SkinData.SkinSection = 'GROUPBOX'
           object ImagePhone1: TImage
             Left = 12
-            Top = 127
+            Top = 172
             Width = 32
             Height = 32
             AutoSize = True
@@ -990,7 +996,7 @@ object FormEditor: TFormEditor
           end
           object BtnAddPhoneToList1: TsSpeedButton
             Left = 374
-            Top = 159
+            Top = 206
             Width = 23
             Height = 22
             Hint = #1044#1086#1073#1072#1074#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1074' '#1089#1087#1080#1089#1086#1082
@@ -1036,7 +1042,7 @@ object FormEditor: TFormEditor
           end
           object BtnDeletePhoneFromList1: TsSpeedButton
             Left = 374
-            Top = 187
+            Top = 234
             Width = 23
             Height = 22
             Hint = #1059#1076#1072#1083#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1080#1079' '#1089#1087#1080#1089#1082#1072
@@ -1134,9 +1140,29 @@ object FormEditor: TFormEditor
             OnClick = btnDeleteAdresClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
+          object MemoPhone1: TsMemo
+            Left = 48
+            Top = 197
+            Width = 321
+            Height = 68
+            TabStop = False
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 8
+            Visible = False
+            WordWrap = False
+            SkinData.SkinSection = 'EDIT'
+          end
           object EditNO1: TsEdit
             Left = 8
-            Top = 185
+            Top = 230
             Width = 30
             Height = 24
             TabStop = False
@@ -1148,7 +1174,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             ReadOnly = True
-            TabOrder = 1
+            TabOrder = 9
             Text = '1'
             Visible = False
             SkinData.SkinSection = 'EDIT'
@@ -1172,6 +1198,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -1182,7 +1209,7 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 2
+            TabOrder = 0
           end
           object EditZIP1: TsEdit
             Left = 328
@@ -1196,7 +1223,7 @@ object FormEditor: TFormEditor
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             ParentFont = False
-            TabOrder = 3
+            TabOrder = 1
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -1211,7 +1238,7 @@ object FormEditor: TFormEditor
           end
           object EditStreet1: TsEdit
             Left = 12
-            Top = 57
+            Top = 140
             Width = 389
             Height = 24
             Color = clWhite
@@ -1236,8 +1263,8 @@ object FormEditor: TFormEditor
           end
           object EditCountry1: TsComboBoxEx
             Left = 12
-            Top = 99
-            Width = 190
+            Top = 60
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -1250,6 +1277,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -1260,12 +1288,12 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 5
+            TabOrder = 2
           end
           object EditCity1: TsComboBoxEx
-            Left = 210
-            Top = 99
-            Width = 190
+            Left = 12
+            Top = 100
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -1278,6 +1306,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -1288,11 +1317,11 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 6
+            TabOrder = 3
           end
           object CBAdres1: TsCheckBox
             Left = 10
-            Top = 165
+            Top = 210
             Width = 20
             Height = 16
             TabStop = False
@@ -1302,7 +1331,7 @@ object FormEditor: TFormEditor
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
-            TabOrder = 0
+            TabOrder = 10
             Visible = False
             SkinData.SkinSection = 'CHECKBOX'
             ImgChecked = 0
@@ -1311,11 +1340,12 @@ object FormEditor: TFormEditor
           end
           object EditPhoneType1: TsComboBoxEx
             Left = 48
-            Top = 126
+            Top = 171
             Width = 115
             Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -1326,20 +1356,37 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 7
+            TabOrder = 5
             OnKeyPress = EditCuratorKeyPress
+          end
+          object EditPhone1: TsEdit
+            Left = 172
+            Top = 171
+            Width = 228
+            Height = 24
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 6
+            OnKeyPress = EditPhone1KeyPress
+            SkinData.SkinSection = 'EDIT'
+            BoundLabel.Indent = 2
           end
           object SGPhone1: TNextGrid
             Left = 48
-            Top = 152
+            Top = 197
             Width = 321
-            Height = 61
+            Height = 68
             Touch.InteractiveGestures = [igPan, igPressAndTap]
             Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
             Caption = ''
             Options = [goSelectFullRow]
-            TabOrder = 9
+            TabOrder = 7
             TabStop = True
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
@@ -1363,59 +1410,22 @@ object FormEditor: TFormEditor
               Width = 300
             end
           end
-          object MemoPhone1: TsMemo
-            Left = 48
-            Top = 152
-            Width = 321
-            Height = 60
-            TabStop = False
-            Color = clWhite
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            ReadOnly = True
-            ScrollBars = ssVertical
-            TabOrder = 10
-            Visible = False
-            WordWrap = False
-            SkinData.SkinSection = 'EDIT'
-          end
-          object EditPhone1: TsEdit
-            Left = 172
-            Top = 126
-            Width = 228
-            Height = 24
-            Color = clWhite
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 8
-            OnKeyPress = EditPhone1KeyPress
-            SkinData.SkinSection = 'EDIT'
-            BoundLabel.Indent = 2
-          end
         end
       end
       object sTabSheet2: TsTabSheet
         Caption = '2'
         ExplicitTop = 6
-        ExplicitHeight = 234
+        ExplicitHeight = 289
         object sGroupBox2: TsGroupBox
-          Left = 4
+          Left = 5
           Top = -4
           Width = 413
-          Height = 217
+          Height = 272
           TabOrder = 0
           SkinData.SkinSection = 'GROUPBOX'
           object ImagePhone2: TImage
             Left = 12
-            Top = 127
+            Top = 172
             Width = 32
             Height = 32
             AutoSize = True
@@ -1555,7 +1565,7 @@ object FormEditor: TFormEditor
           end
           object BtnAddPhoneToList2: TsSpeedButton
             Left = 374
-            Top = 159
+            Top = 206
             Width = 23
             Height = 22
             Hint = #1044#1086#1073#1072#1074#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1074' '#1089#1087#1080#1089#1086#1082
@@ -1601,7 +1611,7 @@ object FormEditor: TFormEditor
           end
           object BtnDeletePhoneFromList2: TsSpeedButton
             Left = 374
-            Top = 187
+            Top = 234
             Width = 23
             Height = 22
             Hint = #1059#1076#1072#1083#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1080#1079' '#1089#1087#1080#1089#1082#1072
@@ -1699,9 +1709,29 @@ object FormEditor: TFormEditor
             OnClick = btnDeleteAdresClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
+          object MemoPhone2: TsMemo
+            Left = 48
+            Top = 197
+            Width = 321
+            Height = 68
+            TabStop = False
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 8
+            Visible = False
+            WordWrap = False
+            SkinData.SkinSection = 'EDIT'
+          end
           object EditNO2: TsEdit
             Left = 8
-            Top = 185
+            Top = 230
             Width = 30
             Height = 24
             TabStop = False
@@ -1713,7 +1743,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             ReadOnly = True
-            TabOrder = 1
+            TabOrder = 9
             Text = '2'
             Visible = False
             SkinData.SkinSection = 'EDIT'
@@ -1737,6 +1767,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -1747,7 +1778,7 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 2
+            TabOrder = 0
           end
           object EditZIP2: TsEdit
             Left = 328
@@ -1761,7 +1792,7 @@ object FormEditor: TFormEditor
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             ParentFont = False
-            TabOrder = 3
+            TabOrder = 1
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -1776,7 +1807,7 @@ object FormEditor: TFormEditor
           end
           object EditStreet2: TsEdit
             Left = 12
-            Top = 57
+            Top = 140
             Width = 389
             Height = 24
             Color = clWhite
@@ -1801,8 +1832,8 @@ object FormEditor: TFormEditor
           end
           object EditCountry2: TsComboBoxEx
             Left = 12
-            Top = 99
-            Width = 190
+            Top = 60
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -1815,6 +1846,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -1825,12 +1857,12 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 5
+            TabOrder = 2
           end
           object EditCity2: TsComboBoxEx
-            Left = 210
-            Top = 99
-            Width = 190
+            Left = 12
+            Top = 100
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -1843,6 +1875,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -1853,20 +1886,21 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 6
+            TabOrder = 3
           end
           object CBAdres2: TsCheckBox
             Left = 10
-            Top = 165
+            Top = 210
             Width = 20
             Height = 16
+            TabStop = False
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
-            TabOrder = 0
+            TabOrder = 10
             Visible = False
             SkinData.SkinSection = 'CHECKBOX'
             ImgChecked = 0
@@ -1875,11 +1909,12 @@ object FormEditor: TFormEditor
           end
           object EditPhoneType2: TsComboBoxEx
             Left = 48
-            Top = 126
+            Top = 171
             Width = 115
             Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -1890,20 +1925,37 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 7
+            TabOrder = 5
             OnKeyPress = EditCuratorKeyPress
+          end
+          object EditPhone2: TsEdit
+            Left = 172
+            Top = 171
+            Width = 228
+            Height = 24
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 6
+            OnKeyPress = EditPhone1KeyPress
+            SkinData.SkinSection = 'EDIT'
+            BoundLabel.Indent = 2
           end
           object SGPhone2: TNextGrid
             Left = 48
-            Top = 152
+            Top = 197
             Width = 321
-            Height = 61
+            Height = 68
             Touch.InteractiveGestures = [igPan, igPressAndTap]
             Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
             Caption = ''
             Options = [goSelectFullRow]
-            TabOrder = 9
+            TabOrder = 7
             TabStop = True
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
@@ -1927,58 +1979,22 @@ object FormEditor: TFormEditor
               Width = 300
             end
           end
-          object MemoPhone2: TsMemo
-            Left = 48
-            Top = 152
-            Width = 321
-            Height = 60
-            TabStop = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            ReadOnly = True
-            ScrollBars = ssVertical
-            TabOrder = 10
-            Visible = False
-            WordWrap = False
-            SkinData.SkinSection = 'EDIT'
-          end
-          object EditPhone2: TsEdit
-            Left = 172
-            Top = 126
-            Width = 228
-            Height = 24
-            Color = clWhite
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 8
-            OnKeyPress = EditPhone1KeyPress
-            SkinData.SkinSection = 'EDIT'
-            BoundLabel.Indent = 2
-          end
         end
       end
       object sTabSheet3: TsTabSheet
         Caption = '3'
         ExplicitTop = 6
-        ExplicitHeight = 234
+        ExplicitHeight = 289
         object sGroupBox3: TsGroupBox
-          Left = 4
+          Left = 5
           Top = -4
           Width = 413
-          Height = 217
+          Height = 272
           TabOrder = 0
           SkinData.SkinSection = 'GROUPBOX'
           object ImagePhone3: TImage
             Left = 12
-            Top = 127
+            Top = 172
             Width = 32
             Height = 32
             AutoSize = True
@@ -2118,7 +2134,7 @@ object FormEditor: TFormEditor
           end
           object BtnAddPhoneToList3: TsSpeedButton
             Left = 374
-            Top = 159
+            Top = 206
             Width = 23
             Height = 22
             Hint = #1044#1086#1073#1072#1074#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1074' '#1089#1087#1080#1089#1086#1082
@@ -2164,7 +2180,7 @@ object FormEditor: TFormEditor
           end
           object BtnDeletePhoneFromList3: TsSpeedButton
             Left = 374
-            Top = 187
+            Top = 234
             Width = 23
             Height = 22
             Hint = #1059#1076#1072#1083#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1080#1079' '#1089#1087#1080#1089#1082#1072
@@ -2262,9 +2278,29 @@ object FormEditor: TFormEditor
             OnClick = btnDeleteAdresClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
+          object MemoPhone3: TsMemo
+            Left = 48
+            Top = 197
+            Width = 321
+            Height = 68
+            TabStop = False
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 8
+            Visible = False
+            WordWrap = False
+            SkinData.SkinSection = 'EDIT'
+          end
           object EditNO3: TsEdit
             Left = 8
-            Top = 185
+            Top = 230
             Width = 30
             Height = 24
             TabStop = False
@@ -2276,7 +2312,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             ReadOnly = True
-            TabOrder = 1
+            TabOrder = 9
             Text = '3'
             Visible = False
             SkinData.SkinSection = 'EDIT'
@@ -2300,6 +2336,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -2310,7 +2347,7 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 2
+            TabOrder = 0
           end
           object EditZIP3: TsEdit
             Left = 328
@@ -2324,7 +2361,7 @@ object FormEditor: TFormEditor
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             ParentFont = False
-            TabOrder = 3
+            TabOrder = 1
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -2339,7 +2376,7 @@ object FormEditor: TFormEditor
           end
           object EditStreet3: TsEdit
             Left = 12
-            Top = 57
+            Top = 140
             Width = 389
             Height = 24
             Color = clWhite
@@ -2364,8 +2401,8 @@ object FormEditor: TFormEditor
           end
           object EditCountry3: TsComboBoxEx
             Left = 12
-            Top = 99
-            Width = 190
+            Top = 60
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -2378,6 +2415,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -2388,12 +2426,12 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 5
+            TabOrder = 2
           end
           object EditCity3: TsComboBoxEx
-            Left = 210
-            Top = 99
-            Width = 190
+            Left = 12
+            Top = 100
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -2406,6 +2444,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -2416,20 +2455,21 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 6
+            TabOrder = 3
           end
           object CBAdres3: TsCheckBox
             Left = 10
-            Top = 165
+            Top = 210
             Width = 20
             Height = 16
+            TabStop = False
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
-            TabOrder = 0
+            TabOrder = 10
             Visible = False
             SkinData.SkinSection = 'CHECKBOX'
             ImgChecked = 0
@@ -2438,11 +2478,12 @@ object FormEditor: TFormEditor
           end
           object EditPhoneType3: TsComboBoxEx
             Left = 48
-            Top = 126
+            Top = 171
             Width = 115
             Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -2453,20 +2494,37 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 7
+            TabOrder = 5
             OnKeyPress = EditCuratorKeyPress
+          end
+          object EditPhone3: TsEdit
+            Left = 172
+            Top = 171
+            Width = 228
+            Height = 24
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 6
+            OnKeyPress = EditPhone1KeyPress
+            SkinData.SkinSection = 'EDIT'
+            BoundLabel.Indent = 2
           end
           object SGPhone3: TNextGrid
             Left = 48
-            Top = 152
+            Top = 197
             Width = 321
-            Height = 61
+            Height = 68
             Touch.InteractiveGestures = [igPan, igPressAndTap]
             Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
             Caption = ''
             Options = [goSelectFullRow]
-            TabOrder = 9
+            TabOrder = 7
             TabStop = True
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
@@ -2490,58 +2548,22 @@ object FormEditor: TFormEditor
               Width = 300
             end
           end
-          object MemoPhone3: TsMemo
-            Left = 48
-            Top = 152
-            Width = 321
-            Height = 60
-            TabStop = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            ReadOnly = True
-            ScrollBars = ssVertical
-            TabOrder = 10
-            Visible = False
-            WordWrap = False
-            SkinData.SkinSection = 'EDIT'
-          end
-          object EditPhone3: TsEdit
-            Left = 172
-            Top = 126
-            Width = 228
-            Height = 24
-            Color = clWhite
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 8
-            OnKeyPress = EditPhone1KeyPress
-            SkinData.SkinSection = 'EDIT'
-            BoundLabel.Indent = 2
-          end
         end
       end
       object sTabSheet4: TsTabSheet
         Caption = '4'
         ExplicitTop = 6
-        ExplicitHeight = 234
+        ExplicitHeight = 289
         object sGroupBox4: TsGroupBox
-          Left = 4
+          Left = 5
           Top = -4
           Width = 413
-          Height = 217
+          Height = 272
           TabOrder = 0
           SkinData.SkinSection = 'GROUPBOX'
           object ImagePhone4: TImage
             Left = 12
-            Top = 127
+            Top = 172
             Width = 32
             Height = 32
             AutoSize = True
@@ -2681,7 +2703,7 @@ object FormEditor: TFormEditor
           end
           object BtnAddPhoneToList4: TsSpeedButton
             Left = 374
-            Top = 159
+            Top = 206
             Width = 23
             Height = 22
             Hint = #1044#1086#1073#1072#1074#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1074' '#1089#1087#1080#1089#1086#1082
@@ -2727,7 +2749,7 @@ object FormEditor: TFormEditor
           end
           object BtnDeletePhoneFromList4: TsSpeedButton
             Left = 374
-            Top = 187
+            Top = 234
             Width = 23
             Height = 22
             Hint = #1059#1076#1072#1083#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1080#1079' '#1089#1087#1080#1089#1082#1072
@@ -2825,9 +2847,29 @@ object FormEditor: TFormEditor
             OnClick = btnDeleteAdresClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
+          object MemoPhone4: TsMemo
+            Left = 48
+            Top = 197
+            Width = 321
+            Height = 68
+            TabStop = False
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 8
+            Visible = False
+            WordWrap = False
+            SkinData.SkinSection = 'EDIT'
+          end
           object EditNO4: TsEdit
             Left = 8
-            Top = 185
+            Top = 230
             Width = 30
             Height = 24
             TabStop = False
@@ -2839,7 +2881,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             ReadOnly = True
-            TabOrder = 1
+            TabOrder = 9
             Text = '4'
             Visible = False
             SkinData.SkinSection = 'EDIT'
@@ -2863,6 +2905,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -2873,7 +2916,7 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 2
+            TabOrder = 0
           end
           object EditZIP4: TsEdit
             Left = 328
@@ -2887,7 +2930,7 @@ object FormEditor: TFormEditor
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             ParentFont = False
-            TabOrder = 3
+            TabOrder = 1
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -2902,7 +2945,7 @@ object FormEditor: TFormEditor
           end
           object EditStreet4: TsEdit
             Left = 12
-            Top = 57
+            Top = 140
             Width = 389
             Height = 24
             Color = clWhite
@@ -2927,8 +2970,8 @@ object FormEditor: TFormEditor
           end
           object EditCountry4: TsComboBoxEx
             Left = 12
-            Top = 99
-            Width = 190
+            Top = 60
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -2941,6 +2984,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -2951,12 +2995,12 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 5
+            TabOrder = 2
           end
           object EditCity4: TsComboBoxEx
-            Left = 210
-            Top = 99
-            Width = 190
+            Left = 12
+            Top = 100
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -2969,6 +3013,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -2979,20 +3024,21 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 6
+            TabOrder = 3
           end
           object CBAdres4: TsCheckBox
             Left = 10
-            Top = 165
+            Top = 210
             Width = 20
             Height = 16
+            TabStop = False
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
-            TabOrder = 0
+            TabOrder = 10
             Visible = False
             SkinData.SkinSection = 'CHECKBOX'
             ImgChecked = 0
@@ -3001,11 +3047,12 @@ object FormEditor: TFormEditor
           end
           object EditPhoneType4: TsComboBoxEx
             Left = 48
-            Top = 126
+            Top = 171
             Width = 115
             Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -3016,20 +3063,37 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 7
+            TabOrder = 5
             OnKeyPress = EditCuratorKeyPress
+          end
+          object EditPhone4: TsEdit
+            Left = 172
+            Top = 171
+            Width = 228
+            Height = 24
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 6
+            OnKeyPress = EditPhone1KeyPress
+            SkinData.SkinSection = 'EDIT'
+            BoundLabel.Indent = 2
           end
           object SGPhone4: TNextGrid
             Left = 48
-            Top = 152
+            Top = 197
             Width = 321
-            Height = 61
+            Height = 68
             Touch.InteractiveGestures = [igPan, igPressAndTap]
             Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
             Caption = ''
             Options = [goSelectFullRow]
-            TabOrder = 9
+            TabOrder = 7
             TabStop = True
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
@@ -3053,58 +3117,22 @@ object FormEditor: TFormEditor
               Width = 300
             end
           end
-          object MemoPhone4: TsMemo
-            Left = 48
-            Top = 152
-            Width = 321
-            Height = 60
-            TabStop = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            ReadOnly = True
-            ScrollBars = ssVertical
-            TabOrder = 10
-            Visible = False
-            WordWrap = False
-            SkinData.SkinSection = 'EDIT'
-          end
-          object EditPhone4: TsEdit
-            Left = 172
-            Top = 126
-            Width = 228
-            Height = 24
-            Color = clWhite
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 8
-            OnKeyPress = EditPhone1KeyPress
-            SkinData.SkinSection = 'EDIT'
-            BoundLabel.Indent = 2
-          end
         end
       end
       object sTabSheet5: TsTabSheet
         Caption = '5'
         ExplicitTop = 6
-        ExplicitHeight = 234
+        ExplicitHeight = 289
         object sGroupBox5: TsGroupBox
-          Left = 4
+          Left = 5
           Top = -4
           Width = 413
-          Height = 217
+          Height = 272
           TabOrder = 0
           SkinData.SkinSection = 'GROUPBOX'
           object ImagePhone5: TImage
             Left = 12
-            Top = 127
+            Top = 172
             Width = 32
             Height = 32
             AutoSize = True
@@ -3244,7 +3272,7 @@ object FormEditor: TFormEditor
           end
           object BtnAddPhoneToList5: TsSpeedButton
             Left = 374
-            Top = 159
+            Top = 206
             Width = 23
             Height = 22
             Hint = #1044#1086#1073#1072#1074#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1074' '#1089#1087#1080#1089#1086#1082
@@ -3290,7 +3318,7 @@ object FormEditor: TFormEditor
           end
           object BtnDeletePhoneFromList5: TsSpeedButton
             Left = 374
-            Top = 187
+            Top = 234
             Width = 23
             Height = 22
             Hint = #1059#1076#1072#1083#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1080#1079' '#1089#1087#1080#1089#1082#1072
@@ -3388,9 +3416,29 @@ object FormEditor: TFormEditor
             OnClick = btnDeleteAdresClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
+          object MemoPhone5: TsMemo
+            Left = 48
+            Top = 197
+            Width = 321
+            Height = 68
+            TabStop = False
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 8
+            Visible = False
+            WordWrap = False
+            SkinData.SkinSection = 'EDIT'
+          end
           object EditNO5: TsEdit
             Left = 8
-            Top = 185
+            Top = 230
             Width = 30
             Height = 24
             TabStop = False
@@ -3402,7 +3450,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             ReadOnly = True
-            TabOrder = 1
+            TabOrder = 9
             Text = '5'
             Visible = False
             SkinData.SkinSection = 'EDIT'
@@ -3426,6 +3474,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -3436,7 +3485,7 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 2
+            TabOrder = 0
           end
           object EditZIP5: TsEdit
             Left = 328
@@ -3450,7 +3499,7 @@ object FormEditor: TFormEditor
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             ParentFont = False
-            TabOrder = 3
+            TabOrder = 1
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -3465,7 +3514,7 @@ object FormEditor: TFormEditor
           end
           object EditStreet5: TsEdit
             Left = 12
-            Top = 57
+            Top = 140
             Width = 389
             Height = 24
             Color = clWhite
@@ -3490,8 +3539,8 @@ object FormEditor: TFormEditor
           end
           object EditCountry5: TsComboBoxEx
             Left = 12
-            Top = 99
-            Width = 190
+            Top = 60
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -3504,6 +3553,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -3514,12 +3564,12 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 5
+            TabOrder = 2
           end
           object EditCity5: TsComboBoxEx
-            Left = 210
-            Top = 99
-            Width = 190
+            Left = 12
+            Top = 100
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -3532,6 +3582,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -3542,20 +3593,21 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 6
+            TabOrder = 3
           end
           object CBAdres5: TsCheckBox
             Left = 10
-            Top = 165
+            Top = 210
             Width = 20
             Height = 16
+            TabStop = False
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
-            TabOrder = 0
+            TabOrder = 10
             Visible = False
             SkinData.SkinSection = 'CHECKBOX'
             ImgChecked = 0
@@ -3564,11 +3616,12 @@ object FormEditor: TFormEditor
           end
           object EditPhoneType5: TsComboBoxEx
             Left = 48
-            Top = 126
+            Top = 171
             Width = 115
             Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -3579,20 +3632,37 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 7
+            TabOrder = 5
             OnKeyPress = EditCuratorKeyPress
+          end
+          object EditPhone5: TsEdit
+            Left = 172
+            Top = 171
+            Width = 228
+            Height = 24
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 6
+            OnKeyPress = EditPhone1KeyPress
+            SkinData.SkinSection = 'EDIT'
+            BoundLabel.Indent = 2
           end
           object SGPhone5: TNextGrid
             Left = 48
-            Top = 152
+            Top = 197
             Width = 321
-            Height = 61
+            Height = 68
             Touch.InteractiveGestures = [igPan, igPressAndTap]
             Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
             Caption = ''
             Options = [goSelectFullRow]
-            TabOrder = 9
+            TabOrder = 7
             TabStop = True
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
@@ -3616,58 +3686,22 @@ object FormEditor: TFormEditor
               Width = 300
             end
           end
-          object MemoPhone5: TsMemo
-            Left = 48
-            Top = 152
-            Width = 321
-            Height = 60
-            TabStop = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            ReadOnly = True
-            ScrollBars = ssVertical
-            TabOrder = 10
-            Visible = False
-            WordWrap = False
-            SkinData.SkinSection = 'EDIT'
-          end
-          object EditPhone5: TsEdit
-            Left = 172
-            Top = 126
-            Width = 228
-            Height = 24
-            Color = clWhite
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 8
-            OnKeyPress = EditPhone1KeyPress
-            SkinData.SkinSection = 'EDIT'
-            BoundLabel.Indent = 2
-          end
         end
       end
       object sTabSheet6: TsTabSheet
         Caption = '6'
         ExplicitTop = 6
-        ExplicitHeight = 234
+        ExplicitHeight = 289
         object sGroupBox6: TsGroupBox
-          Left = 4
+          Left = 5
           Top = -4
           Width = 413
-          Height = 217
+          Height = 272
           TabOrder = 0
           SkinData.SkinSection = 'GROUPBOX'
           object ImagePhone6: TImage
             Left = 12
-            Top = 127
+            Top = 172
             Width = 32
             Height = 32
             AutoSize = True
@@ -3807,7 +3841,7 @@ object FormEditor: TFormEditor
           end
           object BtnAddPhoneToList6: TsSpeedButton
             Left = 374
-            Top = 159
+            Top = 206
             Width = 23
             Height = 22
             Hint = #1044#1086#1073#1072#1074#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1074' '#1089#1087#1080#1089#1086#1082
@@ -3853,7 +3887,7 @@ object FormEditor: TFormEditor
           end
           object BtnDeletePhoneFromList6: TsSpeedButton
             Left = 374
-            Top = 187
+            Top = 234
             Width = 23
             Height = 22
             Hint = #1059#1076#1072#1083#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1080#1079' '#1089#1087#1080#1089#1082#1072
@@ -3951,9 +3985,29 @@ object FormEditor: TFormEditor
             OnClick = btnDeleteAdresClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
+          object MemoPhone6: TsMemo
+            Left = 48
+            Top = 197
+            Width = 321
+            Height = 68
+            TabStop = False
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 8
+            Visible = False
+            WordWrap = False
+            SkinData.SkinSection = 'EDIT'
+          end
           object EditNO6: TsEdit
             Left = 8
-            Top = 185
+            Top = 230
             Width = 30
             Height = 24
             TabStop = False
@@ -3965,7 +4019,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             ReadOnly = True
-            TabOrder = 1
+            TabOrder = 9
             Text = '6'
             Visible = False
             SkinData.SkinSection = 'EDIT'
@@ -3989,6 +4043,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -3999,7 +4054,7 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 2
+            TabOrder = 0
           end
           object EditZIP6: TsEdit
             Left = 328
@@ -4013,7 +4068,7 @@ object FormEditor: TFormEditor
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             ParentFont = False
-            TabOrder = 3
+            TabOrder = 1
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -4028,7 +4083,7 @@ object FormEditor: TFormEditor
           end
           object EditStreet6: TsEdit
             Left = 12
-            Top = 57
+            Top = 140
             Width = 389
             Height = 24
             Color = clWhite
@@ -4053,8 +4108,8 @@ object FormEditor: TFormEditor
           end
           object EditCountry6: TsComboBoxEx
             Left = 12
-            Top = 99
-            Width = 190
+            Top = 60
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -4067,6 +4122,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -4077,12 +4133,12 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 5
+            TabOrder = 2
           end
           object EditCity6: TsComboBoxEx
-            Left = 210
-            Top = 99
-            Width = 190
+            Left = 12
+            Top = 100
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -4095,6 +4151,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -4105,20 +4162,21 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 6
+            TabOrder = 3
           end
           object CBAdres6: TsCheckBox
             Left = 10
-            Top = 165
+            Top = 210
             Width = 20
             Height = 16
+            TabStop = False
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
-            TabOrder = 0
+            TabOrder = 10
             Visible = False
             SkinData.SkinSection = 'CHECKBOX'
             ImgChecked = 0
@@ -4127,11 +4185,12 @@ object FormEditor: TFormEditor
           end
           object EditPhoneType6: TsComboBoxEx
             Left = 48
-            Top = 126
+            Top = 171
             Width = 115
             Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -4142,20 +4201,37 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 7
+            TabOrder = 5
             OnKeyPress = EditCuratorKeyPress
+          end
+          object EditPhone6: TsEdit
+            Left = 172
+            Top = 171
+            Width = 228
+            Height = 24
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 6
+            OnKeyPress = EditPhone1KeyPress
+            SkinData.SkinSection = 'EDIT'
+            BoundLabel.Indent = 2
           end
           object SGPhone6: TNextGrid
             Left = 48
-            Top = 152
+            Top = 197
             Width = 321
-            Height = 61
+            Height = 68
             Touch.InteractiveGestures = [igPan, igPressAndTap]
             Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
             Caption = ''
             Options = [goSelectFullRow]
-            TabOrder = 9
+            TabOrder = 7
             TabStop = True
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
@@ -4179,58 +4255,22 @@ object FormEditor: TFormEditor
               Width = 300
             end
           end
-          object MemoPhone6: TsMemo
-            Left = 48
-            Top = 152
-            Width = 321
-            Height = 60
-            TabStop = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            ReadOnly = True
-            ScrollBars = ssVertical
-            TabOrder = 10
-            Visible = False
-            WordWrap = False
-            SkinData.SkinSection = 'EDIT'
-          end
-          object EditPhone6: TsEdit
-            Left = 172
-            Top = 126
-            Width = 228
-            Height = 24
-            Color = clWhite
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 8
-            OnKeyPress = EditPhone1KeyPress
-            SkinData.SkinSection = 'EDIT'
-            BoundLabel.Indent = 2
-          end
         end
       end
       object sTabSheet7: TsTabSheet
         Caption = '7'
         ExplicitTop = 6
-        ExplicitHeight = 234
+        ExplicitHeight = 289
         object sGroupBox7: TsGroupBox
-          Left = 4
+          Left = 5
           Top = -4
           Width = 413
-          Height = 217
+          Height = 272
           TabOrder = 0
           SkinData.SkinSection = 'GROUPBOX'
           object ImagePhone7: TImage
             Left = 12
-            Top = 127
+            Top = 172
             Width = 32
             Height = 32
             AutoSize = True
@@ -4370,7 +4410,7 @@ object FormEditor: TFormEditor
           end
           object BtnAddPhoneToList7: TsSpeedButton
             Left = 374
-            Top = 159
+            Top = 206
             Width = 23
             Height = 22
             Hint = #1044#1086#1073#1072#1074#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1074' '#1089#1087#1080#1089#1086#1082
@@ -4416,7 +4456,7 @@ object FormEditor: TFormEditor
           end
           object BtnDeletePhoneFromList7: TsSpeedButton
             Left = 374
-            Top = 187
+            Top = 234
             Width = 23
             Height = 22
             Hint = #1059#1076#1072#1083#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1080#1079' '#1089#1087#1080#1089#1082#1072
@@ -4514,9 +4554,29 @@ object FormEditor: TFormEditor
             OnClick = btnDeleteAdresClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
+          object MemoPhone7: TsMemo
+            Left = 48
+            Top = 197
+            Width = 321
+            Height = 68
+            TabStop = False
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 8
+            Visible = False
+            WordWrap = False
+            SkinData.SkinSection = 'EDIT'
+          end
           object EditNO7: TsEdit
             Left = 8
-            Top = 185
+            Top = 230
             Width = 30
             Height = 24
             TabStop = False
@@ -4528,7 +4588,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             ReadOnly = True
-            TabOrder = 1
+            TabOrder = 9
             Text = '7'
             Visible = False
             SkinData.SkinSection = 'EDIT'
@@ -4552,6 +4612,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -4562,7 +4623,7 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 2
+            TabOrder = 0
           end
           object EditZIP7: TsEdit
             Left = 328
@@ -4576,7 +4637,7 @@ object FormEditor: TFormEditor
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             ParentFont = False
-            TabOrder = 3
+            TabOrder = 1
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -4591,7 +4652,7 @@ object FormEditor: TFormEditor
           end
           object EditStreet7: TsEdit
             Left = 12
-            Top = 57
+            Top = 140
             Width = 389
             Height = 24
             Color = clWhite
@@ -4616,8 +4677,8 @@ object FormEditor: TFormEditor
           end
           object EditCountry7: TsComboBoxEx
             Left = 12
-            Top = 99
-            Width = 190
+            Top = 60
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -4630,6 +4691,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -4640,12 +4702,12 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 5
+            TabOrder = 2
           end
           object EditCity7: TsComboBoxEx
-            Left = 210
-            Top = 99
-            Width = 190
+            Left = 12
+            Top = 100
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -4658,6 +4720,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -4668,20 +4731,21 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 6
+            TabOrder = 3
           end
           object CBAdres7: TsCheckBox
             Left = 10
-            Top = 165
+            Top = 210
             Width = 20
             Height = 16
+            TabStop = False
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
-            TabOrder = 0
+            TabOrder = 10
             Visible = False
             SkinData.SkinSection = 'CHECKBOX'
             ImgChecked = 0
@@ -4690,11 +4754,12 @@ object FormEditor: TFormEditor
           end
           object EditPhoneType7: TsComboBoxEx
             Left = 48
-            Top = 126
+            Top = 171
             Width = 115
             Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -4705,20 +4770,37 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 7
+            TabOrder = 5
             OnKeyPress = EditCuratorKeyPress
+          end
+          object EditPhone7: TsEdit
+            Left = 172
+            Top = 171
+            Width = 228
+            Height = 24
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 6
+            OnKeyPress = EditPhone1KeyPress
+            SkinData.SkinSection = 'EDIT'
+            BoundLabel.Indent = 2
           end
           object SGPhone7: TNextGrid
             Left = 48
-            Top = 152
+            Top = 197
             Width = 321
-            Height = 61
+            Height = 68
             Touch.InteractiveGestures = [igPan, igPressAndTap]
             Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
             Caption = ''
             Options = [goSelectFullRow]
-            TabOrder = 9
+            TabOrder = 7
             TabStop = True
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
@@ -4742,58 +4824,22 @@ object FormEditor: TFormEditor
               Width = 300
             end
           end
-          object MemoPhone7: TsMemo
-            Left = 48
-            Top = 152
-            Width = 321
-            Height = 60
-            TabStop = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            ReadOnly = True
-            ScrollBars = ssVertical
-            TabOrder = 10
-            Visible = False
-            WordWrap = False
-            SkinData.SkinSection = 'EDIT'
-          end
-          object EditPhone7: TsEdit
-            Left = 172
-            Top = 126
-            Width = 228
-            Height = 24
-            Color = clWhite
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 8
-            OnKeyPress = EditPhone1KeyPress
-            SkinData.SkinSection = 'EDIT'
-            BoundLabel.Indent = 2
-          end
         end
       end
       object sTabSheet8: TsTabSheet
         Caption = '8'
         ExplicitTop = 6
-        ExplicitHeight = 234
+        ExplicitHeight = 289
         object sGroupBox8: TsGroupBox
-          Left = 4
+          Left = 5
           Top = -4
           Width = 413
-          Height = 217
+          Height = 272
           TabOrder = 0
           SkinData.SkinSection = 'GROUPBOX'
           object ImagePhone8: TImage
             Left = 12
-            Top = 127
+            Top = 172
             Width = 32
             Height = 32
             AutoSize = True
@@ -4933,7 +4979,7 @@ object FormEditor: TFormEditor
           end
           object BtnAddPhoneToList8: TsSpeedButton
             Left = 374
-            Top = 159
+            Top = 206
             Width = 23
             Height = 22
             Hint = #1044#1086#1073#1072#1074#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1074' '#1089#1087#1080#1089#1086#1082
@@ -4979,7 +5025,7 @@ object FormEditor: TFormEditor
           end
           object BtnDeletePhoneFromList8: TsSpeedButton
             Left = 374
-            Top = 187
+            Top = 234
             Width = 23
             Height = 22
             Hint = #1059#1076#1072#1083#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1080#1079' '#1089#1087#1080#1089#1082#1072
@@ -5077,9 +5123,29 @@ object FormEditor: TFormEditor
             OnClick = btnDeleteAdresClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
+          object MemoPhone8: TsMemo
+            Left = 48
+            Top = 197
+            Width = 321
+            Height = 68
+            TabStop = False
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 8
+            Visible = False
+            WordWrap = False
+            SkinData.SkinSection = 'EDIT'
+          end
           object EditNO8: TsEdit
             Left = 8
-            Top = 185
+            Top = 230
             Width = 30
             Height = 24
             TabStop = False
@@ -5091,7 +5157,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             ReadOnly = True
-            TabOrder = 1
+            TabOrder = 9
             Text = '8'
             Visible = False
             SkinData.SkinSection = 'EDIT'
@@ -5115,6 +5181,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -5125,7 +5192,7 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 2
+            TabOrder = 0
           end
           object EditZIP8: TsEdit
             Left = 328
@@ -5139,7 +5206,7 @@ object FormEditor: TFormEditor
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             ParentFont = False
-            TabOrder = 3
+            TabOrder = 1
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -5154,7 +5221,7 @@ object FormEditor: TFormEditor
           end
           object EditStreet8: TsEdit
             Left = 12
-            Top = 57
+            Top = 140
             Width = 389
             Height = 24
             Color = clWhite
@@ -5179,8 +5246,8 @@ object FormEditor: TFormEditor
           end
           object EditCountry8: TsComboBoxEx
             Left = 12
-            Top = 99
-            Width = 190
+            Top = 60
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -5193,6 +5260,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -5203,12 +5271,12 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 5
+            TabOrder = 2
           end
           object EditCity8: TsComboBoxEx
-            Left = 210
-            Top = 99
-            Width = 190
+            Left = 12
+            Top = 100
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -5221,6 +5289,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -5231,20 +5300,21 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 6
+            TabOrder = 3
           end
           object CBAdres8: TsCheckBox
             Left = 10
-            Top = 165
+            Top = 210
             Width = 20
             Height = 16
+            TabStop = False
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
-            TabOrder = 0
+            TabOrder = 10
             Visible = False
             SkinData.SkinSection = 'CHECKBOX'
             ImgChecked = 0
@@ -5253,11 +5323,12 @@ object FormEditor: TFormEditor
           end
           object EditPhoneType8: TsComboBoxEx
             Left = 48
-            Top = 126
+            Top = 171
             Width = 115
             Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -5268,20 +5339,37 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 7
+            TabOrder = 5
             OnKeyPress = EditCuratorKeyPress
+          end
+          object EditPhone8: TsEdit
+            Left = 172
+            Top = 171
+            Width = 228
+            Height = 24
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 6
+            OnKeyPress = EditPhone1KeyPress
+            SkinData.SkinSection = 'EDIT'
+            BoundLabel.Indent = 2
           end
           object SGPhone8: TNextGrid
             Left = 48
-            Top = 152
+            Top = 197
             Width = 321
-            Height = 61
+            Height = 68
             Touch.InteractiveGestures = [igPan, igPressAndTap]
             Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
             Caption = ''
             Options = [goSelectFullRow]
-            TabOrder = 9
+            TabOrder = 7
             TabStop = True
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
@@ -5305,58 +5393,22 @@ object FormEditor: TFormEditor
               Width = 300
             end
           end
-          object MemoPhone8: TsMemo
-            Left = 48
-            Top = 152
-            Width = 321
-            Height = 60
-            TabStop = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            ReadOnly = True
-            ScrollBars = ssVertical
-            TabOrder = 10
-            Visible = False
-            WordWrap = False
-            SkinData.SkinSection = 'EDIT'
-          end
-          object EditPhone8: TsEdit
-            Left = 172
-            Top = 126
-            Width = 228
-            Height = 24
-            Color = clWhite
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 8
-            OnKeyPress = EditPhone1KeyPress
-            SkinData.SkinSection = 'EDIT'
-            BoundLabel.Indent = 2
-          end
         end
       end
       object sTabSheet9: TsTabSheet
         Caption = '9'
         ExplicitTop = 6
-        ExplicitHeight = 234
+        ExplicitHeight = 289
         object sGroupBox9: TsGroupBox
-          Left = 4
+          Left = 5
           Top = -4
           Width = 413
-          Height = 217
+          Height = 272
           TabOrder = 0
           SkinData.SkinSection = 'GROUPBOX'
           object ImagePhone9: TImage
             Left = 12
-            Top = 127
+            Top = 172
             Width = 32
             Height = 32
             AutoSize = True
@@ -5496,7 +5548,7 @@ object FormEditor: TFormEditor
           end
           object BtnAddPhoneToList9: TsSpeedButton
             Left = 374
-            Top = 159
+            Top = 206
             Width = 23
             Height = 22
             Hint = #1044#1086#1073#1072#1074#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1074' '#1089#1087#1080#1089#1086#1082
@@ -5542,7 +5594,7 @@ object FormEditor: TFormEditor
           end
           object BtnDeletePhoneFromList9: TsSpeedButton
             Left = 374
-            Top = 187
+            Top = 234
             Width = 23
             Height = 22
             Hint = #1059#1076#1072#1083#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1080#1079' '#1089#1087#1080#1089#1082#1072
@@ -5640,9 +5692,29 @@ object FormEditor: TFormEditor
             OnClick = btnDeleteAdresClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
+          object MemoPhone9: TsMemo
+            Left = 48
+            Top = 197
+            Width = 321
+            Height = 68
+            TabStop = False
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 8
+            Visible = False
+            WordWrap = False
+            SkinData.SkinSection = 'EDIT'
+          end
           object EditNO9: TsEdit
             Left = 8
-            Top = 185
+            Top = 230
             Width = 30
             Height = 24
             TabStop = False
@@ -5654,7 +5726,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             ReadOnly = True
-            TabOrder = 1
+            TabOrder = 9
             Text = '9'
             Visible = False
             SkinData.SkinSection = 'EDIT'
@@ -5678,6 +5750,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1058#1080#1087':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -5688,7 +5761,7 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 2
+            TabOrder = 0
           end
           object EditZIP9: TsEdit
             Left = 328
@@ -5702,7 +5775,7 @@ object FormEditor: TFormEditor
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             ParentFont = False
-            TabOrder = 3
+            TabOrder = 1
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -5717,7 +5790,7 @@ object FormEditor: TFormEditor
           end
           object EditStreet9: TsEdit
             Left = 12
-            Top = 57
+            Top = 140
             Width = 389
             Height = 24
             Color = clWhite
@@ -5742,8 +5815,8 @@ object FormEditor: TFormEditor
           end
           object EditCountry9: TsComboBoxEx
             Left = 12
-            Top = 99
-            Width = 190
+            Top = 60
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -5756,6 +5829,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1057#1090#1088#1072#1085#1072':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -5766,12 +5840,12 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 5
+            TabOrder = 2
           end
           object EditCity9: TsComboBoxEx
-            Left = 210
-            Top = 99
-            Width = 190
+            Left = 12
+            Top = 100
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -5784,6 +5858,7 @@ object FormEditor: TFormEditor
             BoundLabel.Caption = #1043#1086#1088#1086#1076':'
             BoundLabel.Layout = sclTopLeft
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -5794,20 +5869,21 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 6
+            TabOrder = 3
           end
           object CBAdres9: TsCheckBox
             Left = 10
-            Top = 165
+            Top = 210
             Width = 20
             Height = 16
+            TabStop = False
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
-            TabOrder = 0
+            TabOrder = 10
             Visible = False
             SkinData.SkinSection = 'CHECKBOX'
             ImgChecked = 0
@@ -5816,11 +5892,12 @@ object FormEditor: TFormEditor
           end
           object EditPhoneType9: TsComboBoxEx
             Left = 48
-            Top = 126
+            Top = 171
             Width = 115
             Height = 25
             BoundLabel.Indent = 2
             SkinData.SkinSection = 'COMBOBOX'
+            AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
             ItemsEx = <>
             Color = clWhite
             Font.Charset = DEFAULT_CHARSET
@@ -5831,20 +5908,37 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 7
+            TabOrder = 5
             OnKeyPress = EditCuratorKeyPress
+          end
+          object EditPhone9: TsEdit
+            Left = 172
+            Top = 171
+            Width = 228
+            Height = 24
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 6
+            OnKeyPress = EditPhone1KeyPress
+            SkinData.SkinSection = 'EDIT'
+            BoundLabel.Indent = 2
           end
           object SGPhone9: TNextGrid
             Left = 48
-            Top = 152
+            Top = 197
             Width = 321
-            Height = 61
+            Height = 68
             Touch.InteractiveGestures = [igPan, igPressAndTap]
             Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
             Caption = ''
             Options = [goSelectFullRow]
-            TabOrder = 9
+            TabOrder = 7
             TabStop = True
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
@@ -5868,58 +5962,22 @@ object FormEditor: TFormEditor
               Width = 300
             end
           end
-          object MemoPhone9: TsMemo
-            Left = 48
-            Top = 152
-            Width = 321
-            Height = 60
-            TabStop = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            ReadOnly = True
-            ScrollBars = ssVertical
-            TabOrder = 10
-            Visible = False
-            WordWrap = False
-            SkinData.SkinSection = 'EDIT'
-          end
-          object EditPhone9: TsEdit
-            Left = 172
-            Top = 126
-            Width = 228
-            Height = 24
-            Color = clWhite
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 8
-            OnKeyPress = EditPhone1KeyPress
-            SkinData.SkinSection = 'EDIT'
-            BoundLabel.Indent = 2
-          end
         end
       end
       object sTabSheet10: TsTabSheet
         Caption = '10'
         ExplicitTop = 6
-        ExplicitHeight = 234
+        ExplicitHeight = 289
         object sGroupBox10: TsGroupBox
-          Left = 4
+          Left = 5
           Top = -4
           Width = 413
-          Height = 217
+          Height = 272
           TabOrder = 0
           SkinData.SkinSection = 'GROUPBOX'
           object ImagePhone10: TImage
             Left = 12
-            Top = 127
+            Top = 172
             Width = 32
             Height = 32
             AutoSize = True
@@ -6059,7 +6117,7 @@ object FormEditor: TFormEditor
           end
           object BtnAddPhoneToList10: TsSpeedButton
             Left = 374
-            Top = 159
+            Top = 206
             Width = 23
             Height = 22
             Hint = #1044#1086#1073#1072#1074#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1074' '#1089#1087#1080#1089#1086#1082
@@ -6105,7 +6163,7 @@ object FormEditor: TFormEditor
           end
           object BtnDeletePhoneFromList10: TsSpeedButton
             Left = 374
-            Top = 187
+            Top = 234
             Width = 23
             Height = 22
             Hint = #1059#1076#1072#1083#1080#1090#1100' '#1090#1077#1083#1077#1092#1086#1085' '#1080#1079' '#1089#1087#1080#1089#1082#1072
@@ -6203,9 +6261,29 @@ object FormEditor: TFormEditor
             OnClick = btnDeleteAdresClick
             SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
           end
+          object MemoPhone10: TsMemo
+            Left = 48
+            Top = 197
+            Width = 321
+            Height = 68
+            TabStop = False
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 8
+            Visible = False
+            WordWrap = False
+            SkinData.SkinSection = 'EDIT'
+          end
           object EditNO10: TsEdit
             Left = 8
-            Top = 185
+            Top = 230
             Width = 30
             Height = 24
             TabStop = False
@@ -6217,7 +6295,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             ReadOnly = True
-            TabOrder = 1
+            TabOrder = 9
             Text = '10'
             Visible = False
             SkinData.SkinSection = 'EDIT'
@@ -6252,7 +6330,7 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 2
+            TabOrder = 0
           end
           object EditZIP10: TsEdit
             Left = 328
@@ -6266,7 +6344,7 @@ object FormEditor: TFormEditor
             Font.Name = 'MS Sans Serif'
             Font.Style = []
             ParentFont = False
-            TabOrder = 3
+            TabOrder = 1
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -6281,7 +6359,7 @@ object FormEditor: TFormEditor
           end
           object EditStreet10: TsEdit
             Left = 12
-            Top = 57
+            Top = 140
             Width = 389
             Height = 24
             Color = clWhite
@@ -6306,8 +6384,8 @@ object FormEditor: TFormEditor
           end
           object EditCountry10: TsComboBoxEx
             Left = 12
-            Top = 99
-            Width = 190
+            Top = 60
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -6331,12 +6409,12 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 5
+            TabOrder = 2
           end
           object EditCity10: TsComboBoxEx
-            Left = 210
-            Top = 99
-            Width = 190
+            Left = 12
+            Top = 100
+            Width = 389
             Height = 25
             BoundLabel.Active = True
             BoundLabel.Font.Charset = DEFAULT_CHARSET
@@ -6360,20 +6438,21 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 6
+            TabOrder = 3
           end
           object CBAdres10: TsCheckBox
             Left = 10
-            Top = 165
+            Top = 210
             Width = 20
             Height = 16
+            TabStop = False
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = [fsBold]
             ParentFont = False
-            TabOrder = 0
+            TabOrder = 10
             Visible = False
             SkinData.SkinSection = 'CHECKBOX'
             ImgChecked = 0
@@ -6382,7 +6461,7 @@ object FormEditor: TFormEditor
           end
           object EditPhoneType10: TsComboBoxEx
             Left = 48
-            Top = 126
+            Top = 171
             Width = 115
             Height = 25
             BoundLabel.Indent = 2
@@ -6398,20 +6477,37 @@ object FormEditor: TFormEditor
             ItemIndex = -1
             MaxLength = 255
             ParentFont = False
-            TabOrder = 7
+            TabOrder = 5
             OnKeyPress = EditCuratorKeyPress
+          end
+          object EditPhone10: TsEdit
+            Left = 172
+            Top = 171
+            Width = 228
+            Height = 24
+            Color = clWhite
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 6
+            OnKeyPress = EditPhone1KeyPress
+            SkinData.SkinSection = 'EDIT'
+            BoundLabel.Indent = 2
           end
           object SGPhone10: TNextGrid
             Left = 48
-            Top = 152
+            Top = 197
             Width = 321
-            Height = 61
+            Height = 68
             Touch.InteractiveGestures = [igPan, igPressAndTap]
             Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
             AppearanceOptions = [aoHideFocus, aoHideSelection, aoHighlightSlideCells]
             Caption = ''
             Options = [goSelectFullRow]
-            TabOrder = 9
+            TabOrder = 7
             TabStop = True
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
@@ -6434,42 +6530,6 @@ object FormEditor: TFormEditor
               SortType = stAlphabetic
               Width = 300
             end
-          end
-          object MemoPhone10: TsMemo
-            Left = 48
-            Top = 152
-            Width = 321
-            Height = 60
-            TabStop = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            ReadOnly = True
-            ScrollBars = ssVertical
-            TabOrder = 10
-            Visible = False
-            WordWrap = False
-            SkinData.SkinSection = 'EDIT'
-          end
-          object EditPhone10: TsEdit
-            Left = 172
-            Top = 126
-            Width = 228
-            Height = 24
-            Color = clWhite
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -13
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 8
-            OnKeyPress = EditPhone1KeyPress
-            SkinData.SkinSection = 'EDIT'
-            BoundLabel.Indent = 2
           end
         end
       end
@@ -6498,6 +6558,7 @@ object FormEditor: TFormEditor
       BoundLabel.Font.Name = 'MS Sans Serif'
       BoundLabel.Font.Style = []
       BoundLabel.ParentFont = False
+      BoundLabel.Indent = 2
       BoundLabel.Caption = #1069#1083'. '#1072#1076#1088#1077#1089':'
       BoundLabel.Layout = sclTopLeft
     end
@@ -6525,6 +6586,7 @@ object FormEditor: TFormEditor
       BoundLabel.Font.Name = 'MS Sans Serif'
       BoundLabel.Font.Style = []
       BoundLabel.ParentFont = False
+      BoundLabel.Indent = 2
       BoundLabel.Caption = #1069#1083'. '#1087#1086#1095#1090#1072':'
       BoundLabel.Layout = sclTopLeft
     end
