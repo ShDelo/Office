@@ -235,10 +235,10 @@ type
     SGNapravlenie: TNextGrid;
     NxTextColumn3: TNxTextColumn;
     NxTextColumn4: TNxTextColumn;
+    EditOblast1: TsComboBoxEx;
     procedure LoadDataEditor;
     procedure BtnCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    function UpperFirst(s: string): string;
     function GetIDByName(component: TsComboBoxEx): string;
     function GetNameByID(table, id: string): string;
     function GetIDString(component: TNextGrid): string;
@@ -296,20 +296,6 @@ end;
 function CustomSortProc(Node1, Node2: TTreeNode; iUpToThisLevel: Integer): Integer; stdcall;
 begin
   Result := AnsiStrIComp(PChar(Node1.Text), PChar(Node2.Text));
-end;
-
-function TFormEditor.UpperFirst(s: string): string;
-var
-  t: string;
-begin
-  Result := '';
-  if length(Trim(s)) = 0 then
-    exit;
-  s := Trim(s);
-  t := s[1];
-  delete(s, 1, 1);
-  t := AnsiUpperCase(t);
-  Result := t + s;
 end;
 
 function TFormEditor.ParseAdresFieldToCityIDList(Field_ADRES: string; IncludeSyntax: boolean): TStringList;

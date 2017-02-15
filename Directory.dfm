@@ -5,7 +5,7 @@ object FormDirectory: TFormDirectory
   BorderStyle = bsSingle
   Caption = #1059#1087#1088#1072#1074#1083#1077#1085#1080#1077' '#1076#1080#1088#1077#1082#1090#1086#1088#1080#1103#1084#1080
   ClientHeight = 365
-  ClientWidth = 604
+  ClientWidth = 653
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,24 +22,27 @@ object FormDirectory: TFormDirectory
   object PageControl: TsPageControl
     Left = 0
     Top = 0
-    Width = 604
+    Width = 653
     Height = 365
     ActivePage = tabCurator
     Align = alClient
     TabOrder = 0
     TabStop = False
     ShowFocus = False
+    TabPadding = 3
     SkinData.SkinSection = 'PAGECONTROL'
     object tabCurator: TsTabSheet
       Caption = #1050#1091#1088#1072#1090#1086#1088#1099
+      ExplicitWidth = 596
       object panelCurator: TsPanel
         Left = 0
         Top = 0
-        Width = 596
+        Width = 645
         Height = 25
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
+        ExplicitWidth = 596
         object btnCuratorCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -74,7 +77,7 @@ object FormDirectory: TFormDirectory
       object SGCurator: TNextGrid
         Left = 0
         Top = 46
-        Width = 596
+        Width = 645
         Height = 291
         Touch.InteractiveGestures = [igPan, igPressAndTap]
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
@@ -84,8 +87,9 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
+        ExplicitWidth = 596
         object NxTextColumn1: TNxTextColumn
-          DefaultWidth = 575
+          DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -101,7 +105,7 @@ object FormDirectory: TFormDirectory
           Position = 0
           Sorted = True
           SortType = stAlphabetic
-          Width = 575
+          Width = 625
         end
         object NxTextColumn2: TNxTextColumn
           Font.Charset = DEFAULT_CHARSET
@@ -124,7 +128,7 @@ object FormDirectory: TFormDirectory
       object editCurator: TsEdit
         Left = 0
         Top = 25
-        Width = 596
+        Width = 645
         Height = 21
         Align = alTop
         Color = clWhite
@@ -137,22 +141,21 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
+        ExplicitWidth = 596
       end
     end
     object tabRubr: TsTabSheet
       Caption = #1056#1091#1073#1088#1080#1082#1080
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitWidth = 596
       object panelRubr: TsPanel
         Left = 0
         Top = 0
-        Width = 596
+        Width = 645
         Height = 25
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
+        ExplicitWidth = 596
         object btnRubrCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -187,7 +190,7 @@ object FormDirectory: TFormDirectory
       object SGRubr: TNextGrid
         Left = 0
         Top = 46
-        Width = 596
+        Width = 645
         Height = 291
         Touch.InteractiveGestures = [igPan, igPressAndTap]
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
@@ -197,8 +200,9 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
+        ExplicitWidth = 596
         object NxTextColumn3: TNxTextColumn
-          DefaultWidth = 575
+          DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -214,7 +218,7 @@ object FormDirectory: TFormDirectory
           Position = 0
           Sorted = True
           SortType = stAlphabetic
-          Width = 575
+          Width = 625
         end
         object NxTextColumn4: TNxTextColumn
           Font.Charset = DEFAULT_CHARSET
@@ -237,7 +241,7 @@ object FormDirectory: TFormDirectory
       object editRubr: TsEdit
         Left = 0
         Top = 25
-        Width = 596
+        Width = 645
         Height = 21
         Align = alTop
         Color = clWhite
@@ -250,22 +254,21 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
+        ExplicitWidth = 596
       end
     end
     object tabFirmType: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1092#1080#1088#1084
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitWidth = 596
       object panelFirmType: TsPanel
         Left = 0
         Top = 0
-        Width = 596
+        Width = 645
         Height = 25
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
+        ExplicitWidth = 596
         object btnFirmTypeCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -300,7 +303,7 @@ object FormDirectory: TFormDirectory
       object SGFirmType: TNextGrid
         Left = 0
         Top = 46
-        Width = 596
+        Width = 645
         Height = 291
         Touch.InteractiveGestures = [igPan, igPressAndTap]
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
@@ -310,8 +313,9 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
+        ExplicitWidth = 596
         object NxTextColumn5: TNxTextColumn
-          DefaultWidth = 575
+          DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -327,7 +331,7 @@ object FormDirectory: TFormDirectory
           Position = 0
           Sorted = True
           SortType = stAlphabetic
-          Width = 575
+          Width = 625
         end
         object NxTextColumn6: TNxTextColumn
           Font.Charset = DEFAULT_CHARSET
@@ -350,7 +354,7 @@ object FormDirectory: TFormDirectory
       object editFirmType: TsEdit
         Left = 0
         Top = 25
-        Width = 596
+        Width = 645
         Height = 21
         Align = alTop
         Color = clWhite
@@ -363,22 +367,21 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
+        ExplicitWidth = 596
       end
     end
     object tabNapr: TsTabSheet
       Caption = #1042#1080#1076#1099' '#1076#1077#1103#1090#1077#1083#1100#1085#1086#1089#1090#1080
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitWidth = 596
       object panelNapr: TsPanel
         Left = 0
         Top = 0
-        Width = 596
+        Width = 645
         Height = 25
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
+        ExplicitWidth = 596
         object btnNaprCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -413,7 +416,7 @@ object FormDirectory: TFormDirectory
       object SGNapr: TNextGrid
         Left = 0
         Top = 46
-        Width = 596
+        Width = 645
         Height = 291
         Touch.InteractiveGestures = [igPan, igPressAndTap]
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
@@ -423,8 +426,9 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
+        ExplicitWidth = 596
         object NxTextColumn7: TNxTextColumn
-          DefaultWidth = 575
+          DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -440,7 +444,7 @@ object FormDirectory: TFormDirectory
           Position = 0
           Sorted = True
           SortType = stAlphabetic
-          Width = 575
+          Width = 625
         end
         object NxTextColumn8: TNxTextColumn
           Font.Charset = DEFAULT_CHARSET
@@ -463,7 +467,7 @@ object FormDirectory: TFormDirectory
       object editNapr: TsEdit
         Left = 0
         Top = 25
-        Width = 596
+        Width = 645
         Height = 21
         Align = alTop
         Color = clWhite
@@ -476,22 +480,21 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
+        ExplicitWidth = 596
       end
     end
     object tabOfficeType: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1072#1076#1088#1077#1089#1086#1074
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitWidth = 596
       object panelOfficeType: TsPanel
         Left = 0
         Top = 0
-        Width = 596
+        Width = 645
         Height = 25
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
+        ExplicitWidth = 596
         object btnOfficeTypeCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -526,7 +529,7 @@ object FormDirectory: TFormDirectory
       object SGOfficeType: TNextGrid
         Left = 0
         Top = 46
-        Width = 596
+        Width = 645
         Height = 291
         Touch.InteractiveGestures = [igPan, igPressAndTap]
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
@@ -536,8 +539,9 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
+        ExplicitWidth = 596
         object NxTextColumn9: TNxTextColumn
-          DefaultWidth = 575
+          DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -553,7 +557,7 @@ object FormDirectory: TFormDirectory
           Position = 0
           Sorted = True
           SortType = stAlphabetic
-          Width = 575
+          Width = 625
         end
         object NxTextColumn10: TNxTextColumn
           Font.Charset = DEFAULT_CHARSET
@@ -576,7 +580,7 @@ object FormDirectory: TFormDirectory
       object editOfficeType: TsEdit
         Left = 0
         Top = 25
-        Width = 596
+        Width = 645
         Height = 21
         Align = alTop
         Color = clWhite
@@ -589,22 +593,21 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
+        ExplicitWidth = 596
       end
     end
     object tabCountry: TsTabSheet
       Caption = #1057#1090#1088#1072#1085#1099
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitWidth = 596
       object panelCountry: TsPanel
         Left = 0
         Top = 0
-        Width = 596
+        Width = 645
         Height = 25
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
+        ExplicitWidth = 596
         object btnCountryCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -639,7 +642,7 @@ object FormDirectory: TFormDirectory
       object SGCountry: TNextGrid
         Left = 0
         Top = 46
-        Width = 596
+        Width = 645
         Height = 291
         Touch.InteractiveGestures = [igPan, igPressAndTap]
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
@@ -649,8 +652,9 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
+        ExplicitWidth = 596
         object NxTextColumn11: TNxTextColumn
-          DefaultWidth = 575
+          DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -666,7 +670,7 @@ object FormDirectory: TFormDirectory
           Position = 0
           Sorted = True
           SortType = stAlphabetic
-          Width = 575
+          Width = 625
         end
         object NxTextColumn12: TNxTextColumn
           Font.Charset = DEFAULT_CHARSET
@@ -689,7 +693,7 @@ object FormDirectory: TFormDirectory
       object editCountry: TsEdit
         Left = 0
         Top = 25
-        Width = 596
+        Width = 645
         Height = 21
         Align = alTop
         Color = clWhite
@@ -702,22 +706,134 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
+        ExplicitWidth = 596
       end
     end
-    object tabCity: TsTabSheet
-      Caption = #1043#1086#1088#1086#1076#1072
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
-      object panelCity: TsPanel
+    object tabOblast: TsTabSheet
+      Caption = #1054#1073#1083#1072#1089#1090#1100
+      ExplicitWidth = 596
+      object panelOblast: TsPanel
         Left = 0
         Top = 0
-        Width = 596
+        Width = 645
         Height = 25
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
+        ExplicitTop = 5
+        object btnOblastCreate: TsSpeedButton
+          Left = 1
+          Top = 1
+          Width = 56
+          Height = 23
+          Align = alLeft
+          Caption = #1057#1086#1079#1076#1072#1090#1100
+          OnClick = btnCreateClick
+          SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
+        end
+        object btnOblastEdit: TsSpeedButton
+          Left = 57
+          Top = 1
+          Width = 84
+          Height = 23
+          Align = alLeft
+          Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100
+          OnClick = btnEditClick
+          SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
+        end
+        object btnOblastDelete: TsSpeedButton
+          Left = 141
+          Top = 1
+          Width = 58
+          Height = 23
+          Align = alLeft
+          Caption = #1059#1076#1072#1083#1080#1090#1100
+          OnClick = btnDeleteClick
+          SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
+        end
+      end
+      object editOblast: TsEdit
+        Left = 0
+        Top = 25
+        Width = 645
+        Height = 21
+        Align = alTop
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnChange = editCuratorChange
+        SkinData.SkinSection = 'EDIT'
+        ExplicitTop = 30
+      end
+      object SGOblast: TNextGrid
+        Left = 0
+        Top = 46
+        Width = 645
+        Height = 291
+        Touch.InteractiveGestures = [igPan, igPressAndTap]
+        Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
+        Align = alClient
+        AppearanceOptions = [aoHideFocus, aoHighlightSlideCells]
+        Caption = ''
+        Options = [goSelectFullRow]
+        TabOrder = 2
+        TabStop = True
+        ExplicitWidth = 596
+        object NxTextColumn17: TNxTextColumn
+          DefaultWidth = 625
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clWindowText
+          Header.Font.Height = -11
+          Header.Font.Name = 'Tahoma'
+          Header.Font.Style = []
+          ParentFont = False
+          Position = 0
+          Sorted = True
+          SortType = stAlphabetic
+          Width = 625
+        end
+        object NxTextColumn18: TNxTextColumn
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Header.Caption = 'ID'
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clWindowText
+          Header.Font.Height = -11
+          Header.Font.Name = 'Tahoma'
+          Header.Font.Style = []
+          ParentFont = False
+          Position = 1
+          SortType = stAlphabetic
+          Visible = False
+        end
+      end
+    end
+    object tabCity: TsTabSheet
+      Caption = #1043#1086#1088#1086#1076#1072
+      ExplicitWidth = 596
+      object panelCity: TsPanel
+        Left = 0
+        Top = 0
+        Width = 645
+        Height = 25
+        Align = alTop
+        TabOrder = 0
+        SkinData.SkinSection = 'PANEL'
+        ExplicitWidth = 596
         object btnCityCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -752,7 +868,7 @@ object FormDirectory: TFormDirectory
       object SGCity: TNextGrid
         Left = 0
         Top = 46
-        Width = 596
+        Width = 645
         Height = 291
         Touch.InteractiveGestures = [igPan, igPressAndTap]
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
@@ -762,8 +878,9 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
+        ExplicitWidth = 596
         object NxTextColumn13: TNxTextColumn
-          DefaultWidth = 575
+          DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -779,7 +896,7 @@ object FormDirectory: TFormDirectory
           Position = 0
           Sorted = True
           SortType = stAlphabetic
-          Width = 575
+          Width = 625
         end
         object NxTextColumn14: TNxTextColumn
           Font.Charset = DEFAULT_CHARSET
@@ -802,7 +919,7 @@ object FormDirectory: TFormDirectory
       object editCity: TsEdit
         Left = 0
         Top = 25
-        Width = 596
+        Width = 645
         Height = 21
         Align = alTop
         Color = clWhite
@@ -815,22 +932,21 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
+        ExplicitWidth = 596
       end
     end
     object sTabSheet1: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1090#1077#1083#1077#1092#1086#1085#1086#1074
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitWidth = 596
       object panelPhoneType: TsPanel
         Left = 0
         Top = 0
-        Width = 596
+        Width = 645
         Height = 25
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
+        ExplicitWidth = 596
         object btnPhoneTypeCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -865,7 +981,7 @@ object FormDirectory: TFormDirectory
       object editPhoneType: TsEdit
         Left = 0
         Top = 25
-        Width = 596
+        Width = 645
         Height = 21
         Align = alTop
         Color = clWhite
@@ -878,11 +994,12 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
+        ExplicitWidth = 596
       end
       object SGPhoneType: TNextGrid
         Left = 0
         Top = 46
-        Width = 596
+        Width = 645
         Height = 291
         Touch.InteractiveGestures = [igPan, igPressAndTap]
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
@@ -892,8 +1009,9 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
+        ExplicitWidth = 596
         object NxTextColumn15: TNxTextColumn
-          DefaultWidth = 575
+          DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -909,7 +1027,7 @@ object FormDirectory: TFormDirectory
           Position = 0
           Sorted = True
           SortType = stAlphabetic
-          Width = 575
+          Width = 625
         end
         object NxTextColumn16: TNxTextColumn
           Font.Charset = DEFAULT_CHARSET

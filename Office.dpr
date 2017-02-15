@@ -11,7 +11,8 @@ uses
   Directory in 'Directory.pas' {FormDirectory},
   ReportSimple in 'ReportSimple.pas' {FormReportSimple},
   Dublicate in 'Dublicate.pas' {FormDublicate},
-  Relations in 'Relations.pas' {FormRelations};
+  Relations in 'Relations.pas' {FormRelations},
+  DirectoryQuery in 'DirectoryQuery.pas' {FormDirectoryQuery};
 
 {$R *.res}
 
@@ -41,6 +42,7 @@ begin
   Application.CreateForm(TFormReportSimple, FormReportSimple);
   Application.CreateForm(TFormDublicate, FormDublicate);
   Application.CreateForm(TFormRelations, FormRelations);
+  Application.CreateForm(TFormDirectoryQuery, FormDirectoryQuery);
   FormLogo.Hide;
   FormLogo.Free;  
   Application.Run;

@@ -14,6 +14,7 @@ uses
 
 procedure debug(Text: string; Params: array of TVarRec);
 procedure WriteLog(Text: string);
+function UpperFirst(s: string): string;
 function QueryCreate: TIBCQuery;
 
 type
@@ -193,6 +194,20 @@ begin
   result := Query;
 end;
 
+function UpperFirst(s: string): string;
+var
+  t: string;
+begin
+  Result := '';
+  if length(Trim(s)) = 0 then
+    exit;
+  s := Trim(s);
+  t := s[1];
+  delete(s, 1, 1);
+  t := AnsiUpperCase(t);
+  Result := t + s;
+end;
+
 procedure TFormMain.WMGetMinMaxInfo(var M: TWMGetMinMaxInfo);
 begin
   M.MinMaxInfo^.PTMaxPosition.X := 0;
@@ -334,6 +349,7 @@ end;
 
 procedure TFormMain.ReloadDataGlobal(Sender: TObject);
 begin
+  //#TODO1: Add new forms in here if there is any
   if TForm(Sender).Name <> 'FormEditor' then
     FormEditor.Close;
   if TForm(Sender).Name <> 'FormReport' then

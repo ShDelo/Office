@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, sPageControl, NxScrollControl, NxCustomGridControl,
   NxCustomGrid, NxGrid, StdCtrls, sEdit, Buttons, sSpeedButton, ExtCtrls,
-  sPanel, IBC, NxColumns, NxColumnClasses, sButton;
+  sPanel, IBC, NxColumns, NxColumnClasses, sComboBoxes;
 
 type
   TFormDirectory = class(TForm)
@@ -83,6 +83,15 @@ type
     SGPhoneType: TNextGrid;
     NxTextColumn15: TNxTextColumn;
     NxTextColumn16: TNxTextColumn;
+    tabOblast: TsTabSheet;
+    panelOblast: TsPanel;
+    btnOblastCreate: TsSpeedButton;
+    btnOblastEdit: TsSpeedButton;
+    btnOblastDelete: TsSpeedButton;
+    editOblast: TsEdit;
+    SGOblast: TNextGrid;
+    NxTextColumn17: TNxTextColumn;
+    NxTextColumn18: TNxTextColumn;
     procedure LoadDataDirectory;
     procedure FormShow(Sender: TObject);
     procedure btnCreateClick(Sender: TObject);
@@ -91,6 +100,8 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure editCuratorChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    function Directory_ADD(DirCode: integer; Values: array of string; var NewRecord_ID: string): boolean;
+    function Directory_EDIT(DirCode: integer; ID_Directory: string; Values: array of string): boolean;
   private
     { Private declarations }
   public
@@ -98,15 +109,127 @@ type
     { Public declarations }
   end;
 
+  TDirectoryData = packed record
+    Name1: string[255];
+    Name2: string[255];
+    ID_oblast: integer;
+    constructor Create(Name1, Name2: string; ID_oblast: integer);
+  end;
+
+  TDirectoryContainer = class
+    SG_Main: Pointer; // temp grids e.g main.sgCurator_tmp
+    SG_Directory: Pointer; // SG controls on FormDirectory
+    Edit_Directory: Pointer; // editors from FormEditor
+    Edit_DirectoryQuery: Pointer; // edits from DirectoryQuery
+    constructor Create(DirCode: integer);
+  end;
+
+const
+  DIR_CODE_TOTAL = 8; // 0-based total number of codes
+  DIR_CODE_TO_TABLE: array [0 .. DIR_CODE_TOTAL] of string = ('curator', 'rubrikator', 'type', 'napravlenie', 'officetype', 'country',
+    'oblast', 'gorod', 'phonetype');
+  DIR_CODE_CURATOR = 0;
+  DIR_CODE_RUBRIKA = 1;
+  DIR_CODE_FIRMTYPE = 2;
+  DIR_CODE_NAPRAVLENIE = 3;
+  DIR_CODE_OFFICETYPE = 4;
+  DIR_CODE_COUNTRY = 5;
+  DIR_CODE_OBLAST = 6;
+  DIR_CODE_CITY = 7;
+  DIR_CODE_PHONETYPE = 8;
+
 var
   FormDirectory: TFormDirectory;
   isDataEdited: Boolean = False;
 
 implementation
 
-uses Main, Editor, Report, Logo, DBAccess;
+uses Main, Editor, Report, Logo, DirectoryQuery;
 
 {$R *.dfm}
+{ TDirectoryData }
+
+constructor TDirectoryData.Create(Name1, Name2: string; ID_oblast: integer);
+begin
+  self.Name1 := Name1;
+  self.Name2 := Name2;
+  self.ID_oblast := ID_oblast;
+end;
+
+{ TDirectoryContainer }
+
+constructor TDirectoryContainer.Create(DirCode: integer);
+begin
+  if not(DirCode in [0 .. DIR_CODE_TOTAL]) then
+    exit;
+
+  case DirCode of
+    DIR_CODE_CURATOR:
+      begin
+        self.SG_Main := main.sgCurator_tmp;
+        self.SG_Directory := FormDirectory.SGCurator;
+        self.Edit_Directory := FormEditor.EditCurator;
+        self.Edit_DirectoryQuery := nil;
+      end;
+    DIR_CODE_RUBRIKA:
+      begin
+        self.SG_Main := main.sgRubr_tmp;
+        self.SG_Directory := FormDirectory.SGRubr;
+        self.Edit_Directory := FormEditor.EditRubr;
+        self.Edit_DirectoryQuery := nil;
+      end;
+    DIR_CODE_FIRMTYPE:
+      begin
+        self.SG_Main := main.sgCurator_tmp;
+        self.SG_Directory := FormDirectory.SGFirmType;
+        self.Edit_Directory := FormEditor.EditType;
+        self.Edit_DirectoryQuery := nil;
+      end;
+    DIR_CODE_NAPRAVLENIE:
+      begin
+        self.SG_Main := main.sgNapr_tmp;
+        self.SG_Directory := FormDirectory.SGNapr;
+        self.Edit_Directory := FormEditor.EditNapravlenie;
+        self.Edit_DirectoryQuery := nil;
+      end;
+    DIR_CODE_OFFICETYPE:
+      begin
+        self.SG_Main := nil;
+        self.SG_Directory := FormDirectory.SGOfficeType;
+        self.Edit_Directory := FormEditor.EditOfficeType1;
+        self.Edit_DirectoryQuery := nil;
+      end;
+    DIR_CODE_COUNTRY:
+      begin
+        self.SG_Main := nil;
+        self.SG_Directory := FormDirectory.SGCountry;
+        self.Edit_Directory := FormEditor.EditCountry1;
+        self.Edit_DirectoryQuery := nil;
+      end;
+    DIR_CODE_OBLAST:
+      begin
+         self.SG_Main := nil;
+         self.SG_Directory := FormDirectory.SGOblast;
+         self.Edit_Directory := FormEditor.EditOblast1;
+         self.Edit_DirectoryQuery := nil;
+      end;
+    DIR_CODE_CITY:
+      begin
+        self.SG_Main := nil;
+        self.SG_Directory := FormDirectory.SGCity;
+        self.Edit_Directory := FormEditor.EditCity1;
+        self.Edit_DirectoryQuery := nil;
+      end;
+    DIR_CODE_PHONETYPE:
+      begin
+        self.SG_Main := nil;
+        self.SG_Directory := FormDirectory.SGPhoneType;
+        self.Edit_Directory := FormEditor.EditPhoneType1;
+        self.Edit_DirectoryQuery := nil;
+      end;
+  end;
+end;
+
 { TFormDirectory }
 
 procedure TFormDirectory.CreateParams(var Params: TCreateParams);
@@ -134,6 +257,7 @@ end;
 
 procedure TFormDirectory.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  // #TODO1: Need to rework data updating without GLOBAL_RELOAD
   WriteLog(Format('TFormDirectory.FormClose: редактирование директорий (isDataEdited = %s)', [BoolToStr(isDataEdited, True)]));
   try
     if isDataEdited then
@@ -303,149 +427,54 @@ end;
 
 procedure TFormDirectory.btnCreateClick(Sender: TObject);
 var
-  s, req, max_id: string;
-  Q_Dir: TIBCQuery;
+  NewRecord_ID: string;
+  QueryValues: array [0 .. 2] of string;
+  DirCode: integer;
+  DirContrainer: TDirectoryContainer;
 begin
-  if InputQuery('Создать', 'Управление директориями', s) then
-    if Trim(s) <> '' then
-    begin
-      s := Trim(s);
-      case PageControl.ActivePageIndex of
-        0:
-          req := 'select ID from CURATOR where lower(NAME) = :NAME';
-        1:
-          req := 'select ID from RUBRIKATOR where lower(NAME) = :NAME';
-        2:
-          req := 'select ID from TYPE where lower(NAME) = :NAME';
-        3:
-          req := 'select ID from NAPRAVLENIE where lower(NAME) = :NAME';
-        4:
-          req := 'select ID from OFFICETYPE where lower(NAME) = :NAME';
-        5:
-          req := 'select ID from COUNTRY where lower(NAME) = :NAME';
-        6:
-          req := 'select ID from GOROD where lower(NAME) = :NAME';
-        7:
-          req := 'select ID from PHONETYPE where lower(NAME) = :NAME';
-      end;
-      Q_Dir := QueryCreate;
-      Q_Dir.Close;
-      Q_Dir.SQL.Text := req;
-      Q_Dir.Params[0].AsString := AnsiLowerCase(s);
-      Q_Dir.Open; // Q_Dir.FetchAll := True;
-      if Q_Dir.RecordCount > 0 then
-      begin
-        MessageBox(handle, 'Запись с таким названием уже существует', 'Информация', MB_OK or MB_ICONINFORMATION);
-        Q_Dir.Close;
-        Q_Dir.Free;
-        exit;
-      end;
-      case PageControl.ActivePageIndex of
-        0:
-          req := 'insert into CURATOR (NAME) values (:NAME) returning ID';
-        1:
-          req := 'insert into RUBRIKATOR (NAME) values (:NAME) returning ID';
-        2:
-          req := 'insert into TYPE (NAME) values (:NAME) returning ID';
-        3:
-          req := 'insert into NAPRAVLENIE (NAME) values (:NAME) returning ID';
-        4:
-          req := 'insert into OFFICETYPE (NAME) values (:NAME) returning ID';
-        5:
-          req := 'insert into COUNTRY (NAME) values (:NAME) returning ID';
-        6:
-          req := 'insert into GOROD (NAME) values (:NAME) returning ID';
-        7:
-          req := 'insert into PHONETYPE (NAME) values (:NAME) returning ID';
-      end;
-      Q_Dir.Close;
-      Q_Dir.SQL.Text := req;
-      s := FormEditor.UpperFirst(s);
-      Q_Dir.Params[0].AsString := s;
-      try
-        Q_Dir.Execute;
-      except
-        on E: Exception do
-        begin
-          WriteLog('TFormDirectory.btnCreateClick' + #13 + 'Ошибка: ' + E.Message);
-          MessageBox(handle, PChar('Ошибка при создании директории.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
-          Q_Dir.Close;
-          Q_Dir.Free;
-          exit;
-        end;
-      end;
-      FormMain.IBTransaction1.CommitRetaining;
-      isDataEdited := True;
+  // #TODO1: ADD/EDIT/DELETE functions need to be separated and need to implement helper function to update every control that stores
+  // directory entries (e.g: main.TEMP_SG; editor.edits; directory.SG; directoryQuery.edits). Rubr changes need to be updated manually.
+  // This way there should be no need for GLOBAL_RELOAD any more.
+  DirCode := TsTabSheet(TsSpeedButton(Sender).Parent.Parent).PageIndex;
+  if FormDirectoryQuery.ShowDirectoryQuery(DirCode, 'add', TDirectoryData.Create(EmptyStr, EmptyStr, -1), QueryValues) = True then
+  begin
+    if not Directory_ADD(DirCode, QueryValues, NewRecord_ID) then
+      exit;
 
-      max_id := Q_Dir.ParamByName('RET_ID').AsString;
+    // isDataEdited := True;
 
-      if PageControl.ActivePageIndex = 0 then
+    DirContrainer := TDirectoryContainer.Create(DirCode);
+
+    if Assigned(DirContrainer.SG_Main) then
+      with TNextGrid(DirContrainer.SG_Main) do
       begin
-        SGCurator.AddRow; // КУРАТОРЫ
-        SGCurator.Cells[0, SGCurator.LastAddedRow] := s;
-        SGCurator.Cells[1, SGCurator.LastAddedRow] := max_id;
-        SGCurator.SelectLastRow;
-        SGCurator.SetFocus;
-      end
-      else if PageControl.ActivePageIndex = 1 then
-      begin
-        SGRubr.AddRow; // РУБРИКИ
-        SGRubr.Cells[0, SGRubr.LastAddedRow] := s;
-        SGRubr.Cells[1, SGRubr.LastAddedRow] := max_id;
-        SGRubr.SelectLastRow;
-        SGRubr.SetFocus;
-      end
-      else if PageControl.ActivePageIndex = 2 then
-      begin
-        SGFirmType.AddRow; // ТИП ФИРМЫ
-        SGFirmType.Cells[0, SGFirmType.LastAddedRow] := s;
-        SGFirmType.Cells[1, SGFirmType.LastAddedRow] := max_id;
-        SGFirmType.SelectLastRow;
-        SGFirmType.SetFocus;
-      end
-      else if PageControl.ActivePageIndex = 3 then
-      begin
-        SGNapr.AddRow; // ДЕЯТЕЛЬНОСТЬ
-        SGNapr.Cells[0, SGNapr.LastAddedRow] := s;
-        SGNapr.Cells[1, SGNapr.LastAddedRow] := max_id;
-        SGNapr.SelectLastRow;
-        SGNapr.SetFocus;
-      end
-      else if PageControl.ActivePageIndex = 4 then
-      begin
-        SGOfficeType.AddRow; // ТИП ОФФИСА
-        SGOfficeType.Cells[0, SGOfficeType.LastAddedRow] := s;
-        SGOfficeType.Cells[1, SGOfficeType.LastAddedRow] := max_id;
-        SGOfficeType.SelectLastRow;
-        SGOfficeType.SetFocus;
-      end
-      else if PageControl.ActivePageIndex = 5 then
-      begin
-        SGCountry.AddRow; // СТРАНЫ
-        SGCountry.Cells[0, SGCountry.LastAddedRow] := s;
-        SGCountry.Cells[1, SGCountry.LastAddedRow] := max_id;
-        SGCountry.SelectLastRow;
-        SGCountry.SetFocus;
-      end
-      else if PageControl.ActivePageIndex = 6 then
-      begin
-        SGCity.AddRow; // ГОРОДА
-        SGCity.Cells[0, SGCity.LastAddedRow] := s;
-        SGCity.Cells[1, SGCity.LastAddedRow] := max_id;
-        SGCity.SelectLastRow;
-        SGCity.SetFocus;
-      end
-      else if PageControl.ActivePageIndex = 7 then
-      begin
-        SGPhoneType.AddRow; // ТИПЫ ТЕЛЕФОНОВ
-        SGPhoneType.Cells[0, SGPhoneType.LastAddedRow] := s;
-        SGPhoneType.Cells[1, SGPhoneType.LastAddedRow] := max_id;
-        SGPhoneType.SelectLastRow;
-        SGPhoneType.SetFocus;
+        AddRow;
+        Cells[0, LastAddedRow] := QueryValues[0];
+        Cells[1, LastAddedRow] := NewRecord_ID;
       end;
-      Q_Dir.Close;
-      Q_Dir.Free;
-    end;
+
+    if Assigned(DirContrainer.SG_Directory) then
+      with TNextGrid(DirContrainer.SG_Directory) do
+      begin
+        AddRow;
+        Cells[0, LastAddedRow] := QueryValues[0];
+        Cells[1, LastAddedRow] := NewRecord_ID;
+      end;
+
+    if Assigned(DirContrainer.Edit_Directory) then
+      with TsComboBoxEx(DirContrainer.Edit_Directory) do
+      begin
+        AddItem(QueryValues[0], TObject(StrToInt(NewRecord_ID)));
+      end;
+
+    if Assigned(DirContrainer.Edit_DirectoryQuery) then
+      with TsComboBoxEx(DirContrainer.Edit_DirectoryQuery) do
+      begin
+        AddItem(QueryValues[0], TObject(StrToInt(NewRecord_ID)));
+      end;
+
+    DirContrainer.Free;
+  end;
 end;
 
 procedure TFormDirectory.btnEditClick(Sender: TObject);
@@ -453,72 +482,27 @@ var
   s, req, id: string;
   Q_Dir: TIBCQuery;
   grid: TNextGrid;
+  QueryValues: array [0 .. 2] of string;
+  DirContainer: TDirectoryContainer;
+  DirCode: integer;
 begin
   grid := nil;
-  if PageControl.ActivePageIndex = 0 then
-  begin
-    if SGCurator.SelectedCount = 0 then
-      exit;
-    s := SGCurator.Cells[0, SGCurator.SelectedRow];
-    id := SGCurator.Cells[1, SGCurator.SelectedRow];
-    grid := SGCurator;
-  end
-  else if PageControl.ActivePageIndex = 1 then
-  begin
-    if SGRubr.SelectedCount = 0 then
-      exit;
-    s := SGRubr.Cells[0, SGRubr.SelectedRow];
-    id := SGRubr.Cells[1, SGRubr.SelectedRow];
-    grid := SGRubr;
-  end
-  else if PageControl.ActivePageIndex = 2 then
-  begin
-    if SGFirmType.SelectedCount = 0 then
-      exit;
-    s := SGFirmType.Cells[0, SGFirmType.SelectedRow];
-    id := SGFirmType.Cells[1, SGFirmType.SelectedRow];
-    grid := SGFirmType;
-  end
-  else if PageControl.ActivePageIndex = 3 then
-  begin
-    if SGNapr.SelectedCount = 0 then
-      exit;
-    s := SGNapr.Cells[0, SGNapr.SelectedRow];
-    id := SGNapr.Cells[1, SGNapr.SelectedRow];
-    grid := SGNapr;
-  end
-  else if PageControl.ActivePageIndex = 4 then
-  begin
-    if SGOfficeType.SelectedCount = 0 then
-      exit;
-    s := SGOfficeType.Cells[0, SGOfficeType.SelectedRow];
-    id := SGOfficeType.Cells[1, SGOfficeType.SelectedRow];
-    grid := SGOfficeType;
-  end
-  else if PageControl.ActivePageIndex = 5 then
-  begin
-    if SGCountry.SelectedCount = 0 then
-      exit;
-    s := SGCountry.Cells[0, SGCountry.SelectedRow];
-    id := SGCountry.Cells[1, SGCountry.SelectedRow];
-    grid := SGCountry;
-  end
-  else if PageControl.ActivePageIndex = 6 then
-  begin
-    if SGCity.SelectedCount = 0 then
-      exit;
-    s := SGCity.Cells[0, SGCity.SelectedRow];
-    id := SGCity.Cells[1, SGCity.SelectedRow];
-    grid := SGCity;
-  end
-  else if PageControl.ActivePageIndex = 7 then
-  begin
-    if SGPhoneType.SelectedCount = 0 then
-      exit;
-    s := SGPhoneType.Cells[0, SGPhoneType.SelectedRow];
-    id := SGPhoneType.Cells[1, SGPhoneType.SelectedRow];
-    grid := SGPhoneType;
-  end;
+  DirCode := TsTabSheet(TsSpeedButton(Sender).Parent.Parent).PageIndex;
+  DirContainer := TDirectoryContainer.Create(DirCode);
+
+  if Assigned(DirContainer.SG_Directory) then
+    with TNextGrid(DirContainer.SG_Directory) do
+    begin
+      if SelectedCount = 0 then
+        exit;
+      s := Cells[0, SelectedRow];
+      id := Cells[1, SelectedRow];
+      grid := TNextGrid(DirContainer.SG_Directory);
+    end;
+
+  { if FormDirectoryQuery.ShowDirectoryQuery(DirCode, 'edit', TDirectoryData.Create(s, 'unknown', StrToInt(id)),
+    QueryValues); }
+
   if InputQuery('Редактировать', 'Управление директориями', s) then
     if Trim(s) <> '' then
     begin
@@ -573,7 +557,7 @@ begin
       end;
       Q_Dir.Close;
       Q_Dir.SQL.Text := req;
-      s := FormEditor.UpperFirst(s);
+      s := UpperFirst(s);
       Q_Dir.ParamByName('NAME').AsString := s;
       Q_Dir.ParamByName('ID').AsString := id;
       try
@@ -594,6 +578,7 @@ begin
         grid.Cells[0, grid.SelectedRow] := s;
       Q_Dir.Close;
       Q_Dir.Free;
+      DirContainer.Free;
     end;
 end;
 
@@ -772,6 +757,164 @@ begin
     Q_Dir.Close;
     Q_Dir.Free;
   end;
+end;
+
+function TFormDirectory.Directory_ADD(DirCode: integer; Values: array of string; var NewRecord_ID: string): boolean;
+var
+  Query: TIBCQuery;
+  Name1, Name2, ID_Oblast, SQL_select, SQL_insert: string;
+begin
+  Result := False;
+  NewRecord_ID := EmptyStr;
+
+  if not DirCode in [0 .. DIR_CODE_TOTAL] then
+    exit;
+
+  Name1 := Values[0];
+  Name2 := Values[1];
+  ID_Oblast := Values[2];
+
+  if Trim(Name1) = EmptyStr then
+    exit;
+
+  if DirCode in [DIR_CODE_CITY] then
+  begin
+    SQL_select := Format('select ID from %s where (lower(NAME) = :NAME and ID_OBLAST = :ID_OBLAST)', [DIR_CODE_TO_TABLE[DirCode]]);
+    SQL_insert := Format('insert into %s (NAME, NAME_ALT, ID_OBLAST) values (:NAME, :NAME_ALT, :ID_OBLAST) returning ID',
+      [DIR_CODE_TO_TABLE[DirCode]])
+  end
+  else
+  begin
+    SQL_select := Format('select ID from %s where lower(NAME) = :NAME', [DIR_CODE_TO_TABLE[DirCode]]);
+    SQL_insert := Format('insert into %s (NAME) values (:NAME) returning ID', [DIR_CODE_TO_TABLE[DirCode]]);
+  end;
+
+  // Check if record already exist
+  Query := QueryCreate;
+  Query.SQL.Text := SQL_select;
+  Query.ParamByName('NAME').AsString := AnsiLowerCase(Name1);
+  if DirCode in [DIR_CODE_CITY] then
+    Query.ParamByName('ID_OBLAST').AsString := ID_Oblast;
+  Query.Open;
+  if Query.RecordCount > 0 then
+  begin
+    MessageBox(handle, 'Запись с таким названием уже существует', 'Информация', MB_OK or MB_ICONINFORMATION);
+    Query.Close;
+    Query.Free;
+    exit;
+  end;
+
+  // insert new record
+  Query.Close;
+  Query.Params.Clear;
+  Query.SQL.Text := SQL_insert;
+  Query.ParamByName('NAME').AsString := Name1;
+  if DirCode in [DIR_CODE_CITY] then
+  begin
+    Query.ParamByName('NAME_ALT').AsString := Name2;
+    Query.ParamByName('ID_OBLAST').AsString := ID_Oblast;
+  end;
+  try
+    Query.Execute;
+
+    NewRecord_ID := Query.ParamByName('RET_ID').AsString;
+  except
+    on E: Exception do
+    begin
+      WriteLog('TFormDirectory.Directory_ADD' + #13 + 'Ошибка: ' + E.Message);
+      MessageBox(handle, PChar('Ошибка при создании директории.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
+      Query.Close;
+      Query.Free;
+      exit;
+    end;
+  end;
+
+  FormMain.IBTransaction1.CommitRetaining;
+  Query.Close;
+  Query.Free;
+
+  Result := True;
+end;
+
+// #TODO1: IMPORTANT: need to think of a way to update opened elements that using directory entries while they being updated.
+// say I have add firm dialog opened with already entered city and then I decided to update that city from directory editor window...?
+// also opened tabs currently doesn't get updated even by GLOBAL_RELOAD.
+function TFormDirectory.Directory_EDIT(DirCode: integer; ID_Directory: string; Values: array of string): boolean;
+var
+  Query: TIBCQuery;
+  Name1, Name2, ID_Oblast, SQL_select, SQL_update: string;
+begin
+  Result := False;
+
+  if not DirCode in [0 .. DIR_CODE_TOTAL] then
+    exit;
+
+  if Trim(ID_Directory) = EmptyStr then
+    exit;
+
+  Name1 := Values[0];
+  Name2 := Values[1];
+  ID_Oblast := Values[2];
+
+  if Trim(Name1) = EmptyStr then
+    exit;
+
+  if DirCode in [DIR_CODE_CITY] then
+  begin
+    SQL_select := Format('select ID from %s where (lower(NAME) = :NAME and ID_OBLAST = :ID_OBLAST)', [DIR_CODE_TO_TABLE[DirCode]]);
+    SQL_update := Format('update %s set NAME = :NAME, NAME_ALT = :NAME_ALT, ID_OBLAST = :ID_OBLAST where ID = :ID',
+      [DIR_CODE_TO_TABLE[DirCode]]);
+  end
+  else
+  begin
+    SQL_select := Format('select ID from %s where lower(NAME) = :NAME', [DIR_CODE_TO_TABLE[DirCode]]);
+    SQL_update := Format('update %s set NAME = :NAME where ID = :ID', [DIR_CODE_TO_TABLE[DirCode]]);
+  end;
+
+  // Check if record already exist
+  Query := QueryCreate;
+  Query.SQL.Text := SQL_select;
+  Query.ParamByName('NAME').AsString := AnsiLowerCase(Name1);
+  if DirCode in [DIR_CODE_CITY] then
+    Query.ParamByName('ID_OBLAST').AsString := ID_Oblast;
+  Query.Open;
+  if Query.RecordCount > 0 then
+  begin
+    MessageBox(handle, 'Запись с таким названием уже существует', 'Информация', MB_OK or MB_ICONINFORMATION);
+    Query.Close;
+    Query.Free;
+    exit;
+  end;
+
+  // update record
+  Query.Close;
+  Query.Params.Clear;
+  Query.SQL.Text := SQL_update;
+  Query.ParamByName('NAME').AsString := Name1;
+  Query.ParamByName('ID').AsString := ID_Directory;
+  if DirCode in [DIR_CODE_CITY] then
+  begin
+    Query.ParamByName('NAME_ALT').AsString := Name2;
+    Query.ParamByName('ID_OBLAST').AsString := ID_Oblast;
+  end;
+  try
+    Query.Execute;
+  except
+    on E: Exception do
+    begin
+      WriteLog('TFormDirectory.Directory_EDIT' + #13 + 'Ошибка: ' + E.Message);
+      MessageBox(handle, PChar('Ошибка при редактировании директории.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
+      Query.Close;
+      Query.Free;
+      exit;
+    end;
+  end;
+
+  FormMain.IBTransaction1.CommitRetaining;
+  Query.Close;
+  Query.Free;
+
+  Result := True;
 end;
 
 end.
