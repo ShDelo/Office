@@ -40,7 +40,7 @@ var
   Query: TIBCQuery;
 begin
   Query := QueryCreate;
-  Query.SQL.Text := 'select * from GOROD order by lower(NAME)';
+  Query.SQL.Text := 'select * from OBLAST order by lower(NAME)';
   Query.Open;
   Query.FetchAll := True;
   while not Query.Eof do

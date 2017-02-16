@@ -92,6 +92,9 @@ type
     SGOblast: TNextGrid;
     NxTextColumn17: TNxTextColumn;
     NxTextColumn18: TNxTextColumn;
+    NxTextColumn19: TNxTextColumn;
+    NxTextColumn20: TNxTextColumn;
+    NxTextColumn21: TNxTextColumn;
     procedure LoadDataDirectory;
     procedure FormShow(Sender: TObject);
     procedure btnCreateClick(Sender: TObject);
@@ -196,6 +199,7 @@ begin
       begin
         self.SG_Main := nil;
         self.SG_Directory := FormDirectory.SGOfficeType;
+        // #TODO1: UNDECIDED: need a way to update every edit of this type 1-10
         self.Edit_Directory := FormEditor.EditOfficeType1;
         self.Edit_DirectoryQuery := nil;
       end;
@@ -208,10 +212,10 @@ begin
       end;
     DIR_CODE_OBLAST:
       begin
-         self.SG_Main := nil;
-         self.SG_Directory := FormDirectory.SGOblast;
-         self.Edit_Directory := FormEditor.EditOblast1;
-         self.Edit_DirectoryQuery := nil;
+        self.SG_Main := nil;
+        self.SG_Directory := FormDirectory.SGOblast;
+        self.Edit_Directory := FormEditor.EditOblast1;
+        self.Edit_DirectoryQuery := FormDirectoryQuery.Edit3;
       end;
     DIR_CODE_CITY:
       begin
@@ -251,6 +255,7 @@ begin
   editNapr.Clear;
   editOfficeType.Clear;
   editCountry.Clear;
+  editOblast.Clear;
   editCity.Clear;
   editPhoneType.Clear;
 end;
@@ -353,7 +358,24 @@ begin
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
   Application.ProcessMessages;
   Q_Dir.Close;
-  Q_Dir.SQL.Text := 'select * from GOROD order by lower(NAME)';
+  Q_Dir.SQL.Text := 'select * from OBLAST order by lower(NAME)';
+  Q_Dir.Open;
+  Q_Dir.FetchAll := True;
+  SGOblast.BeginUpdate;
+  SGOblast.ClearRows;
+  if Q_Dir.RecordCount > 0 then
+    for i := 1 to Q_Dir.RecordCount do
+    begin
+      SGOblast.AddRow; // ОБЛАСТИ
+      SGOblast.Cells[0, SGOblast.LastAddedRow] := Q_Dir.FieldValues['NAME'];
+      SGOblast.Cells[1, SGOblast.LastAddedRow] := Q_Dir.FieldValues['ID'];
+      Q_Dir.Next;
+    end;
+  SGOblast.EndUpdate;
+  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+  Q_Dir.Close;
+  Q_Dir.SQL.Text := 'select g.ID, g.NAME, g.NAME_ALT, g.ID_OBLAST, ' +
+    '(select o.NAME as OBLAST_NAME from OBLAST o where g.ID_OBLAST = o.ID) from GOROD g order by lower(NAME)';
   Q_Dir.Open;
   Q_Dir.FetchAll := True;
   SGCity.BeginUpdate;
@@ -364,6 +386,9 @@ begin
       SGCity.AddRow; // ГОРОДА
       SGCity.Cells[0, SGCity.LastAddedRow] := Q_Dir.FieldValues['NAME'];
       SGCity.Cells[1, SGCity.LastAddedRow] := Q_Dir.FieldValues['ID'];
+      SGCity.Cells[2, SGCity.LastAddedRow] := VarToStr(Q_Dir.FieldValues['NAME_ALT']);
+      SGCity.Cells[3, SGCity.LastAddedRow] := VarToStr(Q_Dir.FieldValues['OBLAST_NAME']);
+      SGCity.Cells[4, SGCity.LastAddedRow] := Q_Dir.FieldValues['ID_OBLAST'];
       Q_Dir.Next;
     end;
   SGCity.EndUpdate;
@@ -411,6 +436,8 @@ begin
     SG := SGOfficeType;
   if TsEdit(Sender).Name = 'editCountry' then
     SG := SGCountry;
+  if TsEdit(Sender).Name = 'editOblast' then
+    SG := SGOblast;
   if TsEdit(Sender).Name = 'editCity' then
     SG := SGCity;
   if TsEdit(Sender).Name = 'editPhoneType' then
@@ -459,6 +486,12 @@ begin
         AddRow;
         Cells[0, LastAddedRow] := QueryValues[0];
         Cells[1, LastAddedRow] := NewRecord_ID;
+        if DirCode in [DIR_CODE_CITY] then
+        begin
+          Cells[2, LastAddedRow] := QueryValues[1]; // NAME_ALT
+          Cells[3, LastAddedRow] := FormEditor.GetNameByID(DIR_CODE_TO_TABLE[DIR_CODE_OBLAST], QueryValues[2]); // OBLAST_TEXT
+          Cells[4, LastAddedRow] := QueryValues[2]; // ID_OBLAST
+        end;
       end;
 
     if Assigned(DirContrainer.Edit_Directory) then
@@ -497,10 +530,11 @@ begin
         exit;
       s := Cells[0, SelectedRow];
       id := Cells[1, SelectedRow];
+      // TNextGrid(Sender).Columns.Count
       grid := TNextGrid(DirContainer.SG_Directory);
     end;
 
-  { if FormDirectoryQuery.ShowDirectoryQuery(DirCode, 'edit', TDirectoryData.Create(s, 'unknown', StrToInt(id)),
+  { if FormDirectoryQuery.ShowDirectoryQuery(DirCode, 'edit', TDirectoryData.Create(s, 'unknown', StrToInt(id_oblast)),
     QueryValues); }
 
   if InputQuery('Редактировать', 'Управление директориями', s) then
@@ -695,6 +729,20 @@ begin
   end
   else if PageControl.ActivePageIndex = 6 then
   begin
+    if SGOblast.SelectedCount = 0 then
+      exit;
+    id := SGOblast.Cells[1, SGOblast.SelectedRow];
+    grid := SGOblast;
+    if CheckInUse('ADRES', '%#*' + id + '$%', c) then
+    begin
+      // #TODO1: Figure out how to delete OBLAST when it's connected with FIRMs and CITYs
+      MessageBox(handle, PChar('Удаление выбранной области невозможно т.к она используется ' + IntToStr(c) + ' фирмами.'), 'Уведомление',
+        MB_OK or MB_ICONWARNING);
+      exit;
+    end;
+  end
+  else if PageControl.ActivePageIndex = 7 then
+  begin
     if SGCity.SelectedCount = 0 then
       exit;
     id := SGCity.Cells[1, SGCity.SelectedRow];
@@ -706,13 +754,13 @@ begin
       exit;
     end;
   end
-  else if PageControl.ActivePageIndex = 7 then
+  else if PageControl.ActivePageIndex = 8 then
   begin
     if SGPhoneType.SelectedCount = 0 then
       exit;
     id := SGPhoneType.Cells[1, SGPhoneType.SelectedRow];
     grid := SGPhoneType;
-    // ДЛЯ 7ой страницы (ТИПЫ ТЕЛЕФОНОВ) проверка (CheckInUse) не делается
+    // ДЛЯ 8ой страницы (ТИПЫ ТЕЛЕФОНОВ) проверка (CheckInUse) не делается
   end;
   if MessageBox(handle, 'Вы уверены что хотите удалить выбранный объект?', 'Удалить', MB_YESNO or MB_ICONQUESTION) = MRYES then
   begin
@@ -730,8 +778,10 @@ begin
       5:
         req := 'delete from COUNTRY where ID = :ID';
       6:
-        req := 'delete from GOROD where ID = :ID';
+        req := 'delete from OBLAST where ID = :ID';
       7:
+        req := 'delete from GOROD where ID = :ID';
+      8:
         req := 'delete from PHONETYPE where ID = :ID';
     end;
     Q_Dir := QueryCreate;

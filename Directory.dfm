@@ -24,7 +24,7 @@ object FormDirectory: TFormDirectory
     Top = 0
     Width = 653
     Height = 365
-    ActivePage = tabCurator
+    ActivePage = tabCity
     Align = alClient
     TabOrder = 0
     TabStop = False
@@ -33,7 +33,10 @@ object FormDirectory: TFormDirectory
     SkinData.SkinSection = 'PAGECONTROL'
     object tabCurator: TsTabSheet
       Caption = #1050#1091#1088#1072#1090#1086#1088#1099
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 596
+      ExplicitHeight = 0
       object panelCurator: TsPanel
         Left = 0
         Top = 0
@@ -141,12 +144,15 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
-        ExplicitWidth = 596
+        ExplicitWidth = 0
       end
     end
     object tabRubr: TsTabSheet
       Caption = #1056#1091#1073#1088#1080#1082#1080
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 596
+      ExplicitHeight = 0
       object panelRubr: TsPanel
         Left = 0
         Top = 0
@@ -259,7 +265,10 @@ object FormDirectory: TFormDirectory
     end
     object tabFirmType: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1092#1080#1088#1084
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 596
+      ExplicitHeight = 0
       object panelFirmType: TsPanel
         Left = 0
         Top = 0
@@ -372,7 +381,10 @@ object FormDirectory: TFormDirectory
     end
     object tabNapr: TsTabSheet
       Caption = #1042#1080#1076#1099' '#1076#1077#1103#1090#1077#1083#1100#1085#1086#1089#1090#1080
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 596
+      ExplicitHeight = 0
       object panelNapr: TsPanel
         Left = 0
         Top = 0
@@ -485,7 +497,10 @@ object FormDirectory: TFormDirectory
     end
     object tabOfficeType: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1072#1076#1088#1077#1089#1086#1074
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 596
+      ExplicitHeight = 0
       object panelOfficeType: TsPanel
         Left = 0
         Top = 0
@@ -598,7 +613,10 @@ object FormDirectory: TFormDirectory
     end
     object tabCountry: TsTabSheet
       Caption = #1057#1090#1088#1072#1085#1099
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 596
+      ExplicitHeight = 0
       object panelCountry: TsPanel
         Left = 0
         Top = 0
@@ -711,7 +729,10 @@ object FormDirectory: TFormDirectory
     end
     object tabOblast: TsTabSheet
       Caption = #1054#1073#1083#1072#1089#1090#1100
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 596
+      ExplicitHeight = 0
       object panelOblast: TsPanel
         Left = 0
         Top = 0
@@ -824,7 +845,6 @@ object FormDirectory: TFormDirectory
     end
     object tabCity: TsTabSheet
       Caption = #1043#1086#1088#1086#1076#1072
-      ExplicitWidth = 596
       object panelCity: TsPanel
         Left = 0
         Top = 0
@@ -833,7 +853,6 @@ object FormDirectory: TFormDirectory
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
-        ExplicitWidth = 596
         object btnCityCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -875,28 +894,28 @@ object FormDirectory: TFormDirectory
         Align = alClient
         AppearanceOptions = [aoHideFocus, aoHighlightSlideCells]
         Caption = ''
-        Options = [goSelectFullRow]
+        Options = [goDisableColumnMoving, goHeader, goSelectFullRow]
         TabOrder = 2
         TabStop = True
-        ExplicitWidth = 596
         object NxTextColumn13: TNxTextColumn
-          DefaultWidth = 625
+          DefaultWidth = 200
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+          Header.Caption = #1043#1086#1088#1086#1076' ('#1088#1091#1089')'
           Header.Font.Charset = DEFAULT_CHARSET
           Header.Font.Color = clWindowText
           Header.Font.Height = -11
           Header.Font.Name = 'Tahoma'
           Header.Font.Style = []
+          Options = [coCanClick, coCanInput, coCanSort, coFixedSize, coPublicUsing, coShowTextFitHint]
           ParentFont = False
           Position = 0
           Sorted = True
           SortType = stAlphabetic
-          Width = 625
+          Width = 200
         end
         object NxTextColumn14: TNxTextColumn
           Font.Charset = DEFAULT_CHARSET
@@ -912,6 +931,61 @@ object FormDirectory: TFormDirectory
           Header.Font.Style = []
           ParentFont = False
           Position = 1
+          SortType = stAlphabetic
+          Visible = False
+        end
+        object NxTextColumn19: TNxTextColumn
+          DefaultWidth = 200
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Header.Caption = #1043#1086#1088#1086#1076' ('#1091#1082#1088')'
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clWindowText
+          Header.Font.Height = -11
+          Header.Font.Name = 'Tahoma'
+          Header.Font.Style = []
+          Options = [coCanClick, coCanInput, coCanSort, coFixedSize, coPublicUsing, coShowTextFitHint]
+          ParentFont = False
+          Position = 2
+          SortType = stAlphabetic
+          Width = 200
+        end
+        object NxTextColumn20: TNxTextColumn
+          DefaultWidth = 225
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Header.Caption = #1054#1073#1083#1072#1089#1090#1100
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clWindowText
+          Header.Font.Height = -11
+          Header.Font.Name = 'Tahoma'
+          Header.Font.Style = []
+          Options = [coCanClick, coCanInput, coCanSort, coFixedSize, coPublicUsing, coShowTextFitHint]
+          ParentFont = False
+          Position = 3
+          SortType = stAlphabetic
+          Width = 225
+        end
+        object NxTextColumn21: TNxTextColumn
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Header.Caption = 'ID_OBLAST'
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clWindowText
+          Header.Font.Height = -11
+          Header.Font.Name = 'Tahoma'
+          Header.Font.Style = []
+          ParentFont = False
+          Position = 4
           SortType = stAlphabetic
           Visible = False
         end
@@ -932,12 +1006,14 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
-        ExplicitWidth = 596
       end
     end
     object sTabSheet1: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1090#1077#1083#1077#1092#1086#1085#1086#1074
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 596
+      ExplicitHeight = 0
       object panelPhoneType: TsPanel
         Left = 0
         Top = 0

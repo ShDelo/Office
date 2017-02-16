@@ -1050,7 +1050,7 @@ var
     email: string;
     inList: Boolean;
     X: integer;
-    Rubr, tmp, adres, city_str, country_str, ofType, zip_str: string;
+    Rubr, tmp, adres, country_str, oblast_str, city_str, ofType, zip_str: string;
     phones: WideString;
     List, list2: TStrings;
 
@@ -1163,21 +1163,11 @@ var
 
       AddColoredLine('Адреса:', clMaroon, 10, 'Tahoma', [fsBold]);
       List := TStringList.Create;
-      list2 := TStringList.Create;
       List.Text := Q.FieldValues['ADRES'];
       phones := Q.FieldValues['PHONES'];
       for X := 0 to List.Count - 1 do
       begin
-        Rubr := List[X];
-        list2.Clear;
-        while Pos('$', Rubr) > 0 do
-        begin
-          tmp := Copy(Rubr, 0, Pos('$', Rubr));
-          Delete(Rubr, 1, Length(tmp));
-          Delete(tmp, 1, 1);
-          Delete(tmp, Length(tmp), 1);
-          list2.Add(tmp);
-        end;
+        list2 := FormEditor.ParseAdresFieldToEntriesList(List[X]);
 
         tmp := Copy(phones, 0, Pos('$', phones));
         Delete(phones, 1, Length(tmp));
@@ -1188,16 +1178,12 @@ var
 
         if list2[0] = '1' then
         begin
-          city_str := list2[6];
-          if city_str[1] = '^' then
-            Delete(city_str, 1, 1);
-          country_str := list2[5];
-          if country_str[1] = '&' then
-            Delete(country_str, 1, 1);
+          // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
           ofType := list2[2];
-          if ofType[1] = '@' then
-            Delete(ofType, 1, 1);
           zip_str := list2[3];
+          country_str := list2[5];
+          oblast_str := list2[6];
+          city_str := list2[7];
           if Trim(ofType) <> '' then
             ofType := FormEditor.GetNameByID('OFFICETYPE', ofType) + ' - ';
           if Trim(zip_str) <> '' then
@@ -1213,9 +1199,10 @@ var
           if Trim(tmp) <> '' then
             AddColoredLine(tmp, clNavy, 10, 'Tahoma', []);
         end;
+
+        list2.Free;
       end;
       List.Free;
-      list2.Free;
     end; // if EmailsList.Count > 0
     Q.Close;
     Q.Free;

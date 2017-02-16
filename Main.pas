@@ -349,7 +349,7 @@ end;
 
 procedure TFormMain.ReloadDataGlobal(Sender: TObject);
 begin
-  //#TODO1: Add new forms in here if there is any
+  // #TODO1: Add new forms in here if there is any
   if TForm(Sender).Name <> 'FormEditor' then
     FormEditor.Close;
   if TForm(Sender).Name <> 'FormReport' then
@@ -444,8 +444,8 @@ begin
   Q_LTT.Open;
   Q_LTT.FetchAll := True;
   // Получаю рубрики первыми чтобы сформировать ProgressBar
-  // 4 = шаги TempTables + кол-во рубрик + 8 = шаги из Editor.LoadDataEditor + 8 = шаги из Directory.LoadDataDirectory;
-  FormLogo.sGauge1.MaxValue := 4 + Q_LTT.RecordCount + 8 + 8;
+  // 4 = шаги TempTables + кол-во рубрик + 9 = шаги из Editor.LoadDataEditor + 9 = шаги из Directory.LoadDataDirectory;
+  FormLogo.sGauge1.MaxValue := 4 + Q_LTT.RecordCount + 9 + 9;
   sgRubr_tmp.BeginUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
   for i := 1 to Q_LTT.RecordCount do
@@ -1482,7 +1482,7 @@ var
   Pnl: TsPanel;
   BtnEdit, BtnPrint, BtnSend: TsSpeedButton;
   i, RE_TextLength: integer;
-  Rubr, tmp, adres, Cur, city_str, country_str, ofType, zip_str: string;
+  Rubr, tmp, adres, Cur, country_str, oblast_str, city_str, ofType, zip_str: string;
   phones: WideString;
   Q: TIBCQuery;
   list, list2: TStrings;
@@ -1670,24 +1670,13 @@ begin
 
   AddColoredLine('Адреса:', clMaroon, 10, 'Tahoma', [fsBold]);
   list := TStringList.Create;
-  list2 := TStringList.Create;
   list.Text := IBQuery1.FieldValues['ADRES'];
   phones := IBQuery1.FieldValues['PHONES'];
   for i := 0 to list.Count - 1 do
   begin
-    Rubr := list[i];
-    { Rubr = #CBAdres$#NUM$#OfficeType$#ZIP$#Street$#Country$#City$ }
-    list2.Clear;
-    while pos('$', Rubr) > 0 do
-    begin
-      tmp := copy(Rubr, 0, pos('$', Rubr));
-      delete(Rubr, 1, length(tmp));
-      delete(tmp, 1, 1);
-      delete(tmp, length(tmp), 1);
-      list2.Add(tmp);
-      // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
-      // list2[4] = Street; list2[5] = Country; list2[6] = City;
-    end;
+    list2 := FormEditor.ParseAdresFieldToEntriesList(list[i]);
+    // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
+    // list2[4] = Street; list2[5] = Country; list2[6] = Oblast; list2[7] = City;
 
     tmp := copy(phones, 0, pos('$', phones));
     delete(phones, 1, length(tmp));
@@ -1699,17 +1688,12 @@ begin
 
     if list2[0] = '1' then
     begin
-      // такая же процедура в Report.GenerateReport и ReportSimple.GenerateReport и Editor.PrepareEdit
-      city_str := list2[6];
-      if city_str[1] = '^' then
-        delete(city_str, 1, 1);
-      country_str := list2[5];
-      if country_str[1] = '&' then
-        delete(country_str, 1, 1);
+      // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
       ofType := list2[2];
-      if ofType[1] = '@' then
-        delete(ofType, 1, 1);
       zip_str := list2[3];
+      country_str := list2[5];
+      oblast_str := list2[6];
+      city_str := list2[7];
       if Trim(ofType) <> '' then
         ofType := FormEditor.GetNameByID('OFFICETYPE', ofType) + ' - ';
       if Trim(zip_str) <> '' then
@@ -1725,9 +1709,10 @@ begin
       if Trim(tmp) <> '' then
         AddColoredLine(tmp, clNavy, 10, 'Tahoma', []);
     end;
+
+    list2.Free;
   end; // for i := 0 to list.Count - 1 do
   list.Free;
-  list2.Free;
 
   RE.SelStart := RE.Perform(EM_LINEINDEX, 0, 0);
   Application.ProcessMessages;

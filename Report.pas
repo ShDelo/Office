@@ -368,28 +368,17 @@ var
   procedure FormatAdres(AAdres, APhones: string);
   var
     list, list2: TStrings;
-    Rubr, phones, tmp, adres, city_str, country_str, ofType: string;
+    phones, tmp, adres, country_str, oblast_str, city_str, ofType: string;
     x: integer;
   begin
     list := TStringList.Create;
-    list2 := TStringList.Create;
     list.Text := AAdres;
     phones := APhones;
     for x := 0 to list.Count - 1 do
     begin
-      Rubr := list[x];
-      { Rubr = #CBAdres$#NUM$#OfficeType$#ZIP$#Street$#Country$#City$ }
-      list2.Clear;
-      while pos('$', Rubr) > 0 do
-      begin
-        tmp := copy(Rubr, 0, pos('$', Rubr));
-        delete(Rubr, 1, Length(tmp));
-        delete(tmp, 1, 1);
-        delete(tmp, Length(tmp), 1);
-        list2.Add(tmp);
-        // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
-        // list2[4] = Street; list2[5] = Country; list2[6] = City;
-      end;
+      // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
+      // list2[4] = Street; list2[5] = Country; list2[6] = Oblast; list2[7] = City;
+      list2 := FormEditor.ParseAdresFieldToEntriesList(list[x]);
 
       tmp := copy(phones, 0, pos('$', phones));
       delete(phones, 1, Length(tmp));
@@ -404,24 +393,20 @@ var
 
       if list2[0] = '1' then
       begin
-        // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и ReportSimple.GenerateReport
-        city_str := list2[6];
-        if city_str[1] = '^' then
-          delete(city_str, 1, 1);
-        country_str := list2[5];
-        if country_str[1] = '&' then
-          delete(country_str, 1, 1);
+        // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
         ofType := list2[2];
-        if ofType[1] = '@' then
-          delete(ofType, 1, 1); // НЕ ИСПОЛЬЗУЕТСЯ ТУТ
+        country_str := list2[5];
+        oblast_str := list2[6];
+        city_str := list2[7];
         adres := Format('    Адрес: %s - %s, %s, %s,', [FormEditor.GetNameByID('COUNTRY', country_str), list2[3],
           FormEditor.GetNameByID('GOROD', city_str), list2[4]]);
         AddLine(adres, clWindowText, 10, 'Times New Roman', []);
         AddLine(tmp, clWindowText, 10, 'Times New Roman', []);
       end;
+
+      list2.Free;
     end; // for x := 0 to list.Count - 1 do
     list.Free;
-    list2.Free;
   end;
 
   function GetPhones(APhones: string): string;
@@ -442,42 +427,25 @@ var
   function GetAdres(AAdres: string): string;
   var
     list, list2, ResultList: TStrings;
-    Rubr, tmp, adres, city_str, country_str, ofType: string;
+    adres, country_str, oblast_str, city_str, ofType: string;
     x: integer;
   begin
     list := TStringList.Create;
-    list2 := TStringList.Create;
     ResultList := TStringList.Create;
-    ResultList.Clear;
     list.Text := AAdres;
     for x := 0 to list.Count - 1 do
     begin
-      Rubr := list[x];
-      { Rubr = #CBAdres$#NUM$#OfficeType$#ZIP$#Street$#Country$#City$ }
-      list2.Clear;
-      while pos('$', Rubr) > 0 do
-      begin
-        tmp := copy(Rubr, 0, pos('$', Rubr));
-        delete(Rubr, 1, Length(tmp));
-        delete(tmp, 1, 1);
-        delete(tmp, Length(tmp), 1);
-        list2.Add(tmp);
-        // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
-        // list2[4] = Street; list2[5] = Country; list2[6] = City;
-      end;
+      list2 := FormEditor.ParseAdresFieldToEntriesList(list[x]);
+      // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
+      // list2[4] = Street; list2[5] = Country; list2[6] = Oblast; list2[7] = City;
 
       if list2[0] = '1' then
       begin
-        // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и ReportSimple.GenerateReport
-        city_str := list2[6];
-        if city_str[1] = '^' then
-          delete(city_str, 1, 1);
-        country_str := list2[5];
-        if country_str[1] = '&' then
-          delete(country_str, 1, 1);
+        // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
         ofType := list2[2];
-        if ofType[1] = '@' then
-          delete(ofType, 1, 1); // НЕ ИСПОЛЬЗУЕТСЯ ТУТ
+        country_str := list2[5];
+        oblast_str := list2[6];
+        city_str := list2[7];
         if Length(list2[3]) > 0 then
           list2[3] := ' - ' + list2[3];
         if Length(list2[4]) > 0 then
@@ -489,10 +457,11 @@ var
           delete(adres, Length(adres), 1);
         ResultList.Add(adres);
       end;
+
+      list2.Free;
     end; // for x := 0 to list.Count - 1 do
     Result := Trim(ResultList.Text);
     list.Free;
-    list2.Free;
     ResultList.Free;
   end;
 

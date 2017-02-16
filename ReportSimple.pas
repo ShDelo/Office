@@ -314,28 +314,18 @@ var
   procedure FormatAdres(AAdres, APhones: string);
   var
     list, list2: TStrings;
-    Rubr, Phones, tmp, adres, city_str, country_str, ofType: string;
+    Phones, tmp, adres, country_str, oblast_str, city_str, ofType: string;
     x: integer;
   begin
     list := TStringList.Create;
-    list2 := TStringList.Create;
     list.Text := AAdres;
     Phones := APhones;
     for x := 0 to list.Count - 1 do
     begin
-      Rubr := list[x];
-      { Rubr = #CBAdres$#NUM$#OfficeType$#ZIP$#Street$#Country$#City$ }
-      list2.Clear;
-      while pos('$', Rubr) > 0 do
-      begin
-        tmp := copy(Rubr, 0, pos('$', Rubr));
-        delete(Rubr, 1, length(tmp));
-        delete(tmp, 1, 1);
-        delete(tmp, length(tmp), 1);
-        list2.Add(tmp);
-        // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
-        // list2[4] = Street; list2[5] = Country; list2[6] = City;
-      end;
+      // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
+      // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
+      // list2[4] = Street; list2[5] = Country; list2[6] = Oblast; list2[7] = City;
+      list2 := FormEditor.ParseAdresFieldToEntriesList(list[x]);
 
       tmp := copy(Phones, 0, pos('$', Phones));
       delete(Phones, 1, length(tmp));
@@ -345,20 +335,14 @@ var
       delete(tmp, length(tmp), 1);
       tmp := StringReplace(tmp, '(', '', [rfReplaceAll]);
       tmp := StringReplace(tmp, ')', '', [rfReplaceAll]);
-      // в TMP сейчас хранятся все телефоны для адреса list[x] а формате Мемо
+      // в TMP сейчас хранятся все телефоны для адреса list[x] в формате Мемо
 
       if list2[0] = '1' then
       begin
-        // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport
-        city_str := list2[6];
-        if city_str[1] = '^' then
-          delete(city_str, 1, 1);
-        country_str := list2[5];
-        if country_str[1] = '&' then
-          delete(country_str, 1, 1);
         ofType := list2[2];
-        if ofType[1] = '@' then
-          delete(ofType, 1, 1); // НЕ ИСПОЛЬЗУЕТСЯ ТУТ
+        country_str := list2[5];
+        oblast_str := list2[6];
+        city_str := list2[7];
         adres := '';
         if trim(list2[3]) <> '' then
           adres := list2[3] + ', '; // ZIP
@@ -375,9 +359,11 @@ var
           AddLine(tmp, clWindowText, 10, 'Times New Roman', [fsItalic]);
         // AddLine('',clWindowText,10,'Times New Roman',[]);
       end;
+
+      list2.Free;
+
     end; // for x := 0 to list.Count - 1 do
     list.Free;
-    list2.Free;
   end;
 
   function FormatNapr(Field, Value: string): string;

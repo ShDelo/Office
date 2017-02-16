@@ -6520,9 +6520,8 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 68
             TabStop = False
-            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
+            Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
