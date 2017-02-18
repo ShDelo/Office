@@ -668,7 +668,7 @@ object FormEditor: TFormEditor
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = []
-      MaxLength = 5000
+      MaxLength = 255
       ParentFont = False
       TabOrder = 0
       SkinData.SkinSection = 'EDIT'
@@ -828,7 +828,7 @@ object FormEditor: TFormEditor
       Font.Style = []
       ItemIndex = -1
       ItemHeight = 19
-      MaxLength = 5000
+      MaxLength = 2000
       ParentFont = False
       TabOrder = 6
       OnExit = EditCuratorExit
@@ -1248,6 +1248,7 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
+            MaxLength = 175
             ParentFont = False
             TabOrder = 5
             SkinData.SkinSection = 'EDIT'
@@ -1400,6 +1401,7 @@ object FormEditor: TFormEditor
             Font.Height = -13
             Font.Name = 'MS Sans Serif'
             Font.Style = []
+            MaxLength = 255
             ParentFont = False
             TabOrder = 7
             OnKeyPress = EditPhone1KeyPress

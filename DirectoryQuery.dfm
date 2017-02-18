@@ -37,7 +37,7 @@ object FormDirectoryQuery: TFormDirectoryQuery
       BoundLabel.Indent = 3
       BoundLabel.Caption = 'ComboBoxEx3'
       BoundLabel.Layout = sclTopLeft
-      AutoCompleteOptions = [acoAutoSuggest]
+      AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend]
       ItemsEx = <>
       Anchors = [akLeft, akTop, akRight]
       Color = clWhite

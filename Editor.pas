@@ -260,6 +260,8 @@ type
     procedure BtnCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     function GetIDByName(component: TsComboBoxEx): string;
+    function GetIndexOfText(component: TsComboBoxEx; TextToIndex: string = ''): integer;
+    function GetIndexOfObject(component: TsComboBoxEx; IDToIndex: integer = -1): integer;
     function GetNameByID(table, id: string): string;
     function GetIDString(component: TNextGrid): string;
     function GetWebEmailString(component: TNextGrid): string;
@@ -297,6 +299,8 @@ type
     procedure CreateParams(var Params: TCreateParams); override;
   end;
 
+  procedure ClearEdit(Edit: TsComboBoxEx);
+
 var
   FormEditor: TFormEditor;
   IsDublicate: Boolean = False;
@@ -307,6 +311,13 @@ implementation
 uses Main, Logo, Directory, Report, Dublicate, Relations, MailSend;
 
 {$R *.dfm}
+
+procedure ClearEdit(Edit: TsComboBoxEx);
+begin
+  Edit.Text := '';
+  Edit.ItemIndex := -1;
+  Edit.Tag := -1;
+end;
 
 procedure TFormEditor.CreateParams(var Params: TCreateParams);
 begin
@@ -949,11 +960,27 @@ function TFormEditor.GetIDByName(component: TsComboBoxEx): string;
 var
   index: Integer;
 begin
-  index := component.Items.IndexOf(Trim(component.Text));
+  index := GetIndexOfText(component);
   if index = -1 then
     Result := ''
   else
     Result := IntToStr(Integer(component.Items.Objects[index]));
+end;
+
+function TFormEditor.GetIndexOfText(component: TsComboBoxEx; TextToIndex: string = ''): integer;
+begin
+  if TextToIndex <> EmptyStr then
+    Result := component.Items.IndexOf(Trim(TextToIndex))
+  else
+    Result := component.Items.IndexOf(Trim(component.Text));
+end;
+
+function TFormEditor.GetIndexOfObject(component: TsComboBoxEx; IDToIndex: integer = -1): integer;
+begin
+  if IDToIndex = -1 then
+    Result := -1
+  else
+    Result := component.Items.IndexOfObject(TObject(IDToIndex));
 end;
 
 function TFormEditor.GetIDString(component: TNextGrid): string; { #1$#2$#3$ }
@@ -1025,23 +1052,23 @@ begin
   sPageControl1.ActivePageIndex := 0;
   EditName.Text := '';
   EditFIO.Text := '';
-  EditCurator.Text := '';
-  EditRubr.Text := '';
-  EditType.Text := '';
-  EditNapravlenie.Text := '';
+  ClearEdit(EditCurator);
+  ClearEdit(EditRubr);
+  ClearEdit(EditType);
+  ClearEdit(EditNapravlenie);
   EditWEB.Text := '';
   EditEMAIL.Text := '';
   for i := 1 to 10 do
   begin
     TsCheckBox(FindComponent('CBAdres' + IntToStr(i))).Checked := False;
-    TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(i))).Text := '';
-    TsComboBoxEx(FindComponent('EditZIP' + IntToStr(i))).Text := '';
-    TsComboBoxEx(FindComponent('EditStreet' + IntToStr(i))).Text := '';
-    TsComboBoxEx(FindComponent('EditCountry' + IntToStr(i))).Text := '';
-    TsComboBoxEx(FindComponent('EditOblast' + IntToStr(i))).Text := '';
-    TsComboBoxEx(FindComponent('EditCity' + IntToStr(i))).Text := '';
-    TsComboBoxEx(FindComponent('EditPhoneType' + IntToStr(i))).Text := '';
-    TsComboBoxEx(FindComponent('EditPhone' + IntToStr(i))).Text := '';
+    ClearEdit(TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(i))));
+    TsEdit(FindComponent('EditZIP' + IntToStr(i))).Text := '';
+    ClearEdit(TsComboBoxEx(FindComponent('EditCountry' + IntToStr(i))));
+    ClearEdit(TsComboBoxEx(FindComponent('EditOblast' + IntToStr(i))));
+    ClearEdit(TsComboBoxEx(FindComponent('EditCity' + IntToStr(i))));
+    TsEdit(FindComponent('EditStreet' + IntToStr(i))).Text := '';
+    ClearEdit(TsComboBoxEx(FindComponent('EditPhoneType' + IntToStr(i))));
+    TsEdit(FindComponent('EditPhone' + IntToStr(i))).Text := '';
     TNextGrid(FindComponent('SGPhone' + IntToStr(i))).ClearRows;
     TsMemo(FindComponent('MemoPhone' + IntToStr(i))).Clear;
   end;
@@ -1318,7 +1345,7 @@ procedure TFormEditor.PrepareEditRecord(id: string);
   procedure AdresProcs(AdresList: TStrings; Num: Integer; CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP, Street: TsEdit;
     Country, Oblast, City: TsComboBoxEx);
   var
-    city_str, oblast_str, country_str, ofType: string;
+    ID_OfficeType, ID_Country, ID_Oblast, ID_City: integer;
     list: TStrings;
   begin
     if length(AdresList.Text) = 0 then
@@ -1335,16 +1362,17 @@ procedure TFormEditor.PrepareEditRecord(id: string);
     end;
     if list[0] = '1' then
       CBAdres.Checked := True;
-    ofType := list[2];
     ZIP.Text := list[3];
     Street.Text := list[4];
-    country_str := list[5];
-    oblast_str := list[6];
-    city_str := list[7];
-    OfficeType.Text := GetNameByID('OFFICETYPE', ofType);
-    Country.Text := GetNameByID('COUNTRY', country_str);
-    Oblast.Text := GetNameByID('OBLAST', oblast_str);
-    City.Text := GetNameByID('GOROD', city_str);
+    ID_OfficeType := StrToIntDef(list[2], -1);
+    ID_Country := StrToIntDef(list[5], -1);
+    ID_Oblast := StrToIntDef(list[6], -1);
+    ID_City := StrToIntDef(list[7], -1);
+    { #TODO2: REVISIT : See if we need oblast>city values validation in here }
+    OfficeType.ItemIndex := GetIndexOfObject(OfficeType, ID_OfficeType);
+    Country.ItemIndex := GetIndexOfObject(Country, ID_Country);
+    Oblast.ItemIndex := GetIndexOfObject(Oblast, ID_Oblast);
+    City.ItemIndex := GetIndexOfObject(City, ID_City);
     list.Free;
   end;
 
