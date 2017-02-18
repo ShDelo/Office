@@ -596,10 +596,6 @@ object FormMailSender: TFormMailSender
     end
     object tabParams: TsTabSheet
       Caption = #1059#1095#1077#1090#1085#1099#1077' '#1079#1072#1087#1080#1089#1080
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object btnProfileCreate: TsSpeedButton
         Left = 328
         Top = 16

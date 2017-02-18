@@ -846,8 +846,6 @@ object FormEditor: TFormEditor
       SkinData.SkinSection = 'PAGECONTROL'
       object sTabSheet1: TsTabSheet
         Caption = '1'
-        ExplicitTop = 6
-        ExplicitHeight = 327
         object sGroupBox1: TsGroupBox
           Left = 5
           Top = -4
@@ -1446,8 +1444,6 @@ object FormEditor: TFormEditor
       end
       object sTabSheet2: TsTabSheet
         Caption = '2'
-        ExplicitTop = 6
-        ExplicitHeight = 327
         object sGroupBox2: TsGroupBox
           Left = 5
           Top = -4
@@ -2043,8 +2039,6 @@ object FormEditor: TFormEditor
       end
       object sTabSheet3: TsTabSheet
         Caption = '3'
-        ExplicitTop = 6
-        ExplicitHeight = 327
         object sGroupBox3: TsGroupBox
           Left = 5
           Top = -4
@@ -2640,8 +2634,6 @@ object FormEditor: TFormEditor
       end
       object sTabSheet4: TsTabSheet
         Caption = '4'
-        ExplicitTop = 6
-        ExplicitHeight = 327
         object sGroupBox4: TsGroupBox
           Left = 5
           Top = -4
@@ -3237,8 +3229,6 @@ object FormEditor: TFormEditor
       end
       object sTabSheet5: TsTabSheet
         Caption = '5'
-        ExplicitTop = 6
-        ExplicitHeight = 327
         object sGroupBox5: TsGroupBox
           Left = 5
           Top = -4
@@ -3834,8 +3824,6 @@ object FormEditor: TFormEditor
       end
       object sTabSheet6: TsTabSheet
         Caption = '6'
-        ExplicitTop = 6
-        ExplicitHeight = 327
         object sGroupBox6: TsGroupBox
           Left = 5
           Top = -4
@@ -4431,8 +4419,6 @@ object FormEditor: TFormEditor
       end
       object sTabSheet7: TsTabSheet
         Caption = '7'
-        ExplicitTop = 6
-        ExplicitHeight = 327
         object sGroupBox7: TsGroupBox
           Left = 5
           Top = -4
@@ -5028,8 +5014,6 @@ object FormEditor: TFormEditor
       end
       object sTabSheet8: TsTabSheet
         Caption = '8'
-        ExplicitTop = 6
-        ExplicitHeight = 327
         object sGroupBox8: TsGroupBox
           Left = 5
           Top = -4
@@ -5625,8 +5609,6 @@ object FormEditor: TFormEditor
       end
       object sTabSheet9: TsTabSheet
         Caption = '9'
-        ExplicitTop = 6
-        ExplicitHeight = 327
         object sGroupBox9: TsGroupBox
           Left = 5
           Top = -4
@@ -6222,8 +6204,6 @@ object FormEditor: TFormEditor
       end
       object sTabSheet10: TsTabSheet
         Caption = '10'
-        ExplicitTop = 6
-        ExplicitHeight = 327
         object sGroupBox10: TsGroupBox
           Left = 5
           Top = -4

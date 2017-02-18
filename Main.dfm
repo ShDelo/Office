@@ -155,7 +155,6 @@ object FormMain: TFormMain
         OnExit = editSearchFastExit
         OnGlyphClick = editSearchFastGlyphClick
         OnKeyPress = editSearchFastKeyPress
-        ExplicitHeight = 24
       end
     end
   end
@@ -184,8 +183,6 @@ object FormMain: TFormMain
       object sTabSheet1: TsTabSheet
         Caption = #1043#1083#1072#1074#1085#1072#1103
         UseCloseBtn = False
-        ExplicitTop = 6
-        ExplicitHeight = 488
         DesignSize = (
           462
           470)

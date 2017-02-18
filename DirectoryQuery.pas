@@ -38,6 +38,7 @@ uses Main;
 
 procedure TFormDirectoryQuery.FormCreate(Sender: TObject);
 begin
+  { #TODO2: DESIGN : ComboBoxed 1 and 2 does not using drop-down capabilty. They are currently empty }
   LoadDataDirectoryQuery;
 end;
 
