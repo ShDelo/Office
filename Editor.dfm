@@ -842,6 +842,7 @@ object FormEditor: TFormEditor
       ActivePage = sTabSheet1
       TabOrder = 14
       ShowFocus = False
+      TabPadding = 2
       SkinData.SkinSection = 'PAGECONTROL'
       object sTabSheet1: TsTabSheet
         Caption = '1'

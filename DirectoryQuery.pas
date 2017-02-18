@@ -15,10 +15,11 @@ type
     BtnOK: TsButton;
     Edit1: TsComboBoxEx;
     Edit2: TsComboBoxEx;
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure LoadDataDirectoryQuery;
     function ShowDirectoryQuery(DirCode: integer; Method: string; Data: TDirectoryData; var EnteredValues: array of string): boolean;
     procedure BtnOKClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -36,25 +37,32 @@ uses Main;
 { TFormDirectoryQuery }
 
 procedure TFormDirectoryQuery.FormCreate(Sender: TObject);
-var
-  Query: TIBCQuery;
 begin
-  Query := QueryCreate;
-  Query.SQL.Text := 'select * from OBLAST order by lower(NAME)';
-  Query.Open;
-  Query.FetchAll := True;
-  while not Query.Eof do
-  begin
-    Edit3.AddItem(Query.FieldByName('NAME').AsString, TObject(Query.FieldByName('ID').AsInteger));
-    Query.Next;
-  end;
-  Query.Close;
-  Query.Free;
+  LoadDataDirectoryQuery;
 end;
 
 procedure TFormDirectoryQuery.FormShow(Sender: TObject);
 begin
   Edit1.SetFocus;
+end;
+
+procedure TFormDirectoryQuery.LoadDataDirectoryQuery;
+var
+  Query: TIBCQuery;
+begin
+  Query := QueryCreate;
+  try
+    Query.SQL.Text := 'select * from OBLAST order by lower(NAME)';
+    Query.Open;
+    Query.FetchAll := True;
+    while not Query.Eof do
+    begin
+      Edit3.AddItem(Query.FieldByName('NAME').AsString, TObject(Query.FieldByName('ID').AsInteger));
+      Query.Next;
+    end;
+  finally
+    Query.Free;
+  end;
 end;
 
 procedure TFormDirectoryQuery.BtnOKClick(Sender: TObject);
@@ -70,6 +78,8 @@ begin
   begin
     if Edit3.ItemIndex = -1 then
     begin
+      { #TODO1: DESIGN : allow new oblast entry creation from here?! if olbast.text <> EmptySTR and itemIndex = -1
+        i.e oblast doesn't exist but we entered text, we can create oblast from here? }
       MessageBox(handle, 'Необходимо указать область для города.', 'Информация', MB_OK or MB_ICONINFORMATION);
       Edit3.SetFocus;
       exit;

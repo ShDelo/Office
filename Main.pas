@@ -16,6 +16,7 @@ procedure debug(Text: string; Params: array of TVarRec);
 procedure WriteLog(Text: string);
 function UpperFirst(s: string): string;
 function QueryCreate: TIBCQuery;
+function CustomSortProc(Node1, Node2: TTreeNode; iUpToThisLevel: integer): integer; stdcall;
 
 type
   TFormMain = class(TForm)
@@ -164,7 +165,7 @@ var
 implementation
 
 uses Editor, Logo, MailSend, Report, Directory, ReportSimple, Relations,
-  Dublicate;
+  Dublicate, DirectoryQuery;
 
 const
   bDebug: boolean = true;
@@ -349,7 +350,7 @@ end;
 
 procedure TFormMain.ReloadDataGlobal(Sender: TObject);
 begin
-  // #TODO1: Add new forms in here if there is any
+  // #TODO3: UNUSED CODE: can be removed?
   if TForm(Sender).Name <> 'FormEditor' then
     FormEditor.Close;
   if TForm(Sender).Name <> 'FormReport' then
@@ -375,6 +376,7 @@ begin
   BuildRubrikatorTree(FormMain);
   FormEditor.LoadDataEditor;
   FormDirectory.LoadDataDirectory;
+  FormDirectoryQuery.LoadDataDirectoryQuery;
   FormLogo.Hide;
   FormLogo.Free;
   TVRubrikator.Items.EndUpdate;
@@ -383,7 +385,6 @@ begin
   TVRubrikator.OnChange := TVRubrikatorChange;
   TVRubrikatorChange(TVRubrikator, TVRubrikator.Selected);
   IBDatabase1.Close;
-  Directory.isDataEdited := False; // сбрасуем релоад
   EnableAllForms('');
 end;
 
@@ -448,16 +449,17 @@ begin
   FormLogo.sGauge1.MaxValue := 4 + Q_LTT.RecordCount + 9 + 9;
   sgRubr_tmp.BeginUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+  Application.ProcessMessages;
   for i := 1 to Q_LTT.RecordCount do
   begin
     sgRubr_tmp.AddRow;
     sgRubr_tmp.Cells[0, sgRubr_tmp.LastAddedRow] := Q_LTT.FieldValues['NAME'];
     sgRubr_tmp.Cells[1, sgRubr_tmp.LastAddedRow] := Q_LTT.FieldValues['ID'];
     Q_LTT.Next;
-    Application.ProcessMessages;
   end;
   sgRubr_tmp.Resort;
   sgRubr_tmp.EndUpdate;
+  Application.ProcessMessages;
   Q_LTT.Close;
   Q_LTT.SQL.Text := 'select * from CURATOR';
   Q_LTT.Open;
@@ -470,10 +472,10 @@ begin
     sgCurator_tmp.Cells[0, sgCurator_tmp.LastAddedRow] := Q_LTT.FieldValues['NAME'];
     sgCurator_tmp.Cells[1, sgCurator_tmp.LastAddedRow] := Q_LTT.FieldValues['ID'];
     Q_LTT.Next;
-    Application.ProcessMessages;
   end;
   sgCurator_tmp.Resort;
   sgCurator_tmp.EndUpdate;
+  Application.ProcessMessages;
   Q_LTT.Close;
   Q_LTT.SQL.Text := 'select * from TYPE';
   Q_LTT.Open;
@@ -486,10 +488,10 @@ begin
     sgType_tmp.Cells[0, sgType_tmp.LastAddedRow] := Q_LTT.FieldValues['NAME'];
     sgType_tmp.Cells[1, sgType_tmp.LastAddedRow] := Q_LTT.FieldValues['ID'];
     Q_LTT.Next;
-    Application.ProcessMessages;
   end;
   sgType_tmp.Resort;
   sgType_tmp.EndUpdate;
+  Application.ProcessMessages;
   Q_LTT.Close;
   Q_LTT.SQL.Text := 'select * from NAPRAVLENIE';
   Q_LTT.Open;
@@ -502,10 +504,10 @@ begin
     sgNapr_tmp.Cells[0, sgNapr_tmp.LastAddedRow] := Q_LTT.FieldValues['NAME'];
     sgNapr_tmp.Cells[1, sgNapr_tmp.LastAddedRow] := Q_LTT.FieldValues['ID'];
     Q_LTT.Next;
-    Application.ProcessMessages;
   end;
   sgNapr_tmp.Resort;
   sgNapr_tmp.EndUpdate;
+  Application.ProcessMessages;
   Q_LTT.Close;
   Q_LTT.Free;
   IBDatabase1.Close;
@@ -541,7 +543,6 @@ begin
     tmp.SelectedIndex := 0;
 
     Q := QueryCreate;
-    Q.Close;
     Q.SQL.Text := 'select ID,ACTIVITY,NAME from BASE where RUBR like :RUBR';
     Q.ParamByName('RUBR').AsString := '%#' + IBQuery1.FieldByName('ID').AsString + '$%';
     Q.Open;
@@ -1103,6 +1104,7 @@ begin
   end;
   Editor.IsDublicate := False;
   FormEditor.Show;
+  FormEditor.EditName.SetFocus;
 end;
 
 procedure TFormMain.nEditRecClick(Sender: TObject);
@@ -1843,7 +1845,7 @@ end;
 procedure TFormMain.BtnDirectoryClick(Sender: TObject);
 begin
   WriteLog('TFormMain.BtnDirectoryClick: редактирование директорий');
-  DisableAllForms('FormDirectory');
+//  DisableAllForms('FormDirectory');
   FormDirectory.Show;
 end;
 

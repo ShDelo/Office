@@ -14,7 +14,6 @@ object FormDirectory: TFormDirectory
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
-  OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -33,10 +32,6 @@ object FormDirectory: TFormDirectory
     SkinData.SkinSection = 'PAGECONTROL'
     object tabCurator: TsTabSheet
       Caption = #1050#1091#1088#1072#1090#1086#1088#1099
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 596
-      ExplicitHeight = 0
       object panelCurator: TsPanel
         Left = 0
         Top = 0
@@ -45,7 +40,6 @@ object FormDirectory: TFormDirectory
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
-        ExplicitWidth = 596
         object btnCuratorCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -90,7 +84,6 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
-        ExplicitWidth = 596
         object NxTextColumn1: TNxTextColumn
           DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
@@ -144,15 +137,10 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
-        ExplicitWidth = 0
       end
     end
     object tabRubr: TsTabSheet
       Caption = #1056#1091#1073#1088#1080#1082#1080
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 596
-      ExplicitHeight = 0
       object panelRubr: TsPanel
         Left = 0
         Top = 0
@@ -161,7 +149,6 @@ object FormDirectory: TFormDirectory
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
-        ExplicitWidth = 596
         object btnRubrCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -206,7 +193,6 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
-        ExplicitWidth = 596
         object NxTextColumn3: TNxTextColumn
           DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
@@ -260,15 +246,10 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
-        ExplicitWidth = 596
       end
     end
     object tabFirmType: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1092#1080#1088#1084
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 596
-      ExplicitHeight = 0
       object panelFirmType: TsPanel
         Left = 0
         Top = 0
@@ -277,7 +258,6 @@ object FormDirectory: TFormDirectory
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
-        ExplicitWidth = 596
         object btnFirmTypeCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -322,7 +302,6 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
-        ExplicitWidth = 596
         object NxTextColumn5: TNxTextColumn
           DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
@@ -376,15 +355,10 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
-        ExplicitWidth = 596
       end
     end
     object tabNapr: TsTabSheet
       Caption = #1042#1080#1076#1099' '#1076#1077#1103#1090#1077#1083#1100#1085#1086#1089#1090#1080
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 596
-      ExplicitHeight = 0
       object panelNapr: TsPanel
         Left = 0
         Top = 0
@@ -393,7 +367,6 @@ object FormDirectory: TFormDirectory
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
-        ExplicitWidth = 596
         object btnNaprCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -438,7 +411,6 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
-        ExplicitWidth = 596
         object NxTextColumn7: TNxTextColumn
           DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
@@ -492,15 +464,10 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
-        ExplicitWidth = 596
       end
     end
     object tabOfficeType: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1072#1076#1088#1077#1089#1086#1074
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 596
-      ExplicitHeight = 0
       object panelOfficeType: TsPanel
         Left = 0
         Top = 0
@@ -509,7 +476,6 @@ object FormDirectory: TFormDirectory
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
-        ExplicitWidth = 596
         object btnOfficeTypeCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -554,7 +520,6 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
-        ExplicitWidth = 596
         object NxTextColumn9: TNxTextColumn
           DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
@@ -608,15 +573,10 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
-        ExplicitWidth = 596
       end
     end
     object tabCountry: TsTabSheet
       Caption = #1057#1090#1088#1072#1085#1099
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 596
-      ExplicitHeight = 0
       object panelCountry: TsPanel
         Left = 0
         Top = 0
@@ -625,7 +585,6 @@ object FormDirectory: TFormDirectory
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
-        ExplicitWidth = 596
         object btnCountryCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -670,7 +629,6 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
-        ExplicitWidth = 596
         object NxTextColumn11: TNxTextColumn
           DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
@@ -724,15 +682,10 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
-        ExplicitWidth = 596
       end
     end
     object tabOblast: TsTabSheet
       Caption = #1054#1073#1083#1072#1089#1090#1100
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 596
-      ExplicitHeight = 0
       object panelOblast: TsPanel
         Left = 0
         Top = 0
@@ -741,7 +694,6 @@ object FormDirectory: TFormDirectory
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
-        ExplicitTop = 5
         object btnOblastCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -789,7 +741,6 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
-        ExplicitTop = 30
       end
       object SGOblast: TNextGrid
         Left = 0
@@ -804,7 +755,6 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
-        ExplicitWidth = 596
         object NxTextColumn17: TNxTextColumn
           DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET
@@ -1010,10 +960,6 @@ object FormDirectory: TFormDirectory
     end
     object sTabSheet1: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1090#1077#1083#1077#1092#1086#1085#1086#1074
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 596
-      ExplicitHeight = 0
       object panelPhoneType: TsPanel
         Left = 0
         Top = 0
@@ -1022,7 +968,6 @@ object FormDirectory: TFormDirectory
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
-        ExplicitWidth = 596
         object btnPhoneTypeCreate: TsSpeedButton
           Left = 1
           Top = 1
@@ -1070,7 +1015,6 @@ object FormDirectory: TFormDirectory
         TabOrder = 1
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
-        ExplicitWidth = 596
       end
       object SGPhoneType: TNextGrid
         Left = 0
@@ -1085,7 +1029,6 @@ object FormDirectory: TFormDirectory
         Options = [goSelectFullRow]
         TabOrder = 2
         TabStop = True
-        ExplicitWidth = 596
         object NxTextColumn15: TNxTextColumn
           DefaultWidth = 625
           Font.Charset = DEFAULT_CHARSET

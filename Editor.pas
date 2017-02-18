@@ -1,8 +1,14 @@
 // #TODO1: UI: Implement Oblast>City edits interaction. e.g when oblast not selected > allow full city list.
 // when oblast is selected > limit city list by that id_oblast
 
-// #TODO1: UI: Figure out how oblast and city edits will react to text that has -1 indexof
-// this us live-time updating issue where if record edit while record of same type has already been added to list
+{ #TODO1: UI : edit controls that doesn't allowing to pass unlisted values (e.g: country, oblast, city) should auto-clear
+  when losing focus, and need to be checked before let code proceed }
+
+{ #TODO1: UI : think how we gonna display adres data now, that we have oblast field added.
+  should it be displayed in Tabs, report simple, report complex? what about DELO? anywhere else? }
+
+{ #TODO1: DESIGN: Figure out how oblast and city edits will react to text that has -1 indexof
+  this is live-time updating issue where if record edit while record of same type has already been added to list }
 unit Editor;
 
 interface
@@ -308,11 +314,6 @@ begin
   Params.ExStyle := Params.ExStyle or WS_Ex_AppWindow;
 end;
 
-function CustomSortProc(Node1, Node2: TTreeNode; iUpToThisLevel: Integer): Integer; stdcall;
-begin
-  Result := AnsiStrIComp(PChar(Node1.Text), PChar(Node2.Text));
-end;
-
 function TFormEditor.ParseAdresFieldToEntriesList(Field_ADRES_LineByIndex: string): TStringList;
 var
   Entry: string;
@@ -351,10 +352,10 @@ end;
 function TFormEditor.ParseAdresFieldToCityIDList(Field_ADRES: string; IncludeSyntax: boolean): TStringList;
 var
   tmp, AdresString: string;
-  ResultList, AdresList: TStringList;
+  AdresList: TStringList;
   i: integer;
 begin
-  ResultList := TStringList.Create;
+  Result := TStringList.Create;
   AdresList := TStringList.Create;
 
   AdresList.Text := Field_ADRES;
@@ -367,13 +368,12 @@ begin
       delete(tmp, Pos('$', tmp), Length(tmp));
       if IncludeSyntax = True then
         tmp := '#' + tmp + '$';
-      if ResultList.IndexOf(tmp) = -1 then
-        ResultList.Add(tmp);
+      if Result.IndexOf(tmp) = -1 then
+        Result.Add(tmp);
     end;
   end;
 
   AdresList.Free;
-  result := ResultList;
 end;
 
 function TFormEditor.ParseIDString(IDString: string; IncludeSyntax: boolean = false): TStringList;
@@ -793,112 +793,129 @@ end;
 
 procedure TFormEditor.LoadDataEditor;
 var
-  i, z: Integer;
+  i: Integer;
   Q: TIBCQuery;
+  Buffer: TStringList;
 begin
   FormLogo.sLabel1.Caption := 'œÓ‰ÍÎ˛˜‡ÂÏ˚Â ÏÓ‰ÛÎË ...';
-  EditCurator.Clear; //  ”–¿“Œ–€
-  for i := 0 to Main.sgCurator_tmp.RowCount - 1 do
-  begin
-    EditCurator.AddItem(Main.sgCurator_tmp.Cells[0, i], Pointer(StrToInt(Main.sgCurator_tmp.Cells[1, i])));
-  end;
-  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;
-  EditRubr.Clear; // –”¡–» »
-  for i := 0 to Main.sgRubr_tmp.RowCount - 1 do
-  begin
-    EditRubr.AddItem(Main.sgRubr_tmp.Cells[0, i], Pointer(StrToInt(Main.sgRubr_tmp.Cells[1, i])));
-  end;
-  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;
-  EditType.Clear; // “»œ
-  for i := 0 to Main.sgType_tmp.RowCount - 1 do
-  begin
-    EditType.AddItem(Main.sgType_tmp.Cells[0, i], Pointer(StrToInt(Main.sgType_tmp.Cells[1, i])));
-  end;
-  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;
-  EditNapravlenie.Clear; // Õ¿œ–¿¬À≈Õ»≈
-  for i := 0 to Main.sgNapr_tmp.RowCount - 1 do
-  begin
-    EditNapravlenie.AddItem(Main.sgNapr_tmp.Cells[0, i], Pointer(StrToInt(Main.sgNapr_tmp.Cells[1, i])));
-  end;
-  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;
-  for z := 1 to 10 do
-    TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(z))).Clear;
   Q := QueryCreate;
-  Q.Close; // “»œ Œ‘»—¿
-  Q.SQL.Text := 'select * from OFFICETYPE order by lower(NAME)';
-  Q.Open;
-  Q.FetchAll := True;
-  for i := 1 to Q.RecordCount do
-  begin
-    for z := 1 to 10 do
-      TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
-    Q.Next;
-  end;
-  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;
-  for z := 1 to 10 do
-    TsComboBoxEx(FindComponent('EditCountry' + IntToStr(z))).Clear;
-  Q.Close; // —“–¿Õ€
-  Q.SQL.Text := 'select * from COUNTRY order by lower(NAME)';
-  Q.Open;
-  Q.FetchAll := True;
-  for i := 1 to Q.RecordCount do
-  begin
-    for z := 1 to 10 do
-      TsComboBoxEx(FindComponent('EditCountry' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
-    Q.Next;
-  end;
-  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;
-  for z := 1 to 10 do
-    TsComboBoxEx(FindComponent('EditOblast' + IntToStr(z))).Clear;
-  Q.Close; // Œ¡À¿—“»
-  Q.SQL.Text := 'select * from OBLAST order by lower(NAME)';
-  Q.Open;
-  Q.FetchAll := True;
-  for i := 1 to Q.RecordCount do
-  begin
-    for z := 1 to 10 do
-      TsComboBoxEx(FindComponent('EditOblast' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
-    Q.Next;
-  end;
-  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;
-  for z := 1 to 10 do
-    TsComboBoxEx(FindComponent('EditCity' + IntToStr(z))).Clear;
-  Q.Close; // √Œ–Œƒ¿
-  Q.SQL.Text := 'select * from GOROD order by lower(NAME)';
-  Q.Open;
-  Q.FetchAll := True;
-  for i := 1 to Q.RecordCount do
-  begin
-    for z := 1 to 10 do
-      TsComboBoxEx(FindComponent('EditCity' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
-    Q.Next;
-  end;
-  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;
-  for z := 1 to 10 do
-    TsComboBoxEx(FindComponent('EditPhoneType' + IntToStr(z))).Clear;
-  Q.Close; // “»œ€ “≈À≈‘ŒÕŒ¬
-  Q.SQL.Text := 'select * from PHONETYPE order by lower(NAME)';
-  Q.Open;
-  Q.FetchAll := True;
-  for i := 1 to Q.RecordCount do
-  begin
-    for z := 1 to 10 do
-      TsComboBoxEx(FindComponent('EditPhoneType' + IntToStr(z))).AddItem(Q.FieldValues['NAME'], Pointer(Integer(Q.FieldValues['ID'])));
-    Q.Next;
-  end;
-  FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
-  Application.ProcessMessages;
+  Buffer := TStringList.Create;
 
-  Q.Close;
-  Q.Free; // FormMain.IBDatabase1.Close;
+  try
+    for i := 0 to Main.sgCurator_tmp.RowCount - 1 do
+    begin
+      Buffer.AddObject(Main.sgCurator_tmp.Cells[0, i], TObject(StrToInt(Main.sgCurator_tmp.Cells[1, i])));
+    end;
+    EditCurator.Items := Buffer; //  ”–¿“Œ–
+    FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+    Application.ProcessMessages;
+
+    Buffer.Clear;
+    for i := 0 to Main.sgRubr_tmp.RowCount - 1 do
+    begin
+      Buffer.AddObject(Main.sgRubr_tmp.Cells[0, i], TObject(StrToInt(Main.sgRubr_tmp.Cells[1, i])));
+    end;
+    EditRubr.Items := Buffer; // –”¡–» ¿
+    FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+    Application.ProcessMessages;
+
+    Buffer.Clear; // “»œ
+    for i := 0 to Main.sgType_tmp.RowCount - 1 do
+    begin
+      Buffer.AddObject(Main.sgType_tmp.Cells[0, i], TObject(StrToInt(Main.sgType_tmp.Cells[1, i])));
+    end;
+    EditType.Items := Buffer;
+    FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+    Application.ProcessMessages;
+
+    Buffer.Clear; // Õ¿œ–¿¬À≈Õ»≈
+    for i := 0 to Main.sgNapr_tmp.RowCount - 1 do
+    begin
+      Buffer.AddObject(Main.sgNapr_tmp.Cells[0, i], TObject(StrToInt(Main.sgNapr_tmp.Cells[1, i])));
+    end;
+    EditNapravlenie.Items := Buffer;
+    FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+    Application.ProcessMessages;
+
+    Q.Close; // “»œ Œ‘»—¿
+    Q.SQL.Text := 'select * from OFFICETYPE order by lower(NAME)';
+    Q.Open;
+    Q.FetchAll := True;
+    Buffer.Clear;
+    while not Q.Eof do
+    begin
+      Buffer.AddObject(Q.FieldValues['NAME'], TObject(Integer(Q.FieldValues['ID'])));
+      Q.Next;
+    end;
+    for i := 1 to 10 do
+      TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(i))).Items := Buffer;
+    FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+    Application.ProcessMessages;
+
+    Q.Close; // —“–¿Õ€
+    Q.SQL.Text := 'select * from COUNTRY order by lower(NAME)';
+    Q.Open;
+    Q.FetchAll := True;
+    Buffer.Clear;
+    while not Q.Eof do
+    begin
+      Buffer.AddObject(Q.FieldValues['NAME'], TObject(Integer(Q.FieldValues['ID'])));
+      Q.Next;
+    end;
+    for i := 1 to 10 do
+      TsComboBoxEx(FindComponent('EditCountry' + IntToStr(i))).Items := Buffer;
+    FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+    Application.ProcessMessages;
+
+    Q.Close; // Œ¡À¿—“»
+    Q.SQL.Text := 'select * from OBLAST order by lower(NAME)';
+    Q.Open;
+    Q.FetchAll := True;
+    Buffer.Clear;
+    while not Q.Eof do
+    begin
+      Buffer.AddObject(Q.FieldValues['NAME'], TObject(Integer(Q.FieldValues['ID'])));
+      Q.Next;
+    end;
+    for i := 1 to 10 do
+      TsComboBoxEx(FindComponent('EditOblast' + IntToStr(i))).Items := Buffer;
+    FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+    Application.ProcessMessages;
+
+    Q.Close; // √Œ–Œƒ¿
+    Q.SQL.Text := 'select * from GOROD order by lower(NAME)';
+    Q.Open;
+    Q.FetchAll := True;
+    Buffer.Clear;
+    while not Q.Eof do
+    begin
+      Buffer.AddObject(Q.FieldValues['NAME'], TObject(Integer(Q.FieldValues['ID'])));
+      Q.Next;
+    end;
+    for i := 1 to 10 do
+      TsComboBoxEx(FindComponent('EditCity' + IntToStr(i))).Items := Buffer;
+    FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+    Application.ProcessMessages;
+
+    Q.Close; // “»œ€ “≈À≈‘ŒÕŒ¬
+    Q.SQL.Text := 'select * from PHONETYPE order by lower(NAME)';
+    Q.Open;
+    Q.FetchAll := True;
+    Buffer.Clear;
+    while not Q.Eof do
+    begin
+      Buffer.AddObject(Q.FieldValues['NAME'], TObject(Integer(Q.FieldValues['ID'])));
+      Q.Next;
+    end;
+    for i := 1 to 10 do
+      TsComboBoxEx(FindComponent('EditPhoneType' + IntToStr(i))).Items := Buffer;
+    FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
+    Application.ProcessMessages;
+
+  finally
+    Q.Free; // FormMain.IBDatabase1.Close;
+    Buffer.Free;
+  end;
 end;
 
 function TFormEditor.GetFirmCount: string;
@@ -915,16 +932,15 @@ function TFormEditor.GetNameByID(table, id: string): string;
 var
   Q: TIBCQuery;
 begin
-  Result := '';
-  if (Trim(table) = '') or (Trim(id) = '') then
+  Result := EmptyStr;
+  if (Trim(table) = EmptyStr) or (Trim(id) = EmptyStr) then
     exit;
   Q := QueryCreate;
-  Q.Close;
-  Q.SQL.Text := 'select * from ' + table + ' where id = ' + id;
+  Q.SQL.Text := 'select NAME from ' + table + ' where id = ' + id;
   Q.Open;
   Q.FetchAll := True;
   if Q.RecordCount > 0 then
-    Result := Q.FieldValues['NAME'];
+    Result := VarToStr(Q.FieldValues['NAME']);
   Q.Close;
   Q.Free;
 end;
@@ -1047,10 +1063,22 @@ var
     if CBAdres.Checked then
     begin
       offtype_id := GetIDByName(OfficeType);
+      if offtype_id <> EmptyStr then
+        offtype_id := '@' + offtype_id;
+
       country_id := GetIDByName(Country);
+      if country_id <> EmptyStr then
+        country_id := '&' + country_id;
+
       oblast_id := GetIDByName(Oblast);
+      if oblast_id <> EmptyStr then
+        oblast_id := '*' + oblast_id;
+
       city_id := GetIDByName(City);
-      str.Add(Format('#%s$#%s$#@%s$#%s$#%s$#&%s$#*%s$#^%s$', ['1', No.Text, offtype_id, Trim(ZIP.Text), Trim(Street.Text), country_id,
+      if city_id <> EmptyStr then
+        city_id := '^' + city_id;
+
+      str.Add(Format('#%s$#%s$#%s$#%s$#%s$#%s$#%s$#%s$', ['1', No.Text, offtype_id, Trim(ZIP.Text), Trim(Street.Text), country_id,
         oblast_id, city_id]));
       if SGPhone.RowCount > 0 then
         for i := 0 to SGPhone.RowCount - 1 do
@@ -1064,6 +1092,9 @@ var
     end;
   end;
 
+{ #TODO1: REVISIT : see if IsAdresFilled logic is up to date after oblast field has been added. Since fields like country,oblast,city
+  are no longer auto-created I need a way to tell user that entered value is not valid. Mard edit with "red color" or icon stating that
+  might be solution }
   procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit; Country, Oblast, City: TsComboBoxEx;
     SGPhone: TNextGrid);
   begin
@@ -1269,7 +1300,7 @@ begin
     if pos('#' + rubrID + '$', tmp2) > 0 then
       FormMain.TVRubrikatorChange(FormMain.TVRubrikator, FormMain.TVRubrikator.Selected);
   end;
-  FormMain.TVRubrikator.CustomSort(@CustomSortProc, 0, True);
+  FormMain.TVRubrikator.CustomSort(@main.CustomSortProc, 0, True);
   FormMain.IBQuery1.Close;
 
   // might already be closed from @IsRecordDublicate if any dublicates were found
@@ -1533,10 +1564,22 @@ var
     if CBAdres.Checked then
     begin
       offtype_id := GetIDByName(OfficeType);
+      if offtype_id <> EmptyStr then
+        offtype_id := '@' + offtype_id;
+
       country_id := GetIDByName(Country);
+      if country_id <> EmptyStr then
+        country_id := '&' + country_id;
+
       oblast_id := GetIDByName(Oblast);
+      if oblast_id <> EmptyStr then
+        oblast_id := '*' + oblast_id;
+
       city_id := GetIDByName(City);
-      str.Add(Format('#%s$#%s$#@%s$#%s$#%s$#&%s$#*%s$#^%s$', ['1', No.Text, offtype_id, Trim(ZIP.Text), Trim(Street.Text), country_id,
+      if city_id <> EmptyStr then
+        city_id := '^' + city_id;
+
+      str.Add(Format('#%s$#%s$#%s$#%s$#%s$#%s$#%s$#%s$', ['1', No.Text, offtype_id, Trim(ZIP.Text), Trim(Street.Text), country_id,
         oblast_id, city_id]));
       if SGPhone.RowCount > 0 then
         for i := 0 to SGPhone.RowCount - 1 do
@@ -1755,7 +1798,7 @@ begin
       FormMain.TVRubrikatorChange(FormMain.TVRubrikator, FormMain.TVRubrikator.Selected);
   end;
 
-  FormMain.TVRubrikator.CustomSort(@CustomSortProc, 0, True);
+  FormMain.TVRubrikator.CustomSort(@main.CustomSortProc, 0, True);
   FormMain.TVRubrikator.Items.EndUpdate;
   FormMain.IBQuery1.Close;
   FormEditor.Close;
@@ -1906,6 +1949,8 @@ begin
   end;
 end;
 
+{ #TODO1: REVISIT : Idea is to instead of automatically create new directory, which is what this produre currently does,
+  I want to show confirmation dialog on Enter/add button press asking user if he want to create new directory. }
 procedure TFormEditor.IsNewRecordCheck;
 var
   i, x: Integer;
@@ -2029,7 +2074,7 @@ begin
       AddingNewRec('GOROD', UpperFirst(edit.Text), nil, FormDirectory.SGCity); }
   end;
   if isNewRubr then
-    FormMain.TVRubrikator.CustomSort(@CustomSortProc, 0, True);
+    FormMain.TVRubrikator.CustomSort(@main.CustomSortProc, 0, True);
 end;
 
 procedure TFormEditor.IsRecordDublicate;
@@ -2195,6 +2240,7 @@ var
         Query.Execute;
         FormMain.IBTransaction1.CommitRetaining;
 
+        { #TODO1: REFACTOR : Update this code to DirectoryContrainer class }
         if SGTemp.FindText(1, ID_OLD, [soCaseInsensitive, soExactMatch]) then
         begin
           debug('SGTEMP row found. deleted data: name = %s | ID = %s', [SGTemp.Cells[0, SGTemp.SelectedRow],
@@ -2245,35 +2291,36 @@ begin
   listID_OLD := ParseIDString(IDString_OLD);
   debug('*** check %s directory for garbage... ***', [DIR_Table]);
 
-  for i := 0 to listID_OLD.Count - 1 do
-  begin
-
-    ID_OLD := listID_OLD[i];
-
-    if Method = 'edit' then
+  try
+    for i := 0 to listID_OLD.Count - 1 do
     begin
-      if AnsiContainsStr(IDString_NEW, '#' + ID_OLD + '$') then
+
+      ID_OLD := listID_OLD[i];
+
+      if Method = 'edit' then
       begin
-        debug('SKIP: table = %s | ID = %s', [DIR_Table, ID_OLD]);
-      end
-      else
+        if AnsiContainsStr(IDString_NEW, '#' + ID_OLD + '$') then
+        begin
+          debug('SKIP: table = %s | ID = %s', [DIR_Table, ID_OLD]);
+        end
+        else
+        begin
+          debug('DELETING: table = %s | ID = %s', [DIR_Table, ID_OLD]);
+          GC_RUN;
+        end;
+      end;
+
+      if Method = 'delete' then
       begin
         debug('DELETING: table = %s | ID = %s', [DIR_Table, ID_OLD]);
         GC_RUN;
       end;
-    end;
 
-    if Method = 'delete' then
-    begin
-      debug('DELETING: table = %s | ID = %s', [DIR_Table, ID_OLD]);
-      GC_RUN;
     end;
-
+  finally
+    listID_OLD.Free;
+    Query.Free;
   end;
-
-  listID_OLD.Free;
-  Query.Close;
-  Query.Free;
 end;
 
 procedure TFormEditor.DoNaprActivityValidation(BASE_ID, IDString_OLD, IDString_NEW: string; IsActive: boolean; Method: string);
@@ -2455,28 +2502,33 @@ var
     QueryUpdate: TIBCQuery;
     nActive: integer;
   begin
+    if CITY_ID = EmptyStr then
+      exit;
+
     QueryUpdate := QueryCreate;
-
-    if SetToActive = true then
-      nActive := 1
-    else
-      nActive := 0;
-
-    QueryUpdate.SQL.Text := 'update GOROD set ACTIVITY = :ACTIVITY where ID = :ID';
-    QueryUpdate.ParamByName('ACTIVITY').AsInteger := nActive;
-    QueryUpdate.ParamByName('ID').AsString := CITY_ID;
     try
-      QueryUpdate.Execute;
-    except
-      on E: Exception do
-      begin
-        WriteLog('TFTFormEditor.DoCityActivityValidation' + #13 + 'Œ¯Ë·Í‡: ' + E.Message);
-        MessageBox(handle, PChar('Œ¯Ë·Í‡ ÔË ÔÓ‚ÂÍÂ ‡ÍÚË‚ÌÓÒÚË „ÓÓ‰Ó‚.' + #13 + E.Message), 'Œ¯Ë·Í‡', MB_OK or MB_ICONERROR);
+      if SetToActive = true then
+        nActive := 1
+      else
+        nActive := 0;
+
+      QueryUpdate.SQL.Text := 'update GOROD set ACTIVITY = :ACTIVITY where ID = :ID';
+      QueryUpdate.ParamByName('ACTIVITY').AsInteger := nActive;
+      QueryUpdate.ParamByName('ID').AsString := CITY_ID;
+      try
+        QueryUpdate.Execute;
+        QueryUpdate.Transaction.CommitRetaining;
+      except
+        on E: Exception do
+        begin
+          QueryUpdate.Transaction.RollbackRetaining;
+          WriteLog('TFTFormEditor.DoCityActivityValidation' + #13 + 'Œ¯Ë·Í‡: ' + E.Message);
+          MessageBox(handle, PChar('Œ¯Ë·Í‡ ÔË ÔÓ‚ÂÍÂ ‡ÍÚË‚ÌÓÒÚË „ÓÓ‰Ó‚.' + #13 + E.Message), 'Œ¯Ë·Í‡', MB_OK or MB_ICONERROR);
+        end;
       end;
+    finally
+      QueryUpdate.Free;
     end;
-    FormMain.IBTransaction1.CommitRetaining;
-    QueryUpdate.Close;
-    QueryUpdate.Free;
   end;
 
 begin
