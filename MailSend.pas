@@ -1050,7 +1050,7 @@ var
     email: string;
     inList: Boolean;
     X: integer;
-    Rubr, tmp, adres, country_str, oblast_str, city_str, ofType, zip_str: string;
+    Rubr, tmp, adres, country_str, region_str, city_str, ofType, zip_str: string;
     phones: WideString;
     List, list2: TStrings;
 
@@ -1182,7 +1182,7 @@ var
           ofType := list2[2];
           zip_str := list2[3];
           country_str := list2[5];
-          oblast_str := list2[6];
+          region_str := list2[6];
           city_str := list2[7];
           if Trim(ofType) <> '' then
             ofType := FormEditor.GetNameByID('OFFICETYPE', ofType) + ' - ';

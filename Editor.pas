@@ -1,13 +1,13 @@
-// #TODO1: UI: Implement Oblast>City edits interaction. e.g when oblast not selected > allow full city list.
-// when oblast is selected > limit city list by that id_oblast
+// #TODO1: UI: Implement Region>City edits interaction. e.g when region not selected > allow full city list.
+// when region is selected > limit city list by that id_region
 
-{ #TODO1: UI : edit controls that doesn't allowing to pass unlisted values (e.g: country, oblast, city) should auto-clear
+{ #TODO1: UI : edit controls that doesn't allowing to pass unlisted values (e.g: country, region, city) should auto-clear
   when losing focus, and need to be checked before let code proceed }
 
-{ #TODO1: UI : think how we gonna display adres data now, that we have oblast field added.
+{ #TODO1: UI : think how we gonna display adres data now, that we have region field added.
   should it be displayed in Tabs, report simple, report complex? what about DELO? anywhere else? }
 
-{ #TODO1: DESIGN: Figure out how oblast and city edits will react to text that has -1 indexof
+{ #TODO1: DESIGN: Figure out how region and city edits will react to text that has -1 indexof
   this is live-time updating issue where if record edit while record of same type has already been added to list }
 unit Editor;
 
@@ -39,7 +39,7 @@ type
     EditZIP1: TsEdit;
     EditStreet1: TsEdit;
     EditCountry1: TsComboBoxEx;
-    EditOblast1: TsComboBoxEx;
+    EditRegion1: TsComboBoxEx;
     EditCity1: TsComboBoxEx;
     sTabSheet2: TsTabSheet;
     sGroupBox2: TsGroupBox;
@@ -48,7 +48,7 @@ type
     EditZIP2: TsEdit;
     EditStreet2: TsEdit;
     EditCountry2: TsComboBoxEx;
-    EditOblast2: TsComboBoxEx;
+    EditRegion2: TsComboBoxEx;
     EditCity2: TsComboBoxEx;
     sTabSheet3: TsTabSheet;
     sGroupBox3: TsGroupBox;
@@ -57,7 +57,7 @@ type
     EditZIP3: TsEdit;
     EditStreet3: TsEdit;
     EditCountry3: TsComboBoxEx;
-    EditOblast3: TsComboBoxEx;
+    EditRegion3: TsComboBoxEx;
     EditCity3: TsComboBoxEx;
     sTabSheet4: TsTabSheet;
     sGroupBox4: TsGroupBox;
@@ -66,7 +66,7 @@ type
     EditZIP4: TsEdit;
     EditStreet4: TsEdit;
     EditCountry4: TsComboBoxEx;
-    EditOblast4: TsComboBoxEx;
+    EditRegion4: TsComboBoxEx;
     EditCity4: TsComboBoxEx;
     sTabSheet5: TsTabSheet;
     sGroupBox5: TsGroupBox;
@@ -75,7 +75,7 @@ type
     EditZIP5: TsEdit;
     EditStreet5: TsEdit;
     EditCountry5: TsComboBoxEx;
-    EditOblast5: TsComboBoxEx;
+    EditRegion5: TsComboBoxEx;
     EditCity5: TsComboBoxEx;
     sTabSheet6: TsTabSheet;
     sGroupBox6: TsGroupBox;
@@ -84,7 +84,7 @@ type
     EditZIP6: TsEdit;
     EditStreet6: TsEdit;
     EditCountry6: TsComboBoxEx;
-    EditOblast6: TsComboBoxEx;
+    EditRegion6: TsComboBoxEx;
     EditCity6: TsComboBoxEx;
     sTabSheet7: TsTabSheet;
     sGroupBox7: TsGroupBox;
@@ -93,7 +93,7 @@ type
     EditZIP7: TsEdit;
     EditStreet7: TsEdit;
     EditCountry7: TsComboBoxEx;
-    EditOblast7: TsComboBoxEx;
+    EditRegion7: TsComboBoxEx;
     EditCity7: TsComboBoxEx;
     sTabSheet8: TsTabSheet;
     sGroupBox8: TsGroupBox;
@@ -102,7 +102,7 @@ type
     EditZIP8: TsEdit;
     EditStreet8: TsEdit;
     EditCountry8: TsComboBoxEx;
-    EditOblast8: TsComboBoxEx;
+    EditRegion8: TsComboBoxEx;
     EditCity8: TsComboBoxEx;
     sTabSheet9: TsTabSheet;
     sGroupBox9: TsGroupBox;
@@ -111,7 +111,7 @@ type
     EditZIP9: TsEdit;
     EditStreet9: TsEdit;
     EditCountry9: TsComboBoxEx;
-    EditOblast9: TsComboBoxEx;
+    EditRegion9: TsComboBoxEx;
     EditCity9: TsComboBoxEx;
     sTabSheet10: TsTabSheet;
     sGroupBox10: TsGroupBox;
@@ -120,7 +120,7 @@ type
     EditZIP10: TsEdit;
     EditStreet10: TsEdit;
     EditCountry10: TsComboBoxEx;
-    EditOblast10: TsComboBoxEx;
+    EditRegion10: TsComboBoxEx;
     EditCity10: TsComboBoxEx;
     CBAdres1: TsCheckBox;
     CBAdres2: TsCheckBox;
@@ -339,7 +339,7 @@ var
 
 begin
   // ResultList[0] = CBAdres; ResultList[1] = NO; ResultList[2] = OfficeType; ResultList[3] = ZIP;
-  // ResultList[4] = Street; ResultList[5] = Country; ResultList[6] = Oblast; ResultList[7] = City;
+  // ResultList[4] = Street; ResultList[5] = Country; ResultList[6] = Region; ResultList[7] = City;
   Result := TStringList.Create;
 
   while pos('$', Field_ADRES_LineByIndex) > 0 do
@@ -768,11 +768,11 @@ end;
 
 procedure TFormEditor.btnDeleteAdresClick(Sender: TObject);
 
-  procedure ClearingEdits(OfficeType, Country, Oblast, City: TsComboBoxEx; ZIP, Street: TsEdit; SGPhone: TNextGrid);
+  procedure ClearingEdits(OfficeType, Country, Region, City: TsComboBoxEx; ZIP, Street: TsEdit; SGPhone: TNextGrid);
   begin
     OfficeType.Text := '';
     Country.Text := '';
-    Oblast.Text := '';
+    Region.Text := '';
     City.Text := '';
     ZIP.Text := '';
     Street.Text := '';
@@ -781,25 +781,25 @@ procedure TFormEditor.btnDeleteAdresClick(Sender: TObject);
 
 begin
   if TsSpeedButton(Sender).Name = 'btnDeleteAdres1' then
-    ClearingEdits(EditOfficeType1, EditCountry1, EditOblast1, EditCity1, EditZIP1, EditStreet1, SGPhone1);
+    ClearingEdits(EditOfficeType1, EditCountry1, EditRegion1, EditCity1, EditZIP1, EditStreet1, SGPhone1);
   if TsSpeedButton(Sender).Name = 'btnDeleteAdres2' then
-    ClearingEdits(EditOfficeType2, EditCountry2, EditOblast2, EditCity2, EditZIP2, EditStreet2, SGPhone2);
+    ClearingEdits(EditOfficeType2, EditCountry2, EditRegion2, EditCity2, EditZIP2, EditStreet2, SGPhone2);
   if TsSpeedButton(Sender).Name = 'btnDeleteAdres3' then
-    ClearingEdits(EditOfficeType3, EditCountry3, EditOblast3, EditCity3, EditZIP3, EditStreet3, SGPhone3);
+    ClearingEdits(EditOfficeType3, EditCountry3, EditRegion3, EditCity3, EditZIP3, EditStreet3, SGPhone3);
   if TsSpeedButton(Sender).Name = 'btnDeleteAdres4' then
-    ClearingEdits(EditOfficeType4, EditCountry4, EditOblast4, EditCity4, EditZIP4, EditStreet4, SGPhone4);
+    ClearingEdits(EditOfficeType4, EditCountry4, EditRegion4, EditCity4, EditZIP4, EditStreet4, SGPhone4);
   if TsSpeedButton(Sender).Name = 'btnDeleteAdres5' then
-    ClearingEdits(EditOfficeType5, EditCountry5, EditOblast5, EditCity5, EditZIP5, EditStreet5, SGPhone5);
+    ClearingEdits(EditOfficeType5, EditCountry5, EditRegion5, EditCity5, EditZIP5, EditStreet5, SGPhone5);
   if TsSpeedButton(Sender).Name = 'btnDeleteAdres6' then
-    ClearingEdits(EditOfficeType6, EditCountry6, EditOblast6, EditCity6, EditZIP6, EditStreet6, SGPhone6);
+    ClearingEdits(EditOfficeType6, EditCountry6, EditRegion6, EditCity6, EditZIP6, EditStreet6, SGPhone6);
   if TsSpeedButton(Sender).Name = 'btnDeleteAdres7' then
-    ClearingEdits(EditOfficeType7, EditCountry7, EditOblast7, EditCity7, EditZIP7, EditStreet7, SGPhone7);
+    ClearingEdits(EditOfficeType7, EditCountry7, EditRegion7, EditCity7, EditZIP7, EditStreet7, SGPhone7);
   if TsSpeedButton(Sender).Name = 'btnDeleteAdres8' then
-    ClearingEdits(EditOfficeType8, EditCountry8, EditOblast8, EditCity8, EditZIP8, EditStreet8, SGPhone8);
+    ClearingEdits(EditOfficeType8, EditCountry8, EditRegion8, EditCity8, EditZIP8, EditStreet8, SGPhone8);
   if TsSpeedButton(Sender).Name = 'btnDeleteAdres9' then
-    ClearingEdits(EditOfficeType9, EditCountry9, EditOblast9, EditCity9, EditZIP9, EditStreet9, SGPhone9);
+    ClearingEdits(EditOfficeType9, EditCountry9, EditRegion9, EditCity9, EditZIP9, EditStreet9, SGPhone9);
   if TsSpeedButton(Sender).Name = 'btnDeleteAdres10' then
-    ClearingEdits(EditOfficeType10, EditCountry10, EditOblast10, EditCity10, EditZIP10, EditStreet10, SGPhone10);
+    ClearingEdits(EditOfficeType10, EditCountry10, EditRegion10, EditCity10, EditZIP10, EditStreet10, SGPhone10);
 end;
 
 procedure TFormEditor.LoadDataEditor;
@@ -879,7 +879,7 @@ begin
     Application.ProcessMessages;
 
     Q.Close; // ОБЛАСТИ
-    Q.SQL.Text := 'select * from OBLAST order by lower(NAME)';
+    Q.SQL.Text := 'select * from REGION order by lower(NAME)';
     Q.Open;
     Q.FetchAll := True;
     Buffer.Clear;
@@ -889,7 +889,7 @@ begin
       Q.Next;
     end;
     for i := 1 to 10 do
-      TsComboBoxEx(FindComponent('EditOblast' + IntToStr(i))).Items := Buffer;
+      TsComboBoxEx(FindComponent('EditRegion' + IntToStr(i))).Items := Buffer;
     FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
     Application.ProcessMessages;
 
@@ -1064,7 +1064,7 @@ begin
     ClearEdit(TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(i))));
     TsEdit(FindComponent('EditZIP' + IntToStr(i))).Text := '';
     ClearEdit(TsComboBoxEx(FindComponent('EditCountry' + IntToStr(i))));
-    ClearEdit(TsComboBoxEx(FindComponent('EditOblast' + IntToStr(i))));
+    ClearEdit(TsComboBoxEx(FindComponent('EditRegion' + IntToStr(i))));
     ClearEdit(TsComboBoxEx(FindComponent('EditCity' + IntToStr(i))));
     TsEdit(FindComponent('EditStreet' + IntToStr(i))).Text := '';
     ClearEdit(TsComboBoxEx(FindComponent('EditPhoneType' + IntToStr(i))));
@@ -1077,16 +1077,16 @@ begin
   list_GC_IDs.Clear;
 end;
 
-{ #TODO1: IMPORTANT : Still need to somehow let user know that entered values to country,oblast,city controls are not valid }
+{ #TODO1: IMPORTANT : Still need to somehow let user know that entered values to country,region,city controls are not valid }
 procedure TFormEditor.AddRecord(Sender: TObject);
 var
   str, phones: TStrings;
 
   procedure AdresProcs(CBAdres: TsCheckBox; No: TsEdit; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit;
-    Country, Oblast, City: TsComboBoxEx; MemoPhone: TsMemo; SGPhone: TNextGrid);
+    Country, Region, City: TsComboBoxEx; MemoPhone: TsMemo; SGPhone: TNextGrid);
   var
     i: Integer;
-    offtype_id, country_id, oblast_id, city_id: string;
+    offtype_id, country_id, region_id, city_id: string;
   begin
     if CBAdres.Checked then
     begin
@@ -1098,16 +1098,16 @@ var
       if country_id <> EmptyStr then
         country_id := '&' + country_id;
 
-      oblast_id := GetIDByName(Oblast);
-      if oblast_id <> EmptyStr then
-        oblast_id := '*' + oblast_id;
+      region_id := GetIDByName(Region);
+      if region_id <> EmptyStr then
+        region_id := '*' + region_id;
 
       city_id := GetIDByName(City);
       if city_id <> EmptyStr then
         city_id := '^' + city_id;
 
       str.Add(Format('#%s$#%s$#%s$#%s$#%s$#%s$#%s$#%s$', ['1', No.Text, offtype_id, Trim(ZIP.Text), Trim(Street.Text), country_id,
-        oblast_id, city_id]));
+        region_id, city_id]));
       if SGPhone.RowCount > 0 then
         for i := 0 to SGPhone.RowCount - 1 do
           MemoPhone.Lines.Add(SGPhone.Cells[0, i]);
@@ -1120,10 +1120,10 @@ var
     end;
   end;
 
-{ #TODO1: REVISIT : see if IsAdresFilled logic is up to date after oblast field has been added. Since fields like country,oblast,city
+{ #TODO1: REVISIT : see if IsAdresFilled logic is up to date after region field has been added. Since fields like country,region,city
   are no longer auto-created I need a way to tell user that entered value is not valid. Mard edit with "red color" or icon stating that
   might be solution }
-  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit; Country, Oblast, City: TsComboBoxEx;
+  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit; Country, Region, City: TsComboBoxEx;
     SGPhone: TNextGrid);
   begin
     CBAdres.Checked := False;
@@ -1147,7 +1147,7 @@ var
       CBAdres.Checked := True;
       exit;
     end;
-    if Trim(Oblast.Text) <> '' then
+    if Trim(Region.Text) <> '' then
     begin
       CBAdres.Checked := True;
       exit;
@@ -1249,26 +1249,26 @@ begin
 
   str := TStringList.Create;
   phones := TStringList.Create;
-  IsAdresFilled(CBAdres1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditOblast1, EditCity1, SGPhone1);
-  IsAdresFilled(CBAdres2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditOblast2, EditCity2, SGPhone2);
-  IsAdresFilled(CBAdres3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditOblast3, EditCity3, SGPhone3);
-  IsAdresFilled(CBAdres4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditOblast4, EditCity4, SGPhone4);
-  IsAdresFilled(CBAdres5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditOblast5, EditCity5, SGPhone5);
-  IsAdresFilled(CBAdres6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditOblast6, EditCity6, SGPhone6);
-  IsAdresFilled(CBAdres7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditOblast7, EditCity7, SGPhone7);
-  IsAdresFilled(CBAdres8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditOblast8, EditCity8, SGPhone8);
-  IsAdresFilled(CBAdres9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditOblast9, EditCity9, SGPhone9);
-  IsAdresFilled(CBAdres10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditOblast10, EditCity10, SGPhone10);
-  AdresProcs(CBAdres1, EditNO1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditOblast1, EditCity1, MemoPhone1, SGPhone1);
-  AdresProcs(CBAdres2, EditNO2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditOblast2, EditCity2, MemoPhone2, SGPhone2);
-  AdresProcs(CBAdres3, EditNO3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditOblast3, EditCity3, MemoPhone3, SGPhone3);
-  AdresProcs(CBAdres4, EditNO4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditOblast4, EditCity4, MemoPhone4, SGPhone4);
-  AdresProcs(CBAdres5, EditNO5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditOblast5, EditCity5, MemoPhone5, SGPhone5);
-  AdresProcs(CBAdres6, EditNO6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditOblast6, EditCity6, MemoPhone6, SGPhone6);
-  AdresProcs(CBAdres7, EditNO7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditOblast7, EditCity7, MemoPhone7, SGPhone7);
-  AdresProcs(CBAdres8, EditNO8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditOblast8, EditCity8, MemoPhone8, SGPhone8);
-  AdresProcs(CBAdres9, EditNO9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditOblast9, EditCity9, MemoPhone9, SGPhone9);
-  AdresProcs(CBAdres10, EditNO10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditOblast10, EditCity10, MemoPhone10,
+  IsAdresFilled(CBAdres1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditRegion1, EditCity1, SGPhone1);
+  IsAdresFilled(CBAdres2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditRegion2, EditCity2, SGPhone2);
+  IsAdresFilled(CBAdres3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditRegion3, EditCity3, SGPhone3);
+  IsAdresFilled(CBAdres4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditRegion4, EditCity4, SGPhone4);
+  IsAdresFilled(CBAdres5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditRegion5, EditCity5, SGPhone5);
+  IsAdresFilled(CBAdres6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditRegion6, EditCity6, SGPhone6);
+  IsAdresFilled(CBAdres7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditRegion7, EditCity7, SGPhone7);
+  IsAdresFilled(CBAdres8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditRegion8, EditCity8, SGPhone8);
+  IsAdresFilled(CBAdres9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditRegion9, EditCity9, SGPhone9);
+  IsAdresFilled(CBAdres10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditRegion10, EditCity10, SGPhone10);
+  AdresProcs(CBAdres1, EditNO1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditRegion1, EditCity1, MemoPhone1, SGPhone1);
+  AdresProcs(CBAdres2, EditNO2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditRegion2, EditCity2, MemoPhone2, SGPhone2);
+  AdresProcs(CBAdres3, EditNO3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditRegion3, EditCity3, MemoPhone3, SGPhone3);
+  AdresProcs(CBAdres4, EditNO4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditRegion4, EditCity4, MemoPhone4, SGPhone4);
+  AdresProcs(CBAdres5, EditNO5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditRegion5, EditCity5, MemoPhone5, SGPhone5);
+  AdresProcs(CBAdres6, EditNO6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditRegion6, EditCity6, MemoPhone6, SGPhone6);
+  AdresProcs(CBAdres7, EditNO7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditRegion7, EditCity7, MemoPhone7, SGPhone7);
+  AdresProcs(CBAdres8, EditNO8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditRegion8, EditCity8, MemoPhone8, SGPhone8);
+  AdresProcs(CBAdres9, EditNO9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditRegion9, EditCity9, MemoPhone9, SGPhone9);
+  AdresProcs(CBAdres10, EditNO10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditRegion10, EditCity10, MemoPhone10,
     SGPhone10);
   FormMain.IBQuery1.ParamByName('ADRES').AsString := str.Text;
   FormMain.IBQuery1.ParamByName('PHONES').AsString := phones.Text;
@@ -1344,16 +1344,16 @@ end;
 procedure TFormEditor.PrepareEditRecord(id: string);
 
   procedure AdresProcs(AdresList: TStrings; Num: Integer; CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP, Street: TsEdit;
-    Country, Oblast, City: TsComboBoxEx);
+    Country, Region, City: TsComboBoxEx);
   var
-    ID_OfficeType, ID_Country, ID_Oblast, ID_City: integer;
+    ID_OfficeType, ID_Country, ID_Region, ID_City: integer;
     list: TStrings;
   begin
     if length(AdresList.Text) = 0 then
       exit;
     // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
     // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
-    // list2[4] = Street; list2[5] = Country; list2[6] = Oblast; list2[7] = City;
+    // list2[4] = Street; list2[5] = Country; list2[6] = Region; list2[7] = City;
     list := ParseAdresFieldToEntriesList(AdresList[Num - 1]);
     if list[0] = '0' then
     begin
@@ -1367,12 +1367,12 @@ procedure TFormEditor.PrepareEditRecord(id: string);
     Street.Text := list[4];
     ID_OfficeType := StrToIntDef(list[2], -1);
     ID_Country := StrToIntDef(list[5], -1);
-    ID_Oblast := StrToIntDef(list[6], -1);
+    ID_Region := StrToIntDef(list[6], -1);
     ID_City := StrToIntDef(list[7], -1);
-    { #TODO2: REVISIT : See if we need oblast>city values validation in here }
+    { #TODO2: REVISIT : See if we need region>city values validation in here }
     OfficeType.ItemIndex := GetIndexOfObject(OfficeType, ID_OfficeType);
     Country.ItemIndex := GetIndexOfObject(Country, ID_Country);
-    Oblast.ItemIndex := GetIndexOfObject(Oblast, ID_Oblast);
+    Region.ItemIndex := GetIndexOfObject(Region, ID_Region);
     City.ItemIndex := GetIndexOfObject(City, ID_City);
     list.Free;
   end;
@@ -1558,16 +1558,16 @@ begin
     phones := TStringList.Create;
     str.Text := FormMain.IBQuery1.FieldByName('ADRES').AsVariant;
     phones.Text := FormMain.IBQuery1.FieldByName('PHONES').AsVariant;
-    AdresProcs(str, 1, CBAdres1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditOblast1, EditCity1);
-    AdresProcs(str, 2, CBAdres2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditOblast2, EditCity2);
-    AdresProcs(str, 3, CBAdres3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditOblast3, EditCity3);
-    AdresProcs(str, 4, CBAdres4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditOblast4, EditCity4);
-    AdresProcs(str, 5, CBAdres5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditOblast5, EditCity5);
-    AdresProcs(str, 6, CBAdres6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditOblast6, EditCity6);
-    AdresProcs(str, 7, CBAdres7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditOblast7, EditCity7);
-    AdresProcs(str, 8, CBAdres8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditOblast8, EditCity8);
-    AdresProcs(str, 9, CBAdres9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditOblast9, EditCity9);
-    AdresProcs(str, 10, CBAdres10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditOblast10, EditCity10);
+    AdresProcs(str, 1, CBAdres1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditRegion1, EditCity1);
+    AdresProcs(str, 2, CBAdres2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditRegion2, EditCity2);
+    AdresProcs(str, 3, CBAdres3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditRegion3, EditCity3);
+    AdresProcs(str, 4, CBAdres4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditRegion4, EditCity4);
+    AdresProcs(str, 5, CBAdres5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditRegion5, EditCity5);
+    AdresProcs(str, 6, CBAdres6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditRegion6, EditCity6);
+    AdresProcs(str, 7, CBAdres7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditRegion7, EditCity7);
+    AdresProcs(str, 8, CBAdres8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditRegion8, EditCity8);
+    AdresProcs(str, 9, CBAdres9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditRegion9, EditCity9);
+    AdresProcs(str, 10, CBAdres10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditRegion10, EditCity10);
     PhonesProcs(phones);
     str.Free;
     phones.Free;
@@ -1585,10 +1585,10 @@ var
   listNewRecords: TStringList;
 
   procedure AdresProcs(CBAdres: TsCheckBox; No: TsEdit; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit;
-    Country, Oblast, City: TsComboBoxEx; MemoPhone: TsMemo; SGPhone: TNextGrid);
+    Country, Region, City: TsComboBoxEx; MemoPhone: TsMemo; SGPhone: TNextGrid);
   var
     i: Integer;
-    offtype_id, country_id, oblast_id, city_id: string;
+    offtype_id, country_id, region_id, city_id: string;
   begin
     if CBAdres.Checked then
     begin
@@ -1600,16 +1600,16 @@ var
       if country_id <> EmptyStr then
         country_id := '&' + country_id;
 
-      oblast_id := GetIDByName(Oblast);
-      if oblast_id <> EmptyStr then
-        oblast_id := '*' + oblast_id;
+      region_id := GetIDByName(Region);
+      if region_id <> EmptyStr then
+        region_id := '*' + region_id;
 
       city_id := GetIDByName(City);
       if city_id <> EmptyStr then
         city_id := '^' + city_id;
 
       str.Add(Format('#%s$#%s$#%s$#%s$#%s$#%s$#%s$#%s$', ['1', No.Text, offtype_id, Trim(ZIP.Text), Trim(Street.Text), country_id,
-        oblast_id, city_id]));
+        region_id, city_id]));
       if SGPhone.RowCount > 0 then
         for i := 0 to SGPhone.RowCount - 1 do
           MemoPhone.Lines.Add(SGPhone.Cells[0, i]);
@@ -1622,7 +1622,7 @@ var
     end;
   end;
 
-  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit; Country, Oblast, City: TsComboBoxEx;
+  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit; Country, Region, City: TsComboBoxEx;
     SGPhone: TNextGrid);
   begin
     CBAdres.Checked := False;
@@ -1646,7 +1646,7 @@ var
       CBAdres.Checked := True;
       exit;
     end;
-    if Trim(Oblast.Text) <> '' then
+    if Trim(Region.Text) <> '' then
     begin
       CBAdres.Checked := True;
       exit;
@@ -1730,26 +1730,26 @@ begin
 
   str := TStringList.Create;
   phones := TStringList.Create;
-  IsAdresFilled(CBAdres1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditOblast1, EditCity1, SGPhone1);
-  IsAdresFilled(CBAdres2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditOblast2, EditCity2, SGPhone2);
-  IsAdresFilled(CBAdres3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditOblast3, EditCity3, SGPhone3);
-  IsAdresFilled(CBAdres4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditOblast4, EditCity4, SGPhone4);
-  IsAdresFilled(CBAdres5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditOblast5, EditCity5, SGPhone5);
-  IsAdresFilled(CBAdres6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditOblast6, EditCity6, SGPhone6);
-  IsAdresFilled(CBAdres7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditOblast7, EditCity7, SGPhone7);
-  IsAdresFilled(CBAdres8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditOblast8, EditCity8, SGPhone8);
-  IsAdresFilled(CBAdres9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditOblast9, EditCity9, SGPhone9);
-  IsAdresFilled(CBAdres10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditOblast10, EditCity10, SGPhone10);
-  AdresProcs(CBAdres1, EditNO1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditOblast1, EditCity1, MemoPhone1, SGPhone1);
-  AdresProcs(CBAdres2, EditNO2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditOblast2, EditCity2, MemoPhone2, SGPhone2);
-  AdresProcs(CBAdres3, EditNO3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditOblast3, EditCity3, MemoPhone3, SGPhone3);
-  AdresProcs(CBAdres4, EditNO4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditOblast4, EditCity4, MemoPhone4, SGPhone4);
-  AdresProcs(CBAdres5, EditNO5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditOblast5, EditCity5, MemoPhone5, SGPhone5);
-  AdresProcs(CBAdres6, EditNO6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditOblast6, EditCity6, MemoPhone6, SGPhone6);
-  AdresProcs(CBAdres7, EditNO7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditOblast7, EditCity7, MemoPhone7, SGPhone7);
-  AdresProcs(CBAdres8, EditNO8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditOblast8, EditCity8, MemoPhone8, SGPhone8);
-  AdresProcs(CBAdres9, EditNO9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditOblast9, EditCity9, MemoPhone9, SGPhone9);
-  AdresProcs(CBAdres10, EditNO10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditOblast10, EditCity10, MemoPhone10,
+  IsAdresFilled(CBAdres1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditRegion1, EditCity1, SGPhone1);
+  IsAdresFilled(CBAdres2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditRegion2, EditCity2, SGPhone2);
+  IsAdresFilled(CBAdres3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditRegion3, EditCity3, SGPhone3);
+  IsAdresFilled(CBAdres4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditRegion4, EditCity4, SGPhone4);
+  IsAdresFilled(CBAdres5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditRegion5, EditCity5, SGPhone5);
+  IsAdresFilled(CBAdres6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditRegion6, EditCity6, SGPhone6);
+  IsAdresFilled(CBAdres7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditRegion7, EditCity7, SGPhone7);
+  IsAdresFilled(CBAdres8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditRegion8, EditCity8, SGPhone8);
+  IsAdresFilled(CBAdres9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditRegion9, EditCity9, SGPhone9);
+  IsAdresFilled(CBAdres10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditRegion10, EditCity10, SGPhone10);
+  AdresProcs(CBAdres1, EditNO1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditRegion1, EditCity1, MemoPhone1, SGPhone1);
+  AdresProcs(CBAdres2, EditNO2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditRegion2, EditCity2, MemoPhone2, SGPhone2);
+  AdresProcs(CBAdres3, EditNO3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditRegion3, EditCity3, MemoPhone3, SGPhone3);
+  AdresProcs(CBAdres4, EditNO4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditRegion4, EditCity4, MemoPhone4, SGPhone4);
+  AdresProcs(CBAdres5, EditNO5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditRegion5, EditCity5, MemoPhone5, SGPhone5);
+  AdresProcs(CBAdres6, EditNO6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditRegion6, EditCity6, MemoPhone6, SGPhone6);
+  AdresProcs(CBAdres7, EditNO7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditRegion7, EditCity7, MemoPhone7, SGPhone7);
+  AdresProcs(CBAdres8, EditNO8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditRegion8, EditCity8, MemoPhone8, SGPhone8);
+  AdresProcs(CBAdres9, EditNO9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditRegion9, EditCity9, MemoPhone9, SGPhone9);
+  AdresProcs(CBAdres10, EditNO10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditRegion10, EditCity10, MemoPhone10,
     SGPhone10);
 
   FormMain.IBQuery1.ParamByName('ADRES').AsString := str.Text;
@@ -1963,7 +1963,7 @@ begin
       result := true;
       listNewRecords.Add('Страна: ' + Trim(edit.Text));
       end;
-      edit := TsComboBoxEx(FindComponent('EditOblast' + IntToStr(x)));
+      edit := TsComboBoxEx(FindComponent('EditRegion' + IntToStr(x)));
       if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
       begin
       result := true;
@@ -2043,9 +2043,9 @@ var
     { if AnsiLowerCase(table) = 'country' then
       for z := 1 to 10 do
       TsComboBoxEx(FindComponent('EditCountry' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
-      if AnsiLowerCase(table) = 'oblast' then
+      if AnsiLowerCase(table) = 'region' then
       for z := 1 to 10 do
-      TsComboBoxEx(FindComponent('EditOblast' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
+      TsComboBoxEx(FindComponent('EditRegion' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
       if AnsiLowerCase(table) = 'city' then
       for z := 1 to 10 do
       TsComboBoxEx(FindComponent('EditCity' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id))); }
@@ -2095,9 +2095,9 @@ begin
     { edit := TsComboBoxEx(FindComponent('EditCountry' + IntToStr(x)));
       if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
       AddingNewRec('COUNTRY', UpperFirst(edit.Text), nil, FormDirectory.SGCountry);
-      edit := TsComboBoxEx(FindComponent('EditOblast' + IntToStr(x)));
+      edit := TsComboBoxEx(FindComponent('EditRegion' + IntToStr(x)));
       if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
-      AddingNewRec('OBLAST', UpperFirst(edit.Text), nil, FormDirectory.SGOblast);
+      AddingNewRec('REGION', UpperFirst(edit.Text), nil, FormDirectory.SGRegion);
       edit := TsComboBoxEx(FindComponent('EditCity' + IntToStr(x)));
       if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
       AddingNewRec('CITY', UpperFirst(edit.Text), nil, FormDirectory.SGCity); }

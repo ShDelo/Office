@@ -1484,7 +1484,7 @@ var
   Pnl: TsPanel;
   BtnEdit, BtnPrint, BtnSend: TsSpeedButton;
   i, RE_TextLength: integer;
-  Rubr, tmp, adres, Cur, country_str, oblast_str, city_str, ofType, zip_str: string;
+  Rubr, tmp, adres, Cur, country_str, region_str, city_str, ofType, zip_str: string;
   phones: WideString;
   Q: TIBCQuery;
   list, list2: TStrings;
@@ -1678,7 +1678,7 @@ begin
   begin
     list2 := FormEditor.ParseAdresFieldToEntriesList(list[i]);
     // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
-    // list2[4] = Street; list2[5] = Country; list2[6] = Oblast; list2[7] = City;
+    // list2[4] = Street; list2[5] = Country; list2[6] = Region; list2[7] = City;
 
     tmp := copy(phones, 0, pos('$', phones));
     delete(phones, 1, length(tmp));
@@ -1694,7 +1694,7 @@ begin
       ofType := list2[2];
       zip_str := list2[3];
       country_str := list2[5];
-      oblast_str := list2[6];
+      region_str := list2[6];
       city_str := list2[7];
       if Trim(ofType) <> '' then
         ofType := FormEditor.GetNameByID('OFFICETYPE', ofType) + ' - ';

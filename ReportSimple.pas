@@ -314,7 +314,7 @@ var
   procedure FormatAdres(AAdres, APhones: string);
   var
     list, list2: TStrings;
-    Phones, tmp, adres, country_str, oblast_str, city_str, ofType: string;
+    Phones, tmp, adres, country_str, region_str, city_str, ofType: string;
     x: integer;
   begin
     list := TStringList.Create;
@@ -324,7 +324,7 @@ var
     begin
       // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
       // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
-      // list2[4] = Street; list2[5] = Country; list2[6] = Oblast; list2[7] = City;
+      // list2[4] = Street; list2[5] = Country; list2[6] = Region; list2[7] = City;
       list2 := FormEditor.ParseAdresFieldToEntriesList(list[x]);
 
       tmp := copy(Phones, 0, pos('$', Phones));
@@ -341,7 +341,7 @@ var
       begin
         ofType := list2[2];
         country_str := list2[5];
-        oblast_str := list2[6];
+        region_str := list2[6];
         city_str := list2[7];
         adres := '';
         if trim(list2[3]) <> '' then

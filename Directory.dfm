@@ -684,9 +684,9 @@ object FormDirectory: TFormDirectory
         SkinData.SkinSection = 'EDIT'
       end
     end
-    object tabOblast: TsTabSheet
+    object tabRegion: TsTabSheet
       Caption = #1054#1073#1083#1072#1089#1090#1100
-      object panelOblast: TsPanel
+      object panelRegion: TsPanel
         Left = 0
         Top = 0
         Width = 645
@@ -694,7 +694,7 @@ object FormDirectory: TFormDirectory
         Align = alTop
         TabOrder = 0
         SkinData.SkinSection = 'PANEL'
-        object btnOblastCreate: TsSpeedButton
+        object btnRegionCreate: TsSpeedButton
           Left = 1
           Top = 1
           Width = 56
@@ -704,7 +704,7 @@ object FormDirectory: TFormDirectory
           OnClick = btnCreateClick
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
-        object btnOblastEdit: TsSpeedButton
+        object btnRegionEdit: TsSpeedButton
           Left = 57
           Top = 1
           Width = 84
@@ -714,7 +714,7 @@ object FormDirectory: TFormDirectory
           OnClick = btnEditClick
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
-        object btnOblastDelete: TsSpeedButton
+        object btnRegionDelete: TsSpeedButton
           Left = 141
           Top = 1
           Width = 58
@@ -725,7 +725,7 @@ object FormDirectory: TFormDirectory
           SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
         end
       end
-      object editOblast: TsEdit
+      object editRegion: TsEdit
         Left = 0
         Top = 25
         Width = 645
@@ -742,7 +742,7 @@ object FormDirectory: TFormDirectory
         OnChange = editCuratorChange
         SkinData.SkinSection = 'EDIT'
       end
-      object SGOblast: TNextGrid
+      object SGRegion: TNextGrid
         Left = 0
         Top = 46
         Width = 645

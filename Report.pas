@@ -368,7 +368,7 @@ var
   procedure FormatAdres(AAdres, APhones: string);
   var
     list, list2: TStrings;
-    phones, tmp, adres, country_str, oblast_str, city_str, ofType: string;
+    phones, tmp, adres, country_str, region_str, city_str, ofType: string;
     x: integer;
   begin
     list := TStringList.Create;
@@ -377,7 +377,7 @@ var
     for x := 0 to list.Count - 1 do
     begin
       // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
-      // list2[4] = Street; list2[5] = Country; list2[6] = Oblast; list2[7] = City;
+      // list2[4] = Street; list2[5] = Country; list2[6] = Region; list2[7] = City;
       list2 := FormEditor.ParseAdresFieldToEntriesList(list[x]);
 
       tmp := copy(phones, 0, pos('$', phones));
@@ -396,7 +396,7 @@ var
         // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
         ofType := list2[2];
         country_str := list2[5];
-        oblast_str := list2[6];
+        region_str := list2[6];
         city_str := list2[7];
         adres := Format('    Адрес: %s - %s, %s, %s,', [FormEditor.GetNameByID('COUNTRY', country_str), list2[3],
           FormEditor.GetNameByID('CITY', city_str), list2[4]]);
@@ -427,7 +427,7 @@ var
   function GetAdres(AAdres: string): string;
   var
     list, list2, ResultList: TStrings;
-    adres, country_str, oblast_str, city_str, ofType: string;
+    adres, country_str, region_str, city_str, ofType: string;
     x: integer;
   begin
     list := TStringList.Create;
@@ -437,14 +437,14 @@ var
     begin
       list2 := FormEditor.ParseAdresFieldToEntriesList(list[x]);
       // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
-      // list2[4] = Street; list2[5] = Country; list2[6] = Oblast; list2[7] = City;
+      // list2[4] = Street; list2[5] = Country; list2[6] = Region; list2[7] = City;
 
       if list2[0] = '1' then
       begin
         // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
         ofType := list2[2];
         country_str := list2[5];
-        oblast_str := list2[6];
+        region_str := list2[6];
         city_str := list2[7];
         if Length(list2[3]) > 0 then
           list2[3] := ' - ' + list2[3];

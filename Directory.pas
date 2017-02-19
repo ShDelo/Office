@@ -1,7 +1,7 @@
 { #TODO1: PLAN :
   1. DONE: Implement rubrik directory creation live update
-  2. Implement oblast > city edit control interaction
-  3. Implement id_oblast updating when city edited to new oblast via directory window
+  2. Implement region > city edit control interaction
+  3. Implement id_region updating when city edited to new region via directory window
   4. Implement edit controls behavior when entered data is not in the list (not valid values for adres edit controls }
 unit Directory;
 
@@ -88,13 +88,13 @@ type
     SGPhoneType: TNextGrid;
     NxTextColumn15: TNxTextColumn;
     NxTextColumn16: TNxTextColumn;
-    tabOblast: TsTabSheet;
-    panelOblast: TsPanel;
-    btnOblastCreate: TsSpeedButton;
-    btnOblastEdit: TsSpeedButton;
-    btnOblastDelete: TsSpeedButton;
-    editOblast: TsEdit;
-    SGOblast: TNextGrid;
+    tabRegion: TsTabSheet;
+    panelRegion: TsPanel;
+    btnRegionCreate: TsSpeedButton;
+    btnRegionEdit: TsSpeedButton;
+    btnRegionDelete: TsSpeedButton;
+    editRegion: TsEdit;
+    SGRegion: TNextGrid;
     NxTextColumn17: TNxTextColumn;
     NxTextColumn18: TNxTextColumn;
     NxTextColumn19: TNxTextColumn;
@@ -120,8 +120,8 @@ type
   TDirectoryData = packed record
     Name1: string[255];
     Name2: string[255];
-    ID_oblast: integer;
-    constructor Create(Name1, Name2: string; ID_oblast: integer);
+    ID_Region: integer;
+    constructor Create(Name1, Name2: string; ID_Region: integer);
   end;
 
   TDirectoryContainer = class
@@ -136,14 +136,14 @@ type
 const
   DIR_CODE_TOTAL = 8; // 0-based total number of codes
   DIR_CODE_TO_TABLE: array [0 .. DIR_CODE_TOTAL] of string = ('curator', 'rubrikator', 'type', 'napravlenie', 'officetype', 'country',
-    'oblast', 'city', 'phonetype');
+    'region', 'city', 'phonetype');
   DIR_CODE_CURATOR = 0;
   DIR_CODE_RUBRIKA = 1;
   DIR_CODE_FIRMTYPE = 2;
   DIR_CODE_NAPRAVLENIE = 3;
   DIR_CODE_OFFICETYPE = 4;
   DIR_CODE_COUNTRY = 5;
-  DIR_CODE_OBLAST = 6;
+  DIR_CODE_REGION = 6;
   DIR_CODE_CITY = 7;
   DIR_CODE_PHONETYPE = 8;
 
@@ -157,11 +157,11 @@ uses Main, Editor, Report, Logo, DirectoryQuery;
 {$R *.dfm}
 { TDirectoryData }
 
-constructor TDirectoryData.Create(Name1, Name2: string; ID_oblast: integer);
+constructor TDirectoryData.Create(Name1, Name2: string; ID_Region: integer);
 begin
   self.Name1 := Name1;
   self.Name2 := Name2;
-  self.ID_oblast := ID_oblast;
+  self.ID_Region := ID_Region;
 end;
 
 { TDirectoryContainer }
@@ -220,11 +220,11 @@ begin
         self.Edit_DirectoryQuery := nil;
         self.IsAdresEdits := True;
       end;
-    DIR_CODE_OBLAST:
+    DIR_CODE_REGION:
       begin
         self.SG_Main := nil;
-        self.SG_Directory := FormDirectory.SGOblast;
-        self.Edit_Editor := FormEditor.EditOblast1;
+        self.SG_Directory := FormDirectory.SGRegion;
+        self.Edit_Editor := FormEditor.EditRegion1;
         self.Edit_DirectoryQuery := FormDirectoryQuery.Edit3;
         self.IsAdresEdits := True;
       end;
@@ -268,7 +268,7 @@ begin
   editNapr.Clear;
   editOfficeType.Clear;
   editCountry.Clear;
-  editOblast.Clear;
+  editRegion.Clear;
   editCity.Clear;
   editPhoneType.Clear;
 end;
@@ -366,26 +366,26 @@ begin
     Application.ProcessMessages;
 
     Q_Dir.Close;
-    Q_Dir.SQL.Text := 'select * from OBLAST order by lower(NAME)';
+    Q_Dir.SQL.Text := 'select * from REGION order by lower(NAME)';
     Q_Dir.Open;
     Q_Dir.FetchAll := True;
-    SGOblast.BeginUpdate;
-    SGOblast.ClearRows;
+    SGRegion.BeginUpdate;
+    SGRegion.ClearRows;
     if Q_Dir.RecordCount > 0 then
       for i := 1 to Q_Dir.RecordCount do
       begin
-        SGOblast.AddRow; // ÎÁËÀÑÒÈ
-        SGOblast.Cells[0, SGOblast.LastAddedRow] := Q_Dir.FieldValues['NAME'];
-        SGOblast.Cells[1, SGOblast.LastAddedRow] := Q_Dir.FieldValues['ID'];
+        SGRegion.AddRow; // ÎÁËÀÑÒÈ
+        SGRegion.Cells[0, SGRegion.LastAddedRow] := Q_Dir.FieldValues['NAME'];
+        SGRegion.Cells[1, SGRegion.LastAddedRow] := Q_Dir.FieldValues['ID'];
         Q_Dir.Next;
       end;
-    SGOblast.EndUpdate;
+    SGRegion.EndUpdate;
     FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
     Application.ProcessMessages;
 
     Q_Dir.Close;
-    Q_Dir.SQL.Text := 'select g.ID, g.NAME, g.NAME_ALT, g.ID_OBLAST, ' +
-      '(select o.NAME as OBLAST_NAME from OBLAST o where g.ID_OBLAST = o.ID) from CITY g order by lower(NAME)';
+    Q_Dir.SQL.Text := 'select g.ID, g.NAME, g.NAME_ALT, g.ID_REGION, ' +
+      '(select o.NAME as REGION_NAME from REGION o where g.ID_REGION = o.ID) from CITY g order by lower(NAME)';
     Q_Dir.Open;
     Q_Dir.FetchAll := True;
     SGCity.BeginUpdate;
@@ -397,8 +397,8 @@ begin
         SGCity.Cells[0, SGCity.LastAddedRow] := Q_Dir.FieldValues['NAME'];
         SGCity.Cells[1, SGCity.LastAddedRow] := Q_Dir.FieldValues['ID'];
         SGCity.Cells[2, SGCity.LastAddedRow] := VarToStr(Q_Dir.FieldValues['NAME_ALT']);
-        SGCity.Cells[3, SGCity.LastAddedRow] := VarToStr(Q_Dir.FieldValues['OBLAST_NAME']);
-        SGCity.Cells[4, SGCity.LastAddedRow] := Q_Dir.FieldValues['ID_OBLAST'];
+        SGCity.Cells[3, SGCity.LastAddedRow] := VarToStr(Q_Dir.FieldValues['REGION_NAME']);
+        SGCity.Cells[4, SGCity.LastAddedRow] := Q_Dir.FieldValues['ID_REGION'];
         Q_Dir.Next;
       end;
     SGCity.EndUpdate;
@@ -449,8 +449,8 @@ begin
     SG := SGOfficeType;
   if TsEdit(Sender).Name = 'editCountry' then
     SG := SGCountry;
-  if TsEdit(Sender).Name = 'editOblast' then
-    SG := SGOblast;
+  if TsEdit(Sender).Name = 'editRegion' then
+    SG := SGRegion;
   if TsEdit(Sender).Name = 'editCity' then
     SG := SGCity;
   if TsEdit(Sender).Name = 'editPhoneType' then
@@ -480,7 +480,7 @@ end;
 
 procedure TFormDirectory.btnEditClick(Sender: TObject);
 var
-  Name_First, Name_ALT, ID_Oblast, ID_City: string;
+  Name_First, Name_ALT, ID_Region, ID_City: string;
   QueryValues: array [0 .. 2] of string;
   DirContainer: TDirectoryContainer;
   DirCode: integer;
@@ -498,11 +498,11 @@ begin
         if DirCode in [DIR_CODE_CITY] then
         begin
           Name_ALT := Cells[2, SelectedRow];
-          ID_Oblast := Cells[4, SelectedRow];
+          ID_Region := Cells[4, SelectedRow];
         end;
       end;
 
-    if FormDirectoryQuery.ShowDirectoryQuery(DirCode, 'edit', TDirectoryData.Create(Name_First, Name_ALT, StrToIntDef(ID_Oblast, -1)),
+    if FormDirectoryQuery.ShowDirectoryQuery(DirCode, 'edit', TDirectoryData.Create(Name_First, Name_ALT, StrToIntDef(ID_Region, -1)),
       QueryValues) = True then
       Directory_EDIT(DirCode, ID_City, QueryValues);
   finally
@@ -536,7 +536,7 @@ end;
 function TFormDirectory.Directory_CREATE(DirCode: integer; Values: array of string): boolean;
 var
   Query: TIBCQuery;
-  EditControlName, Name1, Name2, ID_Oblast, SQL_select, SQL_insert, ID_NewRecord: string;
+  EditControlName, Name1, Name2, ID_Region, SQL_select, SQL_insert, ID_NewRecord: string;
   i: integer;
   DirContainer: TDirectoryContainer;
   New_Node: TTreeNode;
@@ -550,15 +550,15 @@ begin
 
   Name1 := Values[0];
   Name2 := Values[1];
-  ID_Oblast := Values[2];
+  ID_Region := Values[2];
 
   if Name1 = EmptyStr then
     exit;
 
   if DirCode in [DIR_CODE_CITY] then
   begin
-    SQL_select := Format('select ID from %s where (lower(NAME) = :NAME and ID_OBLAST = :ID_OBLAST)', [DIR_CODE_TO_TABLE[DirCode]]);
-    SQL_insert := Format('insert into %s (NAME, NAME_ALT, ID_OBLAST) values (:NAME, :NAME_ALT, :ID_OBLAST) returning ID',
+    SQL_select := Format('select ID from %s where (lower(NAME) = :NAME and ID_REGION = :ID_REGION)', [DIR_CODE_TO_TABLE[DirCode]]);
+    SQL_insert := Format('insert into %s (NAME, NAME_ALT, ID_REGION) values (:NAME, :NAME_ALT, :ID_REGION) returning ID',
       [DIR_CODE_TO_TABLE[DirCode]])
   end
   else
@@ -573,7 +573,7 @@ begin
     Query.SQL.Text := SQL_select;
     Query.ParamByName('NAME').AsString := AnsiLowerCase(Name1);
     if DirCode in [DIR_CODE_CITY] then
-      Query.ParamByName('ID_OBLAST').AsString := ID_Oblast;
+      Query.ParamByName('ID_REGION').AsString := ID_Region;
     Query.Open;
     if Query.RecordCount > 0 then
     begin
@@ -589,7 +589,7 @@ begin
     if DirCode in [DIR_CODE_CITY] then
     begin
       Query.ParamByName('NAME_ALT').AsString := Name2;
-      Query.ParamByName('ID_OBLAST').AsString := ID_Oblast;
+      Query.ParamByName('ID_REGION').AsString := ID_Region;
     end;
     try
       Query.Execute;
@@ -630,8 +630,8 @@ begin
         if DirCode in [DIR_CODE_CITY] then
         begin
           Cells[2, LastAddedRow] := Name2; // NAME_ALT
-          Cells[3, LastAddedRow] := FormEditor.GetNameByID(DIR_CODE_TO_TABLE[DIR_CODE_OBLAST], ID_Oblast); // OBLAST_TEXT
-          Cells[4, LastAddedRow] := ID_Oblast; // ID_OBLAST
+          Cells[3, LastAddedRow] := FormEditor.GetNameByID(DIR_CODE_TO_TABLE[DIR_CODE_REGION], ID_Region); // REGION_TEXT
+          Cells[4, LastAddedRow] := ID_REGION; // ID_REGION
         end;
         SelectLastRow;
       end;
@@ -675,7 +675,7 @@ end;
 function TFormDirectory.Directory_EDIT(DirCode: integer; ID_Directory: string; Values: array of string): boolean;
 var
   Query: TIBCQuery;
-  Name1, Name2, ID_Oblast, SQL_select, SQL_update, EditControlName: string;
+  Name1, Name2, ID_Region, SQL_select, SQL_update, EditControlName: string;
   i: integer;
   DirContainer: TDirectoryContainer;
   EditControl: TsComboBoxEx;
@@ -690,20 +690,20 @@ begin
 
   { DATABASE UPDATE part }
 
-  { #TODO1: IMPORTANT : if during city editing oblast_id changes then we have to update each record from BASE that used this city
-    <select ADRES from BASE where ADRES like '%#^id$%'> <while not Q.Eof update with new id_oblast> }
+  { #TODO1: IMPORTANT : if during city editing region_id changes then we have to update each record from BASE that used this city
+    <select ADRES from BASE where ADRES like '%#^id$%'> <while not Q.Eof update with new id_region> }
 
   Name1 := Values[0];
   Name2 := Values[1];
-  ID_Oblast := Values[2];
+  ID_Region := Values[2];
 
   if Trim(Name1) = EmptyStr then
     exit;
 
   if DirCode in [DIR_CODE_CITY] then
   begin
-    SQL_select := Format('select ID from %s where (lower(NAME) = :NAME and ID_OBLAST = :ID_OBLAST)', [DIR_CODE_TO_TABLE[DirCode]]);
-    SQL_update := Format('update %s set NAME = :NAME, NAME_ALT = :NAME_ALT, ID_OBLAST = :ID_OBLAST where ID = :ID',
+    SQL_select := Format('select ID from %s where (lower(NAME) = :NAME and ID_REGION = :ID_REGION)', [DIR_CODE_TO_TABLE[DirCode]]);
+    SQL_update := Format('update %s set NAME = :NAME, NAME_ALT = :NAME_ALT, ID_REGION = :ID_REGION where ID = :ID',
       [DIR_CODE_TO_TABLE[DirCode]]);
   end
   else
@@ -718,7 +718,7 @@ begin
     Query.SQL.Text := SQL_select;
     Query.ParamByName('NAME').AsString := AnsiLowerCase(Name1);
     if DirCode in [DIR_CODE_CITY] then
-      Query.ParamByName('ID_OBLAST').AsString := ID_Oblast;
+      Query.ParamByName('ID_REGION').AsString := ID_Region;
     Query.Open;
     if Query.RecordCount > 0 then
     begin
@@ -735,7 +735,7 @@ begin
     if DirCode in [DIR_CODE_CITY] then
     begin
       Query.ParamByName('NAME_ALT').AsString := Name2;
-      Query.ParamByName('ID_OBLAST').AsString := ID_Oblast;
+      Query.ParamByName('ID_REGION').AsString := ID_Region;
     end;
     try
       Query.Execute;
@@ -773,8 +773,8 @@ begin
           if DirCode in [DIR_CODE_CITY] then
           begin
             Cells[2, SelectedRow] := Name2; // NAME_ALT
-            Cells[3, SelectedRow] := FormEditor.GetNameByID(DIR_CODE_TO_TABLE[DIR_CODE_OBLAST], ID_Oblast); // OBLAST_TEXT
-            Cells[4, SelectedRow] := ID_Oblast; // ID_OBLAST
+            Cells[3, SelectedRow] := FormEditor.GetNameByID(DIR_CODE_TO_TABLE[DIR_CODE_REGION], ID_Region); // REGION_TEXT
+            Cells[4, SelectedRow] := ID_Region; // ID_REGION
           end;
         end;
       end;
@@ -800,8 +800,8 @@ begin
       with TsComboBoxEx(DirContainer.Edit_DirectoryQuery) do
         Items[Items.IndexOfObject(TObject(StrToInt(ID_Directory)))] := Name1;
 
-    // Currently this code only updates SG_CITY.OBLAST_NAME when OBLAST is edited
-    if DirCode = DIR_CODE_OBLAST then
+    // Currently this code only updates SG_CITY.REGION_NAME when REGION is edited
+    if DirCode = DIR_CODE_REGION then
     begin
       SGCity.BeginUpdate;
       for i := 0 to SGCity.RowCount - 1 do
@@ -859,9 +859,9 @@ begin
       SQL_select := 'select COUNT(*) as CNT from BASE where ADRES like ' + QuotedStr('%#@' + ID_Directory + '$%');
     DIR_CODE_COUNTRY:
       SQL_select := 'select COUNT(*) as CNT from BASE where ADRES like ' + QuotedStr('%#&' + ID_Directory + '$%');
-    DIR_CODE_OBLAST:
+    DIR_CODE_REGION:
       SQL_select := 'select SUM(c) as CNT from (select COUNT(*) c from BASE where ADRES like ' + QuotedStr('%#*' + ID_Directory + '$%') +
-        ' UNION ALL select COUNT(*) from CITY where ID_OBLAST = ' + ID_Directory + ')';
+        ' UNION ALL select COUNT(*) from CITY where ID_REGION = ' + ID_Directory + ')';
     DIR_CODE_CITY:
       SQL_select := 'select COUNT(*) as CNT from BASE where ADRES like ' + QuotedStr('%#^' + ID_Directory + '$%');
     DIR_CODE_PHONETYPE:

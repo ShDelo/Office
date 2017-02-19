@@ -1290,7 +1290,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 2
           end
-          object EditOblast1: TsComboBoxEx
+          object EditRegion1: TsComboBoxEx
             Left = 12
             Top = 100
             Width = 389
@@ -1886,7 +1886,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 2
           end
-          object EditOblast2: TsComboBoxEx
+          object EditRegion2: TsComboBoxEx
             Left = 12
             Top = 100
             Width = 389
@@ -2481,7 +2481,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 2
           end
-          object EditOblast3: TsComboBoxEx
+          object EditRegion3: TsComboBoxEx
             Left = 12
             Top = 100
             Width = 389
@@ -3076,7 +3076,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 2
           end
-          object EditOblast4: TsComboBoxEx
+          object EditRegion4: TsComboBoxEx
             Left = 12
             Top = 100
             Width = 389
@@ -3671,7 +3671,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 2
           end
-          object EditOblast5: TsComboBoxEx
+          object EditRegion5: TsComboBoxEx
             Left = 12
             Top = 100
             Width = 389
@@ -4266,7 +4266,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 2
           end
-          object EditOblast6: TsComboBoxEx
+          object EditRegion6: TsComboBoxEx
             Left = 12
             Top = 100
             Width = 389
@@ -4861,7 +4861,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 2
           end
-          object EditOblast7: TsComboBoxEx
+          object EditRegion7: TsComboBoxEx
             Left = 12
             Top = 100
             Width = 389
@@ -5456,7 +5456,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 2
           end
-          object EditOblast8: TsComboBoxEx
+          object EditRegion8: TsComboBoxEx
             Left = 12
             Top = 100
             Width = 389
@@ -6051,7 +6051,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 2
           end
-          object EditOblast9: TsComboBoxEx
+          object EditRegion9: TsComboBoxEx
             Left = 12
             Top = 100
             Width = 389
@@ -6503,8 +6503,9 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 68
             TabStop = False
+            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clBlack
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -6646,7 +6647,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             TabOrder = 2
           end
-          object EditOblast10: TsComboBoxEx
+          object EditRegion10: TsComboBoxEx
             Left = 12
             Top = 100
             Width = 389

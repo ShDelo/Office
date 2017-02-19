@@ -53,7 +53,7 @@ var
 begin
   Query := QueryCreate;
   try
-    Query.SQL.Text := 'select * from OBLAST order by lower(NAME)';
+    Query.SQL.Text := 'select * from REGION order by lower(NAME)';
     Query.Open;
     Query.FetchAll := True;
     while not Query.Eof do
@@ -79,8 +79,8 @@ begin
   begin
     if Edit3.ItemIndex = -1 then
     begin
-      { #TODO1: DESIGN : allow new oblast entry creation from here?! if olbast.text <> EmptySTR and itemIndex = -1
-        i.e oblast doesn't exist but we entered text, we can create oblast from here? }
+      { #TODO1: DESIGN : allow new region entry creation from here?! if olbast.text <> EmptySTR and itemIndex = -1
+        i.e region doesn't exist but we entered text, we can create region from here? }
       MessageBox(handle, 'Необходимо указать область для города.', 'Информация', MB_OK or MB_ICONINFORMATION);
       Edit3.SetFocus;
       exit;
@@ -144,7 +144,7 @@ begin
       Edit1.BoundLabel.Caption := 'Тип адреса:';
     DIR_CODE_COUNTRY:
       Edit1.BoundLabel.Caption := 'Страна:';
-    DIR_CODE_OBLAST:
+    DIR_CODE_REGION:
       Edit1.BoundLabel.Caption := 'Область:';
     DIR_CODE_CITY:
       begin
@@ -168,7 +168,7 @@ begin
     begin
       Edit1.Text := Data.Name1;
       Edit2.Text := Data.Name2;
-      Edit3.ItemIndex := Edit3.Items.IndexOfObject(TObject(Data.ID_oblast));
+      Edit3.ItemIndex := Edit3.Items.IndexOfObject(TObject(Data.ID_REGION));
     end;
   end
   else
