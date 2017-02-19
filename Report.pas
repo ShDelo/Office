@@ -287,9 +287,9 @@ procedure TFormReport.editSelect1Change(Sender: TObject);
     end
     else if select1.ItemIndex = 7 then
     begin { ТИП }
-      for i := 0 to Main.sgType_tmp.RowCount - 1 do
+      for i := 0 to Main.sgFirmType_tmp.RowCount - 1 do
       begin
-        select2.AddItem(Main.sgType_tmp.Cells[0, i], Pointer(StrToInt(Main.sgType_tmp.Cells[1, i])));
+        select2.AddItem(Main.sgFirmType_tmp.Cells[0, i], Pointer(StrToInt(Main.sgFirmType_tmp.Cells[1, i])));
       end;
       if select2.Items.Count > 0 then
         select2.ItemIndex := 0;
@@ -494,11 +494,11 @@ var
           Result := Result + ', ' + Main.sgRubr_tmp.Cells[0, Main.sgRubr_tmp.SelectedRow];
           list.Add(Main.sgRubr_tmp.Cells[0, Main.sgRubr_tmp.SelectedRow]);
         end;
-      if AnsiLowerCase(Field) = 'type' then
-        if Main.sgType_tmp.FindText(1, tmp, [soCaseInsensitive, soExactMatch]) then
+      if AnsiLowerCase(Field) = 'firmtype' then
+        if Main.sgFirmType_tmp.FindText(1, tmp, [soCaseInsensitive, soExactMatch]) then
         begin
-          Result := Result + ', ' + Main.sgType_tmp.Cells[0, Main.sgType_tmp.SelectedRow];
-          list.Add(Main.sgType_tmp.Cells[0, Main.sgType_tmp.SelectedRow]);
+          Result := Result + ', ' + Main.sgFirmType_tmp.Cells[0, Main.sgFirmType_tmp.SelectedRow];
+          list.Add(Main.sgFirmType_tmp.Cells[0, Main.sgFirmType_tmp.SelectedRow]);
         end;
       if AnsiLowerCase(Field) = 'napr' then
         if Main.sgNapr_tmp.FindText(1, tmp, [soCaseInsensitive, soExactMatch]) then
@@ -598,7 +598,7 @@ var
     begin // ТИП
       if select2.Items.Count = 0 then
         Exit;
-      REQ := ' (TYPE like :' + paramNO + ') and';
+      REQ := ' (FIRMTYPE like :' + paramNO + ') and';
       ID := IntToStr(integer(select2.Items.Objects[select2.ItemIndex]));
       param := '%#' + ID + '$%';
     end;
@@ -825,7 +825,7 @@ begin
       begin
         FormMain.SGAddRow(FormMain.SGGeneral, Q_GEN.FieldByName('ACTIVITY').AsInteger, Q_GEN.FieldByName('RELEVANCE').AsInteger,
           Q_GEN.FieldValues['NAME'], Q_GEN.FieldValues['CURATOR'], Q_GEN.FieldValues['DATE_ADDED'], Q_GEN.FieldValues['DATE_EDITED'],
-          Q_GEN.FieldValues['WEB'], Q_GEN.FieldValues['EMAIL'], Q_GEN.FieldValues['TYPE'], Q_GEN.FieldValues['ID'],
+          Q_GEN.FieldValues['WEB'], Q_GEN.FieldValues['EMAIL'], Q_GEN.FieldValues['FIRMTYPE'], Q_GEN.FieldValues['ID'],
           Q_GEN.FieldValues['FIO'], Q_GEN.FieldValues['RUBR']);
       end;
 
@@ -853,7 +853,7 @@ begin
         if editFormatDoc.Checked[4] then
           AddLine('    Рубрика: ' + FormatRubrNapr('RUBR', Q_GEN.FieldValues['RUBR']), clWindowText, 10, 'Times New Roman', []);
         if editFormatDoc.Checked[5] then
-          AddLine('    Тип: ' + FormatRubrNapr('TYPE', Q_GEN.FieldValues['TYPE']), clWindowText, 10, 'Times New Roman', []);
+          AddLine('    Тип: ' + FormatRubrNapr('FIRMTYPE', Q_GEN.FieldValues['FIRMTYPE']), clWindowText, 10, 'Times New Roman', []);
         if editFormatDoc.Checked[6] then
           AddLine('    Деятельность: ' + FormatRubrNapr('NAPR', Q_GEN.FieldValues['NAPRAVLENIE']), clWindowText, 10, 'Times New Roman', []);
         if editFormatDoc.Checked[7] then
@@ -904,7 +904,7 @@ begin
           XLS_SetStyle(row, 3);
           Cells[row, 4].Value := FormatRubrNapr('NAPR', Q_GEN.FieldValues['NAPRAVLENIE'], True);
           XLS_SetStyle(row, 4);
-          Cells[row, 5].Value := FormatRubrNapr('TYPE', Q_GEN.FieldValues['TYPE'], True);
+          Cells[row, 5].Value := FormatRubrNapr('FIRMTYPE', Q_GEN.FieldValues['FIRMTYPE'], True);
           XLS_SetStyle(row, 5);
           Cells[row, 6].Value := FormatRubrNapr('RUBR', Q_GEN.FieldValues['RUBR'], True);
           XLS_SetStyle(row, 6);

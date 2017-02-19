@@ -381,7 +381,7 @@ object FormEditor: TFormEditor
       OnClick = BtnDeleteCuratorFromListClick
       SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
     end
-    object BtnAddTypeToList: TsSpeedButton
+    object BtnAddFirmTypeToList: TsSpeedButton
       Left = 699
       Top = 64
       Width = 23
@@ -427,7 +427,7 @@ object FormEditor: TFormEditor
       OnClick = BtnAddCuratorToListClick
       SkinData.SkinSection = 'SPEEDBUTTON_SMALL'
     end
-    object BtnDeleteTypeFromList: TsSpeedButton
+    object BtnDeleteFirmTypeFromList: TsSpeedButton
       Left = 699
       Top = 100
       Width = 23
@@ -771,7 +771,7 @@ object FormEditor: TFormEditor
       OnExit = EditCuratorExit
       OnKeyPress = EditCuratorKeyPress
     end
-    object EditType: TsComboBoxEx
+    object EditFirmType: TsComboBoxEx
       Left = 372
       Top = 64
       Width = 321
@@ -1743,8 +1743,9 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 68
             TabStop = False
+            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clBlack
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -2338,8 +2339,9 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 68
             TabStop = False
+            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clBlack
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -2933,8 +2935,9 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 68
             TabStop = False
+            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clBlack
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -3528,8 +3531,9 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 68
             TabStop = False
+            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clBlack
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -4123,8 +4127,9 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 68
             TabStop = False
+            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clBlack
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -4718,8 +4723,9 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 68
             TabStop = False
+            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clBlack
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -5313,8 +5319,9 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 68
             TabStop = False
+            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clBlack
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -5908,8 +5915,9 @@ object FormEditor: TFormEditor
             Width = 321
             Height = 68
             TabStop = False
+            Color = clWhite
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clBlack
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
             Font.Style = []
@@ -6925,7 +6933,7 @@ object FormEditor: TFormEditor
         Width = 300
       end
     end
-    object SGType: TNextGrid
+    object SGFirmType: TNextGrid
       Left = 372
       Top = 88
       Width = 321

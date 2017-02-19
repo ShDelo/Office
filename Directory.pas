@@ -135,7 +135,7 @@ type
 
 const
   DIR_CODE_TOTAL = 8; // 0-based total number of codes
-  DIR_CODE_TO_TABLE: array [0 .. DIR_CODE_TOTAL] of string = ('curator', 'rubrikator', 'type', 'napravlenie', 'officetype', 'country',
+  DIR_CODE_TO_TABLE: array [0 .. DIR_CODE_TOTAL] of string = ('curator', 'rubrikator', 'firmtype', 'napravlenie', 'officetype', 'country',
     'region', 'city', 'phonetype');
   DIR_CODE_CURATOR = 0;
   DIR_CODE_RUBRIKA = 1;
@@ -192,7 +192,7 @@ begin
       begin
         self.SG_Main := main.sgCurator_tmp;
         self.SG_Directory := FormDirectory.SGFirmType;
-        self.Edit_Editor := FormEditor.EditType;
+        self.Edit_Editor := FormEditor.EditFirmType;
         self.Edit_DirectoryQuery := nil;
         self.IsAdresEdits := False;
       end;
@@ -306,11 +306,11 @@ begin
 
   SGFirmType.BeginUpdate;
   SGFirmType.ClearRows;
-  for i := 0 to Main.sgType_tmp.RowCount - 1 do
+  for i := 0 to Main.sgFirmType_tmp.RowCount - 1 do
   begin
     SGFirmType.AddRow; // “»œ€ ‘»–Ã
-    SGFirmType.Cells[0, SGFirmType.LastAddedRow] := Main.sgType_tmp.Cells[0, i];
-    SGFirmType.Cells[1, SGFirmType.LastAddedRow] := Main.sgType_tmp.Cells[1, i];
+    SGFirmType.Cells[0, SGFirmType.LastAddedRow] := Main.sgFirmType_tmp.Cells[0, i];
+    SGFirmType.Cells[1, SGFirmType.LastAddedRow] := Main.sgFirmType_tmp.Cells[1, i];
   end;
   SGFirmType.EndUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
@@ -852,7 +852,7 @@ begin
     DIR_CODE_RUBRIKA:
       SQL_select := 'select COUNT(*) as CNT from BASE where RUBR like ' + QuotedStr('%#' + ID_Directory + '$%');
     DIR_CODE_FIRMTYPE:
-      SQL_select := 'select COUNT(*) as CNT from BASE where TYPE like ' + QuotedStr('%#' + ID_Directory + '$%');
+      SQL_select := 'select COUNT(*) as CNT from BASE where FIRMTYPE like ' + QuotedStr('%#' + ID_Directory + '$%');
     DIR_CODE_NAPRAVLENIE:
       SQL_select := 'select COUNT(*) as CNT from BASE where NAPRAVLENIE like ' + QuotedStr('%#' + ID_Directory + '$%');
     DIR_CODE_OFFICETYPE:

@@ -158,7 +158,7 @@ type
 var
   FormMain: TFormMain;
   AppPath: string;
-  sgCurator_tmp, sgType_tmp, sgRubr_tmp, sgNapr_tmp: TNextGrid;
+  sgCurator_tmp, sgFirmType_tmp, sgRubr_tmp, sgNapr_tmp: TNextGrid;
   IniMain: TIniFile;
   LoadSGonRubrChange: Boolean;
 
@@ -417,17 +417,17 @@ begin
     sgRubr_tmp.Columns[0].Sorted := True;
   end;
   sgRubr_tmp.ClearRows;
-  if not Assigned(sgType_tmp) then
+  if not Assigned(sgFirmType_tmp) then
   begin
-    sgType_tmp := TNextGrid.Create(FormMain);
-    sgType_tmp.Parent := FormMain;
-    sgType_tmp.Visible := False;
-    sgType_tmp.Columns.Add(TNxTextColumn, 'Название');
-    sgType_tmp.Columns.Add(TNxTextColumn, 'ID');
-    sgType_tmp.Columns[0].SortType := stAlphabetic;
-    sgType_tmp.Columns[0].Sorted := True;
+    sgFirmType_tmp := TNextGrid.Create(FormMain);
+    sgFirmType_tmp.Parent := FormMain;
+    sgFirmType_tmp.Visible := False;
+    sgFirmType_tmp.Columns.Add(TNxTextColumn, 'Название');
+    sgFirmType_tmp.Columns.Add(TNxTextColumn, 'ID');
+    sgFirmType_tmp.Columns[0].SortType := stAlphabetic;
+    sgFirmType_tmp.Columns[0].Sorted := True;
   end;
-  sgType_tmp.ClearRows;
+  sgFirmType_tmp.ClearRows;
   if not Assigned(sgNapr_tmp) then
   begin
     sgNapr_tmp := TNextGrid.Create(FormMain);
@@ -477,20 +477,20 @@ begin
   sgCurator_tmp.EndUpdate;
   Application.ProcessMessages;
   Q_LTT.Close;
-  Q_LTT.SQL.Text := 'select * from TYPE';
+  Q_LTT.SQL.Text := 'select * from FIRMTYPE';
   Q_LTT.Open;
   Q_LTT.FetchAll := True;
-  sgType_tmp.BeginUpdate;
+  sgFirmType_tmp.BeginUpdate;
   FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
   for i := 1 to Q_LTT.RecordCount do
   begin
-    sgType_tmp.AddRow;
-    sgType_tmp.Cells[0, sgType_tmp.LastAddedRow] := Q_LTT.FieldValues['NAME'];
-    sgType_tmp.Cells[1, sgType_tmp.LastAddedRow] := Q_LTT.FieldValues['ID'];
+    sgFirmType_tmp.AddRow;
+    sgFirmType_tmp.Cells[0, sgFirmType_tmp.LastAddedRow] := Q_LTT.FieldValues['NAME'];
+    sgFirmType_tmp.Cells[1, sgFirmType_tmp.LastAddedRow] := Q_LTT.FieldValues['ID'];
     Q_LTT.Next;
   end;
-  sgType_tmp.Resort;
-  sgType_tmp.EndUpdate;
+  sgFirmType_tmp.Resort;
+  sgFirmType_tmp.EndUpdate;
   Application.ProcessMessages;
   Q_LTT.Close;
   Q_LTT.SQL.Text := 'select * from NAPRAVLENIE';
@@ -614,7 +614,7 @@ begin
   sgCurator_tmp.Free;
   sgNapr_tmp.Free;
   sgRubr_tmp.Free;
-  sgType_tmp.Free;
+  sgFirmType_tmp.Free;
   IniSaveMain;
   WriteLog('* Завершение программы *');
 end;
@@ -863,8 +863,8 @@ begin
     delete(fType, 1, length(s));
     delete(s, 1, 1);
     delete(s, length(s), 1);
-    if sgType_tmp.FindText(1, s, [soCaseInsensitive, soExactMatch]) then
-      Typ := Typ + ', ' + sgType_tmp.Cells[0, sgType_tmp.SelectedRow];
+    if sgFirmType_tmp.FindText(1, s, [soCaseInsensitive, soExactMatch]) then
+      Typ := Typ + ', ' + sgFirmType_tmp.Cells[0, sgFirmType_tmp.SelectedRow];
     if length(Typ) > 0 then
       if Typ[1] = ',' then
         delete(Typ, 1, 2);
@@ -934,7 +934,7 @@ begin
     begin
       SGAddRow(SGGeneral, IBQuery1.FieldByName('ACTIVITY').AsInteger, IBQuery1.FieldByName('RELEVANCE').AsInteger,
         IBQuery1.FieldValues['NAME'], IBQuery1.FieldValues['CURATOR'], IBQuery1.FieldValues['DATE_ADDED'],
-        IBQuery1.FieldValues['DATE_EDITED'], IBQuery1.FieldValues['WEB'], IBQuery1.FieldValues['EMAIL'], IBQuery1.FieldValues['TYPE'],
+        IBQuery1.FieldValues['DATE_EDITED'], IBQuery1.FieldValues['WEB'], IBQuery1.FieldValues['EMAIL'], IBQuery1.FieldValues['FIRMTYPE'],
         IBQuery1.FieldValues['ID'], IBQuery1.FieldValues['FIO'], IBQuery1.FieldValues['RUBR']);
       IBQuery1.Next;
     end;
@@ -1795,7 +1795,8 @@ begin
       SGAddRow(SGGeneral, QuerySearch.FieldByName('ACTIVITY').AsInteger, QuerySearch.FieldByName('RELEVANCE').AsInteger,
         QuerySearch.FieldValues['NAME'], QuerySearch.FieldValues['CURATOR'], QuerySearch.FieldValues['DATE_ADDED'],
         QuerySearch.FieldValues['DATE_EDITED'], QuerySearch.FieldValues['WEB'], QuerySearch.FieldValues['EMAIL'],
-        QuerySearch.FieldValues['TYPE'], QuerySearch.FieldValues['ID'], QuerySearch.FieldValues['FIO'], QuerySearch.FieldValues['RUBR']);
+        QuerySearch.FieldValues['FIRMTYPE'], QuerySearch.FieldValues['ID'], QuerySearch.FieldValues['FIO'],
+        QuerySearch.FieldValues['RUBR']);
       QuerySearch.Next;
     end;
     SGGeneral.Resort;
@@ -1845,7 +1846,7 @@ end;
 procedure TFormMain.BtnDirectoryClick(Sender: TObject);
 begin
   WriteLog('TFormMain.BtnDirectoryClick: редактирование директорий');
-//  DisableAllForms('FormDirectory');
+  // DisableAllForms('FormDirectory');
   FormDirectory.Show;
 end;
 

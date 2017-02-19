@@ -169,9 +169,9 @@ begin
   end
   else if editFilter.ItemIndex = 4 then
   begin // рхош
-    for i := 0 to Main.sgType_tmp.RowCount - 1 do
+    for i := 0 to Main.sgFirmType_tmp.RowCount - 1 do
     begin
-      editFilterData.AddItem(Main.sgType_tmp.Cells[0, i], Pointer(StrToInt(Main.sgType_tmp.Cells[1, i])));
+      editFilterData.AddItem(Main.sgFirmType_tmp.Cells[0, i], Pointer(StrToInt(Main.sgFirmType_tmp.Cells[1, i])));
     end;
   end
   else if editFilter.ItemIndex = 5 then
@@ -446,7 +446,7 @@ var
     end
     else if editFilter.ItemIndex = 4 then
     begin // рхо
-      REQ := 'select * from BASE where TYPE like :param order by lower(NAME)';
+      REQ := 'select * from BASE where FIRMTYPE like :param order by lower(NAME)';
       param := '%#' + ID + '$%';
     end
     else if editFilter.ItemIndex = 5 then
@@ -587,7 +587,7 @@ begin
       begin
         FormMain.SGAddRow(FormMain.SGGeneral, Q_GEN.FieldByName('ACTIVITY').AsInteger, Q_GEN.FieldByName('RELEVANCE').AsInteger,
           Q_GEN.FieldValues['NAME'], Q_GEN.FieldValues['CURATOR'], Q_GEN.FieldValues['DATE_ADDED'], Q_GEN.FieldValues['DATE_EDITED'],
-          Q_GEN.FieldValues['WEB'], Q_GEN.FieldValues['EMAIL'], Q_GEN.FieldValues['TYPE'], Q_GEN.FieldValues['ID'],
+          Q_GEN.FieldValues['WEB'], Q_GEN.FieldValues['EMAIL'], Q_GEN.FieldValues['FIRMTYPE'], Q_GEN.FieldValues['ID'],
           Q_GEN.FieldValues['FIO'], Q_GEN.FieldValues['RUBR']);
       end;
 

@@ -28,7 +28,7 @@ type
     EditFIO: TsEdit;
     EditCurator: TsComboBoxEx;
     EditRubr: TsComboBoxEx;
-    EditType: TsComboBoxEx;
+    EditFirmType: TsComboBoxEx;
     EditNapravlenie: TsComboBoxEx;
     sPageControl1: TsPageControl;
     sTabSheet1: TsTabSheet;
@@ -151,8 +151,8 @@ type
     BtnCancel: TsButton;
     BtnAddCuratorToList: TsSpeedButton;
     BtnDeleteCuratorFromList: TsSpeedButton;
-    BtnAddTypeToList: TsSpeedButton;
-    BtnDeleteTypeFromList: TsSpeedButton;
+    BtnAddFirmTypeToList: TsSpeedButton;
+    BtnDeleteFirmTypeFromList: TsSpeedButton;
     EditPhoneType1: TsComboBoxEx;
     SGPhone1: TNextGrid;
     NxTextColumn9: TNxTextColumn;
@@ -244,7 +244,7 @@ type
     NxTextColumn21: TNxTextColumn;
     SGWeb: TNextGrid;
     NxTextColumn19: TNxTextColumn;
-    SGType: TNextGrid;
+    SGFirmType: TNextGrid;
     NxTextColumn7: TNxTextColumn;
     NxTextColumn8: TNxTextColumn;
     SGCurator: TNextGrid;
@@ -448,8 +448,8 @@ begin
     Adding(SGCurator, EditCurator);
   if TsSpeedButton(Sender).Name = 'BtnAddRubrToList' then
     Adding(SGRubr, EditRubr);
-  if TsSpeedButton(Sender).Name = 'BtnAddTypeToList' then
-    Adding(SGType, EditType);
+  if TsSpeedButton(Sender).Name = 'BtnAddFirmTypeToList' then
+    Adding(SGFirmType, EditFirmType);
   if TsSpeedButton(Sender).Name = 'BtnAddNaprToList' then
     Adding(SGNapravlenie, EditNapravlenie);
 end;
@@ -463,8 +463,8 @@ begin
     sg := SGCurator;
   if TsSpeedButton(Sender).Name = 'BtnDeleteRubrFromList' then
     sg := SGRubr;
-  if TsSpeedButton(Sender).Name = 'BtnDeleteTypeFromList' then
-    sg := SGType;
+  if TsSpeedButton(Sender).Name = 'BtnDeleteFirmTypeFromList' then
+    sg := SGFirmType;
   if TsSpeedButton(Sender).Name = 'BtnDeleteNaprFromList' then
     sg := SGNapravlenie;
   if TsSpeedButton(Sender).Name = 'BtnDeleteWebFromList' then
@@ -557,8 +557,8 @@ begin
       BtnAddCuratorToListClick(BtnAddCuratorToList);
     if TsComboBoxEx(Sender).Name = 'EditRubr' then
       BtnAddCuratorToListClick(BtnAddRubrToList);
-    if TsComboBoxEx(Sender).Name = 'EditType' then
-      BtnAddCuratorToListClick(BtnAddTypeToList);
+    if TsComboBoxEx(Sender).Name = 'EditFirmType' then
+      BtnAddCuratorToListClick(BtnAddFirmTypeToList);
     if TsComboBoxEx(Sender).Name = 'EditNapravlenie' then
     begin
       BtnAddCuratorToListClick(BtnAddNaprToList); // EditNapravlenie.DroppedDown := False;
@@ -596,8 +596,8 @@ begin
     EditCurator.Text := ''
   else if TsComboBoxEx(Sender).Name = 'EditRubr' then
     EditRubr.Text := ''
-  else if TsComboBoxEx(Sender).Name = 'EditType' then
-    EditType.Text := ''
+  else if TsComboBoxEx(Sender).Name = 'EditFirmType' then
+    EditFirmType.Text := ''
   else if TsComboBoxEx(Sender).Name = 'EditNapravlenie' then
     EditNapravlenie.Text := ''
   else if TsEdit(Sender).Name = 'EditWEB' then
@@ -615,8 +615,8 @@ begin
       BtnDeleteCuratorFromListClick(BtnDeleteCuratorFromList);
     if TNextGrid(Sender).Name = 'SGRubr' then
       BtnDeleteCuratorFromListClick(BtnDeleteRubrFromList);
-    if TNextGrid(Sender).Name = 'SGType' then
-      BtnDeleteCuratorFromListClick(BtnDeleteTypeFromList);
+    if TNextGrid(Sender).Name = 'SGFirmType' then
+      BtnDeleteCuratorFromListClick(BtnDeleteFirmTypeFromList);
     if TNextGrid(Sender).Name = 'SGNapravlenie' then
       BtnDeleteCuratorFromListClick(BtnDeleteNaprFromList);
     if TNextGrid(Sender).Name = 'SGWeb' then
@@ -651,8 +651,8 @@ begin
       SGCuratorDblClick(SGCurator);
     if TNextGrid(Sender).Name = 'SGRubr' then
       SGCuratorDblClick(SGRubr);
-    if TNextGrid(Sender).Name = 'SGType' then
-      SGCuratorDblClick(SGType);
+    if TNextGrid(Sender).Name = 'SGFirmType' then
+      SGCuratorDblClick(SGFirmType);
     if TNextGrid(Sender).Name = 'SGNapravlenie' then
       SGCuratorDblClick(SGNapravlenie);
     if TNextGrid(Sender).Name = 'SGWeb' then
@@ -689,8 +689,8 @@ begin
     Editing(SGCurator, EditCurator);
   if TNextGrid(Sender).Name = 'SGRubr' then
     Editing(SGRubr, EditRubr);
-  if TNextGrid(Sender).Name = 'SGType' then
-    Editing(SGType, EditType);
+  if TNextGrid(Sender).Name = 'SGFirmType' then
+    Editing(SGFirmType, EditFirmType);
   if TNextGrid(Sender).Name = 'SGNapravlenie' then
     Editing(SGNapravlenie, EditNapravlenie);
   if TNextGrid(Sender).Name = 'SGWeb' then
@@ -831,11 +831,11 @@ begin
     Application.ProcessMessages;
 
     Buffer.Clear; // ТИП
-    for i := 0 to Main.sgType_tmp.RowCount - 1 do
+    for i := 0 to Main.sgFirmType_tmp.RowCount - 1 do
     begin
-      Buffer.AddObject(Main.sgType_tmp.Cells[0, i], TObject(StrToInt(Main.sgType_tmp.Cells[1, i])));
+      Buffer.AddObject(Main.sgFirmType_tmp.Cells[0, i], TObject(StrToInt(Main.sgFirmType_tmp.Cells[1, i])));
     end;
-    EditType.Items := Buffer;
+    EditFirmType.Items := Buffer;
     FormLogo.sGauge1.Progress := FormLogo.sGauge1.Progress + 1;
     Application.ProcessMessages;
 
@@ -1000,9 +1000,9 @@ begin
     if component.Name = 'SGRubr' then
       if Main.sgRubr_tmp.FindText(1, id, [soCaseInsensitive, soExactMatch]) then
         tmp := tmp + '#' + Main.sgRubr_tmp.Cells[1, Main.sgRubr_tmp.SelectedRow] + '$';
-    if component.Name = 'SGType' then
-      if Main.sgType_tmp.FindText(1, id, [soCaseInsensitive, soExactMatch]) then
-        tmp := tmp + '#' + Main.sgType_tmp.Cells[1, Main.sgType_tmp.SelectedRow] + '$';
+    if component.Name = 'SGFirmType' then
+      if Main.sgFirmType_tmp.FindText(1, id, [soCaseInsensitive, soExactMatch]) then
+        tmp := tmp + '#' + Main.sgFirmType_tmp.Cells[1, Main.sgFirmType_tmp.SelectedRow] + '$';
     if component.Name = 'SGNapravlenie' then
       if Main.sgNapr_tmp.FindText(1, id, [soCaseInsensitive, soExactMatch]) then
         tmp := tmp + '#' + Main.sgNapr_tmp.Cells[1, Main.sgNapr_tmp.SelectedRow] + '$';
@@ -1043,7 +1043,7 @@ begin
   lblID.Caption := '';
   SGCurator.ClearRows;
   SGRubr.ClearRows;
-  SGType.ClearRows;
+  SGFirmType.ClearRows;
   SGNapravlenie.ClearRows;
   SGWeb.ClearRows;
   SGEMail.ClearRows;
@@ -1054,7 +1054,7 @@ begin
   EditFIO.Text := '';
   ClearEdit(EditCurator);
   ClearEdit(EditRubr);
-  ClearEdit(EditType);
+  ClearEdit(EditFirmType);
   ClearEdit(EditNapravlenie);
   EditWEB.Text := '';
   EditEMAIL.Text := '';
@@ -1234,15 +1234,15 @@ begin
   EditFIO.Text := UpperFirst(EditFIO.Text);
   FormMain.IBQuery1.Close;
   FormMain.IBQuery1.SQL.Text :=
-    'insert into BASE (ACTIVITY,RELEVANCE,NAME,FIO,CURATOR,RUBR,TYPE,NAPRAVLENIE,WEB,EMAIL,ADRES,PHONES,DATE_ADDED,DATE_EDITED,RELATIONS) values '
-    + '(:ACTIVITY,:RELEVANCE,:NAME,:FIO,:CURATOR,:RUBR,:TYPE,:NAPRAVLENIE,:WEB,:EMAIL,:ADRES,:PHONES,:DATE_ADDED,:DATE_EDITED,:RELATIONS) returning ID';
+    'insert into BASE (ACTIVITY,RELEVANCE,NAME,FIO,CURATOR,RUBR,FIRMTYPE,NAPRAVLENIE,WEB,EMAIL,ADRES,PHONES,DATE_ADDED,DATE_EDITED,RELATIONS) values '
+    + '(:ACTIVITY,:RELEVANCE,:NAME,:FIO,:CURATOR,:RUBR,:FIRMTYPE,:NAPRAVLENIE,:WEB,:EMAIL,:ADRES,:PHONES,:DATE_ADDED,:DATE_EDITED,:RELATIONS) returning ID';
   FormMain.IBQuery1.ParamByName('ACTIVITY').AsBoolean := CBActivity.Checked;
   FormMain.IBQuery1.ParamByName('RELEVANCE').AsBoolean := cbDataRelevance.Checked;
   FormMain.IBQuery1.ParamByName('NAME').AsString := EditName.Text;
   FormMain.IBQuery1.ParamByName('FIO').AsString := EditFIO.Text;
   FormMain.IBQuery1.ParamByName('CURATOR').AsString := GetIDString(SGCurator);
   FormMain.IBQuery1.ParamByName('RUBR').AsString := GetIDString(SGRubr);
-  FormMain.IBQuery1.ParamByName('TYPE').AsString := GetIDString(SGType);
+  FormMain.IBQuery1.ParamByName('FIRMTYPE').AsString := GetIDString(SGFirmType);
   FormMain.IBQuery1.ParamByName('NAPRAVLENIE').AsString := GetIDString(SGNapravlenie);
   FormMain.IBQuery1.ParamByName('WEB').AsString := GetWebEmailString(SGWeb);
   FormMain.IBQuery1.ParamByName('EMAIL').AsString := GetWebEmailString(SGEMail);
@@ -1457,11 +1457,11 @@ procedure TFormEditor.PrepareEditRecord(id: string);
           name := Main.sgRubr_tmp.Cells[0, Main.sgRubr_tmp.SelectedRow];
           id := Main.sgRubr_tmp.Cells[1, Main.sgRubr_tmp.SelectedRow];
         end;
-      if component.Name = 'SGType' then
-        if Main.sgType_tmp.FindText(1, tmp, [soCaseInsensitive, soExactMatch]) then
+      if component.Name = 'SGFirmType' then
+        if Main.sgFirmType_tmp.FindText(1, tmp, [soCaseInsensitive, soExactMatch]) then
         begin
-          name := Main.sgType_tmp.Cells[0, Main.sgType_tmp.SelectedRow];
-          id := Main.sgType_tmp.Cells[1, Main.sgType_tmp.SelectedRow];
+          name := Main.sgFirmType_tmp.Cells[0, Main.sgFirmType_tmp.SelectedRow];
+          id := Main.sgFirmType_tmp.Cells[1, Main.sgFirmType_tmp.SelectedRow];
         end;
       if component.Name = 'SGNapravlenie' then
         if Main.sgNapr_tmp.FindText(1, tmp, [soCaseInsensitive, soExactMatch]) then
@@ -1521,8 +1521,8 @@ begin
     list_GC_IDs.Add('CURATOR=' + FormMain.IBQuery1.FieldValues['CURATOR']);
   if FormMain.IBQuery1.FieldValues['RUBR'] <> null then
     list_GC_IDs.Add('RUBRIKATOR=' + FormMain.IBQuery1.FieldValues['RUBR']);
-  if FormMain.IBQuery1.FieldValues['TYPE'] <> null then
-    list_GC_IDs.Add('TYPE=' + FormMain.IBQuery1.FieldValues['TYPE']);
+  if FormMain.IBQuery1.FieldValues['FIRMTYPE'] <> null then
+    list_GC_IDs.Add('FIRMTYPE=' + FormMain.IBQuery1.FieldValues['FIRMTYPE']);
   if FormMain.IBQuery1.FieldValues['NAPRAVLENIE'] <> null then
     list_GC_IDs.Add('NAPRAVLENIE=' + FormMain.IBQuery1.FieldValues['NAPRAVLENIE']);
   if FormMain.IBQuery1.FieldValues['ADRES'] <> null then
@@ -1544,8 +1544,8 @@ begin
     LoadDataToGrids(SGCurator, FormMain.IBQuery1.FieldValues['CURATOR']);
   if FormMain.IBQuery1.FieldValues['RUBR'] <> null then
     LoadDataToGrids(SGRubr, FormMain.IBQuery1.FieldValues['RUBR']);
-  if FormMain.IBQuery1.FieldValues['TYPE'] <> null then
-    LoadDataToGrids(SGType, FormMain.IBQuery1.FieldValues['TYPE']);
+  if FormMain.IBQuery1.FieldValues['FIRMTYPE'] <> null then
+    LoadDataToGrids(SGFirmType, FormMain.IBQuery1.FieldValues['FIRMTYPE']);
   if FormMain.IBQuery1.FieldValues['NAPRAVLENIE'] <> null then
     LoadDataToGrids(SGNapravlenie, FormMain.IBQuery1.FieldValues['NAPRAVLENIE']);
   if FormMain.IBQuery1.FieldValues['WEB'] <> null then
@@ -1716,14 +1716,14 @@ begin
   FormMain.IBQuery1.Close;
   NewRubr := GetIDString(SGRubr);
   FormMain.IBQuery1.SQL.Text := 'update BASE set ACTIVITY=:ACTIVITY,RELEVANCE=:RELEVANCE,NAME=:NAME,FIO=:FIO,CURATOR=:CURATOR,' +
-    'RUBR=:RUBR,TYPE=:TYPE,NAPRAVLENIE=:NAPRAVLENIE,WEB=:WEB,EMAIL=:EMAIL,ADRES=:ADRES,PHONES=:PHONES,DATE_EDITED=:DATE_EDITED,RELATIONS=:RELATIONS where ID=:ID';
+    'RUBR=:RUBR,FIRMTYPE=:FIRMTYPE,NAPRAVLENIE=:NAPRAVLENIE,WEB=:WEB,EMAIL=:EMAIL,ADRES=:ADRES,PHONES=:PHONES,DATE_EDITED=:DATE_EDITED,RELATIONS=:RELATIONS where ID=:ID';
   FormMain.IBQuery1.ParamByName('ACTIVITY').AsBoolean := CBActivity.Checked;
   FormMain.IBQuery1.ParamByName('RELEVANCE').AsBoolean := cbDataRelevance.Checked;
   FormMain.IBQuery1.ParamByName('NAME').AsString := EditName.Text;
   FormMain.IBQuery1.ParamByName('FIO').AsString := EditFIO.Text;
   FormMain.IBQuery1.ParamByName('CURATOR').AsString := GetIDString(SGCurator);
   FormMain.IBQuery1.ParamByName('RUBR').AsString := NewRubr;
-  FormMain.IBQuery1.ParamByName('TYPE').AsString := GetIDString(SGType);
+  FormMain.IBQuery1.ParamByName('FIRMTYPE').AsString := GetIDString(SGFirmType);
   FormMain.IBQuery1.ParamByName('NAPRAVLENIE').AsString := GetIDString(SGNapravlenie);
   FormMain.IBQuery1.ParamByName('WEB').AsString := GetWebEmailString(SGWeb);
   FormMain.IBQuery1.ParamByName('EMAIL').AsString := GetWebEmailString(SGEMail);
@@ -1763,8 +1763,8 @@ begin
 
     DoGarbageCollection(lblID.Caption, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], GetIDString(sgCurator), Main.sgCurator_tmp,
       FormDirectory.SGCurator, EditCurator, 'edit');
-    DoGarbageCollection(lblID.Caption, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], GetIDString(SGType), Main.sgType_tmp,
-      FormDirectory.SGFirmType, EditType, 'edit');
+    DoGarbageCollection(lblID.Caption, 'FIRMTYPE', 'FIRMTYPE', list_GC_IDs.Values['FIRMTYPE'], GetIDString(SGFirmType), Main.sgFirmType_tmp,
+      FormDirectory.SGFirmType, EditFirmType, 'edit');
     DoGarbageCollection(lblID.Caption, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'], GetIDString(SGNapravlenie),
       Main.sgNapr_tmp, FormDirectory.SGNapr, EditNapravlenie, 'edit');
 
@@ -1864,8 +1864,8 @@ begin
     list_GC_IDs.Add('CURATOR=' + Q.FieldValues['CURATOR']);
   if Q.FieldValues['RUBR'] <> null then
     list_GC_IDs.Add('RUBRIKATOR=' + Q.FieldValues['RUBR']);
-  if Q.FieldValues['TYPE'] <> null then
-    list_GC_IDs.Add('TYPE=' + Q.FieldValues['TYPE']);
+  if Q.FieldValues['FIRMTYPE'] <> null then
+    list_GC_IDs.Add('FIRMTYPE=' + Q.FieldValues['FIRMTYPE']);
   if Q.FieldValues['NAPRAVLENIE'] <> null then
     list_GC_IDs.Add('NAPRAVLENIE=' + Q.FieldValues['NAPRAVLENIE']);
   if Q.FieldValues['ADRES'] <> null then
@@ -1880,8 +1880,8 @@ begin
     // DO Garbage Collection
     DoGarbageCollection(id, 'CURATOR', 'CURATOR', list_GC_IDs.Values['CURATOR'], EmptyStr, Main.sgCurator_tmp, FormDirectory.SGCurator,
       EditCurator, 'delete');
-    DoGarbageCollection(id, 'TYPE', 'TYPE', list_GC_IDs.Values['TYPE'], EmptyStr, Main.sgType_tmp, FormDirectory.SGFirmType, EditType,
-      'delete');
+    DoGarbageCollection(id, 'FIRMTYPE', 'FIRMTYPE', list_GC_IDs.Values['FIRMTYPE'], EmptyStr, Main.sgFirmType_tmp, FormDirectory.SGFirmType,
+      EditFirmType, 'delete');
     DoGarbageCollection(id, 'NAPRAVLENIE', 'NAPRAVLENIE', list_GC_IDs.Values['NAPRAVLENIE'], EmptyStr, Main.sgNapr_tmp,
       FormDirectory.SGNapr, EditNapravlenie, 'delete');
 
@@ -1936,11 +1936,11 @@ begin
       result := true;
       listNewRecords.Add('Рубрика: ' + SGRubr.Cells[0, i]);
     end;
-  for i := 0 to SGType.RowCount - 1 do
-    if SGType.Cells[1, i] = '' then
+  for i := 0 to SGFirmType.RowCount - 1 do
+    if SGFirmType.Cells[1, i] = '' then
     begin
       result := true;
-      listNewRecords.Add('Тип фирмы: ' + SGType.Cells[0, i]);
+      listNewRecords.Add('Тип фирмы: ' + SGFirmType.Cells[0, i]);
     end;
   { for i := 0 to SGNapravlenie.RowCount - 1 do
     if SGNapravlenie.Cells[1, i] = '' then
@@ -2026,10 +2026,10 @@ var
       SGRubr.Cells[1, i] := id; { i = счетчик из основной процедуры }
       EditRubr.AddItem(Value, Pointer(StrToInt(id)));
     end;
-    if AnsiLowerCase(table) = 'type' then
+    if AnsiLowerCase(table) = 'firmtype' then
     begin
-      SGType.Cells[1, i] := id;
-      EditType.AddItem(Value, Pointer(StrToInt(id)));
+      SGFirmType.Cells[1, i] := id;
+      EditFirmType.AddItem(Value, Pointer(StrToInt(id)));
     end;
     if AnsiLowerCase(table) = 'napravlenie' then
     begin
@@ -2076,10 +2076,10 @@ begin
       AddingNewRec('RUBRIKATOR', SGRubr.Cells[0, i], Main.sgRubr_tmp, FormDirectory.SGRubr);
       isNewRubr := True;
     end;
-  for i := 0 to SGType.RowCount - 1 do
-    if SGType.Cells[1, i] = '' then
+  for i := 0 to SGFirmType.RowCount - 1 do
+    if SGFirmType.Cells[1, i] = '' then
     begin
-      AddingNewRec('TYPE', SGType.Cells[0, i], Main.sgType_tmp, FormDirectory.SGFirmType);
+      AddingNewRec('FIRMTYPE', SGFirmType.Cells[0, i], Main.sgFirmType_tmp, FormDirectory.SGFirmType);
     end;
   for i := 0 to SGNapravlenie.RowCount - 1 do
     if SGNapravlenie.Cells[1, i] = '' then
