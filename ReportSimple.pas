@@ -139,7 +139,7 @@ begin
   else if editFilter.ItemIndex = 1 then
   begin // √Œ–Œƒ¿
     Q.Close;
-    Q.SQL.Text := 'select * from GOROD';
+    Q.SQL.Text := 'select * from CITY';
     Q.Open;
     Q.FetchAll := True;
     for i := 1 to Q.RecordCount do
@@ -347,13 +347,13 @@ var
         if trim(list2[3]) <> '' then
           adres := list2[3] + ', '; // ZIP
         if trim(city_str) <> '' then
-          adres := adres + FormEditor.GetNameByID('GOROD', city_str) + ','; // CITY
+          adres := adres + FormEditor.GetNameByID('CITY', city_str) + ','; // CITY
         if trim(adres) <> '' then
           AddLine(adres, clWindowText, 10, 'Times New Roman', []);
         if trim(list2[4]) <> '' then
           AddLine(list2[4], clWindowText, 10, 'Times New Roman', []);
         { adres := adres + Format('%s, %s, %s,',
-          [FormEditor.GetNameByID('COUNTRY',country_str),FormEditor.GetNameByID('GOROD',city_str),list2[4]]);
+          [FormEditor.GetNameByID('COUNTRY',country_str),FormEditor.GetNameByID('CITY',city_str),list2[4]]);
           if Trim(adres) <> ', , ,' then AddLine(adres,clWindowText,10,'Times New Roman',[],); }
         if trim(tmp) <> '' then
           AddLine(tmp, clWindowText, 10, 'Times New Roman', [fsItalic]);

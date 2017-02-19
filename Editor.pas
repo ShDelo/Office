@@ -299,7 +299,7 @@ type
     procedure CreateParams(var Params: TCreateParams); override;
   end;
 
-  procedure ClearEdit(Edit: TsComboBoxEx);
+procedure ClearEdit(Edit: TsComboBoxEx);
 
 var
   FormEditor: TFormEditor;
@@ -894,7 +894,7 @@ begin
     Application.ProcessMessages;
 
     Q.Close; // √Œ–Œƒ¿
-    Q.SQL.Text := 'select * from GOROD order by lower(NAME)';
+    Q.SQL.Text := 'select * from CITY order by lower(NAME)';
     Q.Open;
     Q.FetchAll := True;
     Buffer.Clear;
@@ -1077,6 +1077,7 @@ begin
   list_GC_IDs.Clear;
 end;
 
+{ #TODO1: IMPORTANT : Still need to somehow let user know that entered values to country,oblast,city controls are not valid }
 procedure TFormEditor.AddRecord(Sender: TObject);
 var
   str, phones: TStrings;
@@ -2045,7 +2046,7 @@ var
       if AnsiLowerCase(table) = 'oblast' then
       for z := 1 to 10 do
       TsComboBoxEx(FindComponent('EditOblast' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
-      if AnsiLowerCase(table) = 'gorod' then
+      if AnsiLowerCase(table) = 'city' then
       for z := 1 to 10 do
       TsComboBoxEx(FindComponent('EditCity' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id))); }
     if sg_Main <> nil then
@@ -2099,7 +2100,7 @@ begin
       AddingNewRec('OBLAST', UpperFirst(edit.Text), nil, FormDirectory.SGOblast);
       edit := TsComboBoxEx(FindComponent('EditCity' + IntToStr(x)));
       if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
-      AddingNewRec('GOROD', UpperFirst(edit.Text), nil, FormDirectory.SGCity); }
+      AddingNewRec('CITY', UpperFirst(edit.Text), nil, FormDirectory.SGCity); }
   end;
   if isNewRubr then
     FormMain.TVRubrikator.CustomSort(@main.CustomSortProc, 0, True);
@@ -2540,7 +2541,7 @@ var
       else
         nActive := 0;
 
-      QueryUpdate.SQL.Text := 'update GOROD set ACTIVITY = :ACTIVITY where ID = :ID';
+      QueryUpdate.SQL.Text := 'update CITY set ACTIVITY = :ACTIVITY where ID = :ID';
       QueryUpdate.ParamByName('ACTIVITY').AsInteger := nActive;
       QueryUpdate.ParamByName('ID').AsString := CITY_ID;
       try
@@ -2594,7 +2595,7 @@ begin
       begin
         ID_DEL := listID_DEL[i];
         UpdateCityAcitivity(ID_DEL, IsCityShouldBeActive(BASE_ID, ID_DEL));
-        debug('listID_DEL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_DEL, GetNameByID('GOROD', ID_DEL),
+        debug('listID_DEL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_DEL, GetNameByID('CITY', ID_DEL),
           BoolToStr(IsCityShouldBeActive(BASE_ID, ID_DEL), True)]);
       end;
       debug('METHOD = %s | IsActive = %s | listID_NEW.COUNT = %s', [Method, 'TRUE', IntToStr(listID_NEW.Count)]);
@@ -2602,7 +2603,7 @@ begin
       begin
         ID_NEW := listID_NEW[i];
         UpdateCityAcitivity(ID_NEW, true);
-        debug('listID_NEW item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_NEW, GetNameByID('GOROD', ID_NEW), 'TRUE']);
+        debug('listID_NEW item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_NEW, GetNameByID('CITY', ID_NEW), 'TRUE']);
       end;
     end
     // if ACTIVE = FALSE then we have to do single iteration
@@ -2614,7 +2615,7 @@ begin
       begin
         ID_ALL := listID_ALL[i];
         UpdateCityAcitivity(ID_ALL, IsCityShouldBeActive(BASE_ID, ID_ALL));
-        debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('GOROD', ID_ALL),
+        debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('CITY', ID_ALL),
           BoolToStr(IsCityShouldBeActive(BASE_ID, ID_ALL), True)]);
       end;
     end;
@@ -2631,13 +2632,13 @@ begin
       if IsActive = true then
       begin
         UpdateCityAcitivity(ID_ALL, true);
-        debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('GOROD', ID_ALL), 'TRUE']);
+        debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('CITY', ID_ALL), 'TRUE']);
       end
       // if firm ACITIVITY is FALSE then we attempt to update ACTIVITY of the current CITY to FALSE except if current CITY is in use by active firm
       else
       begin
         UpdateCityAcitivity(ID_ALL, IsCityShouldBeActive(BASE_ID, ID_ALL));
-        debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('GOROD', ID_ALL),
+        debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('CITY', ID_ALL),
           BoolToStr(IsCityShouldBeActive(BASE_ID, ID_ALL), True)]);
       end;
     end;
@@ -2651,7 +2652,7 @@ begin
     begin
       ID_ALL := listID_ALL[i];
       UpdateCityAcitivity(ID_ALL, IsCityShouldBeActive(BASE_ID, ID_ALL));
-      debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('GOROD', ID_ALL),
+      debug('listID_ALL item: = %s | ID = %s | NAME = %s | SetTo = %s', [IntToStr(i), ID_ALL, GetNameByID('CITY', ID_ALL),
         BoolToStr(IsCityShouldBeActive(BASE_ID, ID_ALL), True)]);
     end;
   end;

@@ -1191,7 +1191,7 @@ var
           if Trim(country_str) <> '' then
             country_str := FormEditor.GetNameByID('COUNTRY', country_str) + ', ';
           if Trim(city_str) <> '' then
-            city_str := FormEditor.GetNameByID('GOROD', city_str) + ', ';
+            city_str := FormEditor.GetNameByID('CITY', city_str) + ', ';
           adres := ofType + zip_str + country_str + city_str + list2[4];
           { officetype - zip, country, city, street }
           if Trim(adres) <> '' then

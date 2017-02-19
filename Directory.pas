@@ -1,6 +1,6 @@
 { #TODO1: PLAN :
   1. DONE: Implement rubrik directory creation live update
-  2. Implement oblast > gorod edit control interaction
+  2. Implement oblast > city edit control interaction
   3. Implement id_oblast updating when city edited to new oblast via directory window
   4. Implement edit controls behavior when entered data is not in the list (not valid values for adres edit controls }
 unit Directory;
@@ -136,7 +136,7 @@ type
 const
   DIR_CODE_TOTAL = 8; // 0-based total number of codes
   DIR_CODE_TO_TABLE: array [0 .. DIR_CODE_TOTAL] of string = ('curator', 'rubrikator', 'type', 'napravlenie', 'officetype', 'country',
-    'oblast', 'gorod', 'phonetype');
+    'oblast', 'city', 'phonetype');
   DIR_CODE_CURATOR = 0;
   DIR_CODE_RUBRIKA = 1;
   DIR_CODE_FIRMTYPE = 2;
@@ -273,7 +273,6 @@ begin
   editPhoneType.Clear;
 end;
 
-// #TODO3: Need to rework data updating without GLOBAL_RELOAD
 procedure TFormDirectory.LoadDataDirectory;
 var
   Q_Dir: TIBCQuery;
@@ -386,7 +385,7 @@ begin
 
     Q_Dir.Close;
     Q_Dir.SQL.Text := 'select g.ID, g.NAME, g.NAME_ALT, g.ID_OBLAST, ' +
-      '(select o.NAME as OBLAST_NAME from OBLAST o where g.ID_OBLAST = o.ID) from GOROD g order by lower(NAME)';
+      '(select o.NAME as OBLAST_NAME from OBLAST o where g.ID_OBLAST = o.ID) from CITY g order by lower(NAME)';
     Q_Dir.Open;
     Q_Dir.FetchAll := True;
     SGCity.BeginUpdate;
@@ -481,7 +480,7 @@ end;
 
 procedure TFormDirectory.btnEditClick(Sender: TObject);
 var
-  Name_First, Name_ALT, ID_Oblast, ID_Gorod: string;
+  Name_First, Name_ALT, ID_Oblast, ID_City: string;
   QueryValues: array [0 .. 2] of string;
   DirContainer: TDirectoryContainer;
   DirCode: integer;
@@ -495,7 +494,7 @@ begin
         if SelectedCount = 0 then
           exit;
         Name_First := Cells[0, SelectedRow];
-        ID_Gorod := Cells[1, SelectedRow];
+        ID_City := Cells[1, SelectedRow];
         if DirCode in [DIR_CODE_CITY] then
         begin
           Name_ALT := Cells[2, SelectedRow];
@@ -505,7 +504,7 @@ begin
 
     if FormDirectoryQuery.ShowDirectoryQuery(DirCode, 'edit', TDirectoryData.Create(Name_First, Name_ALT, StrToIntDef(ID_Oblast, -1)),
       QueryValues) = True then
-      Directory_EDIT(DirCode, ID_Gorod, QueryValues);
+      Directory_EDIT(DirCode, ID_City, QueryValues);
   finally
     DirContainer.Free;
   end;
@@ -666,8 +665,6 @@ begin
   finally
     DirContainer.Free;
   end;
-
-  { #TODO1: DOTHIS : implement creation and editing of RUBRIKATOR, introduce new bool into DirContainer UpdateRubrikator = true/false }
 
   Result := True;
 end;
@@ -864,7 +861,7 @@ begin
       SQL_select := 'select COUNT(*) as CNT from BASE where ADRES like ' + QuotedStr('%#&' + ID_Directory + '$%');
     DIR_CODE_OBLAST:
       SQL_select := 'select SUM(c) as CNT from (select COUNT(*) c from BASE where ADRES like ' + QuotedStr('%#*' + ID_Directory + '$%') +
-        ' UNION ALL select COUNT(*) from GOROD where ID_OBLAST = ' + ID_Directory + ')';
+        ' UNION ALL select COUNT(*) from CITY where ID_OBLAST = ' + ID_Directory + ')';
     DIR_CODE_CITY:
       SQL_select := 'select COUNT(*) as CNT from BASE where ADRES like ' + QuotedStr('%#^' + ID_Directory + '$%');
     DIR_CODE_PHONETYPE:

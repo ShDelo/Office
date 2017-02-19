@@ -254,7 +254,7 @@ procedure TFormReport.editSelect1Change(Sender: TObject);
     begin { ÃÎÐÎÄ }
       Q := QueryCreate;
       Q.Close;
-      Q.SQL.Text := 'select * from GOROD order by lower(NAME)';
+      Q.SQL.Text := 'select * from CITY order by lower(NAME)';
       Q.Open;
       Q.FetchAll := True;
       for i := 1 to Q.RecordCount do
@@ -399,7 +399,7 @@ var
         oblast_str := list2[6];
         city_str := list2[7];
         adres := Format('    Àäðåñ: %s - %s, %s, %s,', [FormEditor.GetNameByID('COUNTRY', country_str), list2[3],
-          FormEditor.GetNameByID('GOROD', city_str), list2[4]]);
+          FormEditor.GetNameByID('CITY', city_str), list2[4]]);
         AddLine(adres, clWindowText, 10, 'Times New Roman', []);
         AddLine(tmp, clWindowText, 10, 'Times New Roman', []);
       end;
@@ -450,7 +450,7 @@ var
           list2[3] := ' - ' + list2[3];
         if Length(list2[4]) > 0 then
           list2[4] := ', ' + list2[4];
-        adres := Format('%s%s, %s%s', [FormEditor.GetNameByID('COUNTRY', country_str), list2[3], FormEditor.GetNameByID('GOROD', city_str),
+        adres := Format('%s%s, %s%s', [FormEditor.GetNameByID('COUNTRY', country_str), list2[3], FormEditor.GetNameByID('CITY', city_str),
           list2[4]]);
         adres := Trim(adres);
         if adres[Length(adres)] = ',' then
