@@ -1772,7 +1772,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             ReadOnly = True
             TabOrder = 10
-            Text = '1'
+            Text = '2'
             Visible = False
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
@@ -2368,7 +2368,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             ReadOnly = True
             TabOrder = 10
-            Text = '1'
+            Text = '3'
             Visible = False
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
@@ -2964,7 +2964,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             ReadOnly = True
             TabOrder = 10
-            Text = '1'
+            Text = '4'
             Visible = False
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
@@ -3560,7 +3560,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             ReadOnly = True
             TabOrder = 10
-            Text = '1'
+            Text = '5'
             Visible = False
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
@@ -4156,7 +4156,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             ReadOnly = True
             TabOrder = 10
-            Text = '1'
+            Text = '6'
             Visible = False
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
@@ -4752,7 +4752,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             ReadOnly = True
             TabOrder = 10
-            Text = '1'
+            Text = '7'
             Visible = False
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
@@ -5348,7 +5348,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             ReadOnly = True
             TabOrder = 10
-            Text = '1'
+            Text = '8'
             Visible = False
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
@@ -5944,7 +5944,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             ReadOnly = True
             TabOrder = 10
-            Text = '1'
+            Text = '9'
             Visible = False
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
@@ -6540,7 +6540,7 @@ object FormEditor: TFormEditor
             ParentFont = False
             ReadOnly = True
             TabOrder = 10
-            Text = '1'
+            Text = '10'
             Visible = False
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
