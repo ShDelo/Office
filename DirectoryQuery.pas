@@ -31,7 +31,7 @@ var
 
 implementation
 
-uses Main;
+uses Main, Helpers;
 
 {$R *.dfm}
 { TFormDirectoryQuery }

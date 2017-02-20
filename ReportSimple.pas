@@ -50,7 +50,7 @@ var
 
 implementation
 
-uses Main, Editor, Report;
+uses Main, Editor, Report, Helpers;
 
 {$R *.dfm}
 
@@ -347,7 +347,7 @@ var
         if trim(list2[3]) <> '' then
           adres := list2[3] + ', '; // ZIP
         if trim(city_str) <> '' then
-          adres := adres + FormEditor.GetNameByID('CITY', city_str) + ','; // CITY
+          adres := adres + GetNameByID('CITY', city_str) + ','; // CITY
         if trim(adres) <> '' then
           AddLine(adres, clWindowText, 10, 'Times New Roman', []);
         if trim(list2[4]) <> '' then

@@ -108,7 +108,7 @@ var
 
 implementation
 
-uses Main, Editor;
+uses Main, Editor, Helpers;
 
 {$R *.dfm}
 
@@ -1185,13 +1185,13 @@ var
           region_str := list2[6];
           city_str := list2[7];
           if Trim(ofType) <> '' then
-            ofType := FormEditor.GetNameByID('OFFICETYPE', ofType) + ' - ';
+            ofType := GetNameByID('OFFICETYPE', ofType) + ' - ';
           if Trim(zip_str) <> '' then
             zip_str := zip_str + ', ';
           if Trim(country_str) <> '' then
-            country_str := FormEditor.GetNameByID('COUNTRY', country_str) + ', ';
+            country_str := GetNameByID('COUNTRY', country_str) + ', ';
           if Trim(city_str) <> '' then
-            city_str := FormEditor.GetNameByID('CITY', city_str) + ', ';
+            city_str := GetNameByID('CITY', city_str) + ', ';
           adres := ofType + zip_str + country_str + city_str + list2[4];
           { officetype - zip, country, city, street }
           if Trim(adres) <> '' then

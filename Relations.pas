@@ -52,7 +52,7 @@ var
 
 implementation
 
-uses Main, Editor;
+uses Main, Editor, Helpers;
 
 {$R *.dfm}
 
@@ -133,7 +133,7 @@ begin
     delete(RUBRstr, 1, length(str1));
     delete(str1, 1, 1);
     delete(str1, length(str1), 1);
-    editRubrRelations.AddItem(FormEditor.GetNameByID('RUBRIKATOR', str1), Pointer(StrToInt(str1)));
+    editRubrRelations.AddItem(GetNameByID('RUBRIKATOR', str1), Pointer(StrToInt(str1)));
   end;
   if editRubrRelations.Items.Count > 0 then
     editRubrRelations.ItemIndex := 0;
@@ -254,7 +254,7 @@ begin
     delete(str1, 1, 1);
     delete(str1, length(str1), 1);
     SGNaprAviable.AddRow;
-    SGNaprAviable.Cells[0, SGNaprAviable.LastAddedRow] := FormEditor.GetNameByID('NAPRAVLENIE', str1);
+    SGNaprAviable.Cells[0, SGNaprAviable.LastAddedRow] := GetNameByID('NAPRAVLENIE', str1);
     SGNaprAviable.Cells[1, SGNaprAviable.LastAddedRow] := str1;
   end;
 
@@ -275,7 +275,7 @@ begin
     delete(str2, 1, 1);
     delete(str2, length(str2), 1);
     SGNaprSelected.AddRow;
-    SGNaprSelected.Cells[0, SGNaprSelected.LastAddedRow] := FormEditor.GetNameByID('NAPRAVLENIE', str2);
+    SGNaprSelected.Cells[0, SGNaprSelected.LastAddedRow] := GetNameByID('NAPRAVLENIE', str2);
     SGNaprSelected.Cells[1, SGNaprSelected.LastAddedRow] := str2;
     if SGNaprAviable.FindText(1, str2, [soCaseInsensitive, soExactMatch]) then
       SGNaprAviable.DeleteRow(SGNaprAviable.SelectedRow);

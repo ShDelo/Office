@@ -70,7 +70,7 @@ var
 
 implementation
 
-uses Main, Editor;
+uses Main, Editor, Helpers;
 
 {$R *.dfm}
 
@@ -398,8 +398,8 @@ var
         country_str := list2[5];
         region_str := list2[6];
         city_str := list2[7];
-        adres := Format('    Адрес: %s - %s, %s, %s,', [FormEditor.GetNameByID('COUNTRY', country_str), list2[3],
-          FormEditor.GetNameByID('CITY', city_str), list2[4]]);
+        adres := Format('    Адрес: %s - %s, %s, %s,', [GetNameByID('COUNTRY', country_str), list2[3],
+          GetNameByID('CITY', city_str), list2[4]]);
         AddLine(adres, clWindowText, 10, 'Times New Roman', []);
         AddLine(tmp, clWindowText, 10, 'Times New Roman', []);
       end;
@@ -450,7 +450,7 @@ var
           list2[3] := ' - ' + list2[3];
         if Length(list2[4]) > 0 then
           list2[4] := ', ' + list2[4];
-        adres := Format('%s%s, %s%s', [FormEditor.GetNameByID('COUNTRY', country_str), list2[3], FormEditor.GetNameByID('CITY', city_str),
+        adres := Format('%s%s, %s%s', [GetNameByID('COUNTRY', country_str), list2[3], GetNameByID('CITY', city_str),
           list2[4]]);
         adres := Trim(adres);
         if adres[Length(adres)] = ',' then

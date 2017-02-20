@@ -15,7 +15,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, sButton, ExtCtrls, sPanel, sComboBox, sComboBoxes, sEdit,
+  Dialogs, StdCtrls, sButton, ExtCtrls, sPanel, sComboBoxes, sEdit,
   sCheckBox, sLabel, sGroupBox, ComCtrls, sPageControl, acPNG, IBC,
   NxColumns, NxColumnClasses, NxScrollControl, NxCustomGridControl,
   NxCustomGrid, NxGrid, sSpeedButton, Buttons, sMemo, StrUtils;
@@ -259,13 +259,8 @@ type
     procedure LoadDataEditor;
     procedure BtnCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    function GetIDByName(component: TsComboBoxEx): string;
-    function GetIndexOfText(component: TsComboBoxEx; TextToIndex: string = ''): integer;
-    function GetIndexOfObject(component: TsComboBoxEx; IDToIndex: integer = -1): integer;
-    function GetNameByID(table, id: string): string;
     function GetIDString(component: TNextGrid): string;
     function GetWebEmailString(component: TNextGrid): string;
-    function GetFirmCount: string;
     function ParseAdresFieldToEntriesList(Field_ADRES_LineByIndex: string): TStringList;
     function ParseAdresFieldToCityIDList(Field_ADRES: string; IncludeSyntax: boolean = false): TStringList;
     function ParseIDString(IDString: string; IncludeSyntax: boolean = false): TStringList;
@@ -308,7 +303,7 @@ var
 
 implementation
 
-uses Main, Logo, Directory, Report, Dublicate, Relations, MailSend;
+uses Main, Logo, Directory, Report, Dublicate, Relations, MailSend, Helpers;
 
 {$R *.dfm}
 
@@ -929,60 +924,6 @@ begin
   end;
 end;
 
-function TFormEditor.GetFirmCount: string;
-begin
-  FormMain.IBQuery1.Close;
-  FormMain.IBQuery1.SQL.Text := 'select COUNT(*) from BASE';
-  FormMain.IBQuery1.Open;
-  Result := FormMain.IBQuery1.FieldByName('COUNT').AsString;
-  FormMain.IBQuery1.Close;
-  FormMain.IBDatabase1.Close;
-end;
-
-function TFormEditor.GetNameByID(table, id: string): string;
-var
-  Q: TIBCQuery;
-begin
-  Result := EmptyStr;
-  if (Trim(table) = EmptyStr) or (Trim(id) = EmptyStr) then
-    exit;
-  Q := QueryCreate;
-  Q.SQL.Text := 'select NAME from ' + table + ' where id = ' + id;
-  Q.Open;
-  Q.FetchAll := True;
-  if Q.RecordCount > 0 then
-    Result := VarToStr(Q.FieldValues['NAME']);
-  Q.Close;
-  Q.Free;
-end;
-
-function TFormEditor.GetIDByName(component: TsComboBoxEx): string;
-var
-  index: Integer;
-begin
-  index := GetIndexOfText(component);
-  if index = -1 then
-    Result := ''
-  else
-    Result := IntToStr(Integer(component.Items.Objects[index]));
-end;
-
-function TFormEditor.GetIndexOfText(component: TsComboBoxEx; TextToIndex: string = ''): integer;
-begin
-  if TextToIndex <> EmptyStr then
-    Result := component.Items.IndexOf(Trim(TextToIndex))
-  else
-    Result := component.Items.IndexOf(Trim(component.Text));
-end;
-
-function TFormEditor.GetIndexOfObject(component: TsComboBoxEx; IDToIndex: integer = -1): integer;
-begin
-  if IDToIndex = -1 then
-    Result := -1
-  else
-    Result := component.Items.IndexOfObject(TObject(IDToIndex));
-end;
-
 function TFormEditor.GetIDString(component: TNextGrid): string; { #1$#2$#3$ }
 var
   i: Integer;
@@ -1328,7 +1269,7 @@ begin
     if pos('#' + rubrID + '$', tmp2) > 0 then
       FormMain.TVRubrikatorChange(FormMain.TVRubrikator, FormMain.TVRubrikator.Selected);
   end;
-  FormMain.TVRubrikator.CustomSort(@main.CustomSortProc, 0, True);
+  FormMain.TVRubrikator.CustomSort(@Helpers.CustomSortProc, 0, True);
   FormMain.IBQuery1.Close;
 
   // might already be closed from @IsRecordDublicate if any dublicates were found
@@ -1827,7 +1768,7 @@ begin
       FormMain.TVRubrikatorChange(FormMain.TVRubrikator, FormMain.TVRubrikator.Selected);
   end;
 
-  FormMain.TVRubrikator.CustomSort(@main.CustomSortProc, 0, True);
+  FormMain.TVRubrikator.CustomSort(@Helpers.CustomSortProc, 0, True);
   FormMain.TVRubrikator.Items.EndUpdate;
   FormMain.IBQuery1.Close;
   FormEditor.Close;
@@ -2103,7 +2044,7 @@ begin
       AddingNewRec('CITY', UpperFirst(edit.Text), nil, FormDirectory.SGCity); }
   end;
   if isNewRubr then
-    FormMain.TVRubrikator.CustomSort(@main.CustomSortProc, 0, True);
+    FormMain.TVRubrikator.CustomSort(@Helpers.CustomSortProc, 0, True);
 end;
 
 procedure TFormEditor.IsRecordDublicate;

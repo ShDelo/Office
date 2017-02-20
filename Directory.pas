@@ -152,7 +152,7 @@ var
 
 implementation
 
-uses Main, Editor, Report, Logo, DirectoryQuery;
+uses Main, Editor, Report, Logo, DirectoryQuery, Helpers;
 
 {$R *.dfm}
 { TDirectoryData }
@@ -630,7 +630,7 @@ begin
         if DirCode in [DIR_CODE_CITY] then
         begin
           Cells[2, LastAddedRow] := Name2; // NAME_ALT
-          Cells[3, LastAddedRow] := FormEditor.GetNameByID(DIR_CODE_TO_TABLE[DIR_CODE_REGION], ID_Region); // REGION_TEXT
+          Cells[3, LastAddedRow] := GetNameByID(DIR_CODE_TO_TABLE[DIR_CODE_REGION], ID_Region); // REGION_TEXT
           Cells[4, LastAddedRow] := ID_REGION; // ID_REGION
         end;
         SelectLastRow;
@@ -660,7 +660,7 @@ begin
       New_Node := FormMain.TVRubrikator.Items.AddChildObject(nil, Name1, Pointer(StrToInt(ID_NewRecord)));
       New_Node.ImageIndex := 0;
       New_Node.SelectedIndex := 0;
-      FormMain.TVRubrikator.CustomSort(@main.CustomSortProc, 0, True);
+      FormMain.TVRubrikator.CustomSort(@Helpers.CustomSortProc, 0, True);
     end;
   finally
     DirContainer.Free;
@@ -773,7 +773,7 @@ begin
           if DirCode in [DIR_CODE_CITY] then
           begin
             Cells[2, SelectedRow] := Name2; // NAME_ALT
-            Cells[3, SelectedRow] := FormEditor.GetNameByID(DIR_CODE_TO_TABLE[DIR_CODE_REGION], ID_Region); // REGION_TEXT
+            Cells[3, SelectedRow] := GetNameByID(DIR_CODE_TO_TABLE[DIR_CODE_REGION], ID_Region); // REGION_TEXT
             Cells[4, SelectedRow] := ID_Region; // ID_REGION
           end;
         end;
@@ -816,7 +816,7 @@ begin
       with FormMain.SearchNode(FormMain.TVRubrikator, StrToInt(ID_Directory), 0) do
       begin
         Text := Name1;
-        FormMain.TVRubrikator.CustomSort(@main.CustomSortProc, 0, True);
+        FormMain.TVRubrikator.CustomSort(@Helpers.CustomSortProc, 0, True);
       end;
     end;
   finally

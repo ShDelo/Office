@@ -12,7 +12,8 @@ uses
   ReportSimple in 'ReportSimple.pas' {FormReportSimple},
   Dublicate in 'Dublicate.pas' {FormDublicate},
   Relations in 'Relations.pas' {FormRelations},
-  DirectoryQuery in 'DirectoryQuery.pas' {FormDirectoryQuery};
+  DirectoryQuery in 'DirectoryQuery.pas' {FormDirectoryQuery},
+  Helpers in 'Helpers.pas';
 
 {$R *.res}
 

@@ -12,12 +12,6 @@ uses
   NxEdit, acCoolBar, StrUtils, IniFiles, sCheckBox, sButton, JvExStdCtrls,
   JvRichEdit, ShellApi, sMemo, MemDS;
 
-procedure debug(Text: string; Params: array of TVarRec);
-procedure WriteLog(Text: string);
-function UpperFirst(s: string): string;
-function QueryCreate: TIBCQuery;
-function CustomSortProc(Node1, Node2: TTreeNode; iUpToThisLevel: integer): integer; stdcall;
-
 type
   TFormMain = class(TForm)
     sStatusBar1: TsStatusBar;
@@ -157,7 +151,6 @@ type
 
 var
   FormMain: TFormMain;
-  AppPath: string;
   sgCurator_tmp, sgFirmType_tmp, sgRubr_tmp, sgNapr_tmp: TNextGrid;
   IniMain: TIniFile;
   LoadSGonRubrChange: Boolean;
@@ -165,49 +158,12 @@ var
 implementation
 
 uses Editor, Logo, MailSend, Report, Directory, ReportSimple, Relations,
-  Dublicate, DirectoryQuery;
-
-const
-  bDebug: boolean = true;
+  Dublicate, DirectoryQuery, Helpers;
 
 {$R *.dfm}
   { #BACKUP [changes].txt }
   { #BACKUP office.ini }
   { #BACKUP MapiEmail.pas }
-
-procedure debug(Text: string; Params: array of TVarRec);
-begin
-  if bDebug then
-  begin
-    FormMain.memoDebug.Lines.Add(DateTimeToStr(now) + ': ' + Format(Text, Params));
-  end;
-end;
-
-function QueryCreate: TIBCQuery;
-var
-  Query: TIBCQuery;
-begin
-  Query := TIBCQuery.Create(nil);
-  Query.Connection := FormMain.IBDatabase1;
-  Query.Transaction := FormMain.IBTransaction1;
-  Query.AutoCommit := False;
-  Query.FetchRows := 1;
-  result := Query;
-end;
-
-function UpperFirst(s: string): string;
-var
-  t: string;
-begin
-  Result := '';
-  if length(Trim(s)) = 0 then
-    exit;
-  s := Trim(s);
-  t := s[1];
-  delete(s, 1, 1);
-  t := AnsiUpperCase(t);
-  Result := t + s;
-end;
 
 procedure TFormMain.WMGetMinMaxInfo(var M: TWMGetMinMaxInfo);
 begin
@@ -215,26 +171,6 @@ begin
   M.MinMaxInfo^.PTMinTrackSize.X := 800;
   M.MinMaxInfo^.PTMaxPosition.Y := 0;
   M.MinMaxInfo^.PTMinTrackSize.Y := 600;
-end;
-
-procedure WriteLog(Text: string);
-var
-  LogFile, d: string;
-  f: TextFile;
-begin
-  d := DateToStr(now);
-  delete(d, 1, 3);
-  LogFile := AppPath + 'log_' + d + '.txt';
-  AssignFile(f, LogFile);
-  try
-    if not FileExists(LogFile) then
-      Rewrite(f)
-    else
-      Append(f);
-    Writeln(f, DateTimeToStr(now) + ': ' + Text);
-  finally
-    CloseFile(f);
-  end;
 end;
 
 procedure TFormMain.DisableAllForms(StayActive: string);
@@ -578,8 +514,7 @@ end;
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
-  memoDebug.Visible := bDebug;
-  AppPath := ExtractFilePath(Application.ExeName);
+  memoDebug.Visible := Helpers.bDebug;
   IBDatabase1.Database := AppPath + 'usrdt.msq';
   WriteLog('* Запуск программы *');
   try
@@ -596,7 +531,7 @@ begin
   end;
   IniCreateMain;
   IniLoadMain;
-  sStatusBar1.Panels[1].Text := 'Фирм в базе: ' + FormEditor.GetFirmCount;
+  sStatusBar1.Panels[1].Text := 'Фирм в базе: ' + GetFirmCount;
 end;
 
 procedure TFormMain.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -1697,13 +1632,13 @@ begin
       region_str := list2[6];
       city_str := list2[7];
       if Trim(ofType) <> '' then
-        ofType := FormEditor.GetNameByID('OFFICETYPE', ofType) + ' - ';
+        ofType := GetNameByID('OFFICETYPE', ofType) + ' - ';
       if Trim(zip_str) <> '' then
         zip_str := zip_str + ', ';
       if Trim(country_str) <> '' then
-        country_str := FormEditor.GetNameByID('COUNTRY', country_str) + ', ';
+        country_str := GetNameByID('COUNTRY', country_str) + ', ';
       if Trim(city_str) <> '' then
-        city_str := FormEditor.GetNameByID('CITY', city_str) + ', ';
+        city_str := GetNameByID('CITY', city_str) + ', ';
       adres := ofType + zip_str + country_str + city_str + list2[4];
       { officetype - zip, country, city, street }
       if Trim(adres) <> '' then

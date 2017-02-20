@@ -23,7 +23,7 @@ object FormDirectory: TFormDirectory
     Top = 0
     Width = 653
     Height = 365
-    ActivePage = tabCity
+    ActivePage = tabCurator
     Align = alClient
     TabOrder = 0
     TabStop = False
