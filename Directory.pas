@@ -107,9 +107,9 @@ type
     procedure btnDeleteClick(Sender: TObject);
     procedure editCuratorChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    function Directory_CREATE(DirCode: integer; Values: array of string): boolean;
-    function Directory_EDIT(DirCode: integer; ID_Directory: string; Values: array of string): boolean;
-    function Directory_DELETE(DirCode: integer; ID_Directory: string): boolean;
+    function Directory_CREATE(DirCode: integer; Values: array of string): integer;
+    function Directory_EDIT(DirCode: integer; ID_Directory: string; Values: array of string): integer;
+    function Directory_DELETE(DirCode: integer; ID_Directory: string): integer;
   private
     { Private declarations }
   public
@@ -169,7 +169,13 @@ end;
 constructor TDirectoryContainer.Create(DirCode: integer);
 begin
   if not(DirCode in [0 .. DIR_CODE_TOTAL]) then
-    exit;
+  begin
+    self.SG_Main := nil;
+    self.SG_Directory := nil;
+    self.Edit_Editor := nil;
+    self.Edit_DirectoryQuery := nil;
+    self.IsAdresEdits := False;
+  end;
 
   case DirCode of
     DIR_CODE_CURATOR:
@@ -533,7 +539,7 @@ begin
 end;
 
 { #TODO3: LOG : write log for directory create/edit/delete actions }
-function TFormDirectory.Directory_CREATE(DirCode: integer; Values: array of string): boolean;
+function TFormDirectory.Directory_CREATE(DirCode: integer; Values: array of string): integer;
 var
   Query: TIBCQuery;
   EditControlName, Name1, Name2, ID_Region, SQL_select, SQL_insert, ID_NewRecord: string;
@@ -541,7 +547,7 @@ var
   DirContainer: TDirectoryContainer;
   New_Node: TTreeNode;
 begin
-  Result := False;
+  Result := -1;
 
   if not DirCode in [0 .. DIR_CODE_TOTAL] then
     exit;
@@ -666,13 +672,13 @@ begin
     DirContainer.Free;
   end;
 
-  Result := True;
+  Result := StrToIntDef(ID_NewRecord, -1);
 end;
 
 // #TODO1: IMPORTANT: need to think of a way to update opened elements that using directory entries while they being updated.
 // say I have add firm dialog opened with already entered city and then I decided to update that city from directory editor window...?
 // also opened tabs currently doesn't get updated even by GLOBAL_RELOAD.
-function TFormDirectory.Directory_EDIT(DirCode: integer; ID_Directory: string; Values: array of string): boolean;
+function TFormDirectory.Directory_EDIT(DirCode: integer; ID_Directory: string; Values: array of string): integer;
 var
   Query: TIBCQuery;
   Name1, Name2, ID_Region, SQL_select, SQL_update, EditControlName: string;
@@ -680,7 +686,7 @@ var
   DirContainer: TDirectoryContainer;
   EditControl: TsComboBoxEx;
 begin
-  Result := False;
+  Result := -1;
 
   if not DirCode in [0 .. DIR_CODE_TOTAL] then
     exit;
@@ -823,10 +829,10 @@ begin
     DirContainer.Free;
   end;
 
-  Result := True;
+  Result := StrToIntDef(ID_Directory, -1);
 end;
 
-function TFormDirectory.Directory_DELETE(DirCode: integer; ID_Directory: string): boolean;
+function TFormDirectory.Directory_DELETE(DirCode: integer; ID_Directory: string): integer;
 var
   Query: TIBCQuery;
   SQL_select, EditControlName: string;
@@ -835,7 +841,7 @@ var
   EditControl: TsComboBoxEx;
   IsDeleted: Boolean;
 begin
-  Result := False;
+  Result := -1;
   IsDeleted := False;
 
   if not DirCode in [0 .. DIR_CODE_TOTAL] then
@@ -964,7 +970,7 @@ begin
 
   end;
 
-  Result := True;
+  Result := StrToIntDef(ID_Directory, -1);
 end;
 
 end.

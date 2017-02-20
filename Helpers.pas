@@ -16,7 +16,7 @@ function UpperFirst(s: string): string;
 function GetFirmCount: string;
 function GetNameByID(table, id: string): string;
 function GetIDByName(component: TsComboBoxEx): string;
-function GetIndexOfText(component: TsComboBoxEx; TextToIndex: string = ''): integer;
+function GetIndexOfText(component: TsComboBoxEx; DoTrimText: boolean = true; TextToIndex: string = ''): integer;
 function GetIndexOfObject(component: TsComboBoxEx; IDToIndex: integer = -1): integer;
 function GetObjectOfIndex(component: TsComboBoxEx): integer;
 
@@ -133,12 +133,21 @@ begin
     Result := IntToStr(Integer(component.Items.Objects[index]));
 end;
 
-function GetIndexOfText(component: TsComboBoxEx; TextToIndex: string = ''): integer;
+function GetIndexOfText(component: TsComboBoxEx; DoTrimText: boolean = true; TextToIndex: string = ''): integer;
 begin
   if TextToIndex <> EmptyStr then
-    Result := component.Items.IndexOf(Trim(TextToIndex))
+  begin
+    if DoTrimText then
+      TextToIndex := Trim(TextToIndex);
+    Result := component.Items.IndexOf(TextToIndex);
+  end
   else
-    Result := component.Items.IndexOf(Trim(component.Text));
+  begin
+    if DoTrimText then
+      Result := component.Items.IndexOf(Trim(component.Text))
+    else
+      Result := component.Items.IndexOf(component.Text);
+  end;
 end;
 
 function GetIndexOfObject(component: TsComboBoxEx; IDToIndex: integer = -1): integer;
