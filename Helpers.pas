@@ -6,19 +6,23 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, ComCtrls, Forms, sComboBoxes,
   NxGrid, IBC;
 
+type
+  TsComboBoxEx_Helper = class helper for TsComboBoxEx
+    function GetIndexOfObject(ObjectToIndex: integer): integer;
+    function SetIndexOfObject(ObjectToIndex: integer): integer;
+    function GetObjectOfIndex(AIndex: integer = -1): integer;
+    function GetID: integer;
+    function GetIndexOfText(TextToIndex: string = ''; DoTrimText: boolean = true): integer;
+  end;
+
 procedure debug(Text: string; Params: array of TVarRec);
 procedure WriteLog(Text: string);
 function CustomSortProc(Node1, Node2: TTreeNode; iUpToThisLevel: integer): integer; stdcall;
 function QueryCreate: TIBCQuery;
 function AppPath: string;
 function UpperFirst(s: string): string;
-
 function GetFirmCount: string;
 function GetNameByID(table, id: string): string;
-function GetIDByName(component: TsComboBoxEx): string;
-function GetIndexOfText(component: TsComboBoxEx; DoTrimText: boolean = true; TextToIndex: string = ''): integer;
-function GetIndexOfObject(component: TsComboBoxEx; ObjectToIndex: integer): integer;
-function GetObjectOfIndex(component: TsComboBoxEx; AIndex: integer = -1): integer;
 
 const
   bDebug: Boolean = True;
@@ -27,6 +31,99 @@ implementation
 
 uses
   Main;
+
+{ TsComboBoxEx_Helper }
+
+function TsComboBoxEx_Helper.GetIndexOfObject(ObjectToIndex: integer): integer;
+begin
+  if ObjectToIndex >= 0 then
+    Result := self.Items.IndexOfObject(TObject(ObjectToIndex))
+  else
+    Result := -1
+end;
+
+function TsComboBoxEx_Helper.SetIndexOfObject(ObjectToIndex: integer): integer;
+var
+  IndexOfObject: integer;
+begin
+  if ObjectToIndex >= 0 then
+  begin
+    IndexOfObject := self.GetIndexOfObject(ObjectToIndex);
+    Result := IndexOfObject;
+    if self.ItemIndex <> IndexOfObject then
+    begin
+      self.ItemIndex := IndexOfObject;
+      self.Tag := IndexOfObject;
+    end;
+  end
+  else
+  begin
+    Result := -1;
+    if self.ItemIndex <> -1 then
+    begin
+      self.ItemIndex := -1;
+      self.Tag := -1;
+      self.Text := '';
+    end;
+  end;
+
+end;
+
+function TsComboBoxEx_Helper.GetID: integer;
+var
+  IndexOfText: integer;
+begin
+  Result := -1;
+
+  if self.ItemIndex <> -1 then
+  begin
+    if self.Items.Objects[self.ItemIndex] <> nil then
+      Result := Integer(self.Items.Objects[self.ItemIndex])
+  end
+  else
+  begin
+    IndexOfText := self.GetIndexOfText;
+    if IndexOfText <> -1 then
+      if self.Items.Objects[IndexOfText] <> nil then
+        Result := Integer(self.Items.Objects[IndexOfText]);
+  end;
+end;
+
+function TsComboBoxEx_Helper.GetObjectOfIndex(AIndex: integer): integer;
+begin
+  Result := -1;
+
+  if AIndex = -1 then
+  begin
+    if self.ItemIndex <> -1 then
+      if self.Items.Objects[self.ItemIndex] <> nil then
+        Result := Integer(self.Items.Objects[self.ItemIndex])
+  end
+  else
+  begin
+    if self.Items.Objects[AIndex] <> nil then
+      Result := Integer(self.Items.Objects[AIndex])
+  end;
+end;
+
+function TsComboBoxEx_Helper.GetIndexOfText(TextToIndex: string = ''; DoTrimText: boolean = true): integer;
+begin
+  if TextToIndex <> EmptyStr then
+  begin
+    if DoTrimText then
+      TextToIndex := Trim(TextToIndex);
+    Result := self.Items.IndexOf(TextToIndex);
+  end
+  else
+  begin
+    if DoTrimText then
+      Result := self.Items.IndexOf(Trim(self.Text))
+    else
+      Result := self.Items.IndexOf(self.Text);
+  end;
+end;
+
+{ Helpers }
 
 procedure debug(Text: string; Params: array of TVarRec);
 begin
@@ -119,72 +216,6 @@ begin
       Result := VarToStr(Q.FieldValues['NAME']);
   finally
     Q.Free;
-  end;
-end;
-
-function GetIDByName(component: TsComboBoxEx): string;
-var
-  IndexOfText: integer;
-begin
-  if component.ItemIndex <> -1 then
-  begin
-    if component.Items.Objects[component.ItemIndex] <> nil then
-      Result := IntToStr(Integer(component.Items.Objects[component.ItemIndex]))
-    else
-      Result := EmptyStr;
-  end
-  else
-  begin
-    IndexOfText := GetIndexOfText(component);
-    if IndexOfText <> -1 then
-    begin
-      if component.Items.Objects[IndexOfText] <> nil then
-        Result := IntToStr(Integer(component.Items.Objects[IndexOfText]))
-    end
-    else
-      Result := EmptyStr;
-  end;
-end;
-
-function GetIndexOfText(component: TsComboBoxEx; DoTrimText: boolean = true; TextToIndex: string = ''): integer;
-begin
-  if TextToIndex <> EmptyStr then
-  begin
-    if DoTrimText then
-      TextToIndex := Trim(TextToIndex);
-    Result := component.Items.IndexOf(TextToIndex);
-  end
-  else
-  begin
-    if DoTrimText then
-      Result := component.Items.IndexOf(Trim(component.Text))
-    else
-      Result := component.Items.IndexOf(component.Text);
-  end;
-end;
-
-function GetIndexOfObject(component: TsComboBoxEx; ObjectToIndex: integer): integer;
-begin
-  if ObjectToIndex >= 0 then
-    Result := component.Items.IndexOfObject(TObject(ObjectToIndex))
-  else
-    Result := -1
-end;
-
-function GetObjectOfIndex(component: TsComboBoxEx; AIndex: integer = -1): integer;
-begin
-  Result := -1;
-
-  if AIndex = -1 then
-  begin
-    if component.ItemIndex <> -1 then
-      if component.Items.Objects[component.ItemIndex] <> nil then
-        Result := Integer(component.Items.Objects[component.ItemIndex])
-  end
-  else
-  begin
-    if component.Items.Objects[AIndex] <> nil then
-      Result := Integer(component.Items.Objects[AIndex])
   end;
 end;
 

@@ -443,7 +443,7 @@ procedure TFormEditor.BtnAddCuratorToListClick(Sender: TObject);
     end;
     sg.AddRow;
     sg.Cells[0, sg.LastAddedRow] := UpperFirst(edit.Text);
-    sg.Cells[1, sg.LastAddedRow] := GetIDByName(edit);
+    sg.Cells[1, sg.LastAddedRow] := edit.GetID.ToString;
     sg.Resort;
     edit.Text := '';
   end;
@@ -1041,19 +1041,19 @@ var
   begin
     if CBAdres.Checked then
     begin
-      offtype_id := GetIDByName(OfficeType);
+      offtype_id := OfficeType.GetID.ToString;
       if offtype_id <> EmptyStr then
         offtype_id := '@' + offtype_id;
 
-      country_id := GetIDByName(Country);
+      country_id := Country.GetID.ToString;
       if country_id <> EmptyStr then
         country_id := '&' + country_id;
 
-      region_id := GetIDByName(Region);
+      region_id := Region.GetID.ToString;
       if region_id <> EmptyStr then
         region_id := '*' + region_id;
 
-      city_id := GetIDByName(City);
+      city_id := City.GetID.ToString;
       if city_id <> EmptyStr then
         city_id := '^' + city_id;
 
@@ -1320,12 +1320,10 @@ procedure TFormEditor.PrepareEditRecord(id: string);
     ID_Country := StrToIntDef(list[5], -1);
     ID_Region := StrToIntDef(list[6], -1);
     ID_City := StrToIntDef(list[7], -1);
-    OfficeType.ItemIndex := GetIndexOfObject(OfficeType, ID_OfficeType);
-    Country.ItemIndex := GetIndexOfObject(Country, ID_Country);
-    Region.ItemIndex := GetIndexOfObject(Region, ID_Region);
-    Region.Tag := Region.ItemIndex;
-    City.ItemIndex := GetIndexOfObject(City, ID_City);
-    City.Tag := City.ItemIndex;
+    OfficeType.SetIndexOfObject(ID_OfficeType);
+    Country.SetIndexOfObject(ID_Country);
+    Region.SetIndexOfObject(ID_Region);
+    City.SetIndexOfObject(ID_City);
     list.Free;
   end;
 
@@ -1544,19 +1542,19 @@ var
   begin
     if CBAdres.Checked then
     begin
-      offtype_id := GetIDByName(OfficeType);
+      offtype_id := OfficeType.GetID.ToString;
       if offtype_id <> EmptyStr then
         offtype_id := '@' + offtype_id;
 
-      country_id := GetIDByName(Country);
+      country_id := Country.GetID.ToString;
       if country_id <> EmptyStr then
         country_id := '&' + country_id;
 
-      region_id := GetIDByName(Region);
+      region_id := Region.GetID.ToString;
       if region_id <> EmptyStr then
         region_id := '*' + region_id;
 
-      city_id := GetIDByName(City);
+      city_id := City.GetID.ToString;
       if city_id <> EmptyStr then
         city_id := '^' + city_id;
 
@@ -1847,7 +1845,7 @@ begin
     begin
       Query := QueryCreate;
       try
-        ID_City := StrToIntDef(GetIdByName(EditCity), -1);
+        ID_City := EditCity.GetID;
         Query.SQL.Text := 'select ID_REGION from CITY where ID = :ID';
         Query.ParamByName('ID').AsInteger := ID_City;
         Query.Open;
@@ -1855,8 +1853,7 @@ begin
         begin
           ID_Region := VarToStrDef(Query.FieldValues['ID_REGION'], '-1').ToInteger;
           ClearEdit(EditRegion);
-          EditRegion.ItemIndex := GetIndexOfObject(EditRegion, ID_Region);
-          EditRegion.Tag := EditRegion.ItemIndex;
+          EditRegion.SetIndexOfObject(ID_Region);
         end
         else
           ClearEdit(EditRegion);
@@ -1956,25 +1953,25 @@ begin
     listNewRecords := TStringList.Create;
 
   for i := 0 to SGCurator.RowCount - 1 do
-    if SGCurator.Cells[1, i] = '' then
+    if SGCurator.Cells[1, i] = '-1' then
     begin
       result := true;
       listNewRecords.Add('Куратор: ' + SGCurator.Cells[0, i]);
     end;
   for i := 0 to SGRubr.RowCount - 1 do
-    if SGRubr.Cells[1, i] = '' then
+    if SGRubr.Cells[1, i] = '-1' then
     begin
       result := true;
       listNewRecords.Add('Рубрика: ' + SGRubr.Cells[0, i]);
     end;
   for i := 0 to SGFirmType.RowCount - 1 do
-    if SGFirmType.Cells[1, i] = '' then
+    if SGFirmType.Cells[1, i] = '-1' then
     begin
       result := true;
       listNewRecords.Add('Тип фирмы: ' + SGFirmType.Cells[0, i]);
     end;
   { for i := 0 to SGNapravlenie.RowCount - 1 do
-    if SGNapravlenie.Cells[1, i] = '' then
+    if SGNapravlenie.Cells[1, i] = '-1' then
     begin
     result := true;
     listNewRecords.Add('Профиль: ' + SGNapravlenie.Cells[0, i]);
@@ -1982,16 +1979,18 @@ begin
   for x := 1 to 10 do
   begin
     edit := TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(x)));
-    if (GetIDByName(edit) = EmptyStr) and (Trim(edit.Text) <> '') then
+    if (edit.GetID = -1) and (Trim(edit.Text) <> '') then
     begin
       result := true;
-      listNewRecords.Add('Тип адреса: ' + Trim(edit.Text));
+      if listNewRecords.IndexOf('Тип адреса: ' + Trim(edit.Text)) = -1 then
+        listNewRecords.Add('Тип адреса: ' + Trim(edit.Text));
     end;
     edit := TsComboBoxEx(FindComponent('EditCountry' + IntToStr(x)));
-    if (GetIDByName(edit) = EmptyStr) and (Trim(edit.Text) <> '') then
+    if (edit.GetID = -1) and (Trim(edit.Text) <> '') then
     begin
       result := true;
-      listNewRecords.Add('Страна: ' + Trim(edit.Text));
+      if listNewRecords.IndexOf('Страна: ' + Trim(edit.Text)) = -1 then
+        listNewRecords.Add('Страна: ' + Trim(edit.Text));
     end;
     // #TODO2: NEW_RECORD_NOTIFY left overs
     { edit := TsComboBoxEx(FindComponent('EditRegion' + IntToStr(x)));
@@ -2097,34 +2096,34 @@ var
 begin
   isNewRubr := False;
   for i := 0 to SGCurator.RowCount - 1 do
-    if SGCurator.Cells[1, i] = '' then
+    if SGCurator.Cells[1, i] = '-1' then
     begin
       AddingNewRec('CURATOR', SGCurator.Cells[0, i], Main.sgCurator_tmp, FormDirectory.SGCurator);
     end;
   for i := 0 to SGRubr.RowCount - 1 do
-    if SGRubr.Cells[1, i] = '' then
+    if SGRubr.Cells[1, i] = '-1' then
     begin
       AddingNewRec('RUBRIKATOR', SGRubr.Cells[0, i], Main.sgRubr_tmp, FormDirectory.SGRubr);
       isNewRubr := True;
     end;
   for i := 0 to SGFirmType.RowCount - 1 do
-    if SGFirmType.Cells[1, i] = '' then
+    if SGFirmType.Cells[1, i] = '-1' then
     begin
       AddingNewRec('FIRMTYPE', SGFirmType.Cells[0, i], Main.sgFirmType_tmp, FormDirectory.SGFirmType);
     end;
   for i := 0 to SGNapravlenie.RowCount - 1 do
-    if SGNapravlenie.Cells[1, i] = '' then
+    if SGNapravlenie.Cells[1, i] = '-1' then
     begin
       AddingNewRec('NAPRAVLENIE', SGNapravlenie.Cells[0, i], Main.sgNapr_tmp, FormDirectory.SGNapr);
     end;
   for x := 1 to 10 do
   begin
     edit := TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(x)));
-    if (GetIDByName(edit) = EmptyStr) and (Trim(edit.Text) <> '') then
+    if (edit.GetID = -1) and (Trim(edit.Text) <> '') then
       AddingNewRec('OFFICETYPE', UpperFirst(edit.Text), nil, FormDirectory.SGOfficeType);
 
     edit := TsComboBoxEx(FindComponent('EditCountry' + IntToStr(x)));
-    if (GetIDByName(edit) = EmptyStr) and (Trim(edit.Text) <> '') then
+    if (edit.GetID = -1) and (Trim(edit.Text) <> '') then
       AddingNewRec('COUNTRY', UpperFirst(edit.Text), nil, FormDirectory.SGCountry);
     // #TODO2: NEW_RECORD_CHECK left overs
     { edit := TsComboBoxEx(FindComponent('EditRegion' + IntToStr(x)));
