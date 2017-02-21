@@ -1,5 +1,9 @@
-// #TODO1: UI: Implement Region>City edits interaction. e.g when region not selected > allow full city list.
-// when region is selected > limit city list by that id_region
+{ #DONE: UI: Implement Region>City edits interaction. e.g when region not selected > allow full city list.
+  when region is selected > limit city list by that id_region.
+  I had to drop the idea of forming city list by region_id due to problems with updating edit controls in OnSelect event
+  and implemented more simple way of this interaction:
+  selecting region will clear current city.text
+  selecting city will automatically load region for that city }
 
 { #TODO1: UI : edit controls that doesn't allowing to pass unlisted values (e.g: country, region, city) should auto-clear
   when losing focus, and need to be checked before let code proceed }
@@ -1978,19 +1982,19 @@ begin
   for x := 1 to 10 do
   begin
     edit := TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(x)));
-    if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
+    if (GetIDByName(edit) = EmptyStr) and (Trim(edit.Text) <> '') then
     begin
       result := true;
       listNewRecords.Add('Тип адреса: ' + Trim(edit.Text));
     end;
-    // #TODO2: NEW_RECORD_NOTIFY left overs
-    { edit := TsComboBoxEx(FindComponent('EditCountry' + IntToStr(x)));
-      if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
-      begin
+    edit := TsComboBoxEx(FindComponent('EditCountry' + IntToStr(x)));
+    if (GetIDByName(edit) = EmptyStr) and (Trim(edit.Text) <> '') then
+    begin
       result := true;
       listNewRecords.Add('Страна: ' + Trim(edit.Text));
-      end;
-      edit := TsComboBoxEx(FindComponent('EditRegion' + IntToStr(x)));
+    end;
+    // #TODO2: NEW_RECORD_NOTIFY left overs
+    { edit := TsComboBoxEx(FindComponent('EditRegion' + IntToStr(x)));
       if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
       begin
       result := true;
@@ -2026,20 +2030,20 @@ var
     Q.ParamByName('NAME').AsString := Value;
     try
       Q.Execute;
+      Q.Transaction.CommitRetaining;
     except
       on E: Exception do
       begin
+        Q.Transaction.RollbackRetaining;
         WriteLog('TFormEditor.IsNewRecordCheck' + #13 + 'Ошибка: ' + E.Message);
         MessageBox(handle, PChar('Ошибка при проверке существующих директорий.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
-        Q.Close;
         Q.Free;
         exit;
       end;
     end;
-    FormMain.IBTransaction1.CommitRetaining;
     id := Q.ParamByName('RET_ID').AsString;
-    Q.Close;
     Q.Free;
+
     if AnsiLowerCase(table) = 'curator' then
     begin
       SGCurator.Cells[1, i] := id;
@@ -2066,11 +2070,11 @@ var
     if AnsiLowerCase(table) = 'officetype' then
       for z := 1 to 10 do
         TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
-    // #TODO2: NEW_RECORD_CHECK left overs
-    { if AnsiLowerCase(table) = 'country' then
+    if AnsiLowerCase(table) = 'country' then
       for z := 1 to 10 do
-      TsComboBoxEx(FindComponent('EditCountry' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
-      if AnsiLowerCase(table) = 'region' then
+        TsComboBoxEx(FindComponent('EditCountry' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
+    // #TODO2: NEW_RECORD_CHECK left overs
+    { if AnsiLowerCase(table) = 'region' then
       for z := 1 to 10 do
       TsComboBoxEx(FindComponent('EditRegion' + IntToStr(z))).AddItem(Value, Pointer(StrToInt(id)));
       if AnsiLowerCase(table) = 'city' then
@@ -2116,13 +2120,14 @@ begin
   for x := 1 to 10 do
   begin
     edit := TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(x)));
-    if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
+    if (GetIDByName(edit) = EmptyStr) and (Trim(edit.Text) <> '') then
       AddingNewRec('OFFICETYPE', UpperFirst(edit.Text), nil, FormDirectory.SGOfficeType);
-    // #TODO2: NEW_RECORD_CHECK left overs
-    { edit := TsComboBoxEx(FindComponent('EditCountry' + IntToStr(x)));
-      if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
+
+    edit := TsComboBoxEx(FindComponent('EditCountry' + IntToStr(x)));
+    if (GetIDByName(edit) = EmptyStr) and (Trim(edit.Text) <> '') then
       AddingNewRec('COUNTRY', UpperFirst(edit.Text), nil, FormDirectory.SGCountry);
-      edit := TsComboBoxEx(FindComponent('EditRegion' + IntToStr(x)));
+    // #TODO2: NEW_RECORD_CHECK left overs
+    { edit := TsComboBoxEx(FindComponent('EditRegion' + IntToStr(x)));
       if (edit.Items.IndexOf(Trim(edit.Text)) = -1) and (Trim(edit.Text) <> '') then
       AddingNewRec('REGION', UpperFirst(edit.Text), nil, FormDirectory.SGRegion);
       edit := TsComboBoxEx(FindComponent('EditCity' + IntToStr(x)));
