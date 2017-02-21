@@ -649,21 +649,21 @@ begin
         EditControlName := TsComboBoxEx(DirContainer.Edit_Editor).Name;
         delete(EditControlName, Length(EditControlName), 1);
         for i := 1 to 10 do
-          TsComboBoxEx(FormEditor.FindComponent(EditControlName + IntToStr(i))).AddItem(Name1, TObject(StrToInt(ID_NewRecord)));
+          TsComboBoxEx(FormEditor.FindComponent(EditControlName + IntToStr(i))).AddItem(Name1, TObject(ID_NewRecord.ToInteger));
       end
       else
         with TsComboBoxEx(DirContainer.Edit_Editor) do
-          AddItem(Name1, TObject(StrToInt(ID_NewRecord)));
+          AddItem(Name1, TObject(ID_NewRecord.ToInteger));
     end;
 
     if Assigned(DirContainer.Edit_DirectoryQuery) then
       with TsComboBoxEx(DirContainer.Edit_DirectoryQuery) do
-        AddItem(Name1, TObject(StrToInt(ID_NewRecord)));
+        AddItem(Name1, TObject(ID_NewRecord.ToInteger));
 
     // update rubrikator_tree if needed
     if DirCode = DIR_CODE_RUBRIKA then
     begin
-      New_Node := FormMain.TVRubrikator.Items.AddChildObject(nil, Name1, Pointer(StrToInt(ID_NewRecord)));
+      New_Node := FormMain.TVRubrikator.Items.AddChildObject(nil, Name1, Pointer(ID_NewRecord.ToInteger));
       New_Node.ImageIndex := 0;
       New_Node.SelectedIndex := 0;
       FormMain.TVRubrikator.CustomSort(@Helpers.CustomSortProc, 0, True);
@@ -794,17 +794,17 @@ begin
         for i := 1 to 10 do
         begin
           EditControl := TsComboBoxEx(FormEditor.FindComponent(EditControlName + IntToStr(i)));
-          EditControl.Items[EditControl.Items.IndexOfObject(TObject(StrToInt(ID_Directory)))] := Name1;
+          EditControl.Items[EditControl.GetIndexOfObject(ID_Directory.ToInteger)] := Name1;
         end;
       end
       else
         with TsComboBoxEx(DirContainer.Edit_Editor) do
-          Items[Items.IndexOfObject(TObject(StrToInt(ID_Directory)))] := Name1;
+          Items[GetIndexOfObject(ID_Directory.ToInteger)] := Name1;
     end;
 
     if Assigned(DirContainer.Edit_DirectoryQuery) then
       with TsComboBoxEx(DirContainer.Edit_DirectoryQuery) do
-        Items[Items.IndexOfObject(TObject(StrToInt(ID_Directory)))] := Name1;
+        Items[GetIndexOfObject(ID_Directory.ToInteger)] := Name1;
 
     // Currently this code only updates SG_CITY.REGION_NAME when REGION is edited
     if DirCode = DIR_CODE_REGION then
@@ -819,7 +819,7 @@ begin
     // update rubrikator_tree if needed
     if DirCode = DIR_CODE_RUBRIKA then
     begin
-      with FormMain.SearchNode(FormMain.TVRubrikator, StrToInt(ID_Directory), 0) do
+      with FormMain.SearchNode(FormMain.TVRubrikator, ID_Directory.ToInteger, 0) do
       begin
         Text := Name1;
         FormMain.TVRubrikator.CustomSort(@Helpers.CustomSortProc, 0, True);
@@ -948,21 +948,21 @@ begin
           for i := 1 to 10 do
           begin
             EditControl := TsComboBoxEx(FormEditor.FindComponent(EditControlName + IntToStr(i)));
-            EditControl.Items.Delete(EditControl.Items.IndexOfObject(TObject(StrToInt(ID_Directory))));
+            EditControl.Items.Delete(EditControl.GetIndexOfObject(ID_Directory.ToInteger));
           end;
         end
         else
           with TsComboBoxEx(DirContainer.Edit_Editor) do
-            Items.Delete(Items.IndexOfObject(TObject(StrToInt(ID_Directory))));
+            Items.Delete(GetIndexOfObject(ID_Directory.ToInteger));
       end;
 
       if Assigned(DirContainer.Edit_DirectoryQuery) then
         with TsComboBoxEx(DirContainer.Edit_DirectoryQuery) do
-          Items.Delete(Items.IndexOfObject(TObject(StrToInt(ID_Directory))));
+          Items.Delete(GetIndexOfObject(ID_Directory.ToInteger));
 
       // update rubrikator_tree if needed
       if DirCode = DIR_CODE_RUBRIKA then
-        with FormMain.SearchNode(FormMain.TVRubrikator, StrToInt(ID_Directory), 0) do
+        with FormMain.SearchNode(FormMain.TVRubrikator, ID_Directory.ToInteger, 0) do
           Delete;
     finally
       DirContainer.Free;
