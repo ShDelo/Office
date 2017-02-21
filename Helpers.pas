@@ -124,13 +124,26 @@ end;
 
 function GetIDByName(component: TsComboBoxEx): string;
 var
-  index: Integer;
+  IndexOfText: integer;
 begin
-  index := GetIndexOfText(component);
-  if index = -1 then
-    Result := ''
+  if component.ItemIndex <> -1 then
+  begin
+    if component.Items.Objects[component.ItemIndex] <> nil then
+      Result := IntToStr(Integer(component.Items.Objects[component.ItemIndex]))
+    else
+      Result := EmptyStr;
+  end
   else
-    Result := IntToStr(Integer(component.Items.Objects[index]));
+  begin
+    IndexOfText := GetIndexOfText(component);
+    if IndexOfText <> -1 then
+    begin
+      if component.Items.Objects[IndexOfText] <> nil then
+        Result := IntToStr(Integer(component.Items.Objects[IndexOfText]))
+    end
+    else
+      Result := EmptyStr;
+  end;
 end;
 
 function GetIndexOfText(component: TsComboBoxEx; DoTrimText: boolean = true; TextToIndex: string = ''): integer;
