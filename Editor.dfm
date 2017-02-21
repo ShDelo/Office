@@ -1318,6 +1318,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 3
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditRegionSelect
           end
           object EditCity1: TsComboBoxEx
             Left = 12
@@ -1347,6 +1350,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 4
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditCitySelect
           end
           object CBAdres1: TsCheckBox
             Left = 10
@@ -1914,6 +1920,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 3
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditRegionSelect
           end
           object EditCity2: TsComboBoxEx
             Left = 12
@@ -1943,6 +1952,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 4
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditCitySelect
           end
           object CBAdres2: TsCheckBox
             Left = 10
@@ -2509,6 +2521,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 3
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditRegionSelect
           end
           object EditCity3: TsComboBoxEx
             Left = 12
@@ -2538,6 +2553,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 4
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditCitySelect
           end
           object CBAdres3: TsCheckBox
             Left = 10
@@ -3104,6 +3122,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 3
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditRegionSelect
           end
           object EditCity4: TsComboBoxEx
             Left = 12
@@ -3133,6 +3154,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 4
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditCitySelect
           end
           object CBAdres4: TsCheckBox
             Left = 10
@@ -3699,6 +3723,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 3
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditRegionSelect
           end
           object EditCity5: TsComboBoxEx
             Left = 12
@@ -3728,6 +3755,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 4
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditCitySelect
           end
           object CBAdres5: TsCheckBox
             Left = 10
@@ -4294,6 +4324,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 3
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditRegionSelect
           end
           object EditCity6: TsComboBoxEx
             Left = 12
@@ -4323,6 +4356,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 4
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditCitySelect
           end
           object CBAdres6: TsCheckBox
             Left = 10
@@ -4889,6 +4925,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 3
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditRegionSelect
           end
           object EditCity7: TsComboBoxEx
             Left = 12
@@ -4918,6 +4957,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 4
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditCitySelect
           end
           object CBAdres7: TsCheckBox
             Left = 10
@@ -5484,6 +5526,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 3
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditRegionSelect
           end
           object EditCity8: TsComboBoxEx
             Left = 12
@@ -5513,6 +5558,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 4
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditCitySelect
           end
           object CBAdres8: TsCheckBox
             Left = 10
@@ -6079,6 +6127,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 3
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditRegionSelect
           end
           object EditCity9: TsComboBoxEx
             Left = 12
@@ -6108,6 +6159,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 4
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditCitySelect
           end
           object CBAdres9: TsCheckBox
             Left = 10
@@ -6674,6 +6728,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 3
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditRegionSelect
           end
           object EditCity10: TsComboBoxEx
             Left = 12
@@ -6703,6 +6760,9 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 4
+            OnExit = EditRegionOrCityOnExit
+            OnKeyPress = EditRegionOrCityOnKeyPress
+            OnSelect = EditCitySelect
           end
           object CBAdres10: TsCheckBox
             Left = 10

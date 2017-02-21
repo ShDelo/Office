@@ -287,6 +287,10 @@ type
     procedure BtnAddWebToListClick(Sender: TObject);
     procedure SGCuratorDblClick(Sender: TObject);
     procedure SGCuratorEnter(Sender: TObject);
+    procedure EditRegionOrCityOnExit(Sender: TObject);
+    procedure EditRegionOrCityOnKeyPress(Sender: TObject; var Key: Char);
+    procedure EditRegionSelect(Sender: TObject);
+    procedure EditCitySelect(Sender: TObject);
   private
     { Private declarations }
   public
@@ -294,7 +298,7 @@ type
     procedure CreateParams(var Params: TCreateParams); override;
   end;
 
-procedure ClearEdit(Edit: TsComboBoxEx);
+procedure ClearEdit(Edit: TsComboBoxEx; DoItemsClear: boolean = false);
 
 var
   FormEditor: TFormEditor;
@@ -307,11 +311,13 @@ uses Main, Logo, Directory, Report, Dublicate, Relations, MailSend, Helpers;
 
 {$R *.dfm}
 
-procedure ClearEdit(Edit: TsComboBoxEx);
+procedure ClearEdit(Edit: TsComboBoxEx; DoItemsClear: boolean = false);
 begin
   Edit.Text := '';
   Edit.ItemIndex := -1;
   Edit.Tag := -1;
+  if DoItemsClear then
+    Edit.Clear;
 end;
 
 procedure TFormEditor.CreateParams(var Params: TCreateParams);
@@ -1310,11 +1316,12 @@ procedure TFormEditor.PrepareEditRecord(id: string);
     ID_Country := StrToIntDef(list[5], -1);
     ID_Region := StrToIntDef(list[6], -1);
     ID_City := StrToIntDef(list[7], -1);
-    { #TODO2: REVISIT : See if we need region>city values validation in here }
     OfficeType.ItemIndex := GetIndexOfObject(OfficeType, ID_OfficeType);
     Country.ItemIndex := GetIndexOfObject(Country, ID_Country);
     Region.ItemIndex := GetIndexOfObject(Region, ID_Region);
+    Region.Tag := Region.ItemIndex;
     City.ItemIndex := GetIndexOfObject(City, ID_City);
+    City.Tag := City.ItemIndex;
     list.Free;
   end;
 
@@ -1779,6 +1786,85 @@ begin
   // FormMain.IBDatabase1.Connected := False;
 end;
 
+{ #TODO1: DELO : Implement same OnExit event in DELO }
+procedure TFormEditor.EditRegionOrCityOnExit(Sender: TObject);
+begin
+  // tag is representing actual ItemIndex and is set @OnSelect event
+  // we clear text when tag = -1 because setting ItemIndex to -1 when it is already set to -1 will not clear text
+  // otherwise we return ItemIndex to its previous value if it somehow changed
+  // (i.e user entered some text and didn't confirmed changes with ENTER key press)
+  if TsComboBoxEx(Sender).Tag = -1 then
+    TsComboBoxEx(Sender).Text := EmptyStr
+  else if TsComboBoxEx(Sender).ItemIndex <> TsComboBoxEx(Sender).Tag then
+    TsComboBoxEx(Sender).ItemIndex := TsComboBoxEx(Sender).Tag;
+end;
+
+procedure TFormEditor.EditRegionOrCityOnKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    if ContainsText(TsComboBoxEx(Sender).Name, 'EditRegion') then
+      EditRegionSelect(Sender)
+    else if ContainsText(TsComboBoxEx(Sender).Name, 'EditCity') then
+      EditCitySelect(Sender)
+  end;
+end;
+
+procedure TFormEditor.EditRegionSelect(Sender: TObject);
+var
+  EditRegion, EditCity: TsComboBoxEx;
+  ID_AdresPage: integer;
+begin
+  EditRegion := TsComboBoxEx(Sender);
+  if EditRegion.Tag <> EditRegion.ItemIndex then
+  begin
+    EditRegion.Tag := EditRegion.ItemIndex;
+    ID_AdresPage := StrToInt(TsTabSheet(EditRegion.Parent.Parent).Caption);
+    EditCity := TsComboBoxEx(FormEditor.FindComponent('EditCity' + IntToStr(ID_AdresPage)));
+    if Assigned(EditCity) then
+      ClearEdit(EditCity);
+  end;
+end;
+
+procedure TFormEditor.EditCitySelect(Sender: TObject);
+var
+  EditRegion, EditCity: TsComboBoxEx;
+  ID_City, ID_Region, ID_AdresPage: integer;
+  Query: TIBCQuery;
+begin
+  EditCity := TsComboBoxEx(Sender);
+  ID_AdresPage := StrToInt(TsTabSheet(EditCity.Parent.Parent).Caption);
+  EditRegion := TsComboBoxEx(FormEditor.FindComponent('EditRegion' + IntToStr(ID_AdresPage)));
+
+  if EditCity.Tag <> EditCity.ItemIndex then
+  begin
+    EditCity.Tag := EditCity.ItemIndex;
+    if EditCity.ItemIndex <> -1 then
+    begin
+      Query := QueryCreate;
+      try
+        ID_City := StrToIntDef(GetIdByName(EditCity), -1);
+        Query.SQL.Text := 'select ID_REGION from CITY where ID = :ID';
+        Query.ParamByName('ID').AsInteger := ID_City;
+        Query.Open;
+        if Query.RecordCount > 0 then
+        begin
+          ID_Region := VarToStrDef(Query.FieldValues['ID_REGION'], '-1').ToInteger;
+          ClearEdit(EditRegion);
+          EditRegion.ItemIndex := GetIndexOfObject(EditRegion, ID_Region);
+          EditRegion.Tag := EditRegion.ItemIndex;
+        end
+        else
+          ClearEdit(EditRegion);
+      finally
+        Query.Free;
+      end;
+    end
+    else
+      ClearEdit(EditRegion);
+  end;
+end;
+
 procedure TFormEditor.DeleteRecord(id: string);
 var
   i: Integer;
@@ -2117,6 +2203,8 @@ begin
   GetPhoneList(SGPhone8);
   GetPhoneList(SGPhone9);
   GetPhoneList(SGPhone10);
+
+  { #TODO2: REVISIT : IsDublicate logic is kinda bad. Probably need to get rid of phones comparing and maybe other stuff }
 
   // REQ1 := ' lower(NAME) = ''' + Name + ''' or';
   REQ1 := ' lower(NAME) = :NAME or';
