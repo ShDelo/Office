@@ -17,8 +17,8 @@ function GetFirmCount: string;
 function GetNameByID(table, id: string): string;
 function GetIDByName(component: TsComboBoxEx): string;
 function GetIndexOfText(component: TsComboBoxEx; DoTrimText: boolean = true; TextToIndex: string = ''): integer;
-function GetIndexOfObject(component: TsComboBoxEx; IDToIndex: integer = -1): integer;
-function GetObjectOfIndex(component: TsComboBoxEx): integer;
+function GetIndexOfObject(component: TsComboBoxEx; ObjectToIndex: integer): integer;
+function GetObjectOfIndex(component: TsComboBoxEx; AIndex: integer = -1): integer;
 
 const
   bDebug: Boolean = True;
@@ -163,21 +163,29 @@ begin
   end;
 end;
 
-function GetIndexOfObject(component: TsComboBoxEx; IDToIndex: integer = -1): integer;
+function GetIndexOfObject(component: TsComboBoxEx; ObjectToIndex: integer): integer;
 begin
-  if IDToIndex = -1 then
-    Result := -1
+  if ObjectToIndex >= 0 then
+    Result := component.Items.IndexOfObject(TObject(ObjectToIndex))
   else
-    Result := component.Items.IndexOfObject(TObject(IDToIndex));
+    Result := -1
 end;
 
-function GetObjectOfIndex(component: TsComboBoxEx): integer;
+function GetObjectOfIndex(component: TsComboBoxEx; AIndex: integer = -1): integer;
 begin
   Result := -1;
 
-  if component.ItemIndex <> -1 then
-    if component.Items.Objects[component.ItemIndex] <> nil then
-      Result := Integer(component.Items.Objects[component.ItemIndex])
+  if AIndex = -1 then
+  begin
+    if component.ItemIndex <> -1 then
+      if component.Items.Objects[component.ItemIndex] <> nil then
+        Result := Integer(component.Items.Objects[component.ItemIndex])
+  end
+  else
+  begin
+    if component.Items.Objects[AIndex] <> nil then
+      Result := Integer(component.Items.Objects[AIndex])
+  end;
 end;
 
 end.
