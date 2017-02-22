@@ -11,8 +11,6 @@
 { #TODO1: UI : think how we gonna display adres data now, that we have region field added.
   should it be displayed in Tabs, report simple, report complex? what about DELO? anywhere else? }
 
-{ #TODO1: DESIGN: Figure out how region and city edits will react to text that has -1 indexof
-  this is live-time updating issue where if record edit while record of same type has already been added to list }
 unit Editor;
 
 interface
@@ -1777,15 +1775,29 @@ end;
 
 { #TODO1: DELO : Implement same OnExit event in DELO }
 procedure TFormEditor.EditRegionOrCityOnExit(Sender: TObject);
+var
+  Key: Char;
 begin
-  // tag is representing actual ItemIndex and is set @OnSelect event
-  // we clear text when tag = -1 because setting ItemIndex to -1 when it is already set to -1 will not clear text
-  // otherwise we return ItemIndex to its previous value if it somehow changed
-  // (i.e user entered some text and didn't confirmed changes with ENTER key press)
-  if TsComboBoxEx(Sender).Tag = -1 then
-    TsComboBoxEx(Sender).Text := EmptyStr
-  else if TsComboBoxEx(Sender).ItemIndex <> TsComboBoxEx(Sender).Tag then
-    TsComboBoxEx(Sender).ItemIndex := TsComboBoxEx(Sender).Tag;
+  { The logic in this interaction is quite messy. Point of this is to allow selecting value OnExit without having to press Enter
+    Basically this event will either set new value if it valid or decide what to do with invalid value.
+    OnExit is also called from OnSelect event when edit trying to change it ItemIndex to -1 }
+  if TsComboBoxEx(Sender).GetID <> -1 then
+  begin
+    // valid value entered, call for OnSelect...
+    Key := #13;
+    EditRegionOrCityOnKeyPress(Sender, Key);
+  end
+  else
+  begin
+    // invalid value entered, check for what to do...
+    if TsComboBoxEx(Sender).Tag = -1 then // nothing was set in this edit -> clear invalid value
+      TsComboBoxEx(Sender).Text := EmptyStr
+    else if Trim(TsComboBoxEx(Sender).Text) = EmptyStr then // edit had value set but user cleared text -> set selection to none
+      TsComboBoxEx(Sender).Tag := -1
+    else if (TsComboBoxEx(Sender).ItemIndex = -1) and (TsComboBoxEx(Sender).Tag <> -1) then
+      // entered value is not valid, reset back to previous valid value
+      TsComboBoxEx(Sender).ItemIndex := TsComboBoxEx(Sender).Tag;
+  end;
 end;
 
 procedure TFormEditor.EditRegionOrCityOnKeyPress(Sender: TObject; var Key: Char);
@@ -1807,11 +1819,16 @@ begin
   EditRegion := TsComboBoxEx(Sender);
   if EditRegion.Tag <> EditRegion.ItemIndex then
   begin
-    EditRegion.Tag := EditRegion.ItemIndex;
-    ID_AdresPage := StrToInt(TsTabSheet(EditRegion.Parent.Parent).Caption);
-    EditCity := TsComboBoxEx(FormEditor.FindComponent('EditCity' + IntToStr(ID_AdresPage)));
-    if Assigned(EditCity) then
-      ClearEdit(EditCity);
+    if EditRegion.ItemIndex <> -1 then
+    begin
+      EditRegion.Tag := EditRegion.ItemIndex;
+      ID_AdresPage := StrToInt(TsTabSheet(EditRegion.Parent.Parent).Caption);
+      EditCity := TsComboBoxEx(FormEditor.FindComponent('EditCity' + IntToStr(ID_AdresPage)));
+      if Assigned(EditCity) then
+        ClearEdit(EditCity);
+    end
+    else
+      EditRegionOrCityOnExit(Sender);
   end;
 end;
 
@@ -1827,11 +1844,12 @@ begin
 
   if EditCity.Tag <> EditCity.ItemIndex then
   begin
-    EditCity.Tag := EditCity.ItemIndex;
     if EditCity.ItemIndex <> -1 then
     begin
+      EditCity.Tag := EditCity.ItemIndex;
       Query := QueryCreate;
       try
+        ClearEdit(EditRegion);
         ID_City := EditCity.GetID;
         Query.SQL.Text := 'select ID_REGION from CITY where ID = :ID';
         Query.ParamByName('ID').AsInteger := ID_City;
@@ -1839,17 +1857,14 @@ begin
         if Query.RecordCount > 0 then
         begin
           ID_Region := VarToStrDef(Query.FieldValues['ID_REGION'], '-1').ToInteger;
-          ClearEdit(EditRegion);
           EditRegion.SetIndexOfObject(ID_Region);
         end
-        else
-          ClearEdit(EditRegion);
       finally
         Query.Free;
       end;
     end
     else
-      ClearEdit(EditRegion);
+      EditRegionOrCityOnExit(Sender);
   end;
 end;
 
