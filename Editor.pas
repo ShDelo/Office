@@ -1039,21 +1039,25 @@ var
   begin
     if CBAdres.Checked then
     begin
-      offtype_id := OfficeType.GetID.ToString;
-      if offtype_id <> EmptyStr then
-        offtype_id := '@' + offtype_id;
+      if OfficeType.GetID = ID_UNKNOWN then
+        offtype_id := EmptyStr
+      else
+        offtype_id := '@' + OfficeType.GetID.ToString;
 
-      country_id := Country.GetID.ToString;
-      if country_id <> EmptyStr then
-        country_id := '&' + country_id;
+      if Country.GetID = ID_UNKNOWN then
+        country_id := EmptyStr
+      else
+        country_id := '&' + Country.GetID.ToString;
 
-      region_id := Region.GetID.ToString;
-      if region_id <> EmptyStr then
-        region_id := '*' + region_id;
+      if Region.GetID = ID_UNKNOWN then
+        region_id := EmptyStr
+      else
+        region_id := '*' + Region.GetID.ToString;
 
-      city_id := City.GetID.ToString;
-      if city_id <> EmptyStr then
-        city_id := '^' + city_id;
+      if City.GetID = ID_UNKNOWN then
+        city_id := EmptyStr
+      else
+        city_id := '^' + City.GetID.ToString;
 
       str.Add(Format('#%s$#%s$#%s$#%s$#%s$#%s$#%s$#%s$', ['1', No.Text, offtype_id, Trim(ZIP.Text), Trim(Street.Text), country_id,
         region_id, city_id]));
@@ -1540,21 +1544,25 @@ var
   begin
     if CBAdres.Checked then
     begin
-      offtype_id := OfficeType.GetID.ToString;
-      if offtype_id <> EmptyStr then
-        offtype_id := '@' + offtype_id;
+      if OfficeType.GetID = ID_UNKNOWN then
+        offtype_id := EmptyStr
+      else
+        offtype_id := '@' + OfficeType.GetID.ToString;
 
-      country_id := Country.GetID.ToString;
-      if country_id <> EmptyStr then
-        country_id := '&' + country_id;
+      if Country.GetID = ID_UNKNOWN then
+        country_id := EmptyStr
+      else
+        country_id := '&' + Country.GetID.ToString;
 
-      region_id := Region.GetID.ToString;
-      if region_id <> EmptyStr then
-        region_id := '*' + region_id;
+      if Region.GetID = ID_UNKNOWN then
+        region_id := EmptyStr
+      else
+        region_id := '*' + Region.GetID.ToString;
 
-      city_id := City.GetID.ToString;
-      if city_id <> EmptyStr then
-        city_id := '^' + city_id;
+      if City.GetID = ID_UNKNOWN then
+        city_id := EmptyStr
+      else
+        city_id := '^' + City.GetID.ToString;
 
       str.Add(Format('#%s$#%s$#%s$#%s$#%s$#%s$#%s$#%s$', ['1', No.Text, offtype_id, Trim(ZIP.Text), Trim(Street.Text), country_id,
         region_id, city_id]));

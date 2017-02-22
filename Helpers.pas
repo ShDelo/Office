@@ -25,6 +25,8 @@ function GetFirmCount: string;
 function GetNameByID(table, id: string): string;
 
 const
+  ID_UNKNOWN = -1;
+
   bDebug: Boolean = True;
 
 implementation
@@ -39,7 +41,7 @@ begin
   if ObjectToIndex >= 0 then
     Result := self.Items.IndexOfObject(TObject(ObjectToIndex))
   else
-    Result := -1
+    Result := ID_UNKNOWN;
 end;
 
 function TsComboBoxEx_Helper.SetIndexOfObject(ObjectToIndex: integer): integer;
@@ -58,7 +60,7 @@ begin
   end
   else
   begin
-    Result := -1;
+    Result := ID_UNKNOWN;
     if self.ItemIndex <> -1 then
     begin
       self.ItemIndex := -1;
@@ -73,7 +75,7 @@ function TsComboBoxEx_Helper.GetID: integer;
 var
   IndexOfText: integer;
 begin
-  Result := -1;
+  Result := ID_UNKNOWN;;
 
   if self.ItemIndex <> -1 then
   begin
@@ -91,7 +93,7 @@ end;
 
 function TsComboBoxEx_Helper.GetObjectOfIndex(AIndex: integer): integer;
 begin
-  Result := -1;
+  Result := ID_UNKNOWN;;
 
   if AIndex = -1 then
   begin
