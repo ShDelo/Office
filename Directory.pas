@@ -128,6 +128,7 @@ type
     SG_Main: Pointer; // temp grid e.g main.sgCurator_tmp
     SG_Directory: Pointer; // SG control on FormDirectory
     Edit_Editor: Pointer; // edit on FormEditor
+    SG_Editor: Pointer; // SG on FormEditor
     Edit_DirectoryQuery: Pointer; // edit on DirectoryQuery
     IsAdresEdits: Boolean;
     constructor Create(DirCode: integer);
@@ -173,6 +174,7 @@ begin
     self.SG_Main := nil;
     self.SG_Directory := nil;
     self.Edit_Editor := nil;
+    self.SG_Editor := nil;
     self.Edit_DirectoryQuery := nil;
     self.IsAdresEdits := False;
   end;
@@ -183,6 +185,7 @@ begin
         self.SG_Main := main.sgCurator_tmp;
         self.SG_Directory := FormDirectory.SGCurator;
         self.Edit_Editor := FormEditor.EditCurator;
+        self.SG_Editor := FormEditor.SGCurator;
         self.Edit_DirectoryQuery := nil;
         self.IsAdresEdits := False;
       end;
@@ -191,6 +194,7 @@ begin
         self.SG_Main := main.sgRubr_tmp;
         self.SG_Directory := FormDirectory.SGRubr;
         self.Edit_Editor := FormEditor.EditRubr;
+        self.SG_Editor := FormEditor.SGRubr;
         self.Edit_DirectoryQuery := nil;
         self.IsAdresEdits := False;
       end;
@@ -199,6 +203,7 @@ begin
         self.SG_Main := main.sgFirmType_tmp;
         self.SG_Directory := FormDirectory.SGFirmType;
         self.Edit_Editor := FormEditor.EditFirmType;
+        self.SG_Editor := FormEditor.SGFirmType;
         self.Edit_DirectoryQuery := nil;
         self.IsAdresEdits := False;
       end;
@@ -207,6 +212,7 @@ begin
         self.SG_Main := main.sgNapr_tmp;
         self.SG_Directory := FormDirectory.SGNapr;
         self.Edit_Editor := FormEditor.EditNapravlenie;
+        self.SG_Editor := FormEditor.SGNapravlenie;
         self.Edit_DirectoryQuery := nil;
         self.IsAdresEdits := False;
       end;
@@ -215,6 +221,7 @@ begin
         self.SG_Main := nil;
         self.SG_Directory := FormDirectory.SGOfficeType;
         self.Edit_Editor := FormEditor.EditOfficeType1;
+        self.SG_Editor := nil;
         self.Edit_DirectoryQuery := nil;
         self.IsAdresEdits := True;
       end;
@@ -223,6 +230,7 @@ begin
         self.SG_Main := nil;
         self.SG_Directory := FormDirectory.SGCountry;
         self.Edit_Editor := FormEditor.EditCountry1;
+        self.SG_Editor := nil;
         self.Edit_DirectoryQuery := nil;
         self.IsAdresEdits := True;
       end;
@@ -231,6 +239,7 @@ begin
         self.SG_Main := nil;
         self.SG_Directory := FormDirectory.SGRegion;
         self.Edit_Editor := FormEditor.EditRegion1;
+        self.SG_Editor := nil;
         self.Edit_DirectoryQuery := FormDirectoryQuery.Edit3;
         self.IsAdresEdits := True;
       end;
@@ -239,6 +248,7 @@ begin
         self.SG_Main := nil;
         self.SG_Directory := FormDirectory.SGCity;
         self.Edit_Editor := FormEditor.EditCity1;
+        self.SG_Editor := nil;
         self.Edit_DirectoryQuery := nil;
         self.IsAdresEdits := True;
       end;
@@ -247,6 +257,7 @@ begin
         self.SG_Main := nil;
         self.SG_Directory := FormDirectory.SGPhoneType;
         self.Edit_Editor := FormEditor.EditPhoneType1;
+        self.SG_Editor := nil;
         self.Edit_DirectoryQuery := nil;
         self.IsAdresEdits := True;
       end;
@@ -682,7 +693,7 @@ function TFormDirectory.Directory_EDIT(DirCode: integer; ID_Directory: string; V
 var
   Query: TIBCQuery;
   Name1, Name2, ID_Region, SQL_select, SQL_update, EditControlName: string;
-  i: integer;
+  i, index_old, index_new: integer;
   DirContainer: TDirectoryContainer;
   EditControl: TsComboBoxEx;
 begin
@@ -794,13 +805,30 @@ begin
         for i := 1 to 10 do
         begin
           EditControl := TsComboBoxEx(FormEditor.FindComponent(EditControlName + IntToStr(i)));
-          EditControl.Items[EditControl.GetIndexOfObject(ID_Directory.ToInteger)] := Name1;
+          index_old := EditControl.ItemIndex;
+          index_new := EditControl.GetIndexOfObject(ID_Directory.ToInteger);
+          EditControl.Items[index_new] := Name1;
+          if index_old = index_new then
+            EditControl.SetIndexOfObject(ID_Directory.ToInteger);
         end;
       end
       else
         with TsComboBoxEx(DirContainer.Edit_Editor) do
-          Items[GetIndexOfObject(ID_Directory.ToInteger)] := Name1;
+        begin
+          index_old := ItemIndex;
+          index_new := GetIndexOfObject(ID_Directory.ToInteger);
+          Items[index_new] := Name1;
+          if index_old = index_new then
+            SetIndexOfObject(ID_Directory.ToInteger);
+        end;
     end;
+
+    if Assigned(DirContainer.SG_Editor) then
+      with TNextGrid(DirContainer.SG_Editor) do
+      begin
+        if FindText(1, ID_Directory, [soCaseInsensitive, soExactMatch]) then
+          Cells[0, SelectedRow] := Name1;
+      end;
 
     if Assigned(DirContainer.Edit_DirectoryQuery) then
       with TsComboBoxEx(DirContainer.Edit_DirectoryQuery) do
