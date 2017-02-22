@@ -303,6 +303,7 @@ type
   end;
 
 procedure ClearEdit(Edit: TsComboBoxEx; DoItemsClear: boolean = false);
+procedure ClearAdresEdits(PageIndex: integer);
 
 var
   FormEditor: TFormEditor;
@@ -322,6 +323,24 @@ begin
   Edit.Tag := -1;
   if DoItemsClear then
     Edit.Clear;
+end;
+
+procedure ClearAdresEdits(PageIndex: integer);
+begin
+  if (PageIndex < 0) or (PageIndex > 10) then
+    exit;
+
+  TsCheckBox(FormEditor.FindComponent('CBAdres' + PageIndex.ToString)).Checked := False;
+  ClearEdit(TsComboBoxEx(FormEditor.FindComponent('EditOfficeType' + PageIndex.ToString)));
+  TsEdit(FormEditor.FindComponent('EditZIP' + PageIndex.ToString)).Text := '';
+  ClearEdit(TsComboBoxEx(FormEditor.FindComponent('EditCountry' + PageIndex.ToString)));
+  ClearEdit(TsComboBoxEx(FormEditor.FindComponent('EditRegion' + PageIndex.ToString)));
+  ClearEdit(TsComboBoxEx(FormEditor.FindComponent('EditCity' + PageIndex.ToString)));
+  TsEdit(FormEditor.FindComponent('EditStreet' + PageIndex.ToString)).Text := '';
+  ClearEdit(TsComboBoxEx(FormEditor.FindComponent('EditPhoneType' + PageIndex.ToString)));
+  TsEdit(FormEditor.FindComponent('EditPhone' + PageIndex.ToString)).Text := '';
+  TNextGrid(FormEditor.FindComponent('SGPhone' + PageIndex.ToString)).ClearRows;
+  TsMemo(FormEditor.FindComponent('MemoPhone' + PageIndex.ToString)).Clear;
 end;
 
 procedure TFormEditor.CreateParams(var Params: TCreateParams);
@@ -770,39 +789,11 @@ begin
 end;
 
 procedure TFormEditor.btnDeleteAdresClick(Sender: TObject);
-
-  procedure ClearingEdits(OfficeType, Country, Region, City: TsComboBoxEx; ZIP, Street: TsEdit; SGPhone: TNextGrid);
-  begin
-    OfficeType.Text := '';
-    Country.Text := '';
-    Region.Text := '';
-    City.Text := '';
-    ZIP.Text := '';
-    Street.Text := '';
-    SGPhone.ClearRows;
-  end;
-
+var
+  PageIndex: string;
 begin
-  if TsSpeedButton(Sender).Name = 'btnDeleteAdres1' then
-    ClearingEdits(EditOfficeType1, EditCountry1, EditRegion1, EditCity1, EditZIP1, EditStreet1, SGPhone1);
-  if TsSpeedButton(Sender).Name = 'btnDeleteAdres2' then
-    ClearingEdits(EditOfficeType2, EditCountry2, EditRegion2, EditCity2, EditZIP2, EditStreet2, SGPhone2);
-  if TsSpeedButton(Sender).Name = 'btnDeleteAdres3' then
-    ClearingEdits(EditOfficeType3, EditCountry3, EditRegion3, EditCity3, EditZIP3, EditStreet3, SGPhone3);
-  if TsSpeedButton(Sender).Name = 'btnDeleteAdres4' then
-    ClearingEdits(EditOfficeType4, EditCountry4, EditRegion4, EditCity4, EditZIP4, EditStreet4, SGPhone4);
-  if TsSpeedButton(Sender).Name = 'btnDeleteAdres5' then
-    ClearingEdits(EditOfficeType5, EditCountry5, EditRegion5, EditCity5, EditZIP5, EditStreet5, SGPhone5);
-  if TsSpeedButton(Sender).Name = 'btnDeleteAdres6' then
-    ClearingEdits(EditOfficeType6, EditCountry6, EditRegion6, EditCity6, EditZIP6, EditStreet6, SGPhone6);
-  if TsSpeedButton(Sender).Name = 'btnDeleteAdres7' then
-    ClearingEdits(EditOfficeType7, EditCountry7, EditRegion7, EditCity7, EditZIP7, EditStreet7, SGPhone7);
-  if TsSpeedButton(Sender).Name = 'btnDeleteAdres8' then
-    ClearingEdits(EditOfficeType8, EditCountry8, EditRegion8, EditCity8, EditZIP8, EditStreet8, SGPhone8);
-  if TsSpeedButton(Sender).Name = 'btnDeleteAdres9' then
-    ClearingEdits(EditOfficeType9, EditCountry9, EditRegion9, EditCity9, EditZIP9, EditStreet9, SGPhone9);
-  if TsSpeedButton(Sender).Name = 'btnDeleteAdres10' then
-    ClearingEdits(EditOfficeType10, EditCountry10, EditRegion10, EditCity10, EditZIP10, EditStreet10, SGPhone10);
+  PageIndex := StringReplace(TsSpeedButton(Sender).Name, 'btnDeleteAdres', '', []);
+  ClearAdresEdits(StrToIntDef(PageIndex, -1));
 end;
 
 procedure TFormEditor.LoadDataEditor;
@@ -1007,20 +998,10 @@ begin
   ClearEdit(EditNapravlenie);
   EditWEB.Text := '';
   EditEMAIL.Text := '';
+
   for i := 1 to 10 do
-  begin
-    TsCheckBox(FindComponent('CBAdres' + IntToStr(i))).Checked := False;
-    ClearEdit(TsComboBoxEx(FindComponent('EditOfficeType' + IntToStr(i))));
-    TsEdit(FindComponent('EditZIP' + IntToStr(i))).Text := '';
-    ClearEdit(TsComboBoxEx(FindComponent('EditCountry' + IntToStr(i))));
-    ClearEdit(TsComboBoxEx(FindComponent('EditRegion' + IntToStr(i))));
-    ClearEdit(TsComboBoxEx(FindComponent('EditCity' + IntToStr(i))));
-    TsEdit(FindComponent('EditStreet' + IntToStr(i))).Text := '';
-    ClearEdit(TsComboBoxEx(FindComponent('EditPhoneType' + IntToStr(i))));
-    TsEdit(FindComponent('EditPhone' + IntToStr(i))).Text := '';
-    TNextGrid(FindComponent('SGPhone' + IntToStr(i))).ClearRows;
-    TsMemo(FindComponent('MemoPhone' + IntToStr(i))).Clear;
-  end;
+    ClearAdresEdits(i);
+
   if not Assigned(list_GC_IDs) then
     list_GC_IDs := TStringList.Create;
   list_GC_IDs.Clear;
