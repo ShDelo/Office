@@ -286,7 +286,7 @@ type
     procedure SGCuratorKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EditCuratorExit(Sender: TObject);
     procedure BtnAddPhoneToListClick(Sender: TObject);
-    procedure EditPhone1KeyPress(Sender: TObject; var Key: Char);
+    procedure EditPhoneKeyPress(Sender: TObject; var Key: Char);
     procedure btnDeleteAdresClick(Sender: TObject);
     procedure BtnAddWebToListClick(Sender: TObject);
     procedure SGCuratorDblClick(Sender: TObject);
@@ -553,8 +553,6 @@ end;
 
 procedure TFormEditor.EditCuratorKeyPress(Sender: TObject; var Key: Char);
 begin
-  // if TsComboBoxEx(Sender).Name = 'EditNapravlenie' then
-  // EditNapravlenie.DroppedDown := True; {Был баг: стерало всю строку едита при выпадании списка}
   if Key = #13 then
   begin
     Key := #0;
@@ -566,31 +564,31 @@ begin
       BtnAddCuratorToListClick(BtnAddFirmTypeToList);
     if TsComboBoxEx(Sender).Name = 'EditNapravlenie' then
     begin
-      BtnAddCuratorToListClick(BtnAddNaprToList); // EditNapravlenie.DroppedDown := False;
+      BtnAddCuratorToListClick(BtnAddNaprToList);
     end;
     if TsEdit(Sender).Name = 'EditWEB' then
       BtnAddWebToListClick(BtnAddWebToList);
     if TsEdit(Sender).Name = 'EditEMAIL' then
       BtnAddWebToListClick(BtnAddEMailToList);
-    if (TsComboBoxEx(Sender).Name = 'EditPhoneType1') or (TsEdit(Sender).Name = 'EditPhone1') then
+    if TsEdit(Sender).Name = 'EditPhone1' then
       BtnAddPhoneToListClick(BtnAddPhoneToList1);
-    if (TsComboBoxEx(Sender).Name = 'EditPhoneType2') or (TsEdit(Sender).Name = 'EditPhone2') then
+    if TsEdit(Sender).Name = 'EditPhone2' then
       BtnAddPhoneToListClick(BtnAddPhoneToList2);
-    if (TsComboBoxEx(Sender).Name = 'EditPhoneType3') or (TsEdit(Sender).Name = 'EditPhone3') then
+    if TsEdit(Sender).Name = 'EditPhone3' then
       BtnAddPhoneToListClick(BtnAddPhoneToList3);
-    if (TsComboBoxEx(Sender).Name = 'EditPhoneType4') or (TsEdit(Sender).Name = 'EditPhone4') then
+    if TsEdit(Sender).Name = 'EditPhone4' then
       BtnAddPhoneToListClick(BtnAddPhoneToList4);
-    if (TsComboBoxEx(Sender).Name = 'EditPhoneType5') or (TsEdit(Sender).Name = 'EditPhone5') then
+    if TsEdit(Sender).Name = 'EditPhone5' then
       BtnAddPhoneToListClick(BtnAddPhoneToList5);
-    if (TsComboBoxEx(Sender).Name = 'EditPhoneType6') or (TsEdit(Sender).Name = 'EditPhone6') then
+    if TsEdit(Sender).Name = 'EditPhone6' then
       BtnAddPhoneToListClick(BtnAddPhoneToList6);
-    if (TsComboBoxEx(Sender).Name = 'EditPhoneType7') or (TsEdit(Sender).Name = 'EditPhone7') then
+    if TsEdit(Sender).Name = 'EditPhone7' then
       BtnAddPhoneToListClick(BtnAddPhoneToList7);
-    if (TsComboBoxEx(Sender).Name = 'EditPhoneType8') or (TsEdit(Sender).Name = 'EditPhone8') then
+    if TsEdit(Sender).Name = 'EditPhone8' then
       BtnAddPhoneToListClick(BtnAddPhoneToList8);
-    if (TsComboBoxEx(Sender).Name = 'EditPhoneType9') or (TsEdit(Sender).Name = 'EditPhone9') then
+    if TsEdit(Sender).Name = 'EditPhone9' then
       BtnAddPhoneToListClick(BtnAddPhoneToList9);
-    if (TsComboBoxEx(Sender).Name = 'EditPhoneType10') or (TsEdit(Sender).Name = 'EditPhone10') then
+    if TsEdit(Sender).Name = 'EditPhone10' then
       BtnAddPhoneToListClick(BtnAddPhoneToList10);
   end;
 end;
@@ -764,7 +762,7 @@ begin
     Adding(EditPhoneType10, EditPhone10, SGPhone10);
 end;
 
-procedure TFormEditor.EditPhone1KeyPress(Sender: TObject; var Key: Char);
+procedure TFormEditor.EditPhoneKeyPress(Sender: TObject; var Key: Char);
 begin
   EditCuratorKeyPress(Sender, Key);
   if not(Key in ['0' .. '9', #8, #32, '+', '-']) then

@@ -1392,7 +1392,6 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 6
-            OnKeyPress = EditCuratorKeyPress
           end
           object EditPhone1: TsEdit
             Left = 172
@@ -1408,7 +1407,7 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 7
-            OnKeyPress = EditPhone1KeyPress
+            OnKeyPress = EditPhoneKeyPress
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
           end
@@ -1994,7 +1993,6 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 6
-            OnKeyPress = EditCuratorKeyPress
           end
           object EditPhone2: TsEdit
             Left = 172
@@ -2009,7 +2007,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             TabOrder = 7
-            OnKeyPress = EditPhone1KeyPress
+            OnKeyPress = EditPhoneKeyPress
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
           end
@@ -2595,7 +2593,6 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 6
-            OnKeyPress = EditCuratorKeyPress
           end
           object EditPhone3: TsEdit
             Left = 172
@@ -2610,7 +2607,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             TabOrder = 7
-            OnKeyPress = EditPhone1KeyPress
+            OnKeyPress = EditPhoneKeyPress
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
           end
@@ -3196,7 +3193,6 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 6
-            OnKeyPress = EditCuratorKeyPress
           end
           object EditPhone4: TsEdit
             Left = 172
@@ -3211,7 +3207,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             TabOrder = 7
-            OnKeyPress = EditPhone1KeyPress
+            OnKeyPress = EditPhoneKeyPress
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
           end
@@ -3797,7 +3793,6 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 6
-            OnKeyPress = EditCuratorKeyPress
           end
           object EditPhone5: TsEdit
             Left = 172
@@ -3812,7 +3807,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             TabOrder = 7
-            OnKeyPress = EditPhone1KeyPress
+            OnKeyPress = EditPhoneKeyPress
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
           end
@@ -4398,7 +4393,6 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 6
-            OnKeyPress = EditCuratorKeyPress
           end
           object EditPhone6: TsEdit
             Left = 172
@@ -4413,7 +4407,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             TabOrder = 7
-            OnKeyPress = EditPhone1KeyPress
+            OnKeyPress = EditPhoneKeyPress
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
           end
@@ -4999,7 +4993,6 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 6
-            OnKeyPress = EditCuratorKeyPress
           end
           object EditPhone7: TsEdit
             Left = 172
@@ -5014,7 +5007,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             TabOrder = 7
-            OnKeyPress = EditPhone1KeyPress
+            OnKeyPress = EditPhoneKeyPress
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
           end
@@ -5600,7 +5593,6 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 6
-            OnKeyPress = EditCuratorKeyPress
           end
           object EditPhone8: TsEdit
             Left = 172
@@ -5615,7 +5607,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             TabOrder = 7
-            OnKeyPress = EditPhone1KeyPress
+            OnKeyPress = EditPhoneKeyPress
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
           end
@@ -6201,7 +6193,6 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 6
-            OnKeyPress = EditCuratorKeyPress
           end
           object EditPhone9: TsEdit
             Left = 172
@@ -6216,7 +6207,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             TabOrder = 7
-            OnKeyPress = EditPhone1KeyPress
+            OnKeyPress = EditPhoneKeyPress
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
           end
@@ -6802,7 +6793,6 @@ object FormEditor: TFormEditor
             MaxLength = 255
             ParentFont = False
             TabOrder = 6
-            OnKeyPress = EditCuratorKeyPress
           end
           object EditPhone10: TsEdit
             Left = 172
@@ -6817,7 +6807,7 @@ object FormEditor: TFormEditor
             Font.Style = []
             ParentFont = False
             TabOrder = 7
-            OnKeyPress = EditPhone1KeyPress
+            OnKeyPress = EditPhoneKeyPress
             SkinData.SkinSection = 'EDIT'
             BoundLabel.Indent = 2
           end
