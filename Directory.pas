@@ -196,7 +196,7 @@ begin
       end;
     DIR_CODE_FIRMTYPE:
       begin
-        self.SG_Main := main.sgCurator_tmp;
+        self.SG_Main := main.sgFirmType_tmp;
         self.SG_Directory := FormDirectory.SGFirmType;
         self.Edit_Editor := FormEditor.EditFirmType;
         self.Edit_DirectoryQuery := nil;
