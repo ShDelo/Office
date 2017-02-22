@@ -117,37 +117,6 @@ type
     { Public declarations }
   end;
 
-  TDirectoryData = packed record
-    Name1: string[255];
-    Name2: string[255];
-    ID_Region: integer;
-    constructor Create(Name1, Name2: string; ID_Region: integer);
-  end;
-
-  TDirectoryContainer = class
-    SG_Main: Pointer; // temp grid e.g main.sgCurator_tmp
-    SG_Directory: Pointer; // SG control on FormDirectory
-    Edit_Editor: Pointer; // edit on FormEditor
-    SG_Editor: Pointer; // SG on FormEditor
-    Edit_DirectoryQuery: Pointer; // edit on DirectoryQuery
-    IsAdresEdits: Boolean;
-    constructor Create(DirCode: integer);
-  end;
-
-const
-  DIR_CODE_TOTAL = 8; // 0-based total number of codes
-  DIR_CODE_TO_TABLE: array [0 .. DIR_CODE_TOTAL] of string = ('curator', 'rubrikator', 'firmtype', 'napravlenie', 'officetype', 'country',
-    'region', 'city', 'phonetype');
-  DIR_CODE_CURATOR = 0;
-  DIR_CODE_RUBRIKA = 1;
-  DIR_CODE_FIRMTYPE = 2;
-  DIR_CODE_NAPRAVLENIE = 3;
-  DIR_CODE_OFFICETYPE = 4;
-  DIR_CODE_COUNTRY = 5;
-  DIR_CODE_REGION = 6;
-  DIR_CODE_CITY = 7;
-  DIR_CODE_PHONETYPE = 8;
-
 var
   FormDirectory: TFormDirectory;
 
@@ -156,114 +125,6 @@ implementation
 uses Main, Editor, Report, Logo, DirectoryQuery, Helpers;
 
 {$R *.dfm}
-{ TDirectoryData }
-
-constructor TDirectoryData.Create(Name1, Name2: string; ID_Region: integer);
-begin
-  self.Name1 := Name1;
-  self.Name2 := Name2;
-  self.ID_Region := ID_Region;
-end;
-
-{ TDirectoryContainer }
-
-constructor TDirectoryContainer.Create(DirCode: integer);
-begin
-  if not(DirCode in [0 .. DIR_CODE_TOTAL]) then
-  begin
-    self.SG_Main := nil;
-    self.SG_Directory := nil;
-    self.Edit_Editor := nil;
-    self.SG_Editor := nil;
-    self.Edit_DirectoryQuery := nil;
-    self.IsAdresEdits := False;
-  end;
-
-  case DirCode of
-    DIR_CODE_CURATOR:
-      begin
-        self.SG_Main := main.sgCurator_tmp;
-        self.SG_Directory := FormDirectory.SGCurator;
-        self.Edit_Editor := FormEditor.EditCurator;
-        self.SG_Editor := FormEditor.SGCurator;
-        self.Edit_DirectoryQuery := nil;
-        self.IsAdresEdits := False;
-      end;
-    DIR_CODE_RUBRIKA:
-      begin
-        self.SG_Main := main.sgRubr_tmp;
-        self.SG_Directory := FormDirectory.SGRubr;
-        self.Edit_Editor := FormEditor.EditRubr;
-        self.SG_Editor := FormEditor.SGRubr;
-        self.Edit_DirectoryQuery := nil;
-        self.IsAdresEdits := False;
-      end;
-    DIR_CODE_FIRMTYPE:
-      begin
-        self.SG_Main := main.sgFirmType_tmp;
-        self.SG_Directory := FormDirectory.SGFirmType;
-        self.Edit_Editor := FormEditor.EditFirmType;
-        self.SG_Editor := FormEditor.SGFirmType;
-        self.Edit_DirectoryQuery := nil;
-        self.IsAdresEdits := False;
-      end;
-    DIR_CODE_NAPRAVLENIE:
-      begin
-        self.SG_Main := main.sgNapr_tmp;
-        self.SG_Directory := FormDirectory.SGNapr;
-        self.Edit_Editor := FormEditor.EditNapravlenie;
-        self.SG_Editor := FormEditor.SGNapravlenie;
-        self.Edit_DirectoryQuery := nil;
-        self.IsAdresEdits := False;
-      end;
-    DIR_CODE_OFFICETYPE:
-      begin
-        self.SG_Main := nil;
-        self.SG_Directory := FormDirectory.SGOfficeType;
-        self.Edit_Editor := FormEditor.EditOfficeType1;
-        self.SG_Editor := nil;
-        self.Edit_DirectoryQuery := nil;
-        self.IsAdresEdits := True;
-      end;
-    DIR_CODE_COUNTRY:
-      begin
-        self.SG_Main := nil;
-        self.SG_Directory := FormDirectory.SGCountry;
-        self.Edit_Editor := FormEditor.EditCountry1;
-        self.SG_Editor := nil;
-        self.Edit_DirectoryQuery := nil;
-        self.IsAdresEdits := True;
-      end;
-    DIR_CODE_REGION:
-      begin
-        self.SG_Main := nil;
-        self.SG_Directory := FormDirectory.SGRegion;
-        self.Edit_Editor := FormEditor.EditRegion1;
-        self.SG_Editor := nil;
-        self.Edit_DirectoryQuery := FormDirectoryQuery.Edit3;
-        self.IsAdresEdits := True;
-      end;
-    DIR_CODE_CITY:
-      begin
-        self.SG_Main := nil;
-        self.SG_Directory := FormDirectory.SGCity;
-        self.Edit_Editor := FormEditor.EditCity1;
-        self.SG_Editor := nil;
-        self.Edit_DirectoryQuery := nil;
-        self.IsAdresEdits := True;
-      end;
-    DIR_CODE_PHONETYPE:
-      begin
-        self.SG_Main := nil;
-        self.SG_Directory := FormDirectory.SGPhoneType;
-        self.Edit_Editor := FormEditor.EditPhoneType1;
-        self.SG_Editor := nil;
-        self.Edit_DirectoryQuery := nil;
-        self.IsAdresEdits := True;
-      end;
-  end;
-end;
-
 { TFormDirectory }
 
 procedure TFormDirectory.CreateParams(var Params: TCreateParams);
@@ -487,9 +348,6 @@ var
   QueryValues: array [0 .. 2] of string;
   DirCode: integer;
 begin
-  // #TODO1: ADD/EDIT/DELETE functions need to be separated and need to implement helper function to update every control that stores
-  // directory entries (e.g: main.TEMP_SG; editor.edits; directory.SG; directoryQuery.edits). Rubr changes need to be updated manually.
-  // This way there should be no need for GLOBAL_RELOAD any more.
   DirCode := TsTabSheet(TsSpeedButton(Sender).Parent.Parent).PageIndex;
   if FormDirectoryQuery.ShowDirectoryQuery(DirCode, 'add', TDirectoryData.Create(EmptyStr, EmptyStr, -1), QueryValues) = True then
     Directory_CREATE(DirCode, QueryValues);
@@ -707,7 +565,8 @@ begin
 
   { DATABASE UPDATE part }
 
-  { #TODO1: IMPORTANT : if during city editing region_id changes then we have to update each record from BASE that used this city
+  { #TODO1: IMPORTANT : if during city editing region_id changes then we have to update each record from BASE that used this city.
+    also if FormEditor opened there might be data loaded to editRegion that need to be updated if that firm was using city that is being updated
     <select ADRES from BASE where ADRES like '%#^id$%'> <while not Q.Eof update with new id_region> }
 
   Name1 := Values[0];

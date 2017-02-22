@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, sButton, Vcl.ComCtrls, sComboBoxes, Vcl.ExtCtrls,
-  sPanel, NxScrollControl, NxCustomGridControl, NxCustomGrid, NxGrid, IBC, Directory;
+  sPanel, NxScrollControl, NxCustomGridControl, NxCustomGrid, NxGrid, IBC, Directory, Helpers;
 
 type
   TFormDirectoryQuery = class(TForm)
@@ -31,7 +31,7 @@ var
 
 implementation
 
-uses Main, Helpers;
+uses Main;
 
 {$R *.dfm}
 { TFormDirectoryQuery }
