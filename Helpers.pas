@@ -121,7 +121,7 @@ begin
   end;
 end;
 
-function TsComboBoxEx_Helper.GetObjectOfIndex(AIndex: integer): integer;
+function TsComboBoxEx_Helper.GetObjectOfIndex(AIndex: integer = -1): integer;
 begin
   Result := ID_UNKNOWN;;
 
