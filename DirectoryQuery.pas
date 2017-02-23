@@ -77,7 +77,7 @@ begin
 
   if BtnOK.Tag in [DIR_CODE_CITY] then
   begin
-    if Edit3.ItemIndex = -1 then
+    if Edit3.GetID = ID_UNKNOWN then
     begin
       { #TODO1: DESIGN : allow new region entry creation from here?! if olbast.text <> EmptySTR and itemIndex = -1
         i.e region doesn't exist but we entered text, we can create region from here? }
@@ -168,7 +168,7 @@ begin
     begin
       Edit1.Text := Data.Name1;
       Edit2.Text := Data.Name2;
-      Edit3.ItemIndex := Edit3.Items.IndexOfObject(TObject(Data.ID_REGION));
+      Edit3.SetIndexOfObject(Data.ID_Region);
     end;
   end
   else
@@ -196,10 +196,7 @@ begin
 
     EnteredValues[1] := Trim(UpperFirst(Edit2.Text));
 
-    if Edit3.ItemIndex = -1 then
-      EnteredValues[2] := '-1'
-    else
-      EnteredValues[2] := IntToStr(Integer(Edit3.Items.Objects[Edit3.ItemIndex]));
+    EnteredValues[2] := Edit3.GetID.ToString;
 
     Result := True;
   end;
