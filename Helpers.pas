@@ -101,6 +101,7 @@ begin
 
 end;
 
+{ returns object of current index, otherwise, tries to trim curent text, index it, and return it object }
 function TsComboBoxEx_Helper.GetID: integer;
 var
   IndexOfText: integer;
@@ -121,6 +122,7 @@ begin
   end;
 end;
 
+{ returns object of specefied index, otherwise, returns object of current index }
 function TsComboBoxEx_Helper.GetObjectOfIndex(AIndex: integer = -1): integer;
 begin
   Result := ID_UNKNOWN;;
