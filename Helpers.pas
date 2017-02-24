@@ -13,6 +13,7 @@ type
     function GetObjectOfIndex(AIndex: integer = -1): integer;
     function GetID: integer;
     function GetIndexOfText(TextToIndex: string = ''; DoTrimText: boolean = true): integer;
+    procedure SetItemText(Index: integer; Text: string);
   end;
 
   TDirectoryData = packed record
@@ -155,6 +156,19 @@ begin
     else
       Result := self.Items.IndexOf(self.Text);
   end;
+end;
+
+{ Bug workaround in TComboBoxEx class.
+  Setting item text via self.Items[index] := text will decrease self.ItemIndex by 1 if edited item index is lower than current ItemIndex
+  Repro: self.ItemIndex := 10; self.Items[9] := 'Text'; ShowMessage(IntToStr(self.ItemIndex)); result = 9 instead of 10 }
+procedure TsComboBoxEx_Helper.SetItemText(Index: integer; Text: string);
+var
+  IndexOld: integer;
+begin
+  IndexOld := self.ItemIndex;
+  self.Items[index] := Text;
+  if self.ItemIndex <> IndexOld then
+    self.ItemIndex := IndexOld;
 end;
 
 { TDirectoryData }
