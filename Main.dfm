@@ -15,15 +15,14 @@ object FormMain: TFormMain
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Splitter1: TSplitter
+  object Splitter1: TsSplitter
     Left = 312
     Top = 45
     Width = 2
     Height = 498
     Cursor = crSizeWE
     AutoSnap = False
-    MinSize = 50
-    ResizeStyle = rsUpdate
+    MinSize = 250
   end
   object sStatusBar1: TsStatusBar
     Left = 0
@@ -167,11 +166,21 @@ object FormMain: TFormMain
     BevelOuter = bvNone
     TabOrder = 1
     SkinData.SkinSection = 'PANEL'
+    object Splitter2: TsSplitter
+      Left = 0
+      Top = 296
+      Width = 470
+      Height = 2
+      Cursor = crSizeNS
+      Align = alBottom
+      AutoSnap = False
+      MinSize = 150
+    end
     object sPageControl1: TsPageControl
       Left = 0
       Top = 0
       Width = 470
-      Height = 498
+      Height = 296
       ActivePage = sTabSheet1
       Align = alClient
       TabOrder = 0
@@ -183,14 +192,11 @@ object FormMain: TFormMain
       object sTabSheet1: TsTabSheet
         Caption = #1043#1083#1072#1074#1085#1072#1103
         UseCloseBtn = False
-        DesignSize = (
-          462
-          470)
         object SGGeneral: TNextGrid
           Left = 0
           Top = 0
           Width = 462
-          Height = 470
+          Height = 268
           Touch.InteractiveGestures = [igPan, igPressAndTap]
           Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia, igoPanGutter, igoParentPassthrough]
           Align = alClient
@@ -813,23 +819,33 @@ object FormMain: TFormMain
             Width = 115
           end
         end
-        object memoDebug: TsMemo
-          Left = -340
-          Top = 216
-          Width = 800
-          Height = 250
-          Anchors = [akRight, akBottom]
-          Color = clWhite
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          ScrollBars = ssBoth
-          TabOrder = 1
-          Visible = False
-        end
+      end
+    end
+    object panelDebug: TsPanel
+      Left = 0
+      Top = 298
+      Width = 470
+      Height = 200
+      Align = alBottom
+      BevelOuter = bvNone
+      TabOrder = 1
+      object wndDebug: TJvRichEdit
+        Left = 0
+        Top = 0
+        Width = 470
+        Height = 200
+        TabStop = False
+        Align = alClient
+        Color = 2499877
+        Font.Charset = RUSSIAN_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Consolas'
+        Font.Style = []
+        ParentFlat = False
+        ParentFont = False
+        SelText = ''
+        TabOrder = 0
       end
     end
   end
@@ -973,8 +989,8 @@ object FormMain: TFormMain
   end
   object TimerMemory: TTimer
     OnTimer = TimerMemoryTimer
-    Left = 684
-    Top = 336
+    Left = 674
+    Top = 411
   end
   object ImageList32: TsAlphaImageList
     DrawingStyle = dsTransparent
@@ -2757,8 +2773,8 @@ object FormMain: TFormMain
           E9CC9933742BECD8D65FE4BDA8DC0576EEDC59B265CB96EFB13BBEC1B99BBBAC
           E48A7EE0FD4F6E60C3DB5F2CEFB0FE4FB015310000000049454E44AE426082}
       end>
-    Left = 637
-    Top = 337
+    Left = 627
+    Top = 412
     Bitmap = {
       494C010100000800080001000100FFFFFFFF0400FFFFFFFFFFFFFFFF424D7600
       0000000000007600000028000000040000000100000001000400000000000400
@@ -2770,8 +2786,8 @@ object FormMain: TFormMain
     DrawingStyle = dsTransparent
     Height = 22
     Width = 22
-    Left = 608
-    Top = 337
+    Left = 598
+    Top = 412
     Bitmap = {
       494C010109000D00040016001600FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000058000000420000000100200000000000C05A
@@ -3531,8 +3547,8 @@ object FormMain: TFormMain
       03FFFFFFFFC0FF0000000000000000000000000000000000000000000000}
   end
   object PopupMenu_Tabs: TPopupMenu
-    Left = 715
-    Top = 337
+    Left = 705
+    Top = 412
     object nCloseTab: TMenuItem
       Caption = #1047#1072#1082#1088#1099#1090#1100
       OnClick = nCloseTabClick
@@ -3548,8 +3564,8 @@ object FormMain: TFormMain
   end
   object PopupMenu_Rubr: TPopupMenu
     Images = imgMenus
-    Left = 748
-    Top = 337
+    Left = 738
+    Top = 412
     object nAddRec: TMenuItem
       Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1092#1080#1088#1084#1091
       ImageIndex = 0
@@ -3620,8 +3636,8 @@ object FormMain: TFormMain
     end
   end
   object imgMenus: TImageList
-    Left = 576
-    Top = 336
+    Left = 566
+    Top = 411
     Bitmap = {
       494C01010D001100040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000004000000001002000000000000040
@@ -4160,8 +4176,8 @@ object FormMain: TFormMain
   end
   object PopupMenu_Emails: TPopupMenu
     Images = imgMenus
-    Left = 717
-    Top = 307
+    Left = 707
+    Top = 382
     object nBtnAccounts: TMenuItem
       Caption = #1059#1095#1077#1090#1085#1099#1077' '#1079#1072#1087#1080#1089#1080
       ImageIndex = 8
@@ -4169,8 +4185,8 @@ object FormMain: TFormMain
     end
   end
   object PopupMenu_Columns: TPopupMenu
-    Left = 685
-    Top = 306
+    Left = 675
+    Top = 381
     object nCol_Name: TMenuItem
       Caption = #1053#1072#1079#1074#1072#1085#1080#1077' '#1092#1080#1088#1084#1099
       OnClick = nCol_NameClick
@@ -7215,14 +7231,14 @@ object FormMain: TFormMain
     ThirdParty.ThirdScrollBar = ' '
     ThirdParty.ThirdStaticText = ' '
     ThirdParty.ThirdNativePaint = ' '
-    Left = 578
-    Top = 305
+    Left = 568
+    Top = 380
   end
   object sSkinProvider1: TsSkinProvider
     SkinData.SkinSection = 'FORM'
     TitleButtons = <>
-    Left = 610
-    Top = 305
+    Left = 600
+    Top = 380
   end
   object IBDatabase1: TIBCConnection
     Params.Strings = (
@@ -7232,21 +7248,21 @@ object FormMain: TFormMain
     Username = 'SYSDBA'
     AutoCommit = False
     LoginPrompt = False
-    Left = 570
-    Top = 409
+    Left = 560
+    Top = 484
     EncryptedPassword = '92FF9EFF8CFF8BFF9AFF8DFF94FF9AFF86FF'
   end
   object IBTransaction1: TIBCTransaction
     DefaultConnection = IBDatabase1
-    Left = 602
-    Top = 409
+    Left = 592
+    Top = 484
   end
   object IBQuery1: TIBCQuery
     Connection = IBDatabase1
     Transaction = IBTransaction1
     FetchRows = 1
     AutoCommit = False
-    Left = 634
-    Top = 409
+    Left = 624
+    Top = 484
   end
 end

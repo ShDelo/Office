@@ -1139,7 +1139,7 @@ begin
       begin
         Result := ID_Region_Valid;
         debug('REGION IS INVALID. Passed = %s | Expected = %s', [GetNameByID('REGION', ID_Region.ToString),
-          GetNameByID('REGION', ID_Region_Valid.ToString)]);
+          GetNameByID('REGION', ID_Region_Valid.ToString)], 2);
       end;
     finally
       Query.Free;
@@ -2441,21 +2441,19 @@ var
     Query.SQL.Text := 'select ID from BASE where ID <> :BASE_ID and ' + BASE_Field + ' like :ID_OLD rows 1';
     Query.ParamByName('BASE_ID').AsString := BASE_ID;
     Query.ParamByName('ID_OLD').AsString := '%#' + ID_OLD + '$%';
-    // debug('select ID from BASE where %s like %s rows 2', [BASE_Field, ID_OLD]);
     Query.Open;
     if Query.RecordCount = 0 then
     begin
-      // debug('Query record count = %s | ID = %s', [IntToStr(Query.RecordCount), Query.FieldByName('ID').AsString]);
       Query.Close;
       Query.SQL.Text := 'delete from ' + DIR_Table + ' where ID = :ID';
       Query.ParamByName('ID').AsString := ID_OLD;
 
       try
-        // debug('delete from %s where ID = %s', [DIR_Table, ID_OLD]);
         WriteLog('TFormEditor.DoGarbageCollection_SQL_LOG (Method: ' + Method + '): delete from ' + DIR_Table + ' where ID = ' + ID_OLD);
+        debug('DELETED: DIR = %s | ID = %s', [DIR_Table, ID_OLD]);
 
         Query.Execute;
-        FormMain.IBTransaction1.CommitRetaining;
+        Query.Transaction.Commit;
 
         { #TODO1: REFACTOR : Update this code to DirectoryContrainer class }
         if SGTemp.FindText(1, ID_OLD, [soCaseInsensitive, soExactMatch]) then
@@ -2466,7 +2464,7 @@ var
           SGTemp.DeleteRow(SGTemp.SelectedRow);
         end
         else
-          debug('____WARNING!!!!_____   SGTEMP row NOT FOUND. expected data: ID = %s', [ID_OLD]);
+          debug('WARNING! SGTEMP row NOT FOUND. expected data: ID = %s', [ID_OLD], 2);
 
         if SGDir.FindText(1, ID_OLD, [soCaseInsensitive, soExactMatch]) then
         begin
@@ -2476,7 +2474,7 @@ var
           SGDir.DeleteRow(SGDir.SelectedRow);
         end
         else
-          debug('____WARNING!!!!_____   SGDir row NOT FOUND. expected data: ID = %s', [ID_OLD]);
+          debug('WARNING! SGDir row NOT FOUND. expected data: ID = %s', [ID_OLD], 2);
 
         index := EditOwner.GetIndexOfObject(ID_OLD.ToInteger);
         if index <> -1 then
@@ -2487,11 +2485,12 @@ var
           EditOwner.Items.Delete(index);
         end
         else
-          debug('____WARNING!!!!_____   EditOwner item NOT FOUND. expected data: ID = %s', [ID_OLD]);
+          debug('WARNING! EditOwner item NOT FOUND. expected data: ID = %s', [ID_OLD], 2);
 
       except
         on E: Exception do
         begin
+          Query.Transaction.Rollback;
           WriteLog('TFormEditor.DoGarbageCollection' + #13 + 'Ошибка: ' + E.Message);
           MessageBox(handle, PChar('Ошибка при очистке директорий.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
         end;
@@ -2499,14 +2498,14 @@ var
     end
     else
     begin
-      debug('Record of type %s with ID = %s IS IN USE. Continue...', [DIR_Table, ID_OLD]);
+      debug('IN_USE: DIR = %s | ID = %s', [DIR_Table, ID_OLD]);
     end;
   end;
 
 begin
   Query := QueryCreate;
   listID_OLD := ParseIDString(IDString_OLD);
-  debug('*** check %s directory for garbage... ***', [DIR_Table]);
+  debug('*** GarbageCollection | METHOD = %s | DIR = %s ... ***', [Method, DIR_Table], 1);
 
   try
     for i := 0 to listID_OLD.Count - 1 do
@@ -2516,22 +2515,13 @@ begin
 
       if Method = 'edit' then
       begin
-        if AnsiContainsStr(IDString_NEW, '#' + ID_OLD + '$') then
-        begin
-          debug('SKIP: table = %s | ID = %s', [DIR_Table, ID_OLD]);
-        end
+        if not AnsiContainsStr(IDString_NEW, '#' + ID_OLD + '$') then
+          GC_RUN
         else
-        begin
-          debug('DELETING: table = %s | ID = %s', [DIR_Table, ID_OLD]);
-          GC_RUN;
-        end;
-      end;
-
-      if Method = 'delete' then
-      begin
-        debug('DELETING: table = %s | ID = %s', [DIR_Table, ID_OLD]);
+          debug('SKIPPED: DIR = %s | ID = %s', [DIR_Table, ID_OLD]);
+      end
+      else if Method = 'delete' then
         GC_RUN;
-      end;
 
     end;
   finally
@@ -2589,7 +2579,7 @@ var
   end;
 
 begin
-  debug('*** DoNaprActivityValidation ... ***', []);
+  debug('*** DoNaprActivityValidation ... ***', [], 1);
   Query := QueryCreate;
   Method := AnsiLowerCase(Method);
 
@@ -2749,7 +2739,7 @@ var
   end;
 
 begin
-  debug('*** DoCityActivityValidation ... ***', []);
+  debug('*** DoCityActivityValidation ... ***', [], 1);
   Query := QueryCreate;
   Method := AnsiLowerCase(Method);
 

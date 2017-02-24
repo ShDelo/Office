@@ -10,7 +10,7 @@ uses
   NxCustomGridControl, NxCustomGrid, NxGrid, NxColumns, NxColumnClasses, Menus,
   sSpeedButton, sPanel, Buttons, ComObj, sRichEdit, sEdit, sComboBoxes, sComboBox,
   NxEdit, acCoolBar, StrUtils, IniFiles, sCheckBox, sButton, JvExStdCtrls,
-  JvRichEdit, ShellApi, sMemo, MemDS;
+  JvRichEdit, ShellApi, sMemo, MemDS, sSplitter;
 
 type
   TFormMain = class(TForm)
@@ -18,7 +18,7 @@ type
     TimerMemory: TTimer;
     ImageList32: TsAlphaImageList;
     ImageList1: TImageList;
-    Splitter1: TSplitter;
+    Splitter1: TsSplitter;
     PopupMenu_Tabs: TPopupMenu;
     nCloseTab: TMenuItem;
     nCloseAllButThisTab: TMenuItem;
@@ -86,10 +86,12 @@ type
     nRubrInfo: TMenuItem;
     NxTextColumn11: TNxTextColumn;
     nCol_Relevance: TMenuItem;
-    memoDebug: TsMemo;
     IBDatabase1: TIBCConnection;
     IBTransaction1: TIBCTransaction;
     IBQuery1: TIBCQuery;
+    Splitter2: TsSplitter;
+    panelDebug: TsPanel;
+    wndDebug: TJvRichEdit;
     function CurrentProcessMemory: Cardinal;
     function SearchNode(component: TsTreeView; id: integer; itemlevel: integer): TTreeNode;
     procedure DisableAllForms(StayActive: string);
@@ -151,6 +153,7 @@ type
 
 var
   FormMain: TFormMain;
+  bDebug: Boolean = False;
   sgCurator_tmp, sgFirmType_tmp, sgRubr_tmp, sgNapr_tmp: TNextGrid;
   IniMain: TIniFile;
   LoadSGonRubrChange: Boolean;
@@ -161,9 +164,9 @@ uses Editor, Logo, MailSend, Report, Directory, ReportSimple, Relations,
   Dublicate, DirectoryQuery, Helpers;
 
 {$R *.dfm}
-  { #BACKUP [changes].txt }
-  { #BACKUP office.ini }
-  { #BACKUP MapiEmail.pas }
+{ #BACKUP [changes].txt }
+{ #BACKUP office.ini }
+{ #BACKUP MapiEmail.pas }
 
 procedure TFormMain.WMGetMinMaxInfo(var M: TWMGetMinMaxInfo);
 begin
@@ -514,7 +517,6 @@ end;
 
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
-  memoDebug.Visible := Helpers.bDebug;
   IBDatabase1.Database := AppPath + 'usrdt.msq';
   WriteLog('* Запуск программы *');
   try
@@ -532,6 +534,9 @@ begin
   IniCreateMain;
   IniLoadMain;
   sStatusBar1.Panels[1].Text := 'Фирм в базе: ' + GetFirmCount;
+
+  panelDebug.Visible := bDebug;
+  Splitter2.Visible := bDebug;
 end;
 
 procedure TFormMain.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -559,11 +564,14 @@ begin
   if FileExists(AppPath + 'office.ini') then
     exit;
   IniMain := TIniFile.Create(AppPath + 'office.ini');
+  { **************** DEBUG ***************** }
+  IniMain.WriteInteger('debug', 'enabled', 0);
   { **************** FormMain ***************** }
   IniMain.WriteInteger('main', 'wndstate', 0);
   IniMain.WriteInteger('main', 'wndwidth', 1024);
   IniMain.WriteInteger('main', 'wndheight', 738);
   IniMain.WriteInteger('main', 'panelRubr', 312);
+  IniMain.WriteInteger('main', 'panelDebug', 200);
   IniMain.WriteInteger('main', 'loadSGonRubrChange', 0);
   { **************** SGGeneral ***************** }
   IniMain.WriteInteger('sggeneral', 'col_name_vis', 1);
@@ -626,6 +634,8 @@ var
   sorted_num, sorted_kind: integer;
 begin
   IniMain := TIniFile.Create(AppPath + 'office.ini');
+  { **************** DEBUG ***************** }
+  bDebug := IniMain.ReadBool('debug', 'enabled', False);
   { **************** FormMain ***************** }
   FormMain.Left := IniMain.ReadInteger('main', 'wndleft', 0);
   FormMain.Top := IniMain.ReadInteger('main', 'wndtop', 0);
@@ -638,6 +648,7 @@ begin
       FormMain.WindowState := wsMaximized;
   end;
   panelRubrikator.Width := IniMain.ReadInteger('main', 'panelRubr', 0);
+  panelDebug.Height := IniMain.ReadInteger('main', 'panelDebug', 0);
   LoadSGonRubrChange := IniMain.ReadBool('main', 'loadSGonRubrChange', False);
   nLoadSGonRubrChange.Checked := IniMain.ReadBool('main', 'loadSGonRubrChange', False);
   { **************** SGGeneral ***************** }
@@ -710,6 +721,7 @@ begin
       IniMain.WriteInteger('main', 'wndstate', 1);
   end;
   IniMain.WriteInteger('main', 'panelRubr', panelRubrikator.Width);
+  IniMain.WriteInteger('main', 'panelDebug', panelDebug.Height);
   IniMain.WriteBool('main', 'loadSGonRubrChange', nLoadSGonRubrChange.Checked);
   { ******************* SGGeneral ******************* }
   IniMain.WriteBool('sggeneral', 'col_name_vis', SGGeneral.Columns[2].Visible);

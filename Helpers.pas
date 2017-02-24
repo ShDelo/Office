@@ -3,7 +3,7 @@ unit Helpers;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, ComCtrls, Forms, sComboBoxes,
+  Windows, Messages, SysUtils, Variants, Classes, ComCtrls, Forms, Graphics, sComboBoxes,
   NxGrid, IBC;
 
 type
@@ -33,7 +33,7 @@ type
     constructor Create(DirCode: integer);
   end;
 
-procedure debug(Text: string; Params: array of TVarRec);
+procedure debug(Text: string; Params: array of TVarRec; ErrorCode: ShortInt = 0);
 procedure WriteLog(Text: string);
 function CustomSortProc(Node1, Node2: TTreeNode; iUpToThisLevel: integer): integer; stdcall;
 function QueryCreate: TIBCQuery;
@@ -57,8 +57,6 @@ const
   DIR_CODE_REGION = 6;
   DIR_CODE_CITY = 7;
   DIR_CODE_PHONETYPE = 8;
-
-  bDebug: Boolean = True;
 
 implementation
 
@@ -281,11 +279,32 @@ end;
 
 { Helpers }
 
-procedure debug(Text: string; Params: array of TVarRec);
+procedure debug(Text: string; Params: array of TVarRec; ErrorCode: ShortInt = 0);
+
+  procedure SetTextAttr(AColor: TColor; AFontSize: integer; AFontName: TFontName; AFontStyle: TFontStyles);
+  begin
+    FormMain.wndDebug.SelStart := FormMain.wndDebug.GetTextLen;;
+    FormMain.wndDebug.SelAttributes.Color := AColor;
+    FormMain.wndDebug.SelAttributes.Size := AFontSize;
+    FormMain.wndDebug.SelAttributes.Name := AFontName;
+    FormMain.wndDebug.SelAttributes.Style := AFontStyle;
+  end;
+
 begin
   if bDebug then
   begin
-    FormMain.memoDebug.Lines.Add(DateTimeToStr(now) + ': ' + Format(Text, Params));
+    case ErrorCode of
+      0: // normal
+        SetTextAttr(clWhite, 10, 'Consolas', []);
+      1: // header
+        SetTextAttr($00FCBE96, 10, 'Consolas', []);
+      2: // warning
+        SetTextAttr(clYellow, 10, 'Consolas', []);
+      3: // error
+        SetTextAttr(clRed, 10, 'Consolas', [fsBold]);
+    end;
+    FormMain.wndDebug.Lines.Add(DateTimeToStr(now) + ': ' + Format(Text, Params));
+    SendMessage(FormMain.wndDebug.Handle, WM_VSCROLL, SB_BOTTOM, 0);
   end;
 end;
 
