@@ -265,6 +265,8 @@ type
     function GetWebEmailString(component: TNextGrid): string;
     function ParseAdresFieldToEntriesList(Field_ADRES_LineByIndex: string): TStringList;
     function ParseAdresFieldToCityIDList(Field_ADRES: string; IncludeSyntax: boolean = false): TStringList;
+    function ParseAdresFieldAndUpdateValues(Field_ADRES, Condition: string; UpdateTo: array of TVarRec): string;
+    function UpdateAdresFieldByCondition(Condition: string; Values: array of TVarRec): boolean;
     function ParseIDString(IDString: string; IncludeSyntax: boolean = false): TStringList;
     procedure DoGarbageCollection(BASE_ID, DIR_Table, BASE_Field, IDString_OLD, IDString_NEW: string; SGTemp, SGDir: TNextGrid;
       EditOwner: TsComboBoxEx; Method: string);
@@ -407,6 +409,112 @@ begin
   end;
 
   AdresList.Free;
+end;
+
+function TFormEditor.ParseAdresFieldAndUpdateValues(Field_ADRES, Condition: string; UpdateTo: array of TVarRec): string;
+var
+  FieldAdres_List, FieldAdres_Entries: TStringList;
+  i: Integer;
+begin
+  // UpdateTo[0] = ID_OfficeType; UpdateTo[1] = ID_Country; UpdateTo[2] = ID_Region; UpdateTo[3] = ID_City;
+  FieldAdres_List := TStringList.Create;
+  try
+    FieldAdres_List.Text := Field_ADRES;
+    for i := 0 to FieldAdres_List.Count - 1 do
+    begin
+      FieldAdres_Entries := ParseAdresFieldToEntriesList(FieldAdres_List[i]);
+      // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
+      // list2[4] = Street; list2[5] = Country; list2[6] = Region; list2[7] = City;
+      try
+        if (ContainsText(FieldAdres_List[i], Condition)) and (FieldAdres_Entries[0] = '1') then
+        begin
+          // OfficeType
+          if UpdateTo[0].VInteger > -1 then
+            FieldAdres_Entries[2] := IntToStr(UpdateTo[0].VInteger);
+          if FieldAdres_Entries[2] <> EmptyStr then
+            FieldAdres_Entries[2] := '@' + FieldAdres_Entries[2];
+
+          // Country
+          if UpdateTo[1].VInteger > -1 then
+            FieldAdres_Entries[5] := IntToStr(UpdateTo[1].VInteger);
+          if FieldAdres_Entries[5] <> EmptyStr then
+            FieldAdres_Entries[5] := '&' + FieldAdres_Entries[5];
+
+          // Region
+          if UpdateTo[2].VInteger > -1 then
+            FieldAdres_Entries[6] := IntToStr(UpdateTo[2].VInteger);
+          if FieldAdres_Entries[6] <> EmptyStr then
+            FieldAdres_Entries[6] := '*' + FieldAdres_Entries[6];
+
+          // City
+          if UpdateTo[3].VInteger > -1 then
+            FieldAdres_Entries[7] := IntToStr(UpdateTo[3].VInteger);
+          if FieldAdres_Entries[7] <> EmptyStr then
+            FieldAdres_Entries[7] := '^' + FieldAdres_Entries[7];
+
+          FieldAdres_List[i] := Format('#%s$#%s$#%s$#%s$#%s$#%s$#%s$#%s$', [FieldAdres_Entries[0], FieldAdres_Entries[1],
+            FieldAdres_Entries[2], FieldAdres_Entries[3], FieldAdres_Entries[4], FieldAdres_Entries[5], FieldAdres_Entries[6],
+            FieldAdres_Entries[7]]);
+        end;
+      finally
+        FieldAdres_Entries.Free;
+      end;
+    end;
+    Result := FieldAdres_List.Text;
+
+  finally
+    FieldAdres_List.Free;
+  end;
+end;
+
+function TFormEditor.UpdateAdresFieldByCondition(Condition: string; Values: array of TVarRec): boolean;
+var
+  QuerySelect, QueryUpdate: TIBCQuery;
+  ParsedAdresStr: string;
+begin
+  { Condition format: #@ID$; #&ID$; #*ID$; #^ID$ }
+  Result := False;
+  QuerySelect := QueryCreate;
+  try
+    QuerySelect.SQL.Text := 'select ID, ADRES from BASE where ADRES like :ADRES';
+    QuerySelect.ParamByName('ADRES').AsString := '%' + Condition + '%';
+    QuerySelect.Open;
+    QuerySelect.FetchAll := True;
+    if QuerySelect.RecordCount > 0 then
+    begin
+      QueryUpdate := QueryCreate;
+      try
+        while not QuerySelect.Eof do
+        begin
+          ParsedAdresStr := ParseAdresFieldAndUpdateValues(QuerySelect.FieldByName('ADRES').AsString, Condition, Values);
+          QueryUpdate.SQL.Text := 'update BASE set ADRES = :ADRES where ID = :ID';
+          QueryUpdate.ParamByName('ADRES').AsString := ParsedAdresStr;
+          QueryUpdate.ParamByName('ID').AsString := QuerySelect.FieldByName('ID').AsString;
+          QueryUpdate.Prepare;
+          try
+            QueryUpdate.Execute;
+          except
+            on E: Exception do
+            begin
+              QueryUpdate.Transaction.Rollback;
+              WriteLog('TFormEditor.UpdateAdresFieldByCondition' + #13 + 'Ошибка: ' + E.Message);
+              MessageBox(handle, PChar('Ошибка при обновлении данных адресов фирм.' + #13 + E.Message), 'Ошибка', MB_OK or MB_ICONERROR);
+              exit;
+            end;
+          end;
+          QuerySelect.Next;
+        end;
+        QueryUpdate.Transaction.Commit;
+        Result := True;
+
+      finally
+        QueryUpdate.Free;
+      end;
+    end;
+
+  finally
+    QuerySelect.Free;
+  end;
 end;
 
 function TFormEditor.ParseIDString(IDString: string; IncludeSyntax: boolean = false): TStringList;

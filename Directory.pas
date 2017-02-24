@@ -79,7 +79,7 @@ type
     editNapr: TsEdit;
     editOfficeType: TsEdit;
     editCountry: TsEdit;
-    sTabSheet1: TsTabSheet;
+    tabPhoneType: TsTabSheet;
     panelPhoneType: TsPanel;
     btnPhoneTypeCreate: TsSpeedButton;
     btnPhoneTypeEdit: TsSpeedButton;
@@ -456,7 +456,7 @@ begin
       exit;
     end;
 
-    // insert new record
+    // insert new directory record
     Query.Close;
     Query.Params.Clear;
     Query.SQL.Text := SQL_insert;
@@ -550,7 +550,7 @@ end;
 function TFormDirectory.Directory_EDIT(DirCode: integer; ID_Directory: string; Values: array of string): integer;
 var
   Query: TIBCQuery;
-  Name1, Name2, ID_Region, SQL_select, SQL_update, EditControlName: string;
+  Name1, Name2, ID_Region, ID_Region_OLD, SQL_select, SQL_update, EditControlName: string;
   i, index_old, index_new: integer;
   DirContainer: TDirectoryContainer;
   EditControl: TsComboBoxEx;
@@ -602,7 +602,35 @@ begin
       exit;
     end;
 
-    // update record
+    // if during city editing it region changes then update is required for each record in BASE that are using this city to new region
+    ID_Region_OLD := ID_UNKNOWN.ToString;
+    if DirCode in [DIR_CODE_CITY] then
+    begin
+      // get original region ID of the city before it might change
+      Query.Close;
+      Query.Params.Clear;
+      Query.SQL.Text := 'select ID_REGION from CITY where ID = :ID';
+      Query.ParamByName('ID').AsString := ID_Directory;
+      Query.Open;
+      if Query.RecordCount > 0 then
+        ID_Region_OLD := Query.FieldByName('ID_REGION').AsString;
+
+      // check if region is changing and update records in BASE if it's required
+      if StrToIntDef(ID_Region, -1) <> StrToIntDef(ID_Region_OLD, -1) then
+      begin
+        if not FormEditor.UpdateAdresFieldByCondition('#^' + ID_Directory + '$', [-1, -1, ID_Region.ToInteger, -1]) then
+        begin
+          WriteLog(Format('%s' + #13 + '%s' + #13 + 'DirCode = %d' + #13 + 'ID_Directory = %s' + #13 + 'Value 0 = %s' + #13 + 'Value 1 = %s'
+            + #13 + 'Value 2 = %s', ['TFormDirectory.Directory_EDIT', 'Ошибка: Не удалось отредактировать директорию', DirCode,
+            ID_Directory, Values[0], Values[1], Values[2]]));
+          MessageBox(handle, 'Не удалось отредактировать директорию.', 'Ошибка', MB_OK or MB_ICONERROR);
+          exit;
+        end;
+        debug('Region is updated for city: %s. New region is: %s', [Values[0], GetNameByID('REGION', ID_Region)]);
+      end;
+    end;
+
+    // update directory record
     Query.Close;
     Query.Params.Clear;
     Query.SQL.Text := SQL_update;
@@ -780,7 +808,7 @@ begin
     end;
   end;
 
-  // delete record
+  // delete directory record
   if MessageBox(handle, 'Вы уверены что хотите удалить выбранную директорию?', 'Удалить', MB_YESNO or MB_ICONQUESTION) = MRYES then
   begin
     Query := QueryCreate;

@@ -958,7 +958,7 @@ object FormDirectory: TFormDirectory
         SkinData.SkinSection = 'EDIT'
       end
     end
-    object sTabSheet1: TsTabSheet
+    object tabPhoneType: TsTabSheet
       Caption = #1058#1080#1087#1099' '#1090#1077#1083#1077#1092#1086#1085#1086#1074
       object panelPhoneType: TsPanel
         Left = 0
