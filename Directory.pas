@@ -666,7 +666,7 @@ begin
           EditControl := TsComboBoxEx(FormEditor.FindComponent(EditControlName + IntToStr(i)));
           index_old := EditControl.ItemIndex;
           index_new := EditControl.GetIndexOfObject(ID_Directory.ToInteger);
-          EditControl.Items[index_new] := Name1;
+          EditControl.SetItemText(index_new, Name1);
           if index_old = index_new then
             EditControl.SetIndexOfObject(ID_Directory.ToInteger);
         end;
@@ -676,7 +676,7 @@ begin
         begin
           index_old := ItemIndex;
           index_new := GetIndexOfObject(ID_Directory.ToInteger);
-          Items[index_new] := Name1;
+          SetItemText(index_new, Name1);
           if index_old = index_new then
             SetIndexOfObject(ID_Directory.ToInteger);
         end;
@@ -691,7 +691,7 @@ begin
 
     if Assigned(DirContainer.Edit_DirectoryQuery) then
       with TsComboBoxEx(DirContainer.Edit_DirectoryQuery) do
-        Items[GetIndexOfObject(ID_Directory.ToInteger)] := Name1;
+        SetItemText(GetIndexOfObject(ID_Directory.ToInteger), Name1);
 
     // Currently this code only updates SG_CITY.REGION_NAME when REGION is edited
     if DirCode = DIR_CODE_REGION then
