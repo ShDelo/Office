@@ -359,7 +359,7 @@ var
   function RemoveSyntax(str: string): string;
   begin
     if Length(Trim(str)) > 0 then
-      if str[1] in ['@', '&', '*', '^'] then
+      if CharInSet(str[1], ['@', '&', '*', '^']) then
         delete(str, 1, 1);
     result := str;
   end;
@@ -893,7 +893,7 @@ end;
 procedure TFormEditor.EditPhoneKeyPress(Sender: TObject; var Key: Char);
 begin
   EditCuratorKeyPress(Sender, Key);
-  if not(Key in ['0' .. '9', #8, #32, '+', '-']) then
+  if not CharInSet(Key, ['0' .. '9', #8, #32, '+', '-']) then
     Key := #0;
 end;
 

@@ -634,7 +634,7 @@ function TFormMailSender.IsValidEmail(const Value: string): Boolean;
     Result := False;
     for i := 1 to Length(s) do
     begin
-      if not(s[i] in ['a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-', '.', '&']) then
+      if not CharInSet(s[i], ['a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-', '.', '&']) then
         exit;
     end;
     Result := True;
@@ -666,7 +666,7 @@ function TFormMailSender.IsValidWeb(const Value: string): Boolean;
     Result := False;
     for i := 1 to Length(s) do
     begin
-      if not(s[i] in ['a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-', '.']) then
+      if not CharInSet(s[i], ['a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-', '.']) then
         exit;
     end;
     Result := True;
