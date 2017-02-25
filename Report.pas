@@ -322,7 +322,7 @@ var
   ExcelApp: OleVariant;
   XLSDoc: TXLSFile;
   bShowReport: Boolean;
-  listEmail: TStrings;
+  listEmail: TStringList;
   t1, t2: TDateTime;
   TmpFilesCount: integer;
 
@@ -367,7 +367,7 @@ var
 
   procedure FormatAdres(AAdres, APhones: string);
   var
-    list, list2: TStrings;
+    list, list2: TStringList;
     phones, tmp, adres, country_str, region_str, city_str, ofType: string;
     x: integer;
   begin
@@ -426,7 +426,7 @@ var
 
   function GetAdres(AAdres: string): string;
   var
-    list, list2, ResultList: TStrings;
+    list, list2, ResultList: TStringList;
     adres, country_str, region_str, city_str, ofType: string;
     x: integer;
   begin
@@ -515,12 +515,11 @@ var
     list.Free;
   end;
 
-  function GetEMailList(fieldEMail: string): TStrings;
+  function GetEMailList(fieldEMail: string): TStringList;
   var
-    list: TStrings;
     tmp: string;
   begin
-    list := TStringList.Create;
+    Result := TStringList.Create;
     fieldEMail := StringReplace(fieldEMail, ' ', '', [rfReplaceAll]);
     if pos(',', fieldEMail) > 0 then
     begin
@@ -530,14 +529,13 @@ var
         tmp := copy(fieldEMail, 0, pos(',', fieldEMail));
         delete(fieldEMail, 1, Length(tmp));
         delete(tmp, Length(tmp), 1);
-        list.Add(tmp);
+        Result.Add(tmp);
       end;
     end
     else if Length(fieldEMail) > 0 then
     begin
-      list.Add(fieldEMail);
+      Result.Add(fieldEMail);
     end;
-    Result := list;
   end;
 
   procedure GetRequest(select1, select2: TsComboBox; paramNO: string; var REQ, param: string);
@@ -878,6 +876,7 @@ begin
             Inc(row);
           end;
         end;
+        listEmail.Free;
       end
       else if cbLocExcel_Report.Checked then
       begin
@@ -914,7 +913,9 @@ begin
           XLS_SetStyle(row, 8);
           Cells[row, 9].Value := GetAdres(Q_GEN.FieldValues['ADRES']);
           XLS_SetStyle(row, 9);
-          Cells[row, 10].Value := Trim(GetEMailList(Q_GEN.FieldValues['EMAIL']).Text);
+          listEmail := GetEMailList(Q_GEN.FieldValues['EMAIL']);
+          Cells[row, 10].Value := Trim(listEmail.Text);
+          listEmail.Free;
           XLS_SetStyle(row, 10);
           Cells[row, 11].Value := '';
           XLS_SetStyle(row, 11);
