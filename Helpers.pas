@@ -352,9 +352,9 @@ var
   t: string;
 begin
   Result := '';
-  if length(Trim(s)) = 0 then
-    exit;
   s := Trim(s);
+  if Length(s) = 0 then
+    exit;
   t := s[1];
   delete(s, 1, 1);
   t := AnsiUpperCase(t);
