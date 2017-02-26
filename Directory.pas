@@ -1,8 +1,3 @@
-{ #TODO1: PLAN :
-  1. DONE: Implement rubrik directory creation live update
-  2. Implement region > city edit control interaction
-  3. Implement id_region updating when city edited to new region via directory window
-  4. Implement edit controls behavior when entered data is not in the list (not valid values for adres edit controls }
 unit Directory;
 
 interface
@@ -416,7 +411,7 @@ var
   DirContainer: TDirectoryContainer;
   New_Node: TTreeNode;
 begin
-  Result := -1;
+  Result := ID_UNKNOWN;
 
   if not DirCode in [0 .. DIR_CODE_TOTAL] then
     exit;
@@ -541,12 +536,9 @@ begin
     DirContainer.Free;
   end;
 
-  Result := StrToIntDef(ID_NewRecord, -1);
+  Result := StrToIntDef(ID_NewRecord, ID_UNKNOWN);
 end;
 
-// #TODO1: IMPORTANT: need to think of a way to update opened elements that using directory entries while they being updated.
-// say I have add firm dialog opened with already entered city and then I decided to update that city from directory editor window...?
-// also opened tabs currently doesn't get updated even by GLOBAL_RELOAD.
 function TFormDirectory.Directory_EDIT(DirCode: integer; ID_Directory: string; Values: array of string): integer;
 var
   Query: TIBCQuery;
@@ -555,7 +547,7 @@ var
   DirContainer: TDirectoryContainer;
   EditControl: TsComboBoxEx;
 begin
-  Result := -1;
+  Result := ID_UNKNOWN;
 
   if not DirCode in [0 .. DIR_CODE_TOTAL] then
     exit;
@@ -564,10 +556,6 @@ begin
     exit;
 
   { DATABASE UPDATE part }
-
-  { #TODO1: IMPORTANT : if during city editing region_id changes then we have to update each record from BASE that used this city.
-    also if FormEditor opened there might be data loaded to editRegion that need to be updated if that firm was using city that is being updated
-    <select ADRES from BASE where ADRES like '%#^id$%'> <while not Q.Eof update with new id_region> }
 
   Name1 := Values[0];
   Name2 := Values[1];
@@ -616,7 +604,7 @@ begin
         ID_Region_OLD := Query.FieldByName('ID_REGION').AsString;
 
       // check if region is changing and update records in BASE if it's required
-      if StrToIntDef(ID_Region, -1) <> StrToIntDef(ID_Region_OLD, -1) then
+      if StrToIntDef(ID_Region, ID_UNKNOWN) <> StrToIntDef(ID_Region_OLD, ID_UNKNOWN) then
       begin
         if not FormEditor.UpdateAdresFieldByCondition('#^' + ID_Directory + '$', [-1, -1, ID_Region.ToInteger, -1]) then
         begin
@@ -744,7 +732,7 @@ begin
     DirContainer.Free;
   end;
 
-  Result := StrToIntDef(ID_Directory, -1);
+  Result := StrToIntDef(ID_Directory, ID_UNKNOWN);
 end;
 
 function TFormDirectory.Directory_DELETE(DirCode: integer; ID_Directory: string): integer;
@@ -756,7 +744,7 @@ var
   EditControl: TsComboBoxEx;
   IsDeleted: Boolean;
 begin
-  Result := -1;
+  Result := ID_UNKNOWN;
   IsDeleted := False;
 
   if not DirCode in [0 .. DIR_CODE_TOTAL] then
@@ -871,6 +859,13 @@ begin
             Items.Delete(GetIndexOfObject(ID_Directory.ToInteger));
       end;
 
+      if Assigned(DirContainer.SG_Editor) then
+        with TNextGrid(DirContainer.SG_Editor) do
+        begin
+          if FindText(1, ID_Directory, [soCaseInsensitive, soExactMatch]) then
+            DeleteRow(SelectedRow);
+        end;
+
       if Assigned(DirContainer.Edit_DirectoryQuery) then
         with TsComboBoxEx(DirContainer.Edit_DirectoryQuery) do
           Items.Delete(GetIndexOfObject(ID_Directory.ToInteger));
@@ -885,7 +880,7 @@ begin
 
   end;
 
-  Result := StrToIntDef(ID_Directory, -1);
+  Result := StrToIntDef(ID_Directory, ID_UNKNOWN);
 end;
 
 end.
