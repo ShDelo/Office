@@ -343,21 +343,19 @@ var
         country_str := list2[5];
         region_str := list2[6];
         city_str := list2[7];
-        adres := '';
-        if trim(list2[3]) <> '' then
+        adres := EmptyStr;
+        if list2[3] <> EmptyStr then
           adres := list2[3] + ', '; // ZIP
-        if trim(city_str) <> '' then
+        if region_str <> EmptyStr then
+          adres := adres + GetNameByID('REGION', region_str) + ', '; // REGION
+        if city_str <> EmptyStr then
           adres := adres + GetNameByID('CITY', city_str) + ','; // CITY
-        if trim(adres) <> '' then
+        if Trim(adres) <> EmptyStr then
           AddLine(adres, clWindowText, 10, 'Times New Roman', []);
-        if trim(list2[4]) <> '' then
+        if list2[4] <> EmptyStr then
           AddLine(list2[4], clWindowText, 10, 'Times New Roman', []);
-        { adres := adres + Format('%s, %s, %s,',
-          [FormEditor.GetNameByID('COUNTRY',country_str),FormEditor.GetNameByID('CITY',city_str),list2[4]]);
-          if Trim(adres) <> ', , ,' then AddLine(adres,clWindowText,10,'Times New Roman',[],); }
-        if trim(tmp) <> '' then
+        if Trim(tmp) <> EmptyStr then
           AddLine(tmp, clWindowText, 10, 'Times New Roman', [fsItalic]);
-        // AddLine('',clWindowText,10,'Times New Roman',[]);
       end;
 
       list2.Free;

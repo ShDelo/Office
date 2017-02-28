@@ -398,8 +398,12 @@ var
         country_str := list2[5];
         region_str := list2[6];
         city_str := list2[7];
-        adres := Format('    Адрес: %s - %s, %s, %s,', [GetNameByID('COUNTRY', country_str), list2[3], GetNameByID('CITY', city_str),
-          list2[4]]);
+        if list2[3] <> EmptyStr then
+          list2[3] := ' - ' + list2[3];
+        if list2[4] <> EmptyStr then
+          list2[4] := ', ' + list2[4];
+        adres := Format('    Адрес: %s%s, %s, %s%s', [GetNameByID('COUNTRY', country_str), list2[3], GetNameByID('REGION', region_str),
+          GetNameByID('CITY', city_str), list2[4]]);
         AddLine(adres, clWindowText, 10, 'Times New Roman', []);
         AddLine(tmp, clWindowText, 10, 'Times New Roman', []);
       end;
@@ -446,14 +450,15 @@ var
         country_str := list2[5];
         region_str := list2[6];
         city_str := list2[7];
-        if Length(list2[3]) > 0 then
+        if list2[3] <> EmptyStr then
           list2[3] := ' - ' + list2[3];
-        if Length(list2[4]) > 0 then
+        if list2[4] <> EmptyStr then
           list2[4] := ', ' + list2[4];
-        adres := Format('%s%s, %s%s', [GetNameByID('COUNTRY', country_str), list2[3], GetNameByID('CITY', city_str), list2[4]]);
+        adres := Format('%s%s, %s, %s%s', [GetNameByID('COUNTRY', country_str), list2[3], GetNameByID('REGION', region_str),
+          GetNameByID('CITY', city_str), list2[4]]);
         adres := Trim(adres);
-        if adres[Length(adres)] = ',' then
-          delete(adres, Length(adres), 1);
+        if adres = ', ,' then
+          adres := EmptyStr;
         ResultList.Add(adres);
       end;
 

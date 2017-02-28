@@ -1643,19 +1643,21 @@ begin
       country_str := list2[5];
       region_str := list2[6];
       city_str := list2[7];
-      if Trim(ofType) <> '' then
+      if Trim(ofType) <> EmptyStr then
         ofType := GetNameByID('OFFICETYPE', ofType) + ' - ';
-      if Trim(zip_str) <> '' then
+      if Trim(zip_str) <> EmptyStr then
         zip_str := zip_str + ', ';
-      if Trim(country_str) <> '' then
+      if Trim(country_str) <> EmptyStr then
         country_str := GetNameByID('COUNTRY', country_str) + ', ';
-      if Trim(city_str) <> '' then
+      if Trim(region_str) <> EmptyStr then
+        region_str := GetNameByID('REGION', region_str) + ', ';
+      if Trim(city_str) <> EmptyStr then
         city_str := GetNameByID('CITY', city_str) + ', ';
-      adres := ofType + zip_str + country_str + city_str + list2[4];
-      { officetype - zip, country, city, street }
-      if Trim(adres) <> '' then
+      adres := ofType + zip_str + country_str + region_str + city_str + list2[4];
+      { officetype - zip, country, region, city, street }
+      if Trim(adres) <> EmptyStr then
         AddColoredLine(adres, clWindowText, 10, 'Tahoma', []);
-      if Trim(tmp) <> '' then
+      if Trim(tmp) <> EmptyStr then
         AddColoredLine(tmp, clNavy, 10, 'Tahoma', []);
     end;
 
