@@ -398,8 +398,8 @@ var
         country_str := list2[5];
         region_str := list2[6];
         city_str := list2[7];
-        adres := Format('    Адрес: %s - %s, %s, %s,', [GetNameByID('COUNTRY', country_str), list2[3],
-          GetNameByID('CITY', city_str), list2[4]]);
+        adres := Format('    Адрес: %s - %s, %s, %s,', [GetNameByID('COUNTRY', country_str), list2[3], GetNameByID('CITY', city_str),
+          list2[4]]);
         AddLine(adres, clWindowText, 10, 'Times New Roman', []);
         AddLine(tmp, clWindowText, 10, 'Times New Roman', []);
       end;
@@ -450,8 +450,7 @@ var
           list2[3] := ' - ' + list2[3];
         if Length(list2[4]) > 0 then
           list2[4] := ', ' + list2[4];
-        adres := Format('%s%s, %s%s', [GetNameByID('COUNTRY', country_str), list2[3], GetNameByID('CITY', city_str),
-          list2[4]]);
+        adres := Format('%s%s, %s%s', [GetNameByID('COUNTRY', country_str), list2[3], GetNameByID('CITY', city_str), list2[4]]);
         adres := Trim(adres);
         if adres[Length(adres)] = ',' then
           delete(adres, Length(adres), 1);
@@ -716,9 +715,12 @@ begin
     end;
 
     // Init Excel Doc
-    XLSDoc := TXLSFile.Create;
-    XLSDoc.Workbook.Sheets[0].Name := 'Отчет ' + DateToStr(Now());
     row := 0;
+    if (cbLocExcel_List.Checked) or (cbLocExcel_Report.Checked) then
+    begin
+      XLSDoc := TXLSFile.Create;
+      XLSDoc.Workbook.Sheets[0].Name := 'Отчет ' + DateToStr(Now());
+    end;
 
     // Format Excel Doc
     if cbLocExcel_Report.Checked then
@@ -867,7 +869,7 @@ begin
       if cbLocExcel_List.Checked then
       begin
         listEmail := GetEMailList(Q_GEN.FieldValues['EMAIL']);
-        if Length(listEmail.GetText) > 0 then
+        if Length(listEmail.Text) > 0 then
         begin
           for n := 0 to listEmail.Count - 1 do
           begin
@@ -888,7 +890,6 @@ begin
             Cells[row, 0].Value := 'да'
           else
             Cells[row, 0].Value := 'нет';
-          XLS_SetStyle(row, 0);
           XLS_SetStyle(row, 0);
 
           if Q_GEN.FieldByName('RELEVANCE').AsInteger = 1 then
@@ -1006,8 +1007,10 @@ begin
         end;
       end;
 
-      XLSDoc.Destroy;
     end;
+
+    if Assigned(XLSDoc) then
+      XLSDoc.Free;
 
     if cbLocGeneral.Checked then
       FormMain.sPageControl1.ActivePageIndex := 0;
