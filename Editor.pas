@@ -574,6 +574,7 @@ end;
 procedure TFormEditor.BtnDeleteCuratorFromListClick(Sender: TObject);
 var
   sg: TNextGrid;
+  index: integer;
 begin
   sg := nil;
   if TsSpeedButton(Sender).Name = 'BtnDeleteCuratorFromList' then
@@ -612,9 +613,12 @@ begin
   begin
     if sg.SelectedCount = 0 then
       exit;
-    sg.DeleteRow(sg.SelectedRow);
-    if sg.RowCount > 0 then
-      sg.SelectFirstRow;
+    index := sg.SelectedRow;
+    sg.DeleteRow(index);
+    if Pred(sg.RowCount) >= index then
+      sg.Selected[index] := True
+    else
+      sg.SelectLastRow;
   end;
 end;
 
