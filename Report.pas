@@ -251,6 +251,23 @@ procedure TFormReport.editSelect1Change(Sender: TObject);
         select2.ItemIndex := 0;
     end
     else if select1.ItemIndex = 4 then
+    begin { Œ¡À¿—“‹ }
+      Q := QueryCreate;
+      Q.Close;
+      Q.SQL.Text := 'select * from REGION order by lower(NAME)';
+      Q.Open;
+      Q.FetchAll := True;
+      for i := 1 to Q.RecordCount do
+      begin
+        select2.AddItem(Q.FieldValues['NAME'], Pointer(integer(Q.FieldValues['ID'])));
+        Q.Next;
+      end;
+      Q.Close;
+      Q.Free;
+      if select2.Items.Count > 0 then
+        select2.ItemIndex := 0;
+    end
+    else if select1.ItemIndex = 5 then
     begin { √Œ–Œƒ }
       Q := QueryCreate;
       Q.Close;
@@ -267,7 +284,7 @@ procedure TFormReport.editSelect1Change(Sender: TObject);
       if select2.Items.Count > 0 then
         select2.ItemIndex := 0;
     end
-    else if select1.ItemIndex = 5 then
+    else if select1.ItemIndex = 6 then
     begin {  ”–¿“Œ– }
       for i := 0 to Main.sgCurator_tmp.RowCount - 1 do
       begin
@@ -276,7 +293,7 @@ procedure TFormReport.editSelect1Change(Sender: TObject);
       if select2.Items.Count > 0 then
         select2.ItemIndex := 0;
     end
-    else if select1.ItemIndex = 6 then
+    else if select1.ItemIndex = 7 then
     begin { –”¡–» ¿ }
       for i := 0 to Main.sgRubr_tmp.RowCount - 1 do
       begin
@@ -285,7 +302,7 @@ procedure TFormReport.editSelect1Change(Sender: TObject);
       if select2.Items.Count > 0 then
         select2.ItemIndex := 0;
     end
-    else if select1.ItemIndex = 7 then
+    else if select1.ItemIndex = 8 then
     begin { “»œ }
       for i := 0 to Main.sgFirmType_tmp.RowCount - 1 do
       begin
@@ -573,6 +590,14 @@ var
       param := '%#&' + ID + '$%';
     end
     else if select1.ItemIndex = 4 then
+    begin // Œ¡À¿—“»
+      if select2.Items.Count = 0 then
+        Exit;
+      REQ := ' (ADRES like :' + paramNO + ') and';
+      ID := IntToStr(integer(select2.Items.Objects[select2.ItemIndex]));
+      param := '%#*' + ID + '$%';
+    end
+    else if select1.ItemIndex = 5 then
     begin // √Œ–Œƒ¿
       if select2.Items.Count = 0 then
         Exit;
@@ -580,7 +605,7 @@ var
       ID := IntToStr(integer(select2.Items.Objects[select2.ItemIndex]));
       param := '%#^' + ID + '$%';
     end
-    else if select1.ItemIndex = 5 then
+    else if select1.ItemIndex = 6 then
     begin //  ”–¿“Œ–€
       if select2.Items.Count = 0 then
         Exit;
@@ -588,7 +613,7 @@ var
       ID := IntToStr(integer(select2.Items.Objects[select2.ItemIndex]));
       param := '%#' + ID + '$%';
     end
-    else if select1.ItemIndex = 6 then
+    else if select1.ItemIndex = 7 then
     begin // –”¡–» »
       if select2.Items.Count = 0 then
         Exit;
@@ -596,7 +621,7 @@ var
       ID := IntToStr(integer(select2.Items.Objects[select2.ItemIndex]));
       param := '%#' + ID + '$%';
     end
-    else if select1.ItemIndex = 7 then
+    else if select1.ItemIndex = 8 then
     begin // “»œ
       if select2.Items.Count = 0 then
         Exit;

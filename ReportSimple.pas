@@ -117,12 +117,12 @@ begin
   editDate1.Date := Now;
   editDate2.Date := Now;
   case editFilter.ItemIndex of
-    0 .. 9:
+    0 .. 10:
       begin
         panelFilters.Visible := True;
         panelDates.Visible := False;
       end;
-    10 .. 11:
+    11 .. 12:
       begin
         panelFilters.Visible := False;
         panelDates.Visible := True;
@@ -137,6 +137,18 @@ begin
     end;
   end
   else if editFilter.ItemIndex = 1 then
+  begin // ÎÁËÀÑÒÈ
+    Q.Close;
+    Q.SQL.Text := 'select * from REGION';
+    Q.Open;
+    Q.FetchAll := True;
+    for i := 1 to Q.RecordCount do
+    begin
+      editFilterData.AddItem(Q.FieldValues['NAME'], Pointer(integer(Q.FieldValues['ID'])));
+      Q.Next;
+    end;
+  end
+  else if editFilter.ItemIndex = 2 then
   begin // ÃÎĞÎÄÀ
     Q.Close;
     Q.SQL.Text := 'select * from CITY';
@@ -148,7 +160,7 @@ begin
       Q.Next;
     end;
   end
-  else if editFilter.ItemIndex = 2 then
+  else if editFilter.ItemIndex = 3 then
   begin // ÑÒĞÀÍÛ
     Q.Close;
     Q.SQL.Text := 'select * from COUNTRY';
@@ -160,31 +172,31 @@ begin
       Q.Next;
     end;
   end
-  else if editFilter.ItemIndex = 3 then
+  else if editFilter.ItemIndex = 4 then
   begin // ÊÓĞÀÒÎĞÛ
     for i := 0 to Main.sgCurator_tmp.RowCount - 1 do
     begin
       editFilterData.AddItem(Main.sgCurator_tmp.Cells[0, i], Pointer(StrToInt(Main.sgCurator_tmp.Cells[1, i])));
     end;
   end
-  else if editFilter.ItemIndex = 4 then
+  else if editFilter.ItemIndex = 5 then
   begin // ÒÈÏÛ
     for i := 0 to Main.sgFirmType_tmp.RowCount - 1 do
     begin
       editFilterData.AddItem(Main.sgFirmType_tmp.Cells[0, i], Pointer(StrToInt(Main.sgFirmType_tmp.Cells[1, i])));
     end;
   end
-  else if editFilter.ItemIndex = 5 then
+  else if editFilter.ItemIndex = 6 then
   begin // ÀÊÒÈÂÍÎÑÒÜ
     editFilterData.AddItem('Íåò', Pointer(0));
     editFilterData.AddItem('Äà', Pointer(1));
   end
-  else if editFilter.ItemIndex = 6 then
+  else if editFilter.ItemIndex = 7 then
   begin // ÀÊÒÓÀËÜÍÎÑÒÜ
     editFilterData.AddItem('Íåò', Pointer(0));
     editFilterData.AddItem('Äà', Pointer(1));
   end
-  else if editFilter.ItemIndex = 7 then
+  else if editFilter.ItemIndex = 8 then
   begin // ÒÅËÅÔÎÍÛ
     Q.Close;
     Q.SQL.Text := 'select PHONES from BASE';
@@ -219,7 +231,7 @@ begin
     end;
     memo.Free;
   end
-  else if editFilter.ItemIndex = 8 then
+  else if editFilter.ItemIndex = 9 then
   begin // ÌÅÉË
     Q.Close;
     Q.SQL.Text := 'select EMAIL from BASE';
@@ -244,7 +256,7 @@ begin
       Q.Next;
     end;
   end
-  else if editFilter.ItemIndex = 9 then
+  else if editFilter.ItemIndex = 10 then
   begin // ÑÀÉÒ
     Q.Close;
     Q.SQL.Text := 'select WEB from BASE';
@@ -269,11 +281,11 @@ begin
       Q.Next;
     end;
   end
-  else if editFilter.ItemIndex = 10 then
+  else if editFilter.ItemIndex = 11 then
   begin
     lblDate.Caption := 'Äàòà äîáàâëåíèÿ (ïåğèîä):'
   end
-  else if editFilter.ItemIndex = 11 then
+  else if editFilter.ItemIndex = 12 then
   begin
     lblDate.Caption := 'Äàòà èçìåíåíèÿ (ïåğèîä):'
   end;
@@ -428,26 +440,31 @@ var
       param := '%#' + ID + '$%';
     end
     else if editFilter.ItemIndex = 1 then
+    begin // ÎÁËÀÑÒÜ
+      REQ := 'select * from BASE where ADRES like :param order by lower(NAME)';
+      param := '%#*' + ID + '$%';
+    end
+    else if editFilter.ItemIndex = 2 then
     begin // ÃÎĞÎÄ
       REQ := 'select * from BASE where ADRES like :param order by lower(NAME)';
       param := '%#^' + ID + '$%';
     end
-    else if editFilter.ItemIndex = 2 then
+    else if editFilter.ItemIndex = 3 then
     begin // ÑÒĞÀÍÀ
       REQ := 'select * from BASE where ADRES like :param order by lower(NAME)';
       param := '%#&' + ID + '$%';
     end
-    else if editFilter.ItemIndex = 3 then
+    else if editFilter.ItemIndex = 4 then
     begin // ÊÓĞÀÒÎĞ
       REQ := 'select * from BASE where CURATOR like :param order by lower(NAME)';
       param := '%#' + ID + '$%';
     end
-    else if editFilter.ItemIndex = 4 then
+    else if editFilter.ItemIndex = 5 then
     begin // ÒÈÏ
       REQ := 'select * from BASE where FIRMTYPE like :param order by lower(NAME)';
       param := '%#' + ID + '$%';
     end
-    else if editFilter.ItemIndex = 5 then
+    else if editFilter.ItemIndex = 6 then
     begin // ÀÊÒÈÂÍÎÑÒÜ
       REQ := 'select * from BASE where ACTIVITY like :param order by lower(NAME)';
       if AnsiLowerCase(trim(editFilterData.Text)) = 'äà' then
@@ -458,7 +475,7 @@ var
         ID := '-2';
       param := ID;
     end
-    else if editFilter.ItemIndex = 6 then
+    else if editFilter.ItemIndex = 7 then
     begin // ÀÊÒÓÀËÜÍÎÑÒÜ
       REQ := 'select * from BASE where RELEVANCE like :param order by lower(NAME)';
       if AnsiLowerCase(trim(editFilterData.Text)) = 'äà' then
@@ -469,28 +486,28 @@ var
         ID := '-2';
       param := ID;
     end
-    else if editFilter.ItemIndex = 7 then
+    else if editFilter.ItemIndex = 8 then
     begin // ÒÅËÅÔÎÍ
       REQ := 'select * from BASE where PHONES like :param order by lower(NAME)';
       param := '%' + AnsiLowerCase(trim(editFilterData.Text)) + '%';
     end
-    else if editFilter.ItemIndex = 8 then
+    else if editFilter.ItemIndex = 9 then
     begin // ÌÅÉË
       REQ := 'select * from BASE where lower(EMAIL) like :param order by lower(NAME)';
       param := '%' + AnsiLowerCase(trim(editFilterData.Text)) + '%';
     end
-    else if editFilter.ItemIndex = 9 then
+    else if editFilter.ItemIndex = 10 then
     begin // ÑÀÉÒ
       REQ := 'select * from BASE where lower(WEB) like :param order by lower(NAME)';
       param := '%' + AnsiLowerCase(trim(editFilterData.Text)) + '%';
     end
-    else if editFilter.ItemIndex = 10 then
+    else if editFilter.ItemIndex = 11 then
     begin // ÄÀÒÀ ÄÎÁÀÂËÅÍÈß
       d1 := '''' + editDate1.Text + '''';
       d2 := '''' + editDate2.Text + '''';
       REQ := 'select * from BASE where (DATE_ADDED BETWEEN DATE ' + d1 + ' AND DATE ' + d2 + ') order by lower(NAME)';
     end
-    else if editFilter.ItemIndex = 11 then
+    else if editFilter.ItemIndex = 12 then
     begin // ÄÀÒÀ ÈÇÌÅÍÅÍÈß
       d1 := '''' + editDate1.Text + '''';
       d2 := '''' + editDate2.Text + '''';
@@ -499,7 +516,7 @@ var
   end;
 
 begin
-  if (editFilter.ItemIndex = -1) or ((editFilter.ItemIndex in [0 .. 9]) and (trim(editFilterData.Text) = '')) then
+  if (editFilter.ItemIndex = -1) or ((editFilter.ItemIndex in [0 .. 10]) and (trim(editFilterData.Text) = '')) then
   begin
     MessageBox(handle, 'Óêàæèòå äàííûå äëÿ ãåíåğàöèè îò÷åòà', 'Ïğåäóïğåæäåíèå', MB_OK or MB_ICONWARNING);
     exit;
@@ -560,9 +577,9 @@ begin
       AddLine('Íàéäåíî çàïèñåé: ' + IntToStr(Q_GEN.RecordCount), clWindowText, 10, 'Times New Roman', []);
       AddLine('Óñëîâèÿ âûáîğà:', clWindowText, 10, 'Times New Roman', []);
       case editFilter.ItemIndex of
-        0 .. 9:
+        0 .. 10:
           AddLine(editFilter.Text + ' = ' + trim(editFilterData.Text), clWindowText, 10, 'Times New Roman', []);
-        10 .. 11:
+        11 .. 12:
           AddLine(editFilter.Text + ' = ' + editDate1.Text + ' - ' + editDate2.Text, clWindowText, 10, 'Times New Roman', []);
       end;
       AddLine('', clWindowText, 10, 'Times New Roman', []);
