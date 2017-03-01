@@ -1188,6 +1188,30 @@ begin
   end;
 end;
 
+function ValidateAdres_CountryRegionCityFields: Boolean;
+var
+  i: Integer;
+  EditCountry, EditRegion, EditCity: TsComboBoxEx;
+begin
+  Result := True;
+  for i := 1 to 10 do
+    if IsAdresActive(i) then
+    begin
+      EditCountry := FormEditor.FindComponent('EditCountry' + i.ToString) as TsComboBoxEx;
+      EditRegion := FormEditor.FindComponent('EditRegion' + i.ToString) as TsComboBoxEx;
+      EditCity := FormEditor.FindComponent('EditCity' + i.ToString) as TsComboBoxEx;
+      if (EditCountry.GetID = ID_UNKNOWN) or (EditRegion.GetID = ID_UNKNOWN) or (EditCity.GetID = ID_UNKNOWN) then
+        if MessageBox(FormEditor.Handle, 'Информация для одного или более адресов заполнена не полностью. Продолжить?', 'Подтверждение',
+          MB_YESNO or MB_ICONQUESTION) = MRYES then
+          exit
+        else
+        begin
+          Result := False;
+          exit;
+        end
+    end;
+end;
+
 // used in @AddRecord and @EditRecord
 procedure AdresProcs(AdresNum: integer; var ListAdres, ListPhones: TStringList);
 var
@@ -1291,10 +1315,12 @@ begin
 
   if not(IsDublicate) then
   begin
-
     // shit code forced me to put this notify here
     // if run this above IsDublicate = false check then it will run twice
     // if run this below IsDublicate = false check then it pop after dublicate window and potentialy lose all data
+    if not ValidateAdres_CountryRegionCityFields then
+      exit;
+
     if IsNewRecordFound_Notify(listNewRecords) = true then
     begin
       if MessageBox(handle, PChar('Новые директории будут созданы. Продолжить?' + #13#10 + #13#10 + listNewRecords.Text), 'Подтверждение',
