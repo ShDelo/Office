@@ -109,7 +109,7 @@ procedure TFormReportSimple.editFilterSelect(Sender: TObject);
 var
   Q: TIBCQuery;
   i, n: integer;
-  memo: TStrings;
+  memo: TStringList;
   Phones, Email, Web, tmp: string;
 begin
   editFilterData.Items.BeginUpdate;
@@ -325,7 +325,7 @@ var
 
   procedure FormatAdres(AAdres, APhones: string);
   var
-    list, list2: TStrings;
+    list, list2: TStringList;
     Phones, tmp, adres, country_str, region_str, city_str, ofType: string;
     x: integer;
   begin

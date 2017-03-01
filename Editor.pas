@@ -1443,11 +1443,11 @@ end;
 
 procedure TFormEditor.PrepareEditRecord(id: string);
 
-  procedure AdresProcs(AdresList: TStrings; Num: Integer; CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP, Street: TsEdit;
+  procedure AdresProcs(AdresList: TStringList; Num: Integer; CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP, Street: TsEdit;
     Country, Region, City: TsComboBoxEx);
   var
     ID_OfficeType, ID_Country, ID_Region, ID_City: integer;
-    list: TStrings;
+    list: TStringList;
   begin
     if length(AdresList.Text) = 0 then
       exit;
@@ -1476,7 +1476,7 @@ procedure TFormEditor.PrepareEditRecord(id: string);
     list.Free;
   end;
 
-  procedure PhonesProcs(PhonesList: TStrings);
+  procedure PhonesProcs(PhonesList: TStringList);
 
     procedure Loading(MemoPhone: TsMemo; SGPhone: TNextGrid; PhoneText: string);
     var
@@ -2081,8 +2081,6 @@ begin
   end;
 end;
 
-{ #TODO1: REVISIT : Idea is to instead of automatically create new directory, which is what this produre currently does,
-  I want to show confirmation dialog on Enter/add button press asking user if he want to create new directory. }
 procedure TFormEditor.IsNewRecordCheck;
 var
   i, x: Integer;
@@ -2213,7 +2211,7 @@ end;
 procedure TFormEditor.IsRecordDublicate;
 var
   Name, WEBstr, WEBtmp, EMAILstr, EMAILtmp, PHONEstr: string;
-  WEBlist, EMAILlist, PHONElist: TStrings;
+  WEBlist, EMAILlist, PHONElist: TStringList;
   REQ, REQ1, REQ2, REQ3, REQ4: string;
   x: Integer;
   Q: TIBCQuery;

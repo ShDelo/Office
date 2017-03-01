@@ -47,7 +47,7 @@ type
 
 var
   FormRelations: TFormRelations;
-  listRubrRelations: TStrings;
+  listRubrRelations: TStringList;
   FullNaprList: string;
 
 implementation

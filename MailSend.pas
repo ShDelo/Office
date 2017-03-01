@@ -1042,7 +1042,7 @@ var
   txtpart: TIdText;
   tmp, attachCapt: string;
   attach: TIdAttachmentFile;
-  EmailsList: TStrings;
+  EmailsList: TStringList;
 
   function GetFirmData(Firm_ID: string): Boolean;
   var
@@ -1052,7 +1052,7 @@ var
     X: integer;
     Rubr, tmp, adres, country_str, region_str, city_str, ofType, zip_str: string;
     phones: WideString;
-    List, list2: TStrings;
+    List, list2: TStringList;
 
     procedure AddColoredLine(AText: string; AColor: TColor; AFontSize: integer; AFontName: TFontName; AFontStyle: TFontStyles);
     begin
@@ -1257,7 +1257,6 @@ begin
   TLS_Method := FormMain.IBQuery1.FieldValues['TLS_METHOD'];
   FormMain.IBQuery1.Close;
   memoLog.Clear;
-  EmailsList := TStringList.Create;
 
   { настройка компонентов перед отправкой }
   IdSMTP.host := host;
@@ -1303,6 +1302,7 @@ begin
   btnSend.Enabled := False;
   btnLog.Caption := 'Скрыть лог';
   memoLog.Visible := True;
+  EmailsList := TStringList.Create;
   try
     isError := False;
     MailSend_Break := False;

@@ -1434,7 +1434,7 @@ var
   Rubr, tmp, adres, Cur, country_str, region_str, city_str, ofType, zip_str: string;
   phones: WideString;
   Q: TIBCQuery;
-  list, list2: TStrings;
+  list, list2: TStringList;
 
   procedure AddColoredLine(AText: string; AColor: TColor; AFontSize: integer; AFontName: TFontName; AFontStyle: TFontStyles);
   begin
