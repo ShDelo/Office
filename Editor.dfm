@@ -1258,7 +1258,7 @@ object FormEditor: TFormEditor
             BoundLabel.Font.Style = []
             BoundLabel.ParentFont = False
             BoundLabel.Indent = 2
-            BoundLabel.Caption = #1059#1083#1080#1094#1072': '
+            BoundLabel.Caption = #1040#1076#1088#1077#1089':'
             BoundLabel.Layout = sclTopLeft
           end
           object EditCountry1: TsComboBoxEx
@@ -1859,7 +1859,7 @@ object FormEditor: TFormEditor
             BoundLabel.Font.Style = []
             BoundLabel.ParentFont = False
             BoundLabel.Indent = 2
-            BoundLabel.Caption = #1059#1083#1080#1094#1072': '
+            BoundLabel.Caption = #1040#1076#1088#1077#1089':'
             BoundLabel.Layout = sclTopLeft
           end
           object EditCountry2: TsComboBoxEx
@@ -2459,7 +2459,7 @@ object FormEditor: TFormEditor
             BoundLabel.Font.Style = []
             BoundLabel.ParentFont = False
             BoundLabel.Indent = 2
-            BoundLabel.Caption = #1059#1083#1080#1094#1072': '
+            BoundLabel.Caption = #1040#1076#1088#1077#1089':'
             BoundLabel.Layout = sclTopLeft
           end
           object EditCountry3: TsComboBoxEx
@@ -3059,7 +3059,7 @@ object FormEditor: TFormEditor
             BoundLabel.Font.Style = []
             BoundLabel.ParentFont = False
             BoundLabel.Indent = 2
-            BoundLabel.Caption = #1059#1083#1080#1094#1072': '
+            BoundLabel.Caption = #1040#1076#1088#1077#1089':'
             BoundLabel.Layout = sclTopLeft
           end
           object EditCountry4: TsComboBoxEx
@@ -3659,7 +3659,7 @@ object FormEditor: TFormEditor
             BoundLabel.Font.Style = []
             BoundLabel.ParentFont = False
             BoundLabel.Indent = 2
-            BoundLabel.Caption = #1059#1083#1080#1094#1072': '
+            BoundLabel.Caption = #1040#1076#1088#1077#1089':'
             BoundLabel.Layout = sclTopLeft
           end
           object EditCountry5: TsComboBoxEx
@@ -4259,7 +4259,7 @@ object FormEditor: TFormEditor
             BoundLabel.Font.Style = []
             BoundLabel.ParentFont = False
             BoundLabel.Indent = 2
-            BoundLabel.Caption = #1059#1083#1080#1094#1072': '
+            BoundLabel.Caption = #1040#1076#1088#1077#1089':'
             BoundLabel.Layout = sclTopLeft
           end
           object EditCountry6: TsComboBoxEx
@@ -4859,7 +4859,7 @@ object FormEditor: TFormEditor
             BoundLabel.Font.Style = []
             BoundLabel.ParentFont = False
             BoundLabel.Indent = 2
-            BoundLabel.Caption = #1059#1083#1080#1094#1072': '
+            BoundLabel.Caption = #1040#1076#1088#1077#1089':'
             BoundLabel.Layout = sclTopLeft
           end
           object EditCountry7: TsComboBoxEx
@@ -5459,7 +5459,7 @@ object FormEditor: TFormEditor
             BoundLabel.Font.Style = []
             BoundLabel.ParentFont = False
             BoundLabel.Indent = 2
-            BoundLabel.Caption = #1059#1083#1080#1094#1072': '
+            BoundLabel.Caption = #1040#1076#1088#1077#1089':'
             BoundLabel.Layout = sclTopLeft
           end
           object EditCountry8: TsComboBoxEx
@@ -6059,7 +6059,7 @@ object FormEditor: TFormEditor
             BoundLabel.Font.Style = []
             BoundLabel.ParentFont = False
             BoundLabel.Indent = 2
-            BoundLabel.Caption = #1059#1083#1080#1094#1072': '
+            BoundLabel.Caption = #1040#1076#1088#1077#1089':'
             BoundLabel.Layout = sclTopLeft
           end
           object EditCountry9: TsComboBoxEx
@@ -6659,7 +6659,7 @@ object FormEditor: TFormEditor
             BoundLabel.Font.Style = []
             BoundLabel.ParentFont = False
             BoundLabel.Indent = 2
-            BoundLabel.Caption = #1059#1083#1080#1094#1072': '
+            BoundLabel.Caption = #1040#1076#1088#1077#1089':'
             BoundLabel.Layout = sclTopLeft
           end
           object EditCountry10: TsComboBoxEx
