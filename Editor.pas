@@ -277,6 +277,7 @@ type
     procedure btnDeleteAdresClick(Sender: TObject);
     procedure BtnAddWebToListClick(Sender: TObject);
     procedure SGCuratorDblClick(Sender: TObject);
+    procedure SGPhoneDblClick(Sender: TObject);
     procedure SGCuratorEnter(Sender: TObject);
     procedure EditRegionOrCityOnExit(Sender: TObject);
     procedure EditRegionOrCityOnKeyPress(Sender: TObject; var Key: Char);
@@ -883,6 +884,31 @@ begin
   EditCuratorKeyPress(Sender, Key);
   if not CharInSet(Key, ['0' .. '9', #8, #32, '+', '-']) then
     Key := #0;
+end;
+
+procedure TFormEditor.SGPhoneDblClick(Sender: TObject);
+var
+  AdresNum, PhoneString, PhoneType, PhoneNumber: string;
+  SG: TNextGrid;
+  EditPhoneType: TsComboBoxEx;
+  EditPhoneNumber: TsEdit;
+begin
+  SG := Sender as TNextGrid;
+
+  if SG.SelectedCount = 0 then
+    exit;
+
+  AdresNum := TsTabSheet(SG.Parent.Parent).Caption;
+  EditPhoneType := FormEditor.FindComponent('EditPhoneType' + AdresNum) as TsComboBoxEx;
+  EditPhoneNumber := FormEditor.FindComponent('EditPhone' + AdresNum) as TsEdit;
+
+  PhoneString := SG.Cells[0, SG.SelectedRow];
+  PhoneType := Copy(PhoneString, 2, Pos(') ', PhoneString) - 2);
+  PhoneNumber := Copy(PhoneString, Pos(') ', PhoneString) + 2, Length(PhoneString));
+
+  EditPhoneType.Text := PhoneType.Trim;
+  EditPhoneNumber.Text := PhoneNumber.Trim;
+  SG.DeleteRow(SG.SelectedRow);
 end;
 
 procedure TFormEditor.btnDeleteAdresClick(Sender: TObject);

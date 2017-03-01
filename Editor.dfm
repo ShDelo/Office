@@ -1423,6 +1423,7 @@ object FormEditor: TFormEditor
             Options = [goSelectFullRow]
             TabOrder = 8
             TabStop = True
+            OnDblClick = SGPhoneDblClick
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn9: TNxTextColumn
@@ -2023,6 +2024,7 @@ object FormEditor: TFormEditor
             Options = [goSelectFullRow]
             TabOrder = 8
             TabStop = True
+            OnDblClick = SGPhoneDblClick
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn10: TNxTextColumn
@@ -2623,6 +2625,7 @@ object FormEditor: TFormEditor
             Options = [goSelectFullRow]
             TabOrder = 8
             TabStop = True
+            OnDblClick = SGPhoneDblClick
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn11: TNxTextColumn
@@ -3223,6 +3226,7 @@ object FormEditor: TFormEditor
             Options = [goSelectFullRow]
             TabOrder = 8
             TabStop = True
+            OnDblClick = SGPhoneDblClick
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn12: TNxTextColumn
@@ -3823,6 +3827,7 @@ object FormEditor: TFormEditor
             Options = [goSelectFullRow]
             TabOrder = 8
             TabStop = True
+            OnDblClick = SGPhoneDblClick
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn13: TNxTextColumn
@@ -4423,6 +4428,7 @@ object FormEditor: TFormEditor
             Options = [goSelectFullRow]
             TabOrder = 8
             TabStop = True
+            OnDblClick = SGPhoneDblClick
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn14: TNxTextColumn
@@ -5023,6 +5029,7 @@ object FormEditor: TFormEditor
             Options = [goSelectFullRow]
             TabOrder = 8
             TabStop = True
+            OnDblClick = SGPhoneDblClick
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn15: TNxTextColumn
@@ -5623,6 +5630,7 @@ object FormEditor: TFormEditor
             Options = [goSelectFullRow]
             TabOrder = 8
             TabStop = True
+            OnDblClick = SGPhoneDblClick
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn16: TNxTextColumn
@@ -6223,6 +6231,7 @@ object FormEditor: TFormEditor
             Options = [goSelectFullRow]
             TabOrder = 8
             TabStop = True
+            OnDblClick = SGPhoneDblClick
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn17: TNxTextColumn
@@ -6823,6 +6832,7 @@ object FormEditor: TFormEditor
             Options = [goSelectFullRow]
             TabOrder = 8
             TabStop = True
+            OnDblClick = SGPhoneDblClick
             OnEnter = SGCuratorEnter
             OnKeyUp = SGCuratorKeyUp
             object NxTextColumn18: TNxTextColumn
