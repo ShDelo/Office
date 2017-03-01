@@ -1,19 +1,3 @@
-{ #DONE: UI: Implement Region>City edits interaction. e.g when region not selected > allow full city list.
-  when region is selected > limit city list by that id_region.
-  I had to drop the idea of forming city list by region_id due to problems with updating edit controls in OnSelect event
-  and implemented more simple way of this interaction:
-  selecting region will clear current city.text
-  selecting city will automatically load region for that city }
-
-{ #TODO1: UI : edit controls that doesn't allowing to pass unlisted values (e.g: country, region, city) should auto-clear
-  when losing focus, and need to be checked before let code proceed }
-
-{ #TODO1: UI : think how we gonna display adres data now, that we have region field added.
-  should it be displayed in Tabs, report simple, report complex? what about DELO? anywhere else? }
-
-{ #TODO1: SAFECODE : check values length (adres, phones) before allow them to pass into insert statement and check for valid structure
-  i.e 1-10 adreses and phones maybe something else }
-
 unit Editor;
 
 interface
@@ -573,7 +557,7 @@ procedure TFormEditor.BtnAddCuratorToListClick(Sender: TObject);
     sg.Cells[0, sg.LastAddedRow] := UpperFirst(edit.Text);
     sg.Cells[1, sg.LastAddedRow] := edit.GetID.ToString;
     sg.Resort;
-    edit.Text := '';
+    edit.Text := EmptyStr;
   end;
 
 begin
@@ -1147,97 +1131,92 @@ begin
   end;
 end;
 
-{ #TODO1: IMPORTANT : Still need to somehow let user know that entered values to country,region,city controls are not valid }
-procedure TFormEditor.AddRecord(Sender: TObject);
+function IsAdresActive(AdresNum: integer): Boolean;
 var
-  str, phones: TStrings;
+  CBAdres: TsCheckBox;
+  ZIP, Street: TsEdit;
+  OfficeType, Country, Region, City: TsComboBoxEx;
+  SGPhone: TNextGrid;
+begin
+  Result := False;
 
-  procedure AdresProcs(CBAdres: TsCheckBox; No: TsEdit; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit;
-    Country, Region, City: TsComboBoxEx; MemoPhone: TsMemo; SGPhone: TNextGrid);
-  var
-    i, ID_Region_Valid: Integer;
-    offtype_id, country_id, region_id, city_id: string;
+  CBAdres := FormEditor.FindComponent('CBAdres' + IntToStr(AdresNum)) as TsCheckBox;
+  OfficeType := FormEditor.FindComponent('EditOfficeType' + IntToStr(AdresNum)) as TsComboBoxEx;
+  ZIP := FormEditor.FindComponent('EditZIP' + IntToStr(AdresNum)) as TsEdit;
+  Country := FormEditor.FindComponent('EditCountry' + IntToStr(AdresNum)) as TsComboBoxEx;
+  Region := FormEditor.FindComponent('EditRegion' + IntToStr(AdresNum)) as TsComboBoxEx;
+  City := FormEditor.FindComponent('EditCity' + IntToStr(AdresNum)) as TsComboBoxEx;
+  Street := FormEditor.FindComponent('EditStreet' + IntToStr(AdresNum)) as TsEdit;
+  SGPhone := FormEditor.FindComponent('SGPhone' + IntToStr(AdresNum)) as TNextGrid;
+
+  CBAdres.Checked := False;
+  if (Trim(OfficeType.Text) <> EmptyStr) or (Trim(ZIP.Text) <> EmptyStr) or (Trim(Country.Text) <> EmptyStr) or
+    (Trim(Region.Text) <> EmptyStr) or (Trim(City.Text) <> EmptyStr) or (Trim(Street.Text) <> EmptyStr) or (SGPhone.RowCount > 0) then
   begin
-    if CBAdres.Checked then
-    begin
-      if OfficeType.GetID = ID_UNKNOWN then
-        offtype_id := EmptyStr
-      else
-        offtype_id := '@' + OfficeType.GetID.ToString;
+    CBAdres.Checked := True;
+    Result := True;
+  end;
+end;
 
-      if Country.GetID = ID_UNKNOWN then
-        country_id := EmptyStr
-      else
-        country_id := '&' + Country.GetID.ToString;
+// used in @AddRecord and @EditRecord
+procedure AdresProcs(AdresNum: integer; var ListAdres, ListPhones: TStringList);
+var
+  EditNO, ZIP, Street: TsEdit;
+  OfficeType, Country, Region, City: TsComboBoxEx;
+  SGPhone: TNextGrid;
+  MemoPhone: TsMemo;
+  i, ID_Region_Valid: Integer;
+  offtype_id, country_id, region_id, city_id: string;
+begin
+  EditNO := FormEditor.FindComponent('EditNO' + IntToStr(AdresNum)) as TsEdit;
+  OfficeType := FormEditor.FindComponent('EditOfficeType' + IntToStr(AdresNum)) as TsComboBoxEx;
+  ZIP := FormEditor.FindComponent('EditZIP' + IntToStr(AdresNum)) as TsEdit;
+  Country := FormEditor.FindComponent('EditCountry' + IntToStr(AdresNum)) as TsComboBoxEx;
+  Region := FormEditor.FindComponent('EditRegion' + IntToStr(AdresNum)) as TsComboBoxEx;
+  City := FormEditor.FindComponent('EditCity' + IntToStr(AdresNum)) as TsComboBoxEx;
+  Street := FormEditor.FindComponent('EditStreet' + IntToStr(AdresNum)) as TsEdit;
+  SGPhone := FormEditor.FindComponent('SGPhone' + IntToStr(AdresNum)) as TNextGrid;
+  MemoPhone := FormEditor.FindComponent('MemoPhone' + IntToStr(AdresNum)) as TsMemo;
 
-      ID_Region_Valid := GetValidRegionOfCity(City.GetID, Region.GetID);
-      if ID_Region_Valid = ID_UNKNOWN then
-        region_id := EmptyStr
-      else
-        region_id := '*' + ID_Region_Valid.ToString;
-
-      if City.GetID = ID_UNKNOWN then
-        city_id := EmptyStr
-      else
-        city_id := '^' + City.GetID.ToString;
-
-      str.Add(Format('#%s$#%s$#%s$#%s$#%s$#%s$#%s$#%s$', ['1', No.Text, offtype_id, Trim(ZIP.Text), Trim(Street.Text), country_id,
-        region_id, city_id]));
-      if SGPhone.RowCount > 0 then
-        for i := 0 to SGPhone.RowCount - 1 do
-          MemoPhone.Lines.Add(SGPhone.Cells[0, i]);
-      phones.Add('#' + No.Text + '$#' + Trim(MemoPhone.Text) + '$')
-    end
+  if IsAdresActive(AdresNum) then
+  begin
+    if OfficeType.GetID = ID_UNKNOWN then
+      offtype_id := EmptyStr
     else
-    begin
-      str.Add('#0$#' + No.Text + '$#$#$#$#$#$#$');
-      phones.Add('#' + No.Text + '$#$');
-    end;
-  end;
+      offtype_id := '@' + OfficeType.GetID.ToString;
 
-{ #TODO1: REVISIT : see if IsAdresFilled logic is up to date after region field has been added. Since fields like country,region,city
-  are no longer auto-created I need a way to tell user that entered value is not valid. Mard edit with "red color" or icon stating that
-  might be solution }
-  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit; Country, Region, City: TsComboBoxEx;
-    SGPhone: TNextGrid);
-  begin
-    CBAdres.Checked := False;
-    if Trim(OfficeType.Text) <> '' then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
-    if Trim(ZIP.Text) <> '' then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
-    if Trim(Street.Text) <> '' then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
-    if Trim(Country.Text) <> '' then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
-    if Trim(Region.Text) <> '' then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
-    if Trim(City.Text) <> '' then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
+    if Country.GetID = ID_UNKNOWN then
+      country_id := EmptyStr
+    else
+      country_id := '&' + Country.GetID.ToString;
+
+    ID_Region_Valid := GetValidRegionOfCity(City.GetID, Region.GetID);
+    if ID_Region_Valid = ID_UNKNOWN then
+      region_id := EmptyStr
+    else
+      region_id := '*' + ID_Region_Valid.ToString;
+
+    if City.GetID = ID_UNKNOWN then
+      city_id := EmptyStr
+    else
+      city_id := '^' + City.GetID.ToString;
+
+    // don't forget to update @ParseAdresFieldAndUpdateValues if I ever need to change format of adres string
+    ListAdres.Add(Format('#%s$#%s$#%s$#%s$#%s$#%s$#%s$#%s$', ['1', EditNO.Text, offtype_id, Trim(ZIP.Text), Trim(Street.Text), country_id,
+      region_id, city_id]));
     if SGPhone.RowCount > 0 then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
+      for i := 0 to SGPhone.RowCount - 1 do
+        MemoPhone.Lines.Add(SGPhone.Cells[0, i]);
+    ListPhones.Add('#' + EditNO.Text + '$#' + Trim(MemoPhone.Text) + '$')
+  end
+  else
+  begin
+    ListAdres.Add('#0$#' + EditNO.Text + '$#$#$#$#$#$#$');
+    ListPhones.Add('#' + EditNO.Text + '$#$');
   end;
+end;
+
+procedure TFormEditor.AddRecord(Sender: TObject);
 
   function BuildRelations: string;
   var
@@ -1263,9 +1242,11 @@ var
   end;
 
 var
-  id, NewRubr, tmp, tmp2, rubrID, FieldAdresText: string;
+  ListAdres, ListPhones: TStringList;
+  id, NewRubr, tmp, tmp2, rubrID, FieldAdresText, PhonesDataText: string;
   nd, nd2: TTreeNode;
   listNewRecords: TStringList;
+  i: integer;
 begin
   if Trim(EditName.Text) = '' then
   begin
@@ -1322,41 +1303,24 @@ begin
   FormMain.IBQuery1.ParamByName('WEB').AsString := GetWebEmailString(SGWeb);
   FormMain.IBQuery1.ParamByName('EMAIL').AsString := GetWebEmailString(SGEMail);
 
-  str := TStringList.Create;
-  phones := TStringList.Create;
+  ListAdres := TStringList.Create;
+  ListPhones := TStringList.Create;
   try
-    IsAdresFilled(CBAdres1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditRegion1, EditCity1, SGPhone1);
-    IsAdresFilled(CBAdres2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditRegion2, EditCity2, SGPhone2);
-    IsAdresFilled(CBAdres3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditRegion3, EditCity3, SGPhone3);
-    IsAdresFilled(CBAdres4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditRegion4, EditCity4, SGPhone4);
-    IsAdresFilled(CBAdres5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditRegion5, EditCity5, SGPhone5);
-    IsAdresFilled(CBAdres6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditRegion6, EditCity6, SGPhone6);
-    IsAdresFilled(CBAdres7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditRegion7, EditCity7, SGPhone7);
-    IsAdresFilled(CBAdres8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditRegion8, EditCity8, SGPhone8);
-    IsAdresFilled(CBAdres9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditRegion9, EditCity9, SGPhone9);
-    IsAdresFilled(CBAdres10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditRegion10, EditCity10, SGPhone10);
-    AdresProcs(CBAdres1, EditNO1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditRegion1, EditCity1, MemoPhone1, SGPhone1);
-    AdresProcs(CBAdres2, EditNO2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditRegion2, EditCity2, MemoPhone2, SGPhone2);
-    AdresProcs(CBAdres3, EditNO3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditRegion3, EditCity3, MemoPhone3, SGPhone3);
-    AdresProcs(CBAdres4, EditNO4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditRegion4, EditCity4, MemoPhone4, SGPhone4);
-    AdresProcs(CBAdres5, EditNO5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditRegion5, EditCity5, MemoPhone5, SGPhone5);
-    AdresProcs(CBAdres6, EditNO6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditRegion6, EditCity6, MemoPhone6, SGPhone6);
-    AdresProcs(CBAdres7, EditNO7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditRegion7, EditCity7, MemoPhone7, SGPhone7);
-    AdresProcs(CBAdres8, EditNO8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditRegion8, EditCity8, MemoPhone8, SGPhone8);
-    AdresProcs(CBAdres9, EditNO9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditRegion9, EditCity9, MemoPhone9, SGPhone9);
-    AdresProcs(CBAdres10, EditNO10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditRegion10, EditCity10, MemoPhone10,
-      SGPhone10);
+    for i := 1 to 10 do
+      AdresProcs(i, ListAdres, ListPhones);
 
-    FieldAdresText := str.Text;
-    FormMain.IBQuery1.ParamByName('ADRES').AsString := FieldAdresText;
-    FormMain.IBQuery1.ParamByName('PHONES').AsString := phones.Text;
-    FormMain.IBQuery1.ParamByName('DATE_ADDED').AsString := DateToStr(Now);
-    FormMain.IBQuery1.ParamByName('DATE_EDITED').AsString := DateToStr(Now);
-    FormMain.IBQuery1.ParamByName('RELATIONS').AsString := BuildRelations;
+    FieldAdresText := ListAdres.Text.Trim;
+    PhonesDataText := ListPhones.Text.Trim;
   finally
-    str.Free;
-    phones.Free;
+    ListAdres.Free;
+    ListPhones.Free;
   end;
+
+  FormMain.IBQuery1.ParamByName('ADRES').AsString := FieldAdresText;
+  FormMain.IBQuery1.ParamByName('PHONES').AsString := PhonesDataText;
+  FormMain.IBQuery1.ParamByName('DATE_ADDED').AsString := DateToStr(Now);
+  FormMain.IBQuery1.ParamByName('DATE_EDITED').AsString := DateToStr(Now);
+  FormMain.IBQuery1.ParamByName('RELATIONS').AsString := BuildRelations;
 
   try
     FormMain.IBQuery1.Execute;
@@ -1584,7 +1548,7 @@ procedure TFormEditor.PrepareEditRecord(id: string);
   end;
 
 var
-  str, phones: TStrings;
+  ListAdres, ListPhones: TStringList;
 begin
   lblID.Caption := id;
   FormMain.IBQuery1.Close;
@@ -1633,119 +1597,29 @@ begin
     LoadWebEmailToGrids(SGEMail, FormMain.IBQuery1.FieldValues['EMAIL']);
   if FormMain.IBQuery1.FieldValues['ADRES'] <> null then
   begin
-    str := TStringList.Create;
-    phones := TStringList.Create;
-    str.Text := FormMain.IBQuery1.FieldByName('ADRES').AsVariant;
-    phones.Text := FormMain.IBQuery1.FieldByName('PHONES').AsVariant;
-    AdresProcs(str, 1, CBAdres1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditRegion1, EditCity1);
-    AdresProcs(str, 2, CBAdres2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditRegion2, EditCity2);
-    AdresProcs(str, 3, CBAdres3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditRegion3, EditCity3);
-    AdresProcs(str, 4, CBAdres4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditRegion4, EditCity4);
-    AdresProcs(str, 5, CBAdres5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditRegion5, EditCity5);
-    AdresProcs(str, 6, CBAdres6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditRegion6, EditCity6);
-    AdresProcs(str, 7, CBAdres7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditRegion7, EditCity7);
-    AdresProcs(str, 8, CBAdres8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditRegion8, EditCity8);
-    AdresProcs(str, 9, CBAdres9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditRegion9, EditCity9);
-    AdresProcs(str, 10, CBAdres10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditRegion10, EditCity10);
-    PhonesProcs(phones);
-    str.Free;
-    phones.Free;
+    ListAdres := TStringList.Create;
+    ListPhones := TStringList.Create;
+    ListAdres.Text := FormMain.IBQuery1.FieldByName('ADRES').AsVariant;
+    ListPhones.Text := FormMain.IBQuery1.FieldByName('PHONES').AsVariant;
+    AdresProcs(ListAdres, 1, CBAdres1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditRegion1, EditCity1);
+    AdresProcs(ListAdres, 2, CBAdres2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditRegion2, EditCity2);
+    AdresProcs(ListAdres, 3, CBAdres3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditRegion3, EditCity3);
+    AdresProcs(ListAdres, 4, CBAdres4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditRegion4, EditCity4);
+    AdresProcs(ListAdres, 5, CBAdres5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditRegion5, EditCity5);
+    AdresProcs(ListAdres, 6, CBAdres6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditRegion6, EditCity6);
+    AdresProcs(ListAdres, 7, CBAdres7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditRegion7, EditCity7);
+    AdresProcs(ListAdres, 8, CBAdres8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditRegion8, EditCity8);
+    AdresProcs(ListAdres, 9, CBAdres9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditRegion9, EditCity9);
+    AdresProcs(ListAdres, 10, CBAdres10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditRegion10, EditCity10);
+    PhonesProcs(ListPhones);
+    ListAdres.Free;
+    ListPhones.Free;
   end;
   FormMain.IBQuery1.Close;
   // FormMain.IBDatabase1.Connected := False;
 end;
 
 procedure TFormEditor.EditRecord(Sender: TObject);
-var
-  str, phones: TStrings;
-  NewRubr, rubrID, tmp, FieldAdresText: string;
-  nd, nd2: TTreeNode;
-  i: Integer;
-  listNewRecords: TStringList;
-
-  procedure AdresProcs(CBAdres: TsCheckBox; No: TsEdit; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit;
-    Country, Region, City: TsComboBoxEx; MemoPhone: TsMemo; SGPhone: TNextGrid);
-  var
-    i, ID_Region_Valid: Integer;
-    offtype_id, country_id, region_id, city_id: string;
-  begin
-    if CBAdres.Checked then
-    begin
-      if OfficeType.GetID = ID_UNKNOWN then
-        offtype_id := EmptyStr
-      else
-        offtype_id := '@' + OfficeType.GetID.ToString;
-
-      if Country.GetID = ID_UNKNOWN then
-        country_id := EmptyStr
-      else
-        country_id := '&' + Country.GetID.ToString;
-
-      ID_Region_Valid := GetValidRegionOfCity(City.GetID, Region.GetID);
-      if ID_Region_Valid = ID_UNKNOWN then
-        region_id := EmptyStr
-      else
-        region_id := '*' + ID_Region_Valid.ToString;
-
-      if City.GetID = ID_UNKNOWN then
-        city_id := EmptyStr
-      else
-        city_id := '^' + City.GetID.ToString;
-
-      str.Add(Format('#%s$#%s$#%s$#%s$#%s$#%s$#%s$#%s$', ['1', No.Text, offtype_id, Trim(ZIP.Text), Trim(Street.Text), country_id,
-        region_id, city_id]));
-      if SGPhone.RowCount > 0 then
-        for i := 0 to SGPhone.RowCount - 1 do
-          MemoPhone.Lines.Add(SGPhone.Cells[0, i]);
-      phones.Add('#' + No.Text + '$#' + Trim(MemoPhone.Text) + '$')
-    end
-    else
-    begin
-      str.Add('#0$#' + No.Text + '$#$#$#$#$#$#$');
-      phones.Add('#' + No.Text + '$#$');
-    end;
-  end;
-
-  procedure IsAdresFilled(CBAdres: TsCheckBox; OfficeType: TsComboBoxEx; ZIP: TsEdit; Street: TsEdit; Country, Region, City: TsComboBoxEx;
-    SGPhone: TNextGrid);
-  begin
-    CBAdres.Checked := False;
-    if Trim(OfficeType.Text) <> '' then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
-    if Trim(ZIP.Text) <> '' then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
-    if Trim(Street.Text) <> '' then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
-    if Trim(Country.Text) <> '' then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
-    if Trim(Region.Text) <> '' then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
-    if Trim(City.Text) <> '' then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
-    if SGPhone.RowCount > 0 then
-    begin
-      CBAdres.Checked := True;
-      exit;
-    end;
-  end;
 
   function BuildRelations: string;
   var
@@ -1770,6 +1644,12 @@ var
     // result = #13=(534)(654)(823)$#27=(43)(534)(546)$
   end;
 
+var
+  ListAdres, ListPhones: TStringList;
+  NewRubr, rubrID, tmp, FieldAdresText, PhonesDataText: string;
+  nd, nd2: TTreeNode;
+  i: Integer;
+  listNewRecords: TStringList;
 begin
   if Trim(EditName.Text) = '' then
   begin
@@ -1812,42 +1692,24 @@ begin
   FormMain.IBQuery1.ParamByName('WEB').AsString := GetWebEmailString(SGWeb);
   FormMain.IBQuery1.ParamByName('EMAIL').AsString := GetWebEmailString(SGEMail);
 
-  str := TStringList.Create;
-  phones := TStringList.Create;
+  ListAdres := TStringList.Create;
+  ListPhones := TStringList.Create;
   try
-    { #TODO2: REVISIT : AdresProcs code is bad. See how can I rework this to be less bad }
-    IsAdresFilled(CBAdres1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditRegion1, EditCity1, SGPhone1);
-    IsAdresFilled(CBAdres2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditRegion2, EditCity2, SGPhone2);
-    IsAdresFilled(CBAdres3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditRegion3, EditCity3, SGPhone3);
-    IsAdresFilled(CBAdres4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditRegion4, EditCity4, SGPhone4);
-    IsAdresFilled(CBAdres5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditRegion5, EditCity5, SGPhone5);
-    IsAdresFilled(CBAdres6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditRegion6, EditCity6, SGPhone6);
-    IsAdresFilled(CBAdres7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditRegion7, EditCity7, SGPhone7);
-    IsAdresFilled(CBAdres8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditRegion8, EditCity8, SGPhone8);
-    IsAdresFilled(CBAdres9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditRegion9, EditCity9, SGPhone9);
-    IsAdresFilled(CBAdres10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditRegion10, EditCity10, SGPhone10);
-    AdresProcs(CBAdres1, EditNO1, EditOfficeType1, EditZIP1, EditStreet1, EditCountry1, EditRegion1, EditCity1, MemoPhone1, SGPhone1);
-    AdresProcs(CBAdres2, EditNO2, EditOfficeType2, EditZIP2, EditStreet2, EditCountry2, EditRegion2, EditCity2, MemoPhone2, SGPhone2);
-    AdresProcs(CBAdres3, EditNO3, EditOfficeType3, EditZIP3, EditStreet3, EditCountry3, EditRegion3, EditCity3, MemoPhone3, SGPhone3);
-    AdresProcs(CBAdres4, EditNO4, EditOfficeType4, EditZIP4, EditStreet4, EditCountry4, EditRegion4, EditCity4, MemoPhone4, SGPhone4);
-    AdresProcs(CBAdres5, EditNO5, EditOfficeType5, EditZIP5, EditStreet5, EditCountry5, EditRegion5, EditCity5, MemoPhone5, SGPhone5);
-    AdresProcs(CBAdres6, EditNO6, EditOfficeType6, EditZIP6, EditStreet6, EditCountry6, EditRegion6, EditCity6, MemoPhone6, SGPhone6);
-    AdresProcs(CBAdres7, EditNO7, EditOfficeType7, EditZIP7, EditStreet7, EditCountry7, EditRegion7, EditCity7, MemoPhone7, SGPhone7);
-    AdresProcs(CBAdres8, EditNO8, EditOfficeType8, EditZIP8, EditStreet8, EditCountry8, EditRegion8, EditCity8, MemoPhone8, SGPhone8);
-    AdresProcs(CBAdres9, EditNO9, EditOfficeType9, EditZIP9, EditStreet9, EditCountry9, EditRegion9, EditCity9, MemoPhone9, SGPhone9);
-    AdresProcs(CBAdres10, EditNO10, EditOfficeType10, EditZIP10, EditStreet10, EditCountry10, EditRegion10, EditCity10, MemoPhone10,
-      SGPhone10);
+    for i := 1 to 10 do
+      AdresProcs(i, ListAdres, ListPhones);
 
-    FieldAdresText := str.Text;
-    FormMain.IBQuery1.ParamByName('ADRES').AsString := FieldAdresText;
-    FormMain.IBQuery1.ParamByName('PHONES').AsString := phones.Text;
-    FormMain.IBQuery1.ParamByName('DATE_EDITED').AsString := DateToStr(Now);
-    FormMain.IBQuery1.ParamByName('RELATIONS').AsString := BuildRelations;
-    FormMain.IBQuery1.ParamByName('ID').AsString := lblID.Caption;
+    FieldAdresText := ListAdres.Text.Trim;
+    PhonesDataText := ListPhones.Text.Trim;
   finally
-    str.Free;
-    phones.Free;
+    ListAdres.Free;
+    ListPhones.Free;
   end;
+
+  FormMain.IBQuery1.ParamByName('ADRES').AsString := FieldAdresText;
+  FormMain.IBQuery1.ParamByName('PHONES').AsString := PhonesDataText;
+  FormMain.IBQuery1.ParamByName('DATE_EDITED').AsString := DateToStr(Now);
+  FormMain.IBQuery1.ParamByName('RELATIONS').AsString := BuildRelations;
+  FormMain.IBQuery1.ParamByName('ID').AsString := lblID.Caption;
 
   try
     FormMain.IBQuery1.Execute;
