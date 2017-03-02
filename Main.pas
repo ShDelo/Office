@@ -1812,7 +1812,7 @@ begin
     Report.Q_GEN_BREAK := False;
     FormReport.IsWordAviable(FormReport.cbLocGeneral, FormReport.cbLocWord);
     FormReport.ClearEdits;
-    FormReport.editSelect1.ItemIndex := 6; { Рубрика }
+    FormReport.editSelect1.ItemIndex := 7; { Рубрика }
     FormReport.editSelect1Change(FormReport.editSelect1);
     for i := 0 to FormReport.editSelect2.Items.Count - 1 do
       if integer(FormReport.editSelect2.Items.Objects[i]) = integer(TVRubrikator.Selected.Data) then
