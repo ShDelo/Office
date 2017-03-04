@@ -40,14 +40,14 @@ function QueryCreate: TIBCQuery;
 function AppPath: string;
 function UpperFirst(s: string): string;
 function GetFirmCount: string;
-function GetNameByID(table, id: string): string;
+function GetNameByID(table, id: string; lang_id: integer = 0): string;
 
 const
   ID_UNKNOWN = -1;
 
   DIR_CODE_TOTAL = 8; // 0-based total number of codes
-  DIR_CODE_TO_TABLE: array [0 .. DIR_CODE_TOTAL] of string = ('curator', 'rubrikator', 'firmtype', 'napravlenie', 'officetype', 'country',
-    'region', 'city', 'phonetype');
+  DIR_CODE_TO_TABLE: array [0 .. DIR_CODE_TOTAL] of string = ('CURATOR', 'RUBRIKATOR', 'FIRMTYPE', 'NAPRAVLENIE', 'OFFICETYPE', 'COUNTRY',
+    'REGION', 'CITY', 'PHONETYPE');
   DIR_CODE_CURATOR = 0;
   DIR_CODE_RUBRIKA = 1;
   DIR_CODE_FIRMTYPE = 2;
@@ -375,7 +375,8 @@ begin
   end;
 end;
 
-function GetNameByID(table, id: string): string;
+{ lang_id: 0 - Russian; 1 - Ukranian }
+function GetNameByID(table, id: string; lang_id: integer = 0): string;
 var
   Q: TIBCQuery;
 begin
@@ -384,11 +385,14 @@ begin
     exit;
   Q := QueryCreate;
   try
-    Q.SQL.Text := 'select NAME from ' + table + ' where id = ' + id;
+    if lang_id = 0 then
+      Q.SQL.Text := 'select NAME from ' + table + ' where id = ' + id
+    else
+      Q.SQL.Text := 'select NAME_ALT from ' + table + ' where id = ' + id;
     Q.Open;
     Q.FetchAll := True;
     if Q.RecordCount > 0 then
-      Result := VarToStr(Q.FieldValues['NAME']);
+      Result := VarToStr(Q.Fields[0].Value);
   finally
     Q.Free;
   end;
