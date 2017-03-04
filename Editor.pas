@@ -245,6 +245,7 @@ type
     SGNapravlenie: TNextGrid;
     NxTextColumn3: TNxTextColumn;
     NxTextColumn4: TNxTextColumn;
+    EditLang: TsComboBoxEx;
     procedure LoadDataEditor;
     procedure BtnCancelClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -350,6 +351,7 @@ var
   end;
 
 begin
+  // use GrepSearch by function name to update everything if I ever need to change something in here
   // ResultList[0] = CBAdres; ResultList[1] = NO; ResultList[2] = OfficeType; ResultList[3] = ZIP;
   // ResultList[4] = Street; ResultList[5] = Country; ResultList[6] = Region; ResultList[7] = City;
   Result := TStringList.Create;
@@ -1103,6 +1105,12 @@ procedure TFormEditor.ClearEdits;
 var
   i: Integer;
 begin
+  if EditLang.Items.Count = 0 then
+  begin
+    EditLang.AddItem('РУС', TObject(0));
+    EditLang.AddItem('УКР', TObject(1));
+  end;
+  EditLang.ItemIndex := 0;
   lblID.Caption := '';
   SGCurator.ClearRows;
   SGRubr.ClearRows;
@@ -1346,8 +1354,9 @@ begin
   EditFIO.Text := UpperFirst(EditFIO.Text);
   FormMain.IBQuery1.Close;
   FormMain.IBQuery1.SQL.Text :=
-    'insert into BASE (ACTIVITY,RELEVANCE,NAME,FIO,CURATOR,RUBR,FIRMTYPE,NAPRAVLENIE,WEB,EMAIL,ADRES,PHONES,DATE_ADDED,DATE_EDITED,RELATIONS) values '
-    + '(:ACTIVITY,:RELEVANCE,:NAME,:FIO,:CURATOR,:RUBR,:FIRMTYPE,:NAPRAVLENIE,:WEB,:EMAIL,:ADRES,:PHONES,:DATE_ADDED,:DATE_EDITED,:RELATIONS) returning ID';
+    'insert into BASE (ID_LANG,ACTIVITY,RELEVANCE,NAME,FIO,CURATOR,RUBR,FIRMTYPE,NAPRAVLENIE,WEB,EMAIL,ADRES,PHONES,DATE_ADDED,DATE_EDITED,RELATIONS) values '
+    + '(:ID_LANG,:ACTIVITY,:RELEVANCE,:NAME,:FIO,:CURATOR,:RUBR,:FIRMTYPE,:NAPRAVLENIE,:WEB,:EMAIL,:ADRES,:PHONES,:DATE_ADDED,:DATE_EDITED,:RELATIONS) returning ID';
+  FormMain.IBQuery1.ParamByName('ID_LANG').AsInteger := EditLang.ItemIndex;
   FormMain.IBQuery1.ParamByName('ACTIVITY').AsBoolean := CBActivity.Checked;
   FormMain.IBQuery1.ParamByName('RELEVANCE').AsBoolean := cbDataRelevance.Checked;
   FormMain.IBQuery1.ParamByName('NAME').AsString := EditName.Text;
@@ -1451,7 +1460,6 @@ procedure TFormEditor.PrepareEditRecord(id: string);
   begin
     if length(AdresList.Text) = 0 then
       exit;
-    // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
     // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
     // list2[4] = Street; list2[5] = Country; list2[6] = Region; list2[7] = City;
     list := ParseAdresFieldToEntriesList(AdresList[Num - 1]);
@@ -1627,6 +1635,7 @@ begin
   if FormMain.IBQuery1.FieldValues['ADRES'] <> null then
     list_GC_IDs.Add('ADRES=' + FormMain.IBQuery1.FieldValues['ADRES']);
 
+  EditLang.ItemIndex := FormMain.IBQuery1.FieldByName('ID_LANG').AsInteger;
   if FormMain.IBQuery1.FieldValues['ACTIVITY'] <> null then
     CBActivity.Checked := FormMain.IBQuery1.FieldValues['ACTIVITY']
   else
@@ -1735,8 +1744,9 @@ begin
   EditFIO.Text := UpperFirst(EditFIO.Text);
   FormMain.IBQuery1.Close;
   NewRubr := GetIDString(SGRubr);
-  FormMain.IBQuery1.SQL.Text := 'update BASE set ACTIVITY=:ACTIVITY,RELEVANCE=:RELEVANCE,NAME=:NAME,FIO=:FIO,CURATOR=:CURATOR,' +
+  FormMain.IBQuery1.SQL.Text := 'update BASE set ID_LANG=:ID_LANG,ACTIVITY=:ACTIVITY,RELEVANCE=:RELEVANCE,NAME=:NAME,FIO=:FIO,CURATOR=:CURATOR,' +
     'RUBR=:RUBR,FIRMTYPE=:FIRMTYPE,NAPRAVLENIE=:NAPRAVLENIE,WEB=:WEB,EMAIL=:EMAIL,ADRES=:ADRES,PHONES=:PHONES,DATE_EDITED=:DATE_EDITED,RELATIONS=:RELATIONS where ID=:ID';
+  FormMain.IBQuery1.ParamByName('ID_LANG').AsInteger := EditLang.ItemIndex;
   FormMain.IBQuery1.ParamByName('ACTIVITY').AsBoolean := CBActivity.Checked;
   FormMain.IBQuery1.ParamByName('RELEVANCE').AsBoolean := cbDataRelevance.Checked;
   FormMain.IBQuery1.ParamByName('NAME').AsString := EditName.Text;

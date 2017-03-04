@@ -1178,7 +1178,8 @@ var
 
         if list2[0] = '1' then
         begin
-          // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
+          // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
+          // list2[4] = Street; list2[5] = Country; list2[6] = Region; list2[7] = City;
           ofType := list2[2];
           zip_str := list2[3];
           country_str := list2[5];

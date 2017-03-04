@@ -323,7 +323,7 @@ var
     RE.Lines.Add(AText);
   end;
 
-  procedure FormatAdres(AAdres, APhones: string);
+  procedure FormatAdres(AAdres, APhones: string; ID_Lang: integer = 0);
   var
     list, list2: TStringList;
     Phones, tmp, adres, country_str, region_str, city_str, ofType: string;
@@ -334,7 +334,6 @@ var
     Phones := APhones;
     for x := 0 to list.Count - 1 do
     begin
-      // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
       // list2[0] = CBAdres; list2[1] = NO; list2[2] = OfficeType; list2[3] = ZIP;
       // list2[4] = Street; list2[5] = Country; list2[6] = Region; list2[7] = City;
       list2 := FormEditor.ParseAdresFieldToEntriesList(list[x]);
@@ -359,9 +358,9 @@ var
         if list2[3] <> EmptyStr then
           adres := list2[3] + ', '; // ZIP
         if region_str <> EmptyStr then
-          adres := adres + GetNameByID('REGION', region_str) + ', '; // REGION
+          adres := adres + GetNameByID('REGION', region_str, ID_Lang) + ', '; // REGION
         if city_str <> EmptyStr then
-          adres := adres + GetNameByID('CITY', city_str) + ','; // CITY
+          adres := adres + GetNameByID('CITY', city_str, ID_Lang) + ','; // CITY
         if Trim(adres) <> EmptyStr then
           AddLine(adres, clWindowText, 10, 'Times New Roman', []);
         if list2[4] <> EmptyStr then
@@ -609,7 +608,7 @@ begin
       if cbLocWord.Checked then
       begin
         AddLine(Q_GEN.FieldValues['NAME'], clWindowText, 12, 'Times New Roman', [fsBold]);
-        FormatAdres(Q_GEN.FieldValues['ADRES'], Q_GEN.FieldValues['PHONES']);
+        FormatAdres(Q_GEN.FieldValues['ADRES'], Q_GEN.FieldValues['PHONES'], Q_GEN.FieldValues['ID_LANG']);
         if trim(Q_GEN.FieldValues['EMAIL']) <> '' then
         begin
           AddLine(FormatEMailWeb(Q_GEN.FieldValues['EMAIL']), clWindowText, 10, 'Times New Roman', [fsUnderline]);

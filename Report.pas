@@ -382,7 +382,7 @@ var
     RE.Lines.Add(AText);
   end;
 
-  procedure FormatAdres(AAdres, APhones: string);
+  procedure FormatAdres(AAdres, APhones: string; ID_Lang: integer = 0);
   var
     list, list2: TStringList;
     phones, tmp, adres, country_str, region_str, city_str, ofType: string;
@@ -410,7 +410,6 @@ var
 
       if list2[0] = '1' then
       begin
-        // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
         ofType := list2[2];
         country_str := list2[5];
         region_str := list2[6];
@@ -419,8 +418,8 @@ var
           list2[3] := ' - ' + list2[3];
         if list2[4] <> EmptyStr then
           list2[4] := ', ' + list2[4];
-        adres := Format('    Адрес: %s%s, %s, %s%s', [GetNameByID('COUNTRY', country_str), list2[3], GetNameByID('REGION', region_str),
-          GetNameByID('CITY', city_str), list2[4]]);
+        adres := Format('    Адрес: %s%s, %s, %s%s', [GetNameByID('COUNTRY', country_str, ID_Lang), list2[3],
+          GetNameByID('REGION', region_str, ID_Lang), GetNameByID('CITY', city_str, ID_Lang), list2[4]]);
         AddLine(adres, clWindowText, 10, 'Times New Roman', []);
         AddLine(tmp, clWindowText, 10, 'Times New Roman', []);
       end;
@@ -445,7 +444,7 @@ var
     Result := tmp;
   end;
 
-  function GetAdres(AAdres: string): string;
+  function GetAdres(AAdres: string; ID_Lang: integer = 0): string;
   var
     list, list2, ResultList: TStringList;
     adres, country_str, region_str, city_str, ofType: string;
@@ -462,7 +461,6 @@ var
 
       if list2[0] = '1' then
       begin
-        // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
         ofType := list2[2];
         country_str := list2[5];
         region_str := list2[6];
@@ -471,8 +469,8 @@ var
           list2[3] := ' - ' + list2[3];
         if list2[4] <> EmptyStr then
           list2[4] := ', ' + list2[4];
-        adres := Format('%s%s, %s, %s%s', [GetNameByID('COUNTRY', country_str), list2[3], GetNameByID('REGION', region_str),
-          GetNameByID('CITY', city_str), list2[4]]);
+        adres := Format('%s%s, %s, %s%s', [GetNameByID('COUNTRY', country_str, ID_Lang), list2[3], GetNameByID('REGION', region_str,
+          ID_Lang), GetNameByID('CITY', city_str, ID_Lang), list2[4]]);
         adres := Trim(adres);
         if adres = ', ,' then
           adres := EmptyStr;
@@ -863,7 +861,7 @@ begin
       begin
         AddLine('Фирма: ' + Q_GEN.FieldValues['NAME'], clWindowText, 12, 'Times New Roman', [fsBold]);
         if editFormatDoc.Checked[0] then
-          FormatAdres(Q_GEN.FieldValues['ADRES'], Q_GEN.FieldValues['PHONES']);
+          FormatAdres(Q_GEN.FieldValues['ADRES'], Q_GEN.FieldValues['PHONES'], Q_GEN.FieldValues['ID_LANG']);
         if editFormatDoc.Checked[1] then
         begin
           if Q_GEN.FieldByName('ACTIVITY').AsInteger = 1 then
@@ -942,7 +940,7 @@ begin
           XLS_SetStyle(row, 7);
           Cells[row, 8].Value := Q_GEN.FieldValues['FIO'];
           XLS_SetStyle(row, 8);
-          Cells[row, 9].Value := GetAdres(Q_GEN.FieldValues['ADRES']);
+          Cells[row, 9].Value := GetAdres(Q_GEN.FieldValues['ADRES'], Q_GEN.FieldValues['ID_LANG']);
           XLS_SetStyle(row, 9);
           listEmail := GetEMailList(Q_GEN.FieldValues['EMAIL']);
           Cells[row, 10].Value := Trim(listEmail.Text);

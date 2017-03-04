@@ -49,7 +49,7 @@ object FormEditor: TFormEditor
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
-      Font.Name = 'MS Sans Serif'
+      Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
       TabOrder = 0
@@ -78,16 +78,16 @@ object FormEditor: TFormEditor
       SkinData.SkinSection = 'BUTTON'
     end
     object cbDataRelevance: TsCheckBox
-      Left = 244
+      Left = 234
       Top = 12
-      Width = 157
+      Width = 162
       Height = 17
       TabStop = False
       Caption = #1040#1082#1090#1091#1072#1083#1100#1085#1086#1089#1090#1100' '#1076#1072#1085#1085#1099#1093
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
-      Font.Name = 'MS Sans Serif'
+      Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
       TabOrder = 3
@@ -95,6 +95,32 @@ object FormEditor: TFormEditor
       ImgChecked = 0
       ImgUnchecked = 0
       ShowFocus = False
+    end
+    object EditLang: TsComboBoxEx
+      Left = 165
+      Top = 10
+      Width = 53
+      Height = 22
+      BoundLabel.Active = True
+      BoundLabel.Font.Charset = DEFAULT_CHARSET
+      BoundLabel.Font.Color = clWindowText
+      BoundLabel.Font.Height = -11
+      BoundLabel.Font.Name = 'Tahoma'
+      BoundLabel.Font.Style = [fsBold]
+      BoundLabel.ParentFont = False
+      BoundLabel.Caption = #1071#1079#1099#1082
+      SkinData.SkinSection = 'COMBOBOX'
+      ItemsEx = <>
+      Style = csExDropDownList
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemIndex = -1
+      ParentFont = False
+      TabOrder = 4
     end
   end
   object PanelMain: TsPanel

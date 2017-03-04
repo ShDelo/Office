@@ -1430,7 +1430,7 @@ var
   RE: TJvRichEdit;
   Pnl: TsPanel;
   BtnEdit, BtnPrint, BtnSend: TsSpeedButton;
-  i, RE_TextLength: integer;
+  i, RE_TextLength, ID_Lang: integer;
   Rubr, tmp, adres, Cur, country_str, region_str, city_str, ofType, zip_str: string;
   phones: WideString;
   Q: TIBCQuery;
@@ -1519,6 +1519,9 @@ begin
   IBQuery1.SQL.Text := 'select * from BASE where ID = :ID';
   IBQuery1.ParamByName('ID').AsString := id;
   IBQuery1.Open;
+
+  ID_Lang := IBQuery1.FieldByName('ID_LANG').AsInteger;
+
   if IBQuery1.FieldValues['NAME'] <> null then
   begin
     ts.Caption := IBQuery1.FieldValues['NAME'];
@@ -1637,7 +1640,6 @@ begin
 
     if list2[0] = '1' then
     begin
-      // такая же процедура в Main.OpenTabByID и Editor.PrepareEdit и Report.GenerateReport и MailSend.SendRegInfoCheck
       ofType := list2[2];
       zip_str := list2[3];
       country_str := list2[5];
@@ -1648,11 +1650,11 @@ begin
       if Trim(zip_str) <> EmptyStr then
         zip_str := zip_str + ', ';
       if Trim(country_str) <> EmptyStr then
-        country_str := GetNameByID('COUNTRY', country_str) + ', ';
+        country_str := GetNameByID('COUNTRY', country_str, ID_Lang) + ', ';
       if Trim(region_str) <> EmptyStr then
-        region_str := GetNameByID('REGION', region_str) + ', ';
+        region_str := GetNameByID('REGION', region_str, ID_Lang) + ', ';
       if Trim(city_str) <> EmptyStr then
-        city_str := GetNameByID('CITY', city_str) + ', ';
+        city_str := GetNameByID('CITY', city_str, ID_Lang) + ', ';
       adres := ofType + zip_str + country_str + region_str + city_str + list2[4];
       { officetype - zip, country, region, city, street }
       if Trim(adres) <> EmptyStr then
