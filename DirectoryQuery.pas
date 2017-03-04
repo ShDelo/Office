@@ -143,9 +143,15 @@ begin
     DIR_CODE_OFFICETYPE:
       Edit1.BoundLabel.Caption := 'Тип адреса:';
     DIR_CODE_COUNTRY:
-      Edit1.BoundLabel.Caption := 'Страна:';
+      begin
+        Edit1.BoundLabel.Caption := 'Страна (рус):';
+        Edit2.BoundLabel.Caption := 'Страна (укр):';
+      end;
     DIR_CODE_REGION:
-      Edit1.BoundLabel.Caption := 'Область:';
+      begin
+        Edit1.BoundLabel.Caption := 'Область (рус):';
+        Edit2.BoundLabel.Caption := 'Область (укр):';
+      end;
     DIR_CODE_CITY:
       begin
         Edit1.BoundLabel.Caption := 'Город (рус):';
@@ -156,32 +162,32 @@ begin
       Edit1.BoundLabel.Caption := 'Тип телефона:';
   end;
 
-  if DirCode in [DIR_CODE_CITY] then
+  // set additional edits visibility
+  if DirCode in [DIR_CODE_COUNTRY, DIR_CODE_REGION] then
   begin
-    // show additional edits for City directory
+    Edit2.Visible := True;
+    Edit3.Visible := False;
+    FormDirectoryQuery.Height := 178;
+  end
+  else if DirCode in [DIR_CODE_CITY] then
+  begin
     Edit2.Visible := True;
     Edit3.Visible := True;
     FormDirectoryQuery.Height := 218;
-
-    // load data to edits
-    if AnsiLowerCase(Method) = 'edit' then
-    begin
-      Edit1.Text := Data.Name1;
-      Edit2.Text := Data.Name2;
-      Edit3.SetIndexOfObject(Data.ID_Region);
-    end;
   end
   else
   begin
     Edit2.Visible := False;
     Edit3.Visible := False;
     FormDirectoryQuery.Height := 143;
+  end;
 
-    // load data to edits
-    if AnsiLowerCase(Method) = 'edit' then
-    begin
-      Edit1.Text := Data.Name1;
-    end
+  // load data to edits
+  if AnsiLowerCase(Method) = 'edit' then
+  begin
+    Edit1.Text := Data.Name1;
+    Edit2.Text := Data.Name2;
+    Edit3.SetIndexOfObject(Data.ID_Region);
   end;
 
   BtnOK.Tag := DirCode;

@@ -626,27 +626,28 @@ object FormDirectory: TFormDirectory
         Align = alClient
         AppearanceOptions = [aoHideFocus, aoHighlightSlideCells]
         Caption = ''
-        Options = [goSelectFullRow]
+        Options = [goDisableColumnMoving, goHeader, goSelectFullRow]
         TabOrder = 2
         TabStop = True
         object NxTextColumn11: TNxTextColumn
-          DefaultWidth = 625
+          DefaultWidth = 310
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+          Header.Caption = #1057#1090#1088#1072#1085#1072' ('#1088#1091#1089')'
           Header.Font.Charset = DEFAULT_CHARSET
           Header.Font.Color = clWindowText
           Header.Font.Height = -11
           Header.Font.Name = 'Tahoma'
           Header.Font.Style = []
+          Options = [coCanClick, coCanInput, coCanSort, coFixedSize, coPublicUsing, coShowTextFitHint]
           ParentFont = False
           Position = 0
           Sorted = True
           SortType = stAlphabetic
-          Width = 625
+          Width = 310
         end
         object NxTextColumn12: TNxTextColumn
           Font.Charset = DEFAULT_CHARSET
@@ -664,6 +665,19 @@ object FormDirectory: TFormDirectory
           Position = 1
           SortType = stAlphabetic
           Visible = False
+        end
+        object NxTextColumn22: TNxTextColumn
+          DefaultWidth = 310
+          Header.Caption = #1057#1090#1088#1072#1085#1072' ('#1091#1082#1088')'
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clWindowText
+          Header.Font.Height = -11
+          Header.Font.Name = 'Tahoma'
+          Header.Font.Style = []
+          Options = [coCanClick, coCanInput, coCanSort, coFixedSize, coPublicUsing, coShowTextFitHint]
+          Position = 2
+          SortType = stAlphabetic
+          Width = 310
         end
       end
       object editCountry: TsEdit
@@ -752,27 +766,28 @@ object FormDirectory: TFormDirectory
         Align = alClient
         AppearanceOptions = [aoHideFocus, aoHighlightSlideCells]
         Caption = ''
-        Options = [goSelectFullRow]
+        Options = [goDisableColumnMoving, goHeader, goSelectFullRow]
         TabOrder = 2
         TabStop = True
         object NxTextColumn17: TNxTextColumn
-          DefaultWidth = 625
+          DefaultWidth = 310
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          Header.Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+          Header.Caption = #1054#1073#1083#1072#1089#1090#1100' ('#1088#1091#1089')'
           Header.Font.Charset = DEFAULT_CHARSET
           Header.Font.Color = clWindowText
           Header.Font.Height = -11
           Header.Font.Name = 'Tahoma'
           Header.Font.Style = []
+          Options = [coCanClick, coCanInput, coCanSort, coFixedSize, coPublicUsing, coShowTextFitHint]
           ParentFont = False
           Position = 0
           Sorted = True
           SortType = stAlphabetic
-          Width = 625
+          Width = 310
         end
         object NxTextColumn18: TNxTextColumn
           Font.Charset = DEFAULT_CHARSET
@@ -790,6 +805,19 @@ object FormDirectory: TFormDirectory
           Position = 1
           SortType = stAlphabetic
           Visible = False
+        end
+        object NxTextColumn23: TNxTextColumn
+          DefaultWidth = 310
+          Header.Caption = #1054#1073#1083#1072#1089#1090#1100' ('#1091#1082#1088')'
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clWindowText
+          Header.Font.Height = -11
+          Header.Font.Name = 'Tahoma'
+          Header.Font.Style = []
+          Options = [coCanClick, coCanInput, coCanSort, coFixedSize, coPublicUsing, coShowTextFitHint]
+          Position = 2
+          SortType = stAlphabetic
+          Width = 310
         end
       end
     end

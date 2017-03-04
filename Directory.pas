@@ -95,6 +95,8 @@ type
     NxTextColumn19: TNxTextColumn;
     NxTextColumn20: TNxTextColumn;
     NxTextColumn21: TNxTextColumn;
+    NxTextColumn22: TNxTextColumn;
+    NxTextColumn23: TNxTextColumn;
     procedure LoadDataDirectory;
     procedure FormShow(Sender: TObject);
     procedure btnCreateClick(Sender: TObject);
@@ -232,6 +234,7 @@ begin
         SGCountry.AddRow; // —“–¿Õ€
         SGCountry.Cells[0, SGCountry.LastAddedRow] := Q_Dir.FieldValues['NAME'];
         SGCountry.Cells[1, SGCountry.LastAddedRow] := Q_Dir.FieldValues['ID'];
+        SGCountry.Cells[2, SGCountry.LastAddedRow] := VarToStr(Q_Dir.FieldValues['NAME_ALT']);
         Q_Dir.Next;
       end;
     SGCountry.EndUpdate;
@@ -250,6 +253,7 @@ begin
         SGRegion.AddRow; // Œ¡À¿—“»
         SGRegion.Cells[0, SGRegion.LastAddedRow] := Q_Dir.FieldValues['NAME'];
         SGRegion.Cells[1, SGRegion.LastAddedRow] := Q_Dir.FieldValues['ID'];
+        SGRegion.Cells[2, SGRegion.LastAddedRow] := VarToStr(Q_Dir.FieldValues['NAME_ALT']);
         Q_Dir.Next;
       end;
     SGRegion.EndUpdate;
@@ -350,7 +354,7 @@ end;
 
 procedure TFormDirectory.btnEditClick(Sender: TObject);
 var
-  Name_First, Name_ALT, ID_Region, ID_City: string;
+  Name_First, Name_ALT, ID_Region, ID_Directory: string;
   QueryValues: array [0 .. 2] of string;
   DirContainer: TDirectoryContainer;
   DirCode: integer;
@@ -364,17 +368,23 @@ begin
         if SelectedCount = 0 then
           exit;
         Name_First := Cells[0, SelectedRow];
-        ID_City := Cells[1, SelectedRow];
-        if DirCode in [DIR_CODE_CITY] then
+        ID_Directory := Cells[1, SelectedRow];
+
+        if DirCode in [DIR_CODE_COUNTRY, DIR_CODE_REGION] then
+        begin
+          Name_ALT := Cells[2, SelectedRow];
+        end
+        else if DirCode in [DIR_CODE_CITY] then
         begin
           Name_ALT := Cells[2, SelectedRow];
           ID_Region := Cells[4, SelectedRow];
         end;
+
       end;
 
     if FormDirectoryQuery.ShowDirectoryQuery(DirCode, 'edit', TDirectoryData.Create(Name_First, Name_ALT, StrToIntDef(ID_Region, -1)),
       QueryValues) = True then
-      Directory_EDIT(DirCode, ID_City, QueryValues);
+      Directory_EDIT(DirCode, ID_Directory, QueryValues);
   finally
     DirContainer.Free;
   end;
@@ -425,7 +435,12 @@ begin
   if Name1 = EmptyStr then
     exit;
 
-  if DirCode in [DIR_CODE_CITY] then
+  if DirCode in [DIR_CODE_COUNTRY, DIR_CODE_REGION] then
+  begin
+    SQL_select := Format('select ID from %s where lower(NAME) = :NAME', [DIR_CODE_TO_TABLE[DirCode]]);
+    SQL_insert := Format('insert into %s (NAME, NAME_ALT) values (:NAME, :NAME_ALT) returning ID', [DIR_CODE_TO_TABLE[DirCode]]);
+  end
+  else if DirCode in [DIR_CODE_CITY] then
   begin
     SQL_select := Format('select ID from %s where (lower(NAME) = :NAME and ID_REGION = :ID_REGION)', [DIR_CODE_TO_TABLE[DirCode]]);
     SQL_insert := Format('insert into %s (NAME, NAME_ALT, ID_REGION) values (:NAME, :NAME_ALT, :ID_REGION) returning ID',
@@ -442,7 +457,7 @@ begin
     // Check if record already exist
     Query.SQL.Text := SQL_select;
     Query.ParamByName('NAME').AsString := AnsiLowerCase(Name1);
-    if DirCode in [DIR_CODE_CITY] then
+    if Query.Params.FindParam('ID_REGION') <> nil then
       Query.ParamByName('ID_REGION').AsString := ID_Region;
     Query.Open;
     if Query.RecordCount > 0 then
@@ -456,11 +471,10 @@ begin
     Query.Params.Clear;
     Query.SQL.Text := SQL_insert;
     Query.ParamByName('NAME').AsString := Name1;
-    if DirCode in [DIR_CODE_CITY] then
-    begin
+    if Query.Params.FindParam('NAME_ALT') <> nil then
       Query.ParamByName('NAME_ALT').AsString := Name2;
+    if Query.Params.FindParam('ID_REGION') <> nil then
       Query.ParamByName('ID_REGION').AsString := ID_Region;
-    end;
     try
       Query.Execute;
       Query.Transaction.CommitRetaining;
@@ -497,7 +511,11 @@ begin
         AddRow;
         Cells[0, LastAddedRow] := Name1;
         Cells[1, LastAddedRow] := ID_NewRecord;
-        if DirCode in [DIR_CODE_CITY] then
+        if DirCode in [DIR_CODE_COUNTRY, DIR_CODE_REGION] then
+        begin
+          Cells[2, LastAddedRow] := Name2; // NAME_ALT
+        end
+        else if DirCode in [DIR_CODE_CITY] then
         begin
           Cells[2, LastAddedRow] := Name2; // NAME_ALT
           Cells[3, LastAddedRow] := GetNameByID(DIR_CODE_TO_TABLE[DIR_CODE_REGION], ID_Region); // REGION_TEXT
@@ -564,7 +582,12 @@ begin
   if Trim(Name1) = EmptyStr then
     exit;
 
-  if DirCode in [DIR_CODE_CITY] then
+  if DirCode in [DIR_CODE_COUNTRY, DIR_CODE_REGION] then
+  begin
+    SQL_select := Format('select ID from %s where lower(NAME) = :NAME', [DIR_CODE_TO_TABLE[DirCode]]);
+    SQL_update := Format('update %s set NAME = :NAME, NAME_ALT = :NAME_ALT where ID = :ID', [DIR_CODE_TO_TABLE[DirCode]]);
+  end
+  else if DirCode in [DIR_CODE_CITY] then
   begin
     SQL_select := Format('select ID from %s where (lower(NAME) = :NAME and ID_REGION = :ID_REGION)', [DIR_CODE_TO_TABLE[DirCode]]);
     SQL_update := Format('update %s set NAME = :NAME, NAME_ALT = :NAME_ALT, ID_REGION = :ID_REGION where ID = :ID',
@@ -581,7 +604,7 @@ begin
     // Check if record already exist
     Query.SQL.Text := SQL_select;
     Query.ParamByName('NAME').AsString := AnsiLowerCase(Name1);
-    if DirCode in [DIR_CODE_CITY] then
+    if Query.Params.FindParam('ID_REGION') <> nil then
       Query.ParamByName('ID_REGION').AsString := ID_Region;
     Query.Open;
     if Query.RecordCount > 0 then
@@ -624,11 +647,10 @@ begin
     Query.SQL.Text := SQL_update;
     Query.ParamByName('NAME').AsString := Name1;
     Query.ParamByName('ID').AsString := ID_Directory;
-    if DirCode in [DIR_CODE_CITY] then
-    begin
+    if Query.Params.FindParam('NAME_ALT') <> nil then
       Query.ParamByName('NAME_ALT').AsString := Name2;
+    if Query.Params.FindParam('ID_REGION') <> nil then
       Query.ParamByName('ID_REGION').AsString := ID_Region;
-    end;
     try
       Query.Execute;
       Query.Transaction.CommitRetaining;
@@ -662,7 +684,11 @@ begin
         if FindText(1, ID_Directory, [soCaseInsensitive, soExactMatch]) then
         begin
           Cells[0, SelectedRow] := Name1;
-          if DirCode in [DIR_CODE_CITY] then
+          if DirCode in [DIR_CODE_COUNTRY, DIR_CODE_REGION] then
+          begin
+            Cells[2, SelectedRow] := Name2; // NAME_ALT
+          end
+          else if DirCode in [DIR_CODE_CITY] then
           begin
             Cells[2, SelectedRow] := Name2; // NAME_ALT
             Cells[3, SelectedRow] := GetNameByID(DIR_CODE_TO_TABLE[DIR_CODE_REGION], ID_Region); // REGION_TEXT
