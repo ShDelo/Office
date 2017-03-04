@@ -543,7 +543,7 @@ function TFormDirectory.Directory_EDIT(DirCode: integer; ID_Directory: string; V
 var
   Query: TIBCQuery;
   Name1, Name2, ID_Region, ID_Region_OLD, SQL_select, SQL_update, EditControlName: string;
-  i, index_old, index_new: integer;
+  i: integer;
   DirContainer: TDirectoryContainer;
   EditControl: TsComboBoxEx;
 begin
@@ -680,22 +680,12 @@ begin
         for i := 1 to 10 do
         begin
           EditControl := TsComboBoxEx(FormEditor.FindComponent(EditControlName + IntToStr(i)));
-          index_old := EditControl.ItemIndex;
-          index_new := EditControl.GetIndexOfObject(ID_Directory.ToInteger);
-          EditControl.SetItemText(index_new, Name1);
-          if index_old = index_new then
-            EditControl.SetIndexOfObject(ID_Directory.ToInteger);
+          EditControl.SetItemText(EditControl.GetIndexOfObject(ID_Directory.ToInteger), Name1);
         end;
       end
       else
         with TsComboBoxEx(DirContainer.Edit_Editor) do
-        begin
-          index_old := ItemIndex;
-          index_new := GetIndexOfObject(ID_Directory.ToInteger);
-          SetItemText(index_new, Name1);
-          if index_old = index_new then
-            SetIndexOfObject(ID_Directory.ToInteger);
-        end;
+          SetItemText(GetIndexOfObject(ID_Directory.ToInteger), Name1);
     end;
 
     if Assigned(DirContainer.SG_Editor) then
