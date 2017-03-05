@@ -668,6 +668,11 @@ object FormDirectory: TFormDirectory
         end
         object NxTextColumn22: TNxTextColumn
           DefaultWidth = 310
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
           Header.Caption = #1057#1090#1088#1072#1085#1072' ('#1091#1082#1088')'
           Header.Font.Charset = DEFAULT_CHARSET
           Header.Font.Color = clWindowText
@@ -675,6 +680,7 @@ object FormDirectory: TFormDirectory
           Header.Font.Name = 'Tahoma'
           Header.Font.Style = []
           Options = [coCanClick, coCanInput, coCanSort, coFixedSize, coPublicUsing, coShowTextFitHint]
+          ParentFont = False
           Position = 2
           SortType = stAlphabetic
           Width = 310
@@ -808,6 +814,11 @@ object FormDirectory: TFormDirectory
         end
         object NxTextColumn23: TNxTextColumn
           DefaultWidth = 310
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
           Header.Caption = #1054#1073#1083#1072#1089#1090#1100' ('#1091#1082#1088')'
           Header.Font.Charset = DEFAULT_CHARSET
           Header.Font.Color = clWindowText
@@ -815,6 +826,7 @@ object FormDirectory: TFormDirectory
           Header.Font.Name = 'Tahoma'
           Header.Font.Style = []
           Options = [coCanClick, coCanInput, coCanSort, coFixedSize, coPublicUsing, coShowTextFitHint]
+          ParentFont = False
           Position = 2
           SortType = stAlphabetic
           Width = 310
