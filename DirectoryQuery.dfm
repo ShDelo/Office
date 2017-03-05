@@ -12,6 +12,7 @@ object FormDirectoryQuery: TFormDirectoryQuery
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  FormStyle = fsStayOnTop
   OldCreateOrder = False
   Position = poDesktopCenter
   OnCreate = FormCreate
