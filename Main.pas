@@ -520,17 +520,21 @@ begin
   IBDatabase1.Database := AppPath + 'usrdt.msq';
   WriteLog('* Запуск программы *');
   try
-    LoadTempTables;
-    BuildRubrikatorTree(Sender);
+    IBDatabase1.Connect;
   except
     on e: Exception do
     begin
       WriteLog('TFormMain.FormCreate' + #13 + 'Ошибка подключения файлов баз данных' + #13 + e.Message);
       MessageBox(FormLogo.Handle, PChar('Ошибка подключения файлов баз данных' + #13 + e.Message), 'Ошибка', MB_OK or MB_ICONERROR);
       FormLogo.Free;
+      FormMain.Free;
       Halt;
     end;
   end;
+
+  LoadTempTables;
+  BuildRubrikatorTree(Sender);
+
   IniCreateMain;
   IniLoadMain;
   sStatusBar1.Panels[1].Text := 'Фирм в базе: ' + GetFirmCount;
