@@ -295,7 +295,7 @@ begin
   editFilterData.Items.EndUpdate;
   if editFilterData.Items.Count > 0 then
     editFilterData.ItemIndex := 0;
-  if editFilter.ItemIndex in [0 .. 9] then
+  if editFilter.ItemIndex in [0 .. 10] then
   begin
     editFilterData.SetFocus;
     editFilterData.DroppedDown := True;
